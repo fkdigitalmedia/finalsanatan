@@ -11,13 +11,11 @@ function applyTheme(t: Theme) {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
 
   useEffect(() => {
     const stored = (typeof window !== "undefined" && localStorage.getItem(KEY)) as Theme | null;
-    const prefersDark =
-      typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    const initial: Theme = stored ?? (prefersDark ? "dark" : "light");
+    const initial: Theme = stored ?? "dark";
     setThemeState(initial);
     applyTheme(initial);
   }, []);
