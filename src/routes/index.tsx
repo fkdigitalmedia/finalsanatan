@@ -559,31 +559,101 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ── NEWSLETTER CTA ─────────────────────────────────── */}
+      {/* ── AI VEDIC GUIDANCE & QUICK ASTROLOGY HUB ────────── */}
       <section className="container-page pb-16">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-sunrise p-8 md:p-14 text-primary-foreground shadow-glow">
-          <div className="absolute inset-0 bg-radial-glow opacity-40" aria-hidden />
-          <div className="relative grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+        <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-amber-500/15 via-card to-background p-8 md:p-12 shadow-elegant">
+          <div
+            className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/20 blur-3xl pointer-events-none"
+            aria-hidden
+          />
+          <div
+            className="absolute -left-20 -bottom-20 size-72 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"
+            aria-hidden
+          />
+
+          <div className="relative grid lg:grid-cols-[1.4fr_1fr] gap-8 items-center">
             <div>
-              <Badge className="bg-background/20 text-primary-foreground border-primary-foreground/30 backdrop-blur">
-                <Calendar className="size-3 mr-1" /> {t("home.newsletter.badge")}
-              </Badge>
-              <h2 className="mt-4 font-display text-3xl md:text-5xl font-semibold tracking-tight">
-                {t("home.newsletter.title")}
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary">
+                <Sparkles className="size-3.5 text-amber-500" />
+                <span>AI Vedic Astrologer & Shastra Intelligence</span>
+              </div>
+
+              <h2 className="mt-4 font-display text-3xl md:text-5xl font-semibold tracking-tight leading-tight">
+                Instant Vedic Horoscope & AI Astrological Insights
               </h2>
-              <p className="mt-3 text-primary-foreground/90 max-w-lg">
-                {t("home.newsletter.body")}
+
+              <p className="mt-3 text-base text-muted-foreground max-w-xl">
+                Get accurate Lahiri Ayanamsa Kundli, daily horoscope predictions, Gun Milan match-making, and AI-powered answers grounded in authentic Vedic scriptures.
               </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href="/kundli">
+                  <Button size="lg" className="h-12 px-6 shadow-glow font-semibold gap-2">
+                    <FileText className="size-4" />
+                    Generate Free Kundli
+                  </Button>
+                </a>
+                <a href="/daily-horoscope">
+                  <Button size="lg" variant="outline" className="h-12 px-6 font-semibold gap-2 border-primary/30 hover:bg-primary/5">
+                    <Sun className="size-4 text-amber-500" />
+                    Check Daily Horoscope
+                  </Button>
+                </a>
+                <a href="/tools">
+                  <Button size="lg" variant="ghost" className="h-12 px-5 font-medium gap-1 text-muted-foreground hover:text-foreground">
+                    All 100+ Tools <ArrowRight className="size-4" />
+                  </Button>
+                </a>
+              </div>
             </div>
-            <form className="flex flex-col sm:flex-row lg:flex-col gap-3">
-              <Input
-                placeholder={t("common.email_placeholder")}
-                className="bg-background/95 text-foreground placeholder:text-muted-foreground border-0 h-12"
-              />
-              <Button size="lg" variant="secondary" className="h-12 font-semibold">
-                {t("common.subscribe")}
-              </Button>
-            </form>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                {
+                  href: "/kundli",
+                  icon: Star,
+                  title: "Free Janam Kundli",
+                  desc: "Vimshottari Dasha, planetary chart & Dosha analysis.",
+                  color: "text-amber-500",
+                },
+                {
+                  href: "/tools/kundli-matching",
+                  icon: Heart,
+                  title: "Kundli Matching",
+                  desc: "36 Gunas Ashta Koota marriage compatibility test.",
+                  color: "text-rose-500",
+                },
+                {
+                  href: "/panchang",
+                  icon: Calendar,
+                  title: "Today's Panchang",
+                  desc: "Tithi, Nakshatra, Yoga, Rahu Kaal & Abhijit Muhurat.",
+                  color: "text-emerald-500",
+                },
+                {
+                  href: "/tools/gemstone-recommender",
+                  icon: Gem,
+                  title: "Gemstone Guide",
+                  desc: "AI gemstone & mantra recommendations for your Rashi.",
+                  color: "text-cyan-500",
+                },
+              ].map((item) => (
+                <a
+                  key={item.title}
+                  href={item.href}
+                  className="group rounded-2xl border border-border/80 bg-background/80 p-4 shadow-card hover:border-primary/50 hover:shadow-elegant transition-all"
+                >
+                  <div className={`grid place-items-center size-9 rounded-xl bg-muted/60 ${item.color} group-hover:scale-110 transition-transform`}>
+                    <item.icon className="size-4.5" />
+                  </div>
+                  <h3 className="mt-3 font-display text-sm font-semibold flex items-center justify-between">
+                    {item.title}
+                    <ArrowRight className="size-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
