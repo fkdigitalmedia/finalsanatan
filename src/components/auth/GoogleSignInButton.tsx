@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import {
-  fetchGoogleUserInfo,
-  loadGoogleGsiScript,
-  decodeGoogleCredential,
-  type GoogleProfile,
-} from "@/lib/google-auth";
 
 function GoogleGIcon({ className = "size-5" }: { className?: string }) {
   return (
@@ -33,122 +27,25 @@ function GoogleGIcon({ className = "size-5" }: { className?: string }) {
 }
 
 export function GoogleSignInButton({
-  onSuccess,
   className = "w-full mt-4 gap-3 h-11 border-border font-medium",
 }: {
   onSuccess?: () => void;
   className?: string;
 }) {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithOAuth } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadGoogleGsiScript().catch(() => {});
-  }, []);
-
-  const handleGoogleLoginSuccess = (profile: GoogleProfile) => {
-    signInWithGoogle(profile);
-    toast.success(`Welcome, ${profile.name || profile.email}`);
-    if (onSuccess) onSuccess();
-  };
-
   const handleClick = async () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-    if (!clientId || clientId.trim() === "") {
-      toast.error("Please configure VITE_GOOGLE_CLIENT_ID in your .env file");
-      return;
-    }
-
     setLoading(true);
-
     try {
-      await loadGoogleGsiScript();
-      const google = (window as any).google;
-
-      // Method 1: GIS OAuth2 Token Client Popup
-      if (google?.accounts?.oauth2?.initTokenClient) {
-        const tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: clientId,
-          scope: "openid email profile",
-          callback: async (tokenResponse: any) => {
-            setLoading(false);
-            if (tokenResponse.error) {
-              toast.error(`Google login failed: ${tokenResponse.error}`);
-              return;
-            }
-
-            if (tokenResponse.access_token) {
-              try {
-                const profile = await fetchGoogleUserInfo(tokenResponse.access_token);
-                handleGoogleLoginSuccess(profile);
-              } catch (err) {
-                toast.error("Failed to fetch Google profile info");
-              }
-            }
-          },
-        });
-
-        tokenClient.requestAccessToken({ prompt: "select_account" });
-        return;
-      }
-
-      // Method 2: Direct Official Google OAuth2 Window Popup (Fallback if GIS script blocked)
-      const redirectUri = window.location.origin + "/auth";
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(
-        clientId,
-      )}&redirect_uri=${encodeURIComponent(
-        redirectUri,
-      )}&response_type=token&scope=${encodeURIComponent("openid email profile")}&prompt=select_account`;
-
-      const width = 500;
-      const height = 600;
-      const left = window.screenX + (window.innerWidth - width) / 2;
-      const top = window.screenY + (window.innerHeight - height) / 2;
-
-      const popup = window.open(
-        authUrl,
-        "GoogleAuthPopup",
-        `width=${width},height=${height},top=${top},left=${left}`,
-      );
-
-      if (!popup) {
-        toast.error("Popup blocked by browser. Please allow popups for Google Sign-In.");
+      const { error } = await signInWithOAuth("google");
+      if (error) {
+        toast.error(error.message || "Google sign-in failed");
         setLoading(false);
-        return;
       }
-
-      // Poll popup for OAuth access token in URL hash
-      const pollTimer = setInterval(async () => {
-        try {
-          if (!popup || popup.closed) {
-            clearInterval(pollTimer);
-            setLoading(false);
-            return;
-          }
-
-          if (popup.location.href.includes(redirectUri)) {
-            const hash = popup.location.hash;
-            clearInterval(pollTimer);
-            popup.close();
-            setLoading(false);
-
-            if (hash.includes("access_token=")) {
-              const params = new URLSearchParams(hash.substring(1));
-              const accessToken = params.get("access_token");
-              if (accessToken) {
-                const profile = await fetchGoogleUserInfo(accessToken);
-                handleGoogleLoginSuccess(profile);
-              }
-            }
-          }
-        } catch (e) {
-          // Cross-origin restriction until popup redirects back to redirectUri
-        }
-      }, 500);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Google Sign-in error:", err);
-      toast.error("Error launching Google Login Popup");
+      toast.error(err?.message || "Google login failed");
       setLoading(false);
     }
   };
@@ -162,7 +59,7 @@ export function GoogleSignInButton({
       disabled={loading}
     >
       <GoogleGIcon className="size-5" />
-      {loading ? "Connecting to Google..." : "Continue with Google"}
+      {loading ? "Redirecting to Google..." : "Continue with Google"}
     </Button>
   );
 }

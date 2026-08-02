@@ -1,119 +1,198 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Session, User } from "@supabase/supabase-js";
+import type { Session, User, Provider } from "@supabase/supabase-js";
 import { useRouter } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { GoogleProfile } from "@/lib/google-auth";
 
-export interface CustomAuthUser {
+export interface UserProfile {
   id: string;
-  email: string;
-  user_metadata?: {
-    display_name?: string;
-    full_name?: string;
-    avatar_url?: string;
-    [key: string]: any;
-  };
-  app_metadata?: {
-    provider?: string;
-    [key: string]: any;
-  };
+  email?: string;
+  full_name?: string;
+  avatar_url?: string;
+  provider?: string;
+  role?: "admin" | "user";
+  last_login?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 type AuthCtx = {
-  user: CustomAuthUser | null;
+  user: User | null;
   session: Session | null;
+  profile: UserProfile | null;
   loading: boolean;
-  signInWithGoogle: (profile: GoogleProfile) => void;
+  signInWithOAuth: (provider: Provider, redirectTo?: string) => Promise<{ error: Error | null }>;
+  signInWithPassword: (credentials: {
+    email: string;
+    password: string;
+  }) => Promise<{ error: Error | null }>;
+  signUp: (params: {
+    email: string;
+    password: string;
+    name?: string;
+  }) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 };
 
 const Ctx = createContext<AuthCtx>({
   user: null,
   session: null,
+  profile: null,
   loading: true,
-  signInWithGoogle: () => {},
+  signInWithOAuth: async () => ({ error: null }),
+  signInWithPassword: async () => ({ error: null }),
+  signUp: async () => ({ error: null }),
   signOut: async () => {},
 });
 
-const GOOGLE_USER_KEY = "sanatan_google_user";
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [googleUser, setGoogleUser] = useState<CustomAuthUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const qc = useQueryClient();
 
-  useEffect(() => {
-    // Check direct Google user session in localStorage
+  const syncUserProfile = async (authUser: User) => {
     try {
-      const stored = localStorage.getItem(GOOGLE_USER_KEY);
-      if (stored) {
-        setGoogleUser(JSON.parse(stored));
+      const now = new Date().toISOString();
+      const meta = authUser.user_metadata || {};
+      const provider = authUser.app_metadata?.provider || "email";
+
+      const profileData = {
+        id: authUser.id,
+        email: authUser.email,
+        full_name:
+          meta.full_name || meta.name || meta.display_name || authUser.email?.split("@")[0],
+        avatar_url: meta.avatar_url || meta.picture,
+        provider,
+        last_login: now,
+        updated_at: now,
+      };
+
+      // Upsert into Supabase database profiles table
+      const { data, error } = await supabase
+        .from("profiles")
+        .upsert(profileData, { onConflict: "id" })
+        .select()
+        .single();
+
+      if (!error && data) {
+        setProfile(data as UserProfile);
+      } else {
+        setProfile({
+          id: authUser.id,
+          email: authUser.email,
+          full_name: profileData.full_name,
+          avatar_url: profileData.avatar_url,
+          provider,
+          role: authUser.email?.includes("admin") ? "admin" : "user",
+          last_login: now,
+        });
       }
     } catch (e) {
-      console.error("Error reading stored Google session:", e);
+      console.error("Error syncing user profile:", e);
     }
+  };
 
-    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+  useEffect(() => {
+    // Restore session automatically
+    supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
-        router.invalidate();
-        if (event !== "SIGNED_OUT") qc.invalidateQueries();
+      setUser(s?.user ?? null);
+      if (s?.user) {
+        syncUserProfile(s.user);
       }
+      setLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    // Handle authentication state changes & auto-refresh
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      setSession(s);
+      setUser(s?.user ?? null);
+      if (s?.user) {
+        syncUserProfile(s.user);
+      } else {
+        setProfile(null);
+      }
+
+      if (
+        event === "SIGNED_IN" ||
+        event === "SIGNED_OUT" ||
+        event === "USER_UPDATED" ||
+        event === "TOKEN_REFRESHED"
+      ) {
+        router.invalidate();
+        if (event === "SIGNED_OUT") {
+          qc.clear();
+        } else {
+          qc.invalidateQueries();
+        }
+      }
       setLoading(false);
     });
 
     return () => sub.subscription.unsubscribe();
   }, [router, qc]);
 
-  const signInWithGoogle = (profile: GoogleProfile) => {
-    const formattedUser: CustomAuthUser = {
-      id: profile.sub || `google_${Date.now()}`,
-      email: profile.email,
-      user_metadata: {
-        display_name: profile.name || profile.email.split("@")[0],
-        full_name: profile.name,
-        avatar_url: profile.picture,
-      },
-      app_metadata: {
-        provider: "google",
-      },
-    };
+  const signInWithOAuth = async (provider: Provider, redirectTo?: string) => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const redirectUrl = redirectTo || `${origin}/auth`;
 
-    try {
-      localStorage.setItem(GOOGLE_USER_KEY, JSON.stringify(formattedUser));
-    } catch (e) {
-      console.error("Failed to save Google user session:", e);
-    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: redirectUrl,
+        queryParams: {
+          prompt: "select_account",
+        },
+      },
+    });
 
-    setGoogleUser(formattedUser);
-    router.invalidate();
-    qc.invalidateQueries();
+    return { error: error as Error | null };
+  };
+
+  const signInWithPassword = async (credentials: { email: string; password: string }) => {
+    const { error } = await supabase.auth.signInWithPassword(credentials);
+    return { error: error as Error | null };
+  };
+
+  const signUp = async (params: { email: string; password: string; name?: string }) => {
+    const { error } = await supabase.auth.signUp({
+      email: params.email,
+      password: params.password,
+      options: {
+        data: {
+          full_name: params.name,
+        },
+      },
+    });
+    return { error: error as Error | null };
   };
 
   const signOut = async () => {
     await qc.cancelQueries();
     qc.clear();
-    try {
-      localStorage.removeItem(GOOGLE_USER_KEY);
-    } catch (e) {}
-    setGoogleUser(null);
+    setSession(null);
+    setUser(null);
+    setProfile(null);
     await supabase.auth.signOut();
     router.invalidate();
   };
 
-  // Determine active user (Supabase or direct Google session)
-  const activeUser: CustomAuthUser | null =
-    googleUser || (session?.user ? (session.user as unknown as CustomAuthUser) : null);
-
   return (
-    <Ctx.Provider value={{ user: activeUser, session, loading, signInWithGoogle, signOut }}>
+    <Ctx.Provider
+      value={{
+        user,
+        session,
+        profile,
+        loading,
+        signInWithOAuth,
+        signInWithPassword,
+        signUp,
+        signOut,
+      }}
+    >
       {children}
     </Ctx.Provider>
   );
