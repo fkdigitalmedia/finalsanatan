@@ -1,5 +1,5 @@
 /**
- * Google Identity Services (GIS) direct OAuth & JWT decoder helper
+ * Google Identity Services (GIS) Official OAuth Popup Helper
  */
 
 export interface GoogleProfile {
@@ -27,11 +27,30 @@ export function decodeGoogleCredential(credential: string): GoogleProfile {
   }
 }
 
+export async function fetchGoogleUserInfo(accessToken: string): Promise<GoogleProfile> {
+  const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch Google user profile");
+  }
+  const data = await res.json();
+  return {
+    sub: data.sub,
+    email: data.email,
+    name: data.name || data.email.split("@")[0],
+    picture: data.picture,
+    email_verified: data.email_verified,
+  };
+}
+
 let scriptLoadingPromise: Promise<boolean> | null = null;
 
 export function loadGoogleGsiScript(): Promise<boolean> {
   if (typeof window === "undefined") return Promise.resolve(false);
-  if ((window as any).google?.accounts?.id) return Promise.resolve(true);
+  if ((window as any).google?.accounts?.oauth2 || (window as any).google?.accounts?.id) {
+    return Promise.resolve(true);
+  }
 
   if (scriptLoadingPromise) return scriptLoadingPromise;
 
@@ -46,27 +65,4 @@ export function loadGoogleGsiScript(): Promise<boolean> {
   });
 
   return scriptLoadingPromise;
-}
-
-export function initializeGoogleOneTap(
-  clientId: string,
-  onSuccess: (profile: GoogleProfile) => void,
-) {
-  loadGoogleGsiScript().then((loaded) => {
-    if (!loaded) return;
-    const google = (window as any).google;
-    if (!google?.accounts?.id) return;
-
-    google.accounts.id.initialize({
-      client_id: clientId,
-      callback: (response: any) => {
-        if (response.credential) {
-          const profile = decodeGoogleCredential(response.credential);
-          onSuccess(profile);
-        }
-      },
-    });
-
-    google.accounts.id.prompt();
-  });
 }

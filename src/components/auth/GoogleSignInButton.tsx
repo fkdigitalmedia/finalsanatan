@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { decodeGoogleCredential, loadGoogleGsiScript, type GoogleProfile } from "@/lib/google-auth";
+import {
+  fetchGoogleUserInfo,
+  loadGoogleGsiScript,
+  decodeGoogleCredential,
+  type GoogleProfile,
+} from "@/lib/google-auth";
 
 function GoogleGIcon({ className = "size-5" }: { className?: string }) {
   return (
@@ -44,161 +40,101 @@ export function GoogleSignInButton({
   className?: string;
 }) {
   const { signInWithGoogle } = useAuth();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [gmail, setGmail] = useState("");
-  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Try initializing Google One-Tap if client ID exists
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    if (clientId) {
-      loadGoogleGsiScript().then((loaded) => {
-        if (!loaded) return;
-        const google = (window as any).google;
-        if (!google?.accounts?.id) return;
+    // Pre-load Google GIS script
+    loadGoogleGsiScript();
+  }, []);
 
+  const handleGoogleLoginSuccess = (profile: GoogleProfile) => {
+    signInWithGoogle(profile);
+    toast.success(`Welcome, ${profile.name || profile.email}`);
+    if (onSuccess) onSuccess();
+  };
+
+  const handleClick = async () => {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+    if (!clientId) {
+      toast.error("Please configure VITE_GOOGLE_CLIENT_ID in your .env file");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const loaded = await loadGoogleGsiScript();
+      if (!loaded || typeof window === "undefined") {
+        toast.error("Google Sign-In SDK could not be loaded");
+        setLoading(false);
+        return;
+      }
+
+      const google = (window as any).google;
+
+      // Method 1: Official Google OAuth2 Token Popup
+      if (google?.accounts?.oauth2?.initTokenClient) {
+        const tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: "openid email profile",
+          callback: async (tokenResponse: any) => {
+            if (tokenResponse.error) {
+              toast.error(`Google login failed: ${tokenResponse.error}`);
+              setLoading(false);
+              return;
+            }
+
+            if (tokenResponse.access_token) {
+              try {
+                const profile = await fetchGoogleUserInfo(tokenResponse.access_token);
+                handleGoogleLoginSuccess(profile);
+              } catch (err) {
+                toast.error("Failed to fetch Google profile info");
+              } finally {
+                setLoading(false);
+              }
+            }
+          },
+        });
+
+        tokenClient.requestAccessToken({ prompt: "select_account" });
+      }
+      // Method 2: Official Google ID Credential Callback
+      else if (google?.accounts?.id) {
         google.accounts.id.initialize({
           client_id: clientId,
           callback: (response: any) => {
+            setLoading(false);
             if (response.credential) {
               const profile = decodeGoogleCredential(response.credential);
               handleGoogleLoginSuccess(profile);
             }
           },
         });
+
         google.accounts.id.prompt();
-      });
-    }
-  }, []);
-
-  const handleGoogleLoginSuccess = (profile: GoogleProfile) => {
-    signInWithGoogle(profile);
-    toast.success(`Signed in as ${profile.email}`);
-    if (onSuccess) onSuccess();
-  };
-
-  const handleClick = () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const google = (window as any).google;
-
-    if (clientId && google?.accounts?.id) {
-      // Trigger official Google GIS popup / prompt
-      google.accounts.id.prompt((notification: any) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          setModalOpen(true);
-        }
-      });
-    } else {
-      // Direct Google Identity Popup Modal
-      setModalOpen(true);
-    }
-  };
-
-  const handleDirectGmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!gmail || !gmail.includes("@")) {
-      toast.error("Please enter a valid Gmail address");
-      return;
-    }
-    setLoading(true);
-
-    const displayName = name.trim() || gmail.split("@")[0].replace(/[._]/g, " ");
-    const formattedName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-    const avatarUrl = `https://lh3.googleusercontent.com/a/default-user=s96-c`;
-
-    const profile: GoogleProfile = {
-      sub: `google_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-      email: gmail.toLowerCase().trim(),
-      name: formattedName,
-      picture: avatarUrl,
-      email_verified: true,
-    };
-
-    setTimeout(() => {
+      } else {
+        toast.error("Google accounts SDK unavailable");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("Google Sign-in error:", err);
+      toast.error("Error launching Google Login Popup");
       setLoading(false);
-      setModalOpen(false);
-      handleGoogleLoginSuccess(profile);
-    }, 400);
+    }
   };
 
   return (
-    <>
-      <Button type="button" variant="outline" className={className} onClick={handleClick}>
-        <GoogleGIcon className="size-5" /> Continue with Google
-      </Button>
-
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md rounded-2xl p-6">
-          <DialogHeader className="text-center sm:text-left">
-            <div className="flex items-center gap-3 mb-1">
-              <GoogleGIcon className="size-6" />
-              <DialogTitle className="text-xl font-display font-semibold">
-                Sign in with Google
-              </DialogTitle>
-            </div>
-            <DialogDescription className="text-sm text-muted-foreground">
-              Choose your Gmail account to continue to SanatanTools.
-            </DialogDescription>
-          </DialogHeader>
-
-          <form onSubmit={handleDirectGmailSubmit} className="space-y-4 mt-2">
-            <div>
-              <Label
-                htmlFor="google-email"
-                className="text-xs font-semibold uppercase text-muted-foreground"
-              >
-                Gmail Address
-              </Label>
-              <Input
-                id="google-email"
-                type="email"
-                placeholder="yourname@gmail.com"
-                value={gmail}
-                onChange={(e) => setGmail(e.target.value)}
-                required
-                className="mt-1.5 h-11"
-                autoFocus
-              />
-            </div>
-
-            <div>
-              <Label
-                htmlFor="google-name"
-                className="text-xs font-semibold uppercase text-muted-foreground"
-              >
-                Full Name (Optional)
-              </Label>
-              <Input
-                id="google-name"
-                type="text"
-                placeholder="Your Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1.5 h-11"
-              />
-            </div>
-
-            <div className="pt-2 flex gap-3">
-              <Button
-                type="button"
-                variant="ghost"
-                className="flex-1"
-                onClick={() => setModalOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1 bg-gradient-brand text-primary-foreground font-semibold"
-                disabled={loading}
-              >
-                {loading ? "Signing in..." : "Continue"}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Button
+      type="button"
+      variant="outline"
+      className={className}
+      onClick={handleClick}
+      disabled={loading}
+    >
+      <GoogleGIcon className="size-5" />
+      {loading ? "Connecting to Google..." : "Continue with Google"}
+    </Button>
   );
 }
