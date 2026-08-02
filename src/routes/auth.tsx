@@ -11,7 +11,7 @@ import { Logo } from "@/components/brand/Logo";
 import { toast } from "sonner";
 import { Loader2, Apple } from "lucide-react";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
-import { fetchGoogleUserInfo } from "@/lib/google-auth";
+import { fetchGoogleUserInfo, parseGoogleAuthResponse } from "@/lib/google-auth";
 
 const searchSchema = z.object({ redirect: z.string().optional() });
 
@@ -43,36 +43,35 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Handle Google OAuth access token returned in URL hash (#access_token=...)
-    if (typeof window !== "undefined" && window.location.hash.includes("access_token=")) {
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = hashParams.get("access_token");
-      if (accessToken) {
-        setLoading(true);
-        fetchGoogleUserInfo(accessToken)
-          .then((profile) => {
-            signInWithGoogle(profile);
-            toast.success(`Welcome, ${profile.name || profile.email}`);
-            if (window.opener && window.opener !== window) {
-              try {
-                window.opener.postMessage(
-                  { type: "GOOGLE_AUTH_SUCCESS", profile },
-                  window.location.origin,
-                );
-              } catch (e) {}
-              window.close();
-              return;
-            }
-            const target =
-              redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
-            navigate({ to: target as never });
-          })
-          .catch((err) => {
-            console.error("Failed to complete Google Sign-in:", err);
-            toast.error("Google authentication failed");
-          })
-          .finally(() => setLoading(false));
-      }
+    // Handle Google OAuth access token or id_token returned in URL hash (#access_token=... or #id_token=...)
+    if (
+      typeof window !== "undefined" &&
+      (window.location.hash.includes("access_token=") || window.location.hash.includes("id_token="))
+    ) {
+      setLoading(true);
+      parseGoogleAuthResponse(window.location.hash)
+        .then((profile) => {
+          signInWithGoogle(profile);
+          toast.success(`Welcome, ${profile.name || profile.email}`);
+          if (window.opener && window.opener !== window) {
+            try {
+              window.opener.postMessage(
+                { type: "GOOGLE_AUTH_SUCCESS", profile },
+                window.location.origin,
+              );
+            } catch (e) {}
+            window.close();
+            return;
+          }
+          const target =
+            redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
+          navigate({ to: target as never });
+        })
+        .catch((err) => {
+          console.error("Failed to complete Google Sign-in:", err);
+          toast.error("Google authentication failed");
+        })
+        .finally(() => setLoading(false));
     } else if (user) {
       const target = redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
       navigate({ to: target as never });
