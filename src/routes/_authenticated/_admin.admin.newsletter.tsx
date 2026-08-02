@@ -5,16 +5,19 @@ const config: CrudConfig = {
   table: "newsletter_subscribers",
   keyColumn: "id",
   title: "Newsletter Subscribers",
+  description: "View, search, add and manage all subscribers registered for the weekly newsletter.",
   searchColumn: "email",
+  order: "created_at.desc",
   fields: [
-    { name: "email", label: "Email", type: "text", required: true },
+    { name: "email", label: "Email Address", type: "text", required: true },
     {
       name: "status",
       label: "Status",
       type: "select",
       options: ["active", "unsubscribed", "bounced"],
     },
-    { name: "source", label: "Source", type: "text" },
+    { name: "source", label: "Source / Form", type: "text" },
+    { name: "created_at", label: "Subscribed At", type: "datetime" },
     { name: "confirmed_at", label: "Confirmed at", type: "datetime", hideInTable: true },
   ],
 };

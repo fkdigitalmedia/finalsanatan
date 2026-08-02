@@ -1,15 +1,35 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "@/components/brand/Logo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Instagram, Youtube, Twitter, Facebook, Send } from "lucide-react";
+import { Instagram, Youtube, Twitter, Facebook, Send, Loader2, Check } from "lucide-react";
+import { toast } from "sonner";
 import { CATEGORIES } from "@/config/categories";
 import { useTranslation } from "@/i18n/I18nProvider";
 import { useCategoryLabel } from "@/i18n/useCategoryLabel";
+import { subscribeNewsletter } from "@/lib/newsletter.functions";
 
 export function Footer() {
   const { t } = useTranslation();
   const catLabel = useCategoryLabel();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setStatus("loading");
+    try {
+      await subscribeNewsletter({ data: { email, source: "footer" } });
+      setStatus("done");
+      setEmail("");
+      toast.success("Newsletter subscribed successfully!");
+    } catch (err) {
+      setStatus("idle");
+      toast.error(err instanceof Error ? err.message : "Could not subscribe.");
+    }
+  };
 
   const cols = [
     {
@@ -66,10 +86,24 @@ export function Footer() {
                 {t("footer.newsletter_title")}
               </h4>
               <p className="mt-1 text-xs text-muted-foreground">{t("footer.newsletter_body")}</p>
-              <form className="mt-3 flex gap-2">
-                <Input placeholder={t("common.email_placeholder")} className="bg-background" />
-                <Button size="icon" aria-label={t("a11y.subscribe")}>
-                  <Send className="size-4" />
+              <form onSubmit={handleSubscribe} className="mt-3 flex gap-2">
+                <Input
+                  type="email"
+                  required
+                  placeholder={t("common.email_placeholder")}
+                  className="bg-background"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={status === "loading"}
+                />
+                <Button size="icon" type="submit" disabled={status === "loading"} aria-label={t("a11y.subscribe")}>
+                  {status === "loading" ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : status === "done" ? (
+                    <Check className="size-4 text-emerald-500" />
+                  ) : (
+                    <Send className="size-4" />
+                  )}
                 </Button>
               </form>
             </div>
