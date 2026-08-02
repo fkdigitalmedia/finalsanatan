@@ -91,6 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "The world's largest collection of Sanatan Dharma tools — Panchang, Rashifal, mantras, festivals, temple resources, Sanskrit learning and AI utilities.",
       },
       { name: "author", content: "SanatanTools" },
+      { name: "google-site-verification", content: "6exNnGCQ0v0z0dfIFVp3PuiAye_F9iA0b7LlSsGWdJI" },
       { name: "theme-color", content: "#E8802A" },
       { name: "application-name", content: "SanatanTools" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
