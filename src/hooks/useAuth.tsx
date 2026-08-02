@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
 
       // Upsert into Supabase database profiles table
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .upsert(profileData, { onConflict: "id" })
         .select()
