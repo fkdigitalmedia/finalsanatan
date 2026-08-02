@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Save, CheckCircle2, XCircle, ExternalLink } from "lucide-react";
@@ -66,6 +66,10 @@ export function IntegrationsTab() {
 
   const rows = (listQ.data as Row[] | undefined) ?? [];
 
+  if (listQ.isLoading) {
+    return <div className="h-40 animate-pulse rounded-xl bg-muted" />;
+  }
+
   return (
     <div className="space-y-4">
       {SPECS.map((spec) => {
@@ -119,6 +123,17 @@ function IntegrationCard({
     return init;
   });
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (row) {
+      setEnabled(row.enabled ?? false);
+      const init: Record<string, string> = {};
+      for (const f of spec.fields) {
+        init[f.id] = String((row.config?.[f.id] as string | undefined) ?? "");
+      }
+      setValues(init);
+    }
+  }, [row, spec.fields]);
 
   const showGscStatus = spec.key === "gsc";
   const connected = !!gscConnected;
