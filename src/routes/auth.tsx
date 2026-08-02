@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/brand/Logo";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Apple } from "lucide-react";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { fetchGoogleUserInfo } from "@/lib/google-auth";
 
 const searchSchema = z.object({ redirect: z.string().optional() });
 
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const { user } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
   const { redirect } = Route.useSearch();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
@@ -42,11 +43,41 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    // Handle Google OAuth access token returned in URL hash (#access_token=...)
+    if (typeof window !== "undefined" && window.location.hash.includes("access_token=")) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get("access_token");
+      if (accessToken) {
+        setLoading(true);
+        fetchGoogleUserInfo(accessToken)
+          .then((profile) => {
+            signInWithGoogle(profile);
+            toast.success(`Welcome, ${profile.name || profile.email}`);
+            if (window.opener && window.opener !== window) {
+              try {
+                window.opener.postMessage(
+                  { type: "GOOGLE_AUTH_SUCCESS", profile },
+                  window.location.origin,
+                );
+              } catch (e) {}
+              window.close();
+              return;
+            }
+            const target =
+              redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
+            navigate({ to: target as never });
+          })
+          .catch((err) => {
+            console.error("Failed to complete Google Sign-in:", err);
+            toast.error("Google authentication failed");
+          })
+          .finally(() => setLoading(false));
+      }
+    } else if (user) {
       const target = redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
       navigate({ to: target as never });
     }
-  }, [user, redirect, navigate]);
+  }, [user, redirect, navigate, signInWithGoogle]);
 
   const oauth = (provider: "google" | "apple", label: string) => async () => {
     setLoading(true);
