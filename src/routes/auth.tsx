@@ -42,7 +42,10 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) navigate({ to: (redirect as never) ?? "/dashboard" });
+    if (user) {
+      const target = redirect && redirect !== "/auth" && redirect !== "/" ? redirect : "/dashboard";
+      navigate({ to: target as never });
+    }
   }, [user, redirect, navigate]);
 
   const oauth = (provider: "google" | "apple", label: string) => async () => {
