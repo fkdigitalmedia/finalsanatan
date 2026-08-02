@@ -194,43 +194,108 @@ export const listUsers = createServerFn({ method: "GET" })
   })
   .handler(async ({ data, context }) => {
     await assertStaff(context as Ctx);
-    let q = (context as any).supabase
-      .from("profiles")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(data.limit);
+    const sb = (context as any).supabase;
+
+    // 1. Fetch profiles table
+    const { data: profiles } = await sb.from("profiles").select("*");
+
+    // 2. Fetch auth.users directly via Supabase Admin API
+    let authUsers: any[] = [];
+    try {
+      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+      if (serviceRoleKey && supabaseUrl) {
+        const { createClient } = await import("@supabase/supabase-js");
+        const adminClient = createClient(supabaseUrl, serviceRoleKey);
+        const { data: listRes } = await adminClient.auth.admin.listUsers();
+        if (listRes?.users) {
+          authUsers = listRes.users;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to list auth users via admin API:", e);
+    }
+
+    // Merge auth.users and public.profiles
+    const userMap = new Map<string, any>();
+
+    for (const p of profiles ?? []) {
+      userMap.set(p.id, {
+        id: p.id,
+        email: p.email,
+        display_name: p.display_name || p.full_name || p.email?.split("@")[0],
+        full_name: p.full_name || p.display_name,
+        avatar_url: p.avatar_url,
+        provider: p.provider || "email",
+        created_at: p.created_at,
+      });
+    }
+
+    for (const au of authUsers) {
+      const existing = userMap.get(au.id) || {};
+      const meta = au.user_metadata || {};
+      const name =
+        meta.full_name ||
+        meta.name ||
+        meta.display_name ||
+        au.email?.split("@")[0] ||
+        "Sanatan User";
+      userMap.set(au.id, {
+        ...existing,
+        id: au.id,
+        email: au.email || existing.email,
+        display_name: existing.display_name || name,
+        full_name: existing.full_name || name,
+        avatar_url: existing.avatar_url || meta.avatar_url || meta.picture,
+        provider: au.app_metadata?.provider || existing.provider || "google",
+        created_at: existing.created_at || au.created_at,
+      });
+    }
+
+    let mergedUsers = Array.from(userMap.values());
+
     if (data.search) {
-      q = q.or(
-        `display_name.ilike.%${data.search}%,full_name.ilike.%${data.search}%,email.ilike.%${data.search}%`,
+      const s = data.search.toLowerCase();
+      mergedUsers = mergedUsers.filter(
+        (u) =>
+          u.display_name?.toLowerCase().includes(s) ||
+          u.full_name?.toLowerCase().includes(s) ||
+          u.email?.toLowerCase().includes(s) ||
+          u.id?.toLowerCase().includes(s),
       );
     }
-    const { data: users, error } = await q;
-    if (error) throw new Error(error.message);
 
-    const ids = (users ?? []).map((u: { id: string }) => u.id);
+    mergedUsers.sort(
+      (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime(),
+    );
+    mergedUsers = mergedUsers.slice(0, data.limit);
+
+    const ids = mergedUsers.map((u) => u.id);
     const [{ data: roles }, { data: mod }] = await Promise.all([
-      (context as any).supabase
+      sb
         .from("user_roles")
         .select("user_id,role")
         .in("user_id", ids.length ? ids : ["00000000-0000-0000-0000-000000000000"]),
-      (context as any).supabase
+      sb
         .from("user_moderation")
         .select("*")
         .in("user_id", ids.length ? ids : ["00000000-0000-0000-0000-000000000000"]),
     ]);
+
     const rolesByUser = new Map<string, string[]>();
     for (const r of roles ?? []) {
       const arr = rolesByUser.get(r.user_id) ?? [];
       arr.push(r.role);
       rolesByUser.set(r.user_id, arr);
     }
+
     const modByUser = new Map<string, any>();
     for (const m of mod ?? []) modByUser.set(m.user_id, m);
 
     return {
-      rows: (users ?? []).map((u: any) => ({
+      rows: mergedUsers.map((u: any) => ({
         ...u,
-        roles: rolesByUser.get(u.id) ?? [],
+        roles: rolesByUser.get(u.id) ?? ["user"],
         moderation: modByUser.get(u.id) ?? null,
       })),
     };
