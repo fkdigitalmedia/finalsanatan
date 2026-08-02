@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/brand/Logo";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 const searchSchema = z.object({ redirect: z.string().optional() });
 
@@ -138,15 +139,9 @@ function AuthPage() {
 
           {mode !== "forgot" && (
             <>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full mt-6 gap-2 h-11"
-                onClick={google}
-                disabled={loading}
-              >
-                <GoogleIcon /> Continue with Google
-              </Button>
+              <GoogleSignInButton
+                onSuccess={() => navigate({ to: (redirect as never) ?? "/dashboard" })}
+              />
               <Button
                 type="button"
                 variant="outline"
