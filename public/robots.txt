@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dharma-divine-tools.lovable.app/sitemap.xml
+Sitemap: https://dharma-divine-tools.lovable.app/sitemap-festivals.xml

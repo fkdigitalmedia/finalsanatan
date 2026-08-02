@@ -1,0 +1,59 @@
+{
+  "intro": "প্ৰতিটো প্ৰধান Deity-ৰ বাবে এক কদম-কদম havan (homa) নিৰ্দেশিকা — kalash sthapana, agni pratishtha, ahutis, mantras আৰু purnahuti।",
+  "howToUse": [
+    "Havan-ৰ প্ৰকাৰ বাছক (গণেশ, লক্ষ্মী, Navagraha, Mahamrityunjaya…)।",
+    "Devanagari + ইংৰাজীত mantras সহ নিৰ্দেশিত পদক্ষেপসমূহ অনুসৰণ কৰক।",
+    "বিল্ট-ইন কাউণ্টাৰৰ সৈতে আপোনাৰ ahuti গণনা (১০৮, ১০০৮, ইত্যাদি) ট্ৰেক কৰক।",
+    "purnahuti আৰু প্ৰসাদ বিতৰণৰ সৈতে সামৰণি মাৰক।"
+  ],
+  "benefits": [
+    "অকল পদক্ষেপৰ নাম নহয়, অৰ্থসহ সম্পূৰ্ণ mantra পাঠ।",
+    "স্বয়ংক্রিয় ১০৮/১০০৮ সতৰ্কতা সহ Ahuti কাউণ্টাৰ।",
+    "পৰম্পৰাগত সংস্কৃতৰ সৈতে স্পষ্ট ইংৰাজী নিৰ্দেশনা।",
+    "গৃহস্থালী havan বা বৃহৎ yajna-ৰ বাবে উপযোগী।",
+    "Havan বিধিৰ প্ৰতিটো পদক্ষেপ বিশদভাৱে বৰ্ণনা কৰা হৈছে।"
+  ],
+  "useCases": [
+    "গৃহ প্ৰৱেশ (Griha Pravesh) havan।",
+    "শিশুৰ বাবে জন্মদিন havan (Ayushya Homa)।",
+    "গ্ৰহৰ ভাৰসাম্যৰ বাবে Navagraha havan।",
+    "স্বাস্থ্য আৰু আৰোগ্যৰ বাবে Mahamrityunjaya havan।"
+  ],
+  "mistakes": [
+    "যথাযথ agni-pratishtha mantras অবিহনে agni জ্বলোৱা।",
+    "Ahutis আৰম্ভ কৰাৰ আগতে sankalpa পাহৰা।",
+    "purnahuti বাদ দিয়া — yajna-ক সুৰক্ষিত কৰা অন্তিম আহুতি।",
+    "Deity-ৰ বাবে ভুল samidha (কাঠ) ব্যৱহাৰ কৰা — আম আৰু পলাশ হৈছে নিৰাপদ ডিফল্ট।"
+  ],
+  "accuracy": "Grihya Sutras আৰু মানক purohit উল্লেখৰ ওপৰত আধাৰিত Vidhi।",
+  "privacy": "কোনো তথ্য সংগ্ৰহ কৰা নহয়। Ahuti কাউণ্টাৰ সম্পূৰ্ণৰূপে স্থানীয়।",
+  "faqs": [
+    {
+      "q": "Havan-ৰ বাবে কি কাঠ ব্যৱহাৰ কৰা হয়?",
+      "a": "পলাশ (Butea) হৈছে আদৰ্শ শাস্ত্ৰীয় কাঠ। আম হৈছে মানক ঘৰুৱা বিকল্প।"
+    },
+    {
+      "q": "মই purohit অবিহনে havan কৰিব পাৰোনে?",
+      "a": "হয় — সাধাৰণ ঘৰুৱা havan-ৰ বাবে। জটিল yajnas (চণ্ডী, অতি-ৰুদ্ৰ) এটা প্ৰশিক্ষিত পুৰোহিতৰ প্ৰয়োজন।"
+    },
+    {
+      "q": "Ahuti-ত কি samagri ব্যৱহাৰ কৰা হয়?",
+      "a": "ঘিউ, তিল, জৌ, hawan samagri মিশ্ৰণ; নিৰ্দিষ্ট Deity-ৰ বাবে সঁজুলিত তালিকাভুক্ত নিৰ্দিষ্ট দ্ৰৱ্য যোগ কৰা হয়।"
+    },
+    {
+      "q": "কিমান ahuti যথেষ্ট?",
+      "a": "ঘৰুৱা havan: ১০৮। বিশেষ sankalpas: ১০০৮। অতি-ৰুদ্ৰ আৰু বৃহৎ yagnas: ১১,০০০+।"
+    },
+    {
+      "q": "Purnahuti কি?",
+      "a": "অন্তিম পূৰ্ণ-চামুচ ঘিউৰ নৈবেদ্য যি havan-ৰ সামৰণি মাৰে আৰু Deity-লৈ সকলো পুণ্য উৎসৰ্গা কৰে।"
+    }
+  ],
+  "relatedSlugs": [
+    "puja-vidhi-planner",
+    "samagri-checklist",
+    "sankalp-generator",
+    "mahamrityunjaya-mantra",
+    "deity-mantras"
+  ]
+}

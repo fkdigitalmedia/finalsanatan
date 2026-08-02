@@ -1,0 +1,31 @@
+{
+  "intro": "Sanatan Deity चा एक विश्वकोष — Vishnu, Shiva, Devi, Ganesha, Hanuman, Surya, Skanda आणि बरेच काही — iconography, Mantra, कथा आणि sampradaya दृष्टिकोनांसह.",
+  "howToUse": [
+    "देवतांच्या गटातून शोधा किंवा ब्राउझ करा.",
+    "iconography, अवतार आणि कथा वाचा.",
+    "Mantra आणि Stotra एक्सप्लोर करा.",
+    "संबंधित Deity चा संदर्भ घ्या."
+  ],
+  "benefits": [
+    "खोलवर माहिती, केवळ वरवरची नाही.",
+    "Iconography स्पष्ट केली आहे (शस्त्रे, मुद्रा, वाहने).",
+    "Sampradaya-নিরপেক্ষ.",
+    "Mantra आणि मंदिरांशी क्रॉस-लिंक्स."
+  ],
+  "useCases": [
+    "नवीन Deity बद्दल शिकण्यासाठी.",
+    "कला, लेखन किंवा अध्यापनासाठी संशोधन.",
+    "तुमच्या कुटुंबाच्या इष्ट-devata ला समजून घेण्यासाठी.",
+    "मुलांच्या कुतूहलपूर्ण प्रश्नांसाठी."
+  ],
+  "mistakes": ["प्रतीकाशिवाय फक्त कथा वाचणे — Deity सूक्ष्म अर्थ सांकेतिक करतात."],
+  "accuracy": "नोंदी Purana आणि Agama संदर्भांसह सत्यापित केल्या आहेत.",
+  "privacy": "डिव्हाइसवर बुकमार्क.",
+  "faqs": [
+    {
+      "q": "प्रादेशिक Deity?",
+      "a": "होय — Ayyappa, Vitthal, Jagannath, Kartikeya आणि इतर."
+    }
+  ],
+  "relatedSlugs": ["deity-of-the-day", "names-by-deity", "mantra-library", "temple-directory"]
+}

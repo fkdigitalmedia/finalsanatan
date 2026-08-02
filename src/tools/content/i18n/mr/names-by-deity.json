@@ -1,0 +1,30 @@
+{
+  "intro": "विष्णु, Shiva, Devi, Ganesha, Krishna, Rama, Hanuman, Saraswati यांसारख्या Deity कडून प्रेरित नावे — अर्थ आणि कथा संदर्भासह.",
+  "howToUse": [
+    "एक Deity निवडा.",
+    "अर्थासहित नावे ब्राउझ करा.",
+    "लिंगानुसार फिल्टर करा.",
+    "आवडती नावे बुकमार्क (Bookmark) करा."
+  ],
+  "benefits": [
+    "प्रिय Deity सोबत थेट संबंध.",
+    "अर्थ + Purana संदर्भ.",
+    "पुरुष, स्त्री आणि तटस्थ (neutral) नावे.",
+    "कमी ज्ञात avatara नावांचा समावेश."
+  ],
+  "useCases": [
+    "Ishta-devata प्रेरित नामकरण.",
+    "एकाच Deity थीमसह अनेक मुले.",
+    "एका विशिष्ट kripa अनुभवानंतर नाव निवडणे."
+  ],
+  "mistakes": ["असा अर्थ असलेले नाव निवडणे जे मुलासाठी मोठे आहे (उदा. Shiva ची भयानक रूपे नावे)."],
+  "accuracy": "नावे Purana संदर्भांसह क्रॉस-व्हेरिफाय केली आहेत.",
+  "privacy": "बुकमार्क (Bookmarks) डिव्हाइसवर (device) राहतात.",
+  "faqs": [
+    {
+      "q": "मी Deity मिक्स करू शकतो का?",
+      "a": "होय — नावे एकत्र करणे सामान्य आहे (उदा. Radhakrishna, Sitaram)."
+    }
+  ],
+  "relatedSlugs": ["names-by-nakshatra", "names-by-meaning", "deity-encyclopedia"]
+}

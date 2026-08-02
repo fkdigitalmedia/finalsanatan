@@ -1,0 +1,58 @@
+{
+  "intro": "নতুন বাড়ির জন্য একটি সম্পূর্ণ Griha Pravesh প্ল্যানার — Muhurat নির্বাচন, Samagri চেকলিস্ট, Vastu Shanti ধাপ এবং Puja পরবর্তী আচার-অনুষ্ঠান।",
+  "howToUse": [
+    "অনুমানিত মাস এবং শহর লিখুন।",
+    "Tithi, Nakshatra এবং Lagna সহ প্রস্তাবিত Griha Pravesh Muhurat গুলো দেখুন।",
+    "Samagri চেকলিস্ট এবং ধাপে ধাপে Vidhi ডাউনলোড করুন।",
+    "দিনের রেফারেন্সের জন্য বুকমার্ক করুন।"
+  ],
+  "benefits": [
+    "Muhuratগুলি Tithi + Nakshatra + Shubh Yoga এর উপর ভিত্তি করে ফিল্টার করা হয়েছে।",
+    "Vastu Shanti এবং Ganesha Puja এর ধাপগুলি অন্তর্ভুক্ত করা হয়েছে।",
+    "আঞ্চলিক বৈচিত্র্য (উত্তর/দক্ষিণ কিছু আচার-অনুষ্ঠানে ভিন্ন) সম্মান করা হয়েছে।",
+    "বিনামূল্যে — পরামর্শ বুক করার কোনো চাপ নেই।"
+  ],
+  "useCases": [
+    "দখল পাওয়ার পর Griha Pravesh এর তারিখ নির্বাচন করা।",
+    "Apurva (প্রথমবার), Sapurva (সংস্কারের পর) বা Dwandwa (পুনরায় প্রবেশ) Pravesh পরিকল্পনা করা।",
+    "Muhurat উইন্ডোর সাথে পরিবার + Purohit এর উপলব্ধতা সমন্বয় করা।",
+    "আগেই Samagri এবং Prasad প্রস্তুত করা।"
+  ],
+  "mistakes": [
+    "Nakshatra পরীক্ষা না করে শুধুমাত্র Tithi দ্বারা Muhurat নির্বাচন করা।",
+    "নতুন নির্মিত বাড়িতে Vastu Shanti বাদ দেওয়া।",
+    "Muhurat Sankalp সম্পন্ন হওয়ার আগে বাড়িতে প্রবেশ করা।",
+    "Apurva Pravesh এর জন্য Chaturmas (Ashadh–Kartik) এর নিষেধাজ্ঞা উপেক্ষা করা।"
+  ],
+  "accuracy": "Muhurat এর পরামর্শগুলি Tithi, Nakshatra এবং Shubh Yoga নিয়মগুলির বিরুদ্ধে যাচাই করা হয়েছে।",
+  "privacy": "শহরের পছন্দ শুধুমাত্র স্থানীয়ভাবে সংরক্ষণ করা হয়।",
+  "faqs": [
+    {
+      "q": "আমি কি Chaturmas চলাকালীন Griha Pravesh করতে পারি?",
+      "a": "Apurva (প্রথমবার) Pravesh Chaturmas এ এড়িয়ে চলা হয়। Sapurva এবং Dwandwa কিছু পরিবর্তন সাপেক্ষে অনুমোদিত।"
+    },
+    {
+      "q": "কোন Nakshatra গুলি সেরা?",
+      "a": "Rohini, Mrigashira, Anuradha, Chitra, Uttara Phalguni, Uttarashadha, Uttara Bhadrapada, Revati, Pushya, Shatabhisha, Dhanishta।"
+    },
+    {
+      "q": "আমার কি একজন Purohit দরকার?",
+      "a": "সম্পূর্ণ Vidhi এর জন্য সুপারিশ করা হয়; সহজ পারিবারিক সংস্করণ এই টুলটিকে রেফারেন্স হিসাবে ব্যবহার করে স্ব-নেতৃত্বে করা যেতে পারে।"
+    },
+    {
+      "q": "দুধ ফোটানোর আচারটি কী?",
+      "a": "রান্নাঘরের ঐতিহ্যবাহী প্রথম কাজ — দুধ উপচে না পড়া পর্যন্ত ফোটানো, যা সমৃদ্ধির প্রতীক।"
+    },
+    {
+      "q": "Puja কতক্ষণ আগে শেষ করতে হবে?",
+      "a": "আদর্শভাবে Puja হল প্রথম প্রবেশ কাজ — Sankalp সম্পন্ন না হওয়া পর্যন্ত বাড়িতে ঘুমাবেন না।"
+    }
+  ],
+  "relatedSlugs": [
+    "samagri-checklist",
+    "puja-vidhi-planner",
+    "sankalp-generator",
+    "havan-guide",
+    "todays-panchang"
+  ]
+}

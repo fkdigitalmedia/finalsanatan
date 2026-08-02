@@ -1,0 +1,26 @@
+{
+  "name": "SanatanTools — Panchang, Mantras, Festivals & AI Utilities",
+  "short_name": "SanatanTools",
+  "description": "The world's largest collection of Sanatan Dharma tools — Panchang, Rashifal, mantras, festivals, temples, Sanskrit learning and AI utilities.",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1B4B",
+  "theme_color": "#E8802A",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["lifestyle", "education", "reference", "utilities"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Today's Panchang", "url": "/tools/panchang" },
+    { "name": "Kundli Generator", "url": "/kundli" },
+    { "name": "Festivals", "url": "/festivals" }
+  ]
+}

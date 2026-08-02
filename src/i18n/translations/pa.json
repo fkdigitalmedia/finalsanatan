@@ -1,0 +1,1072 @@
+{
+  "meta": {
+    "language": "ਪੰਜਾਬੀ",
+    "code": "pa",
+    "version": 2
+  },
+  "common": {
+    "email_placeholder": "ਤੁਸੀਂ@ਉਦਾਹਰਨ.ਕਾਮ"
+  },
+  "nav": {
+    "all_tools": "ਸਾਰੇ ਟੂਲ",
+    "panchang": "ਪੰਚਾਂਗ",
+    "festivals": "ਤਿਉਹਾਰ",
+    "puja": "ਪੂਜਾ",
+    "mantras": "ਮੰਤਰ",
+    "ai": "AI ਟੂਲ",
+    "temples": "ਮੰਦਰ",
+    "calculators": "ਕੈਲਕੁਲੇਟਰ",
+    "sanskrit": "ਸੰਸਕ੍ਰਿਤ",
+    "baby_names": "ਬੱਚਿਆਂ ਦੇ ਨਾਮ",
+    "learning": "ਸਿੱਖਣਾ",
+    "categories": "ਸ਼੍ਰੇਣੀਆਂ",
+    "menu": "ਮੀਨੂ",
+    "language": "ਭਾਸ਼ਾ",
+    "horoscope": "ਰਾਸ਼ੀਫਲ",
+    "daily_horoscope": "ਰੋਜ਼ਾਨਾ ਰਾਸ਼ੀਫਲ",
+    "blog": "ਬਲੌਗ"
+  },
+  "footer": {
+    "rights": "ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।",
+    "made_with": "ਸਨਾਤਨ ਧਰਮ ਲਈ ਸ਼ਰਧਾ ਨਾਲ ਬਣਾਇਆ ਗਿਆ",
+    "brand_body": "ਸਨਾਤਨ ਧਰਮ ਦੇ ਸੰਦਾਂ, ਕੈਲਕੁਲੇਟਰਾਂ, ਪੰਚਾਂਗ ਉਪਯੋਗਤਾਵਾਂ, ਮੰਤਰਾਂ, ਤਿਉਹਾਰਾਂ ਦੇ ਸਰੋਤਾਂ ਅਤੇ ਸੰਸਕ੍ਰਿਤ ਸਿੱਖਣ ਦਾ ਵਿਸ਼ਵ ਦਾ ਸਭ ਤੋਂ ਵੱਡਾ ਸੰਗ੍ਰਹਿ — ਧਿਆਨ ਨਾਲ ਤਿਆਰ ਕੀਤਾ ਗਿਆ ਹੈ।",
+    "newsletter_title": "ਹਫਤਾਵਾਰੀ ਸਨਾਤਨ ਡਾਈਜੈਸਟ",
+    "newsletter_body": "ਪੰਚਾਂਗ, ਤਿਉਹਾਰ, ਮੰਤਰ ਅਤੇ ਨਵੇਂ ਸੰਦ — ਹਰ ਐਤਵਾਰ।",
+    "copyright": "© {{year}} SanatanTools. ਸ਼ਰਧਾ ਨਾਲ ਬਣਾਇਆ ਗਿਆ। ॐ",
+    "cols": {
+      "categories": "ਸ਼੍ਰੇਣੀਆਂ",
+      "resources": "ਸਰੋਤ",
+      "company": "ਕੰਪਨੀ",
+      "legal": "ਕਾਨੂੰਨੀ"
+    },
+    "links": {
+      "festival_calendar": "ਤਿਉਹਾਰ ਕੈਲੰਡਰ",
+      "vrat_calendar": "ਵਰਤ ਕੈਲੰਡਰ",
+      "temple_directory": "ਮੰਦਰ ਡਾਇਰੈਕਟਰੀ",
+      "sanskrit_learning": "ਸੰਸਕ੍ਰਿਤ ਸਿੱਖਣਾ",
+      "baby_names": "ਬੱਚਿਆਂ ਦੇ ਨਾਮ",
+      "learn_sanatan": "ਸਨਾਤਨ ਸਿੱਖੋ",
+      "about": "ਬਾਰੇ",
+      "contact": "ਸੰਪਰਕ",
+      "careers": "ਕੈਰੀਅਰ",
+      "press": "ਪ੍ਰੈਸ",
+      "advertise": "ਇਸ਼ਤਿਹਾਰ ਦਿਓ",
+      "partnerships": "ਭਾਈਵਾਲੀ",
+      "privacy": "ਗੋਪਨੀਯਤਾ",
+      "terms": "ਸ਼ਰਤਾਂ",
+      "cookies": "ਕੂਕੀਜ਼",
+      "disclaimer": "ਬੇਦਾਅਵਾ",
+      "sitemap": "ਸਾਈਟਮੈਪ",
+      "refund": "ਵਾਪਸੀ",
+      "support": "ਸਹਾਇਤਾ",
+      "faq": "ਸਵਾਲ-ਜਵਾਬ",
+      "editorial_policy": "ਸੰਪਾਦਕੀ ਨੀਤੀ",
+      "accessibility": "ਸੁਗਮਤਾ",
+      "ai_disclaimer": "AI ਬੇਦਾਅਵਾ",
+      "all_legal": "ਸਾਰੇ ਕਾਨੂੰਨੀ"
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "ਸਨਾਤਨਟੂਲਸ — ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ ਅਤੇ AI ਉਪਯੋਗਤਾਵਾਂ",
+      "description": "100+ ਸਨਾਤਨ ਧਰਮ ਟੂਲ — ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ, ਮੰਦਰ, ਕੈਲਕੁਲੇਟਰ, ਸੰਸਕ੍ਰਿਤ ਸਿੱਖਿਆ ਅਤੇ AI ਉਪਯੋਗਤਾਵਾਂ। ਮੁਫਤ, ਤੇਜ਼ ਅਤੇ ਸੁੰਦਰਤਾ ਨਾਲ ਤਿਆਰ ਕੀਤਾ ਗਿਆ।",
+      "og_title": "ਸਨਾਤਨਟੂਲਸ — ਸਭ ਤੋਂ ਵੱਡਾ ਸਨਾਤਨ ਧਰਮ ਉਪਯੋਗਤਾ ਪਲੇਟਫਾਰਮ",
+      "og_description": "ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ, ਮੰਦਰ, ਕੈਲਕੁਲੇਟਰ, ਸੰਸਕ੍ਰਿਤ, ਬੱਚਿਆਂ ਦੇ ਨਾਮ, AI ਅਤੇ ਹੋਰ — 100+ ਟੂਲ ਇੱਕ ਥਾਂ 'ਤੇ।"
+    },
+    "hero": {
+      "badge": "100+ ਟੂਲ · ਸ਼੍ਰੇਣੀ ਅਨੁਸਾਰ ਲਾਂਚ ਹੋ ਰਹੇ ਹਨ",
+      "title_a": "ਹਰ ਚੀਜ਼",
+      "title_b": "ਸਨਾਤਨ ਧਰਮ",
+      "title_c": ", ਇੱਕ ਥਾਂ 'ਤੇ ਸੁੰਦਰਤਾ ਨਾਲ।",
+      "subtitle": "ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ, ਮੰਦਰ, ਕੈਲਕੁਲੇਟਰ, ਸੰਸਕ੍ਰਿਤ ਸਿੱਖਿਆ, ਬੱਚਿਆਂ ਦੇ ਨਾਮ ਅਤੇ AI ਉਪਯੋਗਤਾਵਾਂ — ਇੱਕ ਪ੍ਰੀਮੀਅਮ ਉਤਪਾਦ ਦੀ ਦੇਖਭਾਲ ਅਤੇ ਇੱਕ ਪਵਿੱਤਰ ਅਭਿਆਸ ਦੇ ਸਤਿਕਾਰ ਨਾਲ ਤਿਆਰ ਕੀਤੀਆਂ ਗਈਆਂ।",
+      "shloka": "ਸਤ੍ਯਂ ਜ੍ਞਾਨਮ੍ ਅਨਨ੍ਤਂ ਬ੍ਰਹ੍ਮ",
+      "search_placeholder": "ਟੂਲ, ਤਿਉਹਾਰ, ਮੰਤਰ, ਮੰਦਰ ਖੋਜੋ…",
+      "popular": "ਪ੍ਰਸਿੱਧ:",
+      "popular_items": "ਅੱਜ ਦਾ ਪੰਚਾਂਗ,ਮਹਾ ਸ਼ਿਵਰਾਤਰੀ,ਗਾਇਤਰੀ ਮੰਤਰ,ਕੁੰਡਲੀ",
+      "badge_free": "ਹਮੇਸ਼ਾ ਲਈ ਮੁਫਤ",
+      "badge_no_ads": "ਟੂਲਾਂ 'ਤੇ ਕੋਈ ਵਿਗਿਆਪਨ ਨਹੀਂ",
+      "badge_ai": "AI ਦੁਆਰਾ ਸੰਚਾਲਿਤ"
+    },
+    "categories": {
+      "eyebrow": "ਖੋਜੋ",
+      "title": "10 ਸ਼੍ਰੇਣੀਆਂ। 100+ ਟੂਲ। ਇੱਕ ਘਰ।",
+      "description": "ਸਨਾਤਨ ਧਰਮ ਦਾ ਹਰ ਕੋਨਾ, ਸੰਗਠਿਤ। ਇਹ ਦੇਖਣ ਲਈ ਇੱਕ ਸ਼੍ਰੇਣੀ ਚੁਣੋ ਕਿ ਕੀ ਆ ਰਿਹਾ ਹੈ — ਅਤੇ ਜਦੋਂ ਟੂਲ ਲਾਂਚ ਹੁੰਦੇ ਹਨ ਤਾਂ ਸੂਚਿਤ ਹੋਵੋ।"
+    },
+    "festivals": {
+      "eyebrow": "ਆਉਣ ਵਾਲੇ",
+      "title": "ਨੇੜੇ ਦੇ ਤਿਉਹਾਰ",
+      "description": "ਕਦੇ ਵੀ ਕੋਈ ਵਰਤ, ਤਿਥੀ ਜਾਂ ਜਸ਼ਨ ਨਾ ਛੱਡੋ। ਹਰ ਘਰ ਲਈ ਇੱਕ ਚੁਣਿਆ ਹੋਇਆ ਕੈਲੰਡਰ।",
+      "view_all": "ਸਾਰੇ ਤਿਉਹਾਰ ਵੇਖੋ"
+    },
+    "spotlight": {
+      "badge": "ਪਹਿਲਾਂ ਆ ਰਿਹਾ ਹੈ",
+      "title": "ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ, ਸਹੀ ਢੰਗ ਨਾਲ ਕੀਤਾ ਗਿਆ।",
+      "body": "ਕਿਸੇ ਵੀ ਮਿਤੀ, ਕਿਸੇ ਵੀ ਸ਼ਹਿਰ ਲਈ ਸਹੀ ਤਿਥੀ, ਨਕਸ਼ਤਰ, ਯੋਗ, ਕਰਨ, ਸੂਰਜ ਚੜ੍ਹਨ/ਸੂਰਜ ਡੁੱਬਣ, ਰਾਹੂ ਕਾਲ ਅਤੇ ਮੁਹੂਰਤ — ਸੁੰਦਰਤਾ ਨਾਲ ਪੇਸ਼ ਕੀਤਾ ਗਿਆ।",
+      "cta": "ਪੰਚਾਂਗ ਦੀ ਪੜਚੋਲ ਕਰੋ"
+    },
+    "features": {
+      "eyebrow": "ਵੱਖਰਾ ਬਣਾਇਆ ਗਿਆ",
+      "title": "ਇੱਕ ਪ੍ਰਾਚੀਨ ਪਰੰਪਰਾ ਲਈ ਇੱਕ ਆਧੁਨਿਕ ਘਰ।",
+      "items": {
+        "fast_title": "ਤੇਜ਼ ਰਫ਼ਤਾਰ",
+        "fast_body": "ਆਧੁਨਿਕ ਐਜ ਇਨਫਰਾ 'ਤੇ ਬਣਾਇਆ ਗਿਆ ਹੈ ਤਾਂ ਜੋ ਹਰ ਟੂਲ ਤੁਰੰਤ ਲੋਡ ਹੋਵੇ, ਭਾਵੇਂ ਹੌਲੀ ਕਨੈਕਸ਼ਨਾਂ 'ਤੇ ਵੀ।",
+        "private_title": "ਡਿਜ਼ਾਈਨ ਦੁਆਰਾ ਨਿੱਜੀ",
+        "private_body": "ਤੁਹਾਡੇ ਜਨਮ ਦੇ ਵੇਰਵੇ, ਮੰਤਰ ਅਤੇ ਇਤਿਹਾਸ ਤੁਹਾਡੇ ਹੀ ਰਹਿੰਦੇ ਹਨ। ਐਨਕ੍ਰਿਪਟਡ ਅਤੇ ਕਦੇ ਨਹੀਂ ਵੇਚੇ ਜਾਂਦੇ।",
+        "multilingual_title": "ਬਹੁ-ਭਾਸ਼ਾਈ",
+        "multilingual_body": "ਲਾਂਚ 'ਤੇ ਅੰਗਰੇਜ਼ੀ, ਹਿੰਦੀ, ਸੰਸਕ੍ਰਿਤ ਅਤੇ 6 ਹੋਰ ਭਾਰਤੀ ਭਾਸ਼ਾਵਾਂ ਆ ਰਹੀਆਂ ਹਨ।",
+        "ai_title": "AI ਜਿੱਥੇ ਇਹ ਮਦਦ ਕਰਦਾ ਹੈ",
+        "ai_body": "AI ਸ਼ਲੋਕ ਵਿਆਖਿਆਕਾਰ, ਮੰਤਰ ਸਿਫਾਰਸ਼ਕਰਤਾ ਅਤੇ ਪੂਜਾ ਯੋਜਨਾਕਾਰ — ਕਦੇ ਵੀ ਗਿੰਮਿਕੀ ਨਹੀਂ।"
+      }
+    },
+    "faq": {
+      "eyebrow": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ",
+      "title": "ਹਰ ਉਹ ਚੀਜ਼ ਜੋ ਤੁਸੀਂ ਪੁੱਛ ਸਕਦੇ ਹੋ।",
+      "description": "ਅਜੇ ਵੀ ਅਨਿਸ਼ਚਿਤ ਹੋ? ਸੰਪਰਕ ਕਰੋ — ਅਸੀਂ ਹਰ ਸੁਨੇਹਾ ਪੜ੍ਹਦੇ ਹਾਂ।",
+      "items": [
+        {
+          "q": "SanatanTools.com ਕੀ ਹੈ?",
+          "a": "ਸਨਾਤਨਟੂਲਸ ਇੰਟਰਨੈਟ 'ਤੇ ਸਨਾਤਨ ਧਰਮ ਟੂਲਾਂ ਦਾ ਸਭ ਤੋਂ ਵੱਡਾ ਸੰਗ੍ਰਹਿ ਹੈ — ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ, ਮੰਦਰ, ਕੈਲਕੁਲੇਟਰ, ਸੰਸਕ੍ਰਿਤ ਸਿੱਖਿਆ, ਬੱਚਿਆਂ ਦੇ ਨਾਮ ਅਤੇ AI ਉਪਯੋਗਤਾਵਾਂ। ਹਰ ਟੂਲ ਨੂੰ ਸੁੰਦਰ, ਤੇਜ਼ ਅਤੇ ਮੁਫਤ ਬਣਾਉਣ ਲਈ ਡਿਜ਼ਾਈਨ ਕੀਤਾ ਗਿਆ ਹੈ।"
+        },
+        {
+          "q": "ਟੂਲ ਕਦੋਂ ਉਪਲਬਧ ਹੋਣਗੇ?",
+          "a": "ਅਸੀਂ ਇੱਕ-ਇੱਕ ਕਰਕੇ ਸ਼੍ਰੇਣੀਆਂ ਨੂੰ ਰੋਲ ਆਊਟ ਕਰ ਰਹੇ ਹਾਂ। ਕਿਸੇ ਵੀ ਸ਼੍ਰੇਣੀ ਪੰਨੇ 'ਤੇ ਸਬਸਕ੍ਰਾਈਬ ਕਰੋ ਤਾਂ ਜੋ ਇਸਦੇ ਟੂਲ ਲਾਈਵ ਹੋਣ ਦੇ ਪਲ ਸੂਚਿਤ ਕੀਤਾ ਜਾ ਸਕੇ।"
+        },
+        {
+          "q": "ਕੀ ਟੂਲ ਮੁਫਤ ਹਨ?",
+          "a": "ਹਾਂ। ਹਰ ਮੁੱਖ ਟੂਲ ਹਮੇਸ਼ਾ ਲਈ ਮੁਫਤ ਹੈ। ਇੱਕ ਪ੍ਰੀਮੀਅਮ ਯੋਜਨਾ ਅਸੀਮਤ AI, ਸੁਰੱਖਿਅਤ ਇਤਿਹਾਸ, ਵਿਅਕਤੀਗਤ ਪੰਚਾਂਗ ਅਤੇ ਇੱਕ ਵਿਗਿਆਪਨ-ਮੁਕਤ ਅਨੁਭਵ ਨੂੰ ਅਨਲੌਕ ਕਰੇਗੀ।"
+        },
+        {
+          "q": "ਕਿਹੜੀਆਂ ਭਾਸ਼ਾਵਾਂ ਸਮਰਥਿਤ ਹਨ?",
+          "a": "ਲਾਂਚ 'ਤੇ ਅੰਗਰੇਜ਼ੀ ਅਤੇ ਹਿੰਦੀ। ਸੰਸਕ੍ਰਿਤ, ਮਰਾਠੀ, ਗੁਜਰਾਤੀ, ਤਾਮਿਲ, ਤੇਲਗੂ, ਕੰਨੜ ਅਤੇ ਬੰਗਾਲੀ ਰੋਡਮੈਪ 'ਤੇ ਹਨ।"
+        },
+        {
+          "q": "ਕੀ ਮੇਰਾ ਨਿੱਜੀ ਡੇਟਾ ਸੁਰੱਖਿਅਤ ਹੈ?",
+          "a": "ਬਿਲਕੁਲ। ਡੇਟਾ ਐਨਕ੍ਰਿਪਟਡ ਹੈ, ਕਦੇ ਨਹੀਂ ਵੇਚਿਆ ਜਾਂਦਾ, ਅਤੇ ਕਿਸੇ ਵੀ ਸਮੇਂ ਤੁਹਾਡੇ ਡੈਸ਼ਬੋਰਡ ਤੋਂ ਮਿਟਾਇਆ ਜਾ ਸਕਦਾ ਹੈ।"
+        }
+      ]
+    },
+    "newsletter": {
+      "badge": "ਹਫਤਾਵਾਰੀ ਸੰਖੇਪ",
+      "title": "ਪੰਚਾਂਗ, ਤਿਉਹਾਰ ਅਤੇ ਨਵੇਂ ਟੂਲ — ਤੁਹਾਡੇ ਇਨਬਾਕਸ ਵਿੱਚ।",
+      "body": "ਹਫਤਾਵਾਰੀ ਸਨਾਤਨ ਡਾਇਜੈਸਟ ਪ੍ਰਾਪਤ ਕਰਨ ਵਾਲੇ ਸ਼ੁਰੂਆਤੀ ਸ਼ਰਧਾਲੂਆਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ।"
+    },
+    "kundli_section": {
+      "eyebrow": "ਵੈਦਿਕ ਜੋਤਿਸ਼",
+      "title": "ਕੁੰਡਲੀ ਅਤੇ ਜੋਤਿਸ਼ ਔਜ਼ਾਰ",
+      "description": "ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦਾ ਪੂਰਾ ਸੰਗ੍ਰਹਿ — ਕੁੰਡਲੀ, ਮਿਲਾਨ, ਦਸ਼ਾ, ਮੁਹੂਰਤ, ਅੰਕ ਜੋਤਿਸ਼, ਵਾਸਤੂ, ਕਰੀਅਰ ਰਿਪੋਰਟ ਅਤੇ ਹੋਰ ਬਹੁਤ ਕੁਝ ਇੱਕੋ ਥਾਂ 'ਤੇ।",
+      "explore_all": "ਸਾਰੇ ਦੇਖੋ",
+      "open": "ਖੋਲ੍ਹੋ",
+      "trusted": "50,000+ ਸ਼ਰਧਾਲੂਆਂ ਦੁਆਰਾ ਵਿਸ਼ਵਾਸਯੋਗ",
+      "lahiri": "ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼",
+      "free_core": "100% ਮੁਫ਼ਤ ਔਜ਼ਾਰ",
+      "see_all": "ਸਾਰੇ ਜੋਤਿਸ਼ ਔਜ਼ਾਰ ਦੇਖੋ →"
+    },
+    "kundli_tools": {
+      "free_kundli": {
+        "title": "ਮੁਫ਼ਤ ਜਨਮ ਕੁੰਡਲੀ",
+        "desc": "D1/D9 ਚਾਰਟ, ਗ੍ਰਹਿ, ਭਾਵ ਅਤੇ AI ਵਿਆਖਿਆ ਸਮੇਤ ਪੂਰੀ ਕੁੰਡਲੀ।"
+      },
+      "kundli_matching": {
+        "title": "ਕੁੰਡਲੀ ਮਿਲਾਨ (ਗੁਣ ਮਿਲਾਨ)",
+        "desc": "ਅਸ਼ਟਕੂਟ 36 ਗੁਣ, ਮੰਗਲ ਅਤੇ ਨਾੜੀ ਦੋਸ਼ ਜਾਂਚ।"
+      },
+      "love_compatibility": {
+        "title": "ਪਿਆਰ ਅਨੁਕੂਲਤਾ",
+        "desc": "ਆਧੁਨਿਕ ਵੈਦਿਕ ਰਿਸ਼ਤੇ ਅਤੇ ਭਾਵਨਾਤਮਕ ਅਨੁਕੂਲਤਾ।"
+      },
+      "muhurat_finder": {
+        "title": "ਸ਼ੁਭ ਮੁਹੂਰਤ ਖੋਜਕ",
+        "desc": "ਚੌਘੜੀਆ, ਰਾਹੂ ਕਾਲ ਅਤੇ ਰੋਜ਼ਾਨਾ ਸ਼ੁਭ ਸਮਾਂ।"
+      },
+      "career_report": {
+        "title": "ਕਰੀਅਰ ਅਤੇ ਕਾਰੋਬਾਰ ਰਿਪੋਰਟ",
+        "desc": "ਦਸਵੇਂ ਭਾਵ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਅਤੇ ਕਰੀਅਰ ਗ੍ਰਹਿ।"
+      },
+      "varshphal": {
+        "title": "ਸਾਲਾਨਾ ਵਰਸ਼ਫਲ",
+        "desc": "ਮਹਾਦਸ਼ਾ ਅਤੇ ਸੂਰਜ ਚੱਕਰ ਤੋਂ ਸਾਲਾਨਾ ਰਾਸ਼ੀਫਲ।"
+      },
+      "numerology": {
+        "title": "ਅੰਕ ਜੋਤਿਸ਼ ਰਿਪੋਰਟ",
+        "desc": "ਮੂਲਾਂਕ ਅਤੇ ਭਾਗਿਆਂਕ ਨਾਲ ਵੈਦਿਕ ਗ੍ਰਹਿ ਕੰਪਨ।"
+      },
+      "vastu": {
+        "title": "ਵਾਸਤੂ ਸ਼ਾਸਤਰ ਗਾਈਡ",
+        "desc": "8 ਦਿਸ਼ਾਵਾਂ, ਕਮਰੇ ਦੀ ਸਥਿਤੀ ਅਤੇ ਉਪਾਅ।"
+      },
+      "baby_name": {
+        "title": "ਬੱਚੇ ਦਾ ਨਾਮਕਰਨ (AI)",
+        "desc": "ਨਕਸ਼ਤਰ, ਦੇਵਤਾ ਅਤੇ ਅਰਥ ਅਨੁਸਾਰ ਸੰਸਕ੍ਰਿਤ ਨਾਮ।"
+      },
+      "rashi_calc": {
+        "title": "ਰਾਸ਼ੀ ਕੈਲਕੁਲੇਟਰ",
+        "desc": "ਆਪਣੀ ਚੰਦਰ ਰਾਸ਼ੀ ਸਹੀ ਲੱਭੋ।"
+      },
+      "nakshatra_finder": {
+        "title": "ਨਕਸ਼ਤਰ ਖੋਜਕ",
+        "desc": "ਆਪਣਾ ਜਨਮ ਨਕਸ਼ਤਰ, ਚਰਨ ਅਤੇ ਦੇਵਤਾ ਜਾਣੋ।"
+      },
+      "gemstone": {
+        "title": "ਰਤਨ ਸੁਝਾਅ",
+        "desc": "ਲਗਨ ਅਤੇ ਗ੍ਰਹਿਆਂ ਅਨੁਸਾਰ ਸ਼ੁਭ ਰਤਨ ਸਲਾਹ।"
+      }
+    }
+  },
+  "categories": {
+    "panchang": {
+      "title": "ਪੰਚਾਂਗ",
+      "short": "ਪੰਚਾਂਗ"
+    },
+    "festivals": {
+      "title": "ਤਿਉਹਾਰ",
+      "short": "ਤਿਉਹਾਰ"
+    },
+    "puja": {
+      "title": "ਪੂਜਾ",
+      "short": "ਪੂਜਾ"
+    },
+    "mantras": {
+      "title": "ਮੰਤਰ",
+      "short": "ਮੰਤਰ"
+    },
+    "ai": {
+      "title": "AI ਟੂਲ",
+      "short": "AI ਟੂਲ"
+    },
+    "temples": {
+      "title": "ਮੰਦਰ",
+      "short": "ਮੰਦਰ"
+    },
+    "calculators": {
+      "title": "ਕੈਲਕੁਲੇਟਰ",
+      "short": "ਕੈਲਕੁਲੇਟਰ"
+    },
+    "sanskrit": {
+      "title": "ਸੰਸਕ੍ਰਿਤ",
+      "short": "ਸੰਸਕ੍ਰਿਤ"
+    },
+    "baby-names": {
+      "title": "ਬੱਚਿਆਂ ਦੇ ਨਾਮ",
+      "short": "ਬੱਚਿਆਂ ਦੇ ਨਾਮ"
+    },
+    "learning": {
+      "title": "ਸਿੱਖਣਾ",
+      "short": "ਸਿੱਖਣਾ"
+    }
+  },
+  "forms": {
+    "required": "ਲੋੜੀਂਦਾ",
+    "optional": "ਵਿਕਲਪਿਕ",
+    "invalid_email": "ਇੱਕ ਵੈਧ ਈਮੇਲ ਪਤਾ ਦਾਖਲ ਕਰੋ",
+    "submitting": "ਜਮ੍ਹਾਂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
+    "success": "ਸਫਲਤਾਪੂਰਵਕ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ"
+  },
+  "errors": {
+    "not_found_title": "ਪੰਨਾ ਨਹੀਂ ਲੱਭਿਆ",
+    "not_found_body": "ਇਹ ਪੰਨਾ ਮੌਜੂਦ ਨਹੀਂ ਹੈ ਜਾਂ ਇਸਨੂੰ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਸੀ। ਘਰ ਵਾਪਸ ਜਾਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "not_found_code": "404",
+    "boundary_title": "ਇਹ ਪੰਨਾ ਲੋਡ ਨਹੀਂ ਹੋਇਆ",
+    "boundary_body": "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਤੁਸੀਂ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ, ਜਾਂ ਘਰ ਵਾਪਸ ਜਾ ਸਕਦੇ ਹੋ।",
+    "server_title": "ਸਰਵਰ ਗਲਤੀ",
+    "server_code": "500",
+    "server_body": "ਸਾਡੇ ਸਰਵਰਾਂ ਨੂੰ ਇੱਕ ਅਚਾਨਕ ਸਮੱਸਿਆ ਆਈ। ਕਿਰਪਾ ਕਰਕੇ ਕੁਝ ਦੇਰ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+  },
+  "loading": {
+    "default": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ…",
+    "tools": "ਟੂਲ ਲੋਡ ਹੋ ਰਹੇ ਹਨ…",
+    "panchang": "ਪੰਚਾਂਗ ਦੀ ਗਣਨਾ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"
+  },
+  "search": {
+    "title": "ਖੋਜ",
+    "placeholder": "100+ ਟੂਲ, ਮੰਤਰ, ਤਿਉਹਾਰ ਖੋਜੋ…",
+    "no_results": "ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ। ਕੋਈ ਵੱਖਰਾ ਕੀਵਰਡ ਅਜ਼ਮਾਓ।",
+    "results_for": "“{{q}}” ਲਈ ਨਤੀਜੇ"
+  },
+  "settings": {
+    "title": "ਸੈਟਿੰਗਾਂ",
+    "appearance": "ਦਿੱਖ",
+    "language": "ਭਾਸ਼ਾ",
+    "notifications": "ਸੂਚਨਾਵਾਂ",
+    "account": "ਖਾਤਾ",
+    "danger": "ਖਤਰਨਾਕ ਜ਼ੋਨ"
+  },
+  "theme": {
+    "toggle": "ਥੀਮ ਬਦਲੋ",
+    "light": "ਹਲਕਾ",
+    "dark": "ਹਨੇਰਾ",
+    "system": "ਸਿਸਟਮ"
+  },
+  "a11y": {
+    "language_switcher": "ਭਾਸ਼ਾ ਬਦਲੋ",
+    "open_menu": "ਮੀਨੂ ਖੋਲ੍ਹੋ",
+    "close_menu": "ਮੀਨੂ ਬੰਦ ਕਰੋ",
+    "toggle_menu": "ਮੀਨੂ ਟੌਗਲ ਕਰੋ",
+    "account": "ਖਾਤਾ",
+    "subscribe": "ਸਬਸਕ੍ਰਾਈਬ ਕਰੋ",
+    "social_link": "ਸੋਸ਼ਲ ਲਿੰਕ",
+    "home": "SanatanTools ਹੋਮ"
+  },
+  "tool_shell": {
+    "hero_status_live": "ਹੁਣ ਲਾਈਵ",
+    "hero_status_beta": "ਜਨਤਕ ਬੀਟਾ",
+    "hero_status_coming": "ਜਲਦੀ ਆ ਰਿਹਾ ਹੈ",
+    "copy": "ਕਾਪੀ ਕਰੋ",
+    "copied": "ਕਲਿੱਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ",
+    "copy_failed": "ਕਾਪੀ ਕਰਨ ਵਿੱਚ ਅਸਫਲ",
+    "share": "ਸਾਂਝਾ ਕਰੋ",
+    "share_copied": "ਲਿੰਕ ਕਾਪੀ ਕੀਤਾ ਗਿਆ — ਇਸਨੂੰ ਕਿਤੇ ਵੀ ਸਾਂਝਾ ਕਰੋ",
+    "how_to_use_eyebrow": "ਕਿਵੇਂ ਵਰਤਣਾ ਹੈ",
+    "how_to_use_title": "ਕਦਮ ਦਰ ਕਦਮ",
+    "benefits_eyebrow": "ਲਾਭ",
+    "benefits_title": "ਭਗਤ ਇਸਨੂੰ ਕਿਉਂ ਪਸੰਦ ਕਰਦੇ ਹਨ",
+    "faq_eyebrow": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ",
+    "faq_title": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ",
+    "related_eyebrow": "ਸੰਬੰਧਿਤ",
+    "related_title": "{category} ਵਿੱਚ ਹੋਰ",
+    "related_title_default": "ਇਸ ਤਰ੍ਹਾਂ ਦੇ ਹੋਰ",
+    "related_description": "ਹੱਥੀਂ ਚੁਣੇ ਗਏ ਟੂਲ ਜੋ ਤੁਹਾਨੂੰ ਅੱਗੇ ਪਸੰਦ ਆਉਣਗੇ।",
+    "browse_all": "ਸਾਰੇ ਟੂਲ ਬ੍ਰਾਊਜ਼ ਕਰੋ",
+    "tools_breadcrumb": "ਟੂਲ",
+    "how_generic": [
+      "ਟੂਲ ਖੋਲ੍ਹੋ — ਕੋਈ ਸਾਈਨਅੱਪ ਦੀ ਲੋੜ ਨਹੀਂ।",
+      "ਦਿਖਾਏ ਗਏ ਇਨਪੁਟਸ ਦਾਖਲ ਕਰੋ ਜਾਂ ਚੁਣੋ।",
+      "ਨਤੀਜਾ ਪੜ੍ਹੋ — ਇੱਕ ਟੈਪ ਨਾਲ ਕਾਪੀ ਜਾਂ ਸਾਂਝਾ ਕਰੋ।",
+      "ਕਿਸੇ ਵੀ ਸਮੇਂ ਤੁਰੰਤ ਪਹੁੰਚ ਲਈ ਬੁੱਕਮਾਰਕ ਕਰੋ।"
+    ],
+    "benefits_generic": [
+      "ਮੁਫ਼ਤ, ਤੇਜ਼ ਅਤੇ ਘੱਟ ਇਸ਼ਤਿਹਾਰਾਂ ਵਾਲਾ।",
+      "ਰੋਜ਼ਾਨਾ ਅਭਿਆਸ ਲਈ ਬਣਾਇਆ ਗਿਆ।",
+      "ਹਰ ਡਿਵਾਈਸ 'ਤੇ ਕੰਮ ਕਰਦਾ ਹੈ।",
+      "ਰਵਾਇਤੀ ਸਰੋਤਾਂ 'ਤੇ ਅਧਾਰਤ।"
+    ],
+    "faqs_generic": [
+      {
+        "q": "ਕੀ ਇਹ ਟੂਲ ਮੁਫ਼ਤ ਹੈ?",
+        "a": "ਹਾਂ — ਹਰ SanatanTools ਉਪਯੋਗਤਾ ਮੁਫ਼ਤ ਅਤੇ ਘੱਟ ਇਸ਼ਤਿਹਾਰਾਂ ਵਾਲੀ ਹੈ।"
+      },
+      {
+        "q": "ਕੀ ਮੈਨੂੰ ਸਾਈਨ ਅੱਪ ਕਰਨ ਦੀ ਲੋੜ ਹੈ?",
+        "a": "ਕੋਈ ਸਾਈਨਅੱਪ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ। ਸਿਰਫ਼ ਤਾਂ ਹੀ ਸਾਈਨ ਇਨ ਕਰੋ ਜੇਕਰ ਤੁਸੀਂ ਡਿਵਾਈਸਾਂ ਵਿੱਚ ਬੁੱਕਮਾਰਕ ਅਤੇ ਇਤਿਹਾਸ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।"
+      },
+      {
+        "q": "ਡਾਟਾ ਕਿੰਨਾ ਸਹੀ ਹੈ?",
+        "a": "ਅਸੀਂ ਰਵਾਇਤੀ ਸ਼ਾਸਤਰਾਂ ਤੋਂ ਸਰੋਤ ਲੈਂਦੇ ਹਾਂ ਅਤੇ ਜਿੱਥੇ ਗਣਨਾ ਸ਼ਾਮਲ ਹੁੰਦੀ ਹੈ ਉੱਥੇ ਮਿਆਰੀ ਦ੍ਰਿਕ-ਸ਼ੁੱਧਤਾ ਖਗੋਲ ਵਿਗਿਆਨ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹਾਂ।"
+      }
+    ],
+    "faqs_panchang": [
+      {
+        "q": "{topic} ਦੀ ਗਣਨਾ ਕਿਵੇਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ?",
+        "a": "ਅਸੀਂ ਅਸਲ ਸੂਰਜੀ ਅਤੇ ਚੰਦਰ ਐਫੀਮੇਰਾਈਡਜ਼ ਦੇ ਨਾਲ ਖਗੋਲ ਵਿਗਿਆਨ-ਇੰਜਣ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹਾਂ। ਨਕਸ਼ਤਰ ਅਤੇ ਯੋਗ ਲਾਹਿਰੀ (ਚਿੱਤਰਪਕਸ਼) ਅਯਨਮਸਾ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹਨ।"
+      },
+      {
+        "q": "ਕੀ ਇਹ ਕਿਸੇ ਵੀ ਸ਼ਹਿਰ ਲਈ ਕੰਮ ਕਰਦਾ ਹੈ?",
+        "a": "ਹਾਂ — ਕੋਈ ਵੀ ਸ਼ਹਿਰ ਪ੍ਰੀਸੈਟ ਚੁਣੋ ਜਾਂ ਆਪਣਾ ਖੁਦ ਦਾ ਸੈੱਟ ਕਰੋ। ਸਾਰੇ ਸਮੇਂ ਅਸਲ ਸੂਰਜ ਚੜ੍ਹਨ, ਸੂਰਜ ਡੁੱਬਣ ਅਤੇ ਸਮਾਂ ਖੇਤਰ ਦਾ ਸਨਮਾਨ ਕਰਦੇ ਹਨ।"
+      },
+      {
+        "q": "ਦੂਜੇ ਪੰਚਾਂਗ ਤੋਂ ਕਿਉਂ ਵੱਖਰਾ ਹੈ?",
+        "a": "ਕੁਝ ਰਵਾਇਤੀ ਪੰਚਾਂਗ ਵੱਖ-ਵੱਖ ਅਯਨਮਸਾ ਪ੍ਰਣਾਲੀਆਂ (ਰਾਮਨ, ਕ੍ਰਿਸ਼ਨਮੂਰਤੀ) ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹਨ। ਮੁੱਲ ਇੱਕ ਛੋਟੇ ਫਰਕ ਦੇ ਅੰਦਰ ਆਧੁਨਿਕ ਦ੍ਰਿਕ ਪੰਚਾਂਗਾਂ ਨਾਲ ਮੇਲ ਖਾਂਦੇ ਹਨ।"
+      },
+      {
+        "q": "ਕੀ ਮੇਰਾ ਟਿਕਾਣਾ ਸੁਰੱਖਿਅਤ ਹੈ?",
+        "a": "ਹਾਂ — ਸਿਰਫ਼ ਤੁਹਾਡੀ ਡਿਵਾਈਸ 'ਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ ਹੈ। ਸਰਵਰ 'ਤੇ ਕੁਝ ਵੀ ਨਹੀਂ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ।"
+      }
+    ],
+    "panchang_topics": {
+      "panchang": "ਪੰਚਾਂਗ",
+      "tithi": "ਤਿਥੀ",
+      "nakshatra": "ਨਕਸ਼ਤਰ",
+      "yoga": "ਯੋਗ",
+      "karana": "ਕਰਨ",
+      "sunrise": "ਸੂਰਜ ਚੜ੍ਹਨਾ",
+      "sunset": "ਸੂਰਜ ਡੁੱਬਣਾ",
+      "rahu_kaal": "ਰਾਹੂ ਕਾਲ",
+      "gulika_kaal": "ਗੁਲਿਕਾ ਕਾਲ",
+      "yamaganda": "ਯਮਗੰਡ",
+      "choghadiya": "ਚੌਘੜੀਆ"
+    },
+    "use_cases_eyebrow": "ਆਮ ਵਰਤੋਂ",
+    "use_cases_title": "ਲੋਕ {{title}} ਕਦੋਂ ਵਰਤਦੇ ਹਨ",
+    "mistakes_eyebrow": "ਆਮ ਗਲਤੀਆਂ",
+    "mistakes_title": "ਇਹਨਾਂ ਤੋਂ ਬਚੋ",
+    "examples_eyebrow": "ਉਦਾਹਰਨਾਂ",
+    "examples_title": "{{title}} ਦੇ ਨਮੂਨਾ ਨਤੀਜੇ",
+    "method_eyebrow": "ਵਿਧੀ",
+    "accuracy_eyebrow": "ਸ਼ੁੱਧਤਾ",
+    "accuracy_title": "ਸੁਤੰਤਰ ਤੌਰ ਤੇ ਪ੍ਰਮਾਣਿਤ",
+    "privacy_eyebrow": "ਗੋਪਨੀਯਤਾ",
+    "privacy_title": "ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡੇ ਕੋਲ ਹੀ ਰਹਿੰਦਾ ਹੈ",
+    "premium_eyebrow": "ਹੋਰ ਡੂੰਘਾਈ ਵਿੱਚ ਜਾਓ",
+    "premium_title": "ਪ੍ਰੀਮੀਅਮ ਰਿਪੋਰਟਾਂ ਅਤੇ AI ਵਿਆਖਿਆ ਅਨਲੌਕ ਕਰੋ",
+    "premium_desc": "ਵਿਸਤ੍ਰਿਤ PDF ਰਿਪੋਰਟਾਂ, ਵਿਅਕਤੀਗਤ AI ਮਾਰਗਦਰਸ਼ਨ ਅਤੇ ਤਰਜੀਹ — ਪ੍ਰੋਜੈਕਟ ਦਾ ਸਮਰਥਨ ਕਰੋ।",
+    "premium_cta": "ਪ੍ਰੀਮੀਅਮ ਲਓ",
+    "support_cta": "ਸਹਿਯੋਗ ਕਰੋ",
+    "articles_eyebrow": "ਸੰਬੰਧਿਤ ਲੇਖ",
+    "articles_title": "SanatanTools ਜਰਨਲ ਤੋਂ ਹੋਰ ਸਿੱਖੋ",
+    "article_badge": "ਲੇਖ",
+    "article_read_more": "ਹੋਰ ਪੜ੍ਹੋ",
+    "article_complete_guide": "{{title}} ਦੀ ਸੰਪੂਰਨ ਗਾਈਡ",
+    "article_foundational": "{{category}} — ਮੌਲਿਕ ਸ਼ਾਸਤਰ",
+    "article_daily_practice": "{{title}} ਨਾਲ ਰੋਜ਼ਾਨਾ ਅਭਿਆਸ"
+  },
+  "tool_page": {
+    "meta_title": "{title} — {category}",
+    "meta_title_default": "{title} — SanatanTools",
+    "not_found_title": "ਟੂਲ ਨਹੀਂ ਮਿਲਿਆ",
+    "not_found_body": "ਜਿਸ ਟੂਲ ਦੀ ਤੁਸੀਂ ਭਾਲ ਕਰ ਰਹੇ ਹੋ, ਉਹ ਅਜੇ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।",
+    "error_title": "ਇਹ ਟੂਲ ਲੋਡ ਹੋਣ ਵਿੱਚ ਅਸਫਲ ਰਿਹਾ",
+    "error_body": "ਇਸ ਟੂਲ ਨੂੰ ਰੈਂਡਰ ਕਰਦੇ ਸਮੇਂ ਇੱਕ ਅਣਕਿਆਸੀ ਗਲਤੀ ਆਈ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "notify_title": "ਸੂਚਿਤ ਕਰੋ",
+    "notify_body": "ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਜਾਣੋ ਜਦੋਂ {title} ਲਾਈਵ ਹੋਵੇਗਾ।",
+    "notify_cta": "ਮੈਨੂੰ ਸੂਚਿਤ ਕਰੋ",
+    "open_tool": "ਟੂਲ ਖੋਲ੍ਹੋ",
+    "save": "ਸੇਵ ਕਰੋ",
+    "explore_category": "{category} ਦੀ ਪੜਚੋਲ ਕਰੋ",
+    "crafted_title": "ਇਹ ਟੂਲ ਧਿਆਨ ਨਾਲ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ।",
+    "crafted_body": "ਅਸੀਂ ਹਰ SanatanTool ਨੂੰ ਸੁੰਦਰ, ਤੇਜ਼ ਅਤੇ ਸਹੀ ਬਣਾਉਣ ਲਈ ਡਿਜ਼ਾਈਨ ਕਰ ਰਹੇ ਹਾਂ। ਇਸਨੂੰ ਸਭ ਤੋਂ ਪਹਿਲਾਂ ਅਜ਼ਮਾਉਣ ਲਈ ਹੇਠਾਂ ਦਿੱਤੀ ਸ਼੍ਰੇਣੀ ਦੀ ਪਾਲਣਾ ਕਰੋ।",
+    "popular_eyebrow": "ਪ੍ਰਚਲਿਤ",
+    "popular_title": "ਹੁਣੇ ਪ੍ਰਸਿੱਧ",
+    "popular_description": "SanatanTools ਵਿੱਚ ਸ਼ਰਧਾਲੂ ਸਭ ਤੋਂ ਵੱਧ ਕੀ ਖੋਜ ਰਹੇ ਹਨ।",
+    "added": "{date} ਨੂੰ ਜੋੜਿਆ ਗਿਆ"
+  },
+  "tool_hub": {
+    "meta_title": "ਸਾਰੇ ਟੂਲ — SanatanTools",
+    "meta_description": "100+ Sanatan Dharma ਟੂਲ ਬ੍ਰਾਊਜ਼ ਕਰੋ — ਪੰਚਾਂਗ, ਮੰਤਰ, ਤਿਉਹਾਰ, ਮੰਦਰ, ਕੈਲਕੁਲੇਟਰ, ਸੰਸਕ੍ਰਿਤ, ਬੱਚਿਆਂ ਦੇ ਨਾਮ ਅਤੇ AI। ਫਿਲਟਰ ਕਰੋ, ਖੋਜੋ ਅਤੇ ਲੱਭੋ।",
+    "breadcrumb": "ਸਾਰੇ ਟੂਲ",
+    "badge_count": "{tools} ਟੂਲ {categories} ਸ਼੍ਰੇਣੀਆਂ ਵਿੱਚ",
+    "hero_pre": "ਸੰਪੂਰਨ",
+    "hero_highlight": "ਟੂਲਜ਼ ਹੱਬ",
+    "hero_subtitle": "ਹਰ SanatanTools ਉਪਯੋਗਤਾ ਨੂੰ ਖੋਜੋ, ਫਿਲਟਰ ਕਰੋ ਅਤੇ ਲੱਭੋ — ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ ਅਤੇ ਮੰਤਰਾਂ ਤੋਂ ਲੈ ਕੇ AI-ਸੰਚਾਲਿਤ ਯੋਜਨਾਕਾਰਾਂ ਤੱਕ।",
+    "search_placeholder": "ਟੂਲ, ਟੈਗ, ਸ਼੍ਰੇਣੀਆਂ ਖੋਜੋ…",
+    "clear_search": "ਖੋਜ ਸਾਫ਼ ਕਰੋ",
+    "filter_label": "ਫਿਲਟਰ",
+    "filter_category": "ਸ਼੍ਰੇਣੀ",
+    "filter_category_all": "ਸਾਰੀਆਂ ਸ਼੍ਰੇਣੀਆਂ",
+    "filter_status": "ਸਥਿਤੀ",
+    "filter_status_all": "ਕੋਈ ਵੀ ਸਥਿਤੀ",
+    "filter_status_live": "ਲਾਈਵ",
+    "filter_status_beta": "ਬੀਟਾ",
+    "filter_status_coming": "ਜਲਦੀ ਆ ਰਿਹਾ ਹੈ",
+    "sort_label": "ਕ੍ਰਮਬੱਧ ਕਰੋ",
+    "sort_popular": "ਸਭ ਤੋਂ ਪ੍ਰਸਿੱਧ",
+    "sort_recent": "ਹਾਲ ਹੀ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤੇ ਗਏ",
+    "sort_az": "A – Z",
+    "reset": "ਰੀਸੈਟ ਕਰੋ",
+    "results_all": "ਸਾਰੇ ਟੂਲ",
+    "results_filtered": "ਫਿਲਟਰ ਕੀਤੇ ਗਏ",
+    "results_count": "{count} ਟੂਲ",
+    "empty_title": "ਕੋਈ ਵੀ ਟੂਲ ਇਹਨਾਂ ਫਿਲਟਰਾਂ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ",
+    "empty_description": "ਫਿਲਟਰ ਸਾਫ਼ ਕਰਨ ਜਾਂ ਵੱਖਰੇ ਕੀਵਰਡਾਂ ਨਾਲ ਖੋਜ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "popular_eyebrow": "ਪ੍ਰਚਲਿਤ",
+    "popular_title": "ਸਭ ਤੋਂ ਪ੍ਰਸਿੱਧ ਟੂਲ",
+    "popular_description": "ਇਸ ਹਫ਼ਤੇ ਸ਼ਰਧਾਲੂ ਸਭ ਤੋਂ ਵੱਧ ਕੀ ਖੋਜ ਰਹੇ ਹਨ।",
+    "recent_eyebrow": "ਤਾਜ਼ਾ",
+    "recent_title": "ਹਾਲ ਹੀ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤੇ ਗਏ",
+    "recent_description": "SanatanTools ਪਰਿਵਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਵਾਲੀਆਂ ਨਵੀਨਤਮ ਉਪਯੋਗਤਾਵਾਂ।",
+    "view_all": "ਸਾਰੇ ਦੇਖੋ",
+    "categories_eyebrow": "ਸ਼੍ਰੇਣੀ ਅਨੁਸਾਰ ਬ੍ਰਾਊਜ਼ ਕਰੋ",
+    "categories_title": "ਖੋਜਣ ਲਈ 10 ਸ਼੍ਰੇਣੀਆਂ",
+    "featured_eyebrow": "ਵਿਸ਼ੇਸ਼"
+  },
+  "horoscope": {
+    "periods": {
+      "daily": "ਰੋਜ਼ਾਨਾ",
+      "weekly": "ਹਫ਼ਤਾਵਾਰੀ",
+      "monthly": "ਮਾਸਿਕ",
+      "yearly": "ਸਾਲਾਨਾ"
+    },
+    "signs": {
+      "aries": "ਮੇਖ",
+      "taurus": "ਵ੍ਰਿਸ਼ਭ",
+      "gemini": "ਮਿਥੁਨ",
+      "cancer": "ਕਰਕ",
+      "leo": "ਸਿੰਘ",
+      "virgo": "ਕੰਨਿਆ",
+      "libra": "ਤੁਲਾ",
+      "scorpio": "ਵ੍ਰਿਸ਼ਚਿਕ",
+      "sagittarius": "ਧਨੁ",
+      "capricorn": "ਮਕਰ",
+      "aquarius": "ਕੁੰਭ",
+      "pisces": "ਮੀਨ"
+    },
+    "elements": {
+      "fire": "ਅਗਨੀ",
+      "earth": "ਪ੍ਰਿਥਵੀ",
+      "air": "ਵਾਯੂ",
+      "water": "ਜਲ"
+    },
+    "planets": {
+      "sun": "ਸੂਰਜ",
+      "moon": "ਚੰਦਰਮਾ",
+      "mars": "ਮੰਗਲ",
+      "mercury": "ਬੁੱਧ",
+      "jupiter": "ਬ੍ਰਹਿਸਪਤੀ",
+      "venus": "ਸ਼ੁੱਕਰ",
+      "saturn": "ਸ਼ਨੀ",
+      "rahu": "Rahu",
+      "ketu": "Ketu"
+    },
+    "categories": {
+      "money": "ਧਨ",
+      "career": "ਕੈਰੀਅਰ",
+      "business": "ਵਪਾਰ",
+      "finance": "ਵਿੱਤ",
+      "love": "ਪਿਆਰ",
+      "relationships": "ਰਿਸ਼ਤੇ",
+      "family": "ਪਰਿਵਾਰ",
+      "education": "ਸਿੱਖਿਆ",
+      "travel": "ਯਾਤਰਾ",
+      "health": "ਸਿਹਤ",
+      "spiritual": "ਅਧਿਆਤਮਿਕ",
+      "social": "ਸਮਾਜਿਕ",
+      "productivity": "ਉਤਪਾਦਕਤਾ",
+      "communication": "ਸੰਚਾਰ",
+      "confidence": "ਆਤਮਵਿਸ਼ਵਾਸ"
+    },
+    "panchangLabels": {
+      "tithi": "Tithi",
+      "nakshatra": "Nakshatra",
+      "yoga": "Yoga",
+      "favourableDays": "ਸ਼ੁਭ ਦਿਨ",
+      "cautionDays": "ਸਾਵਧਾਨੀ ਵਾਲੇ ਦਿਨ",
+      "bestWeek": "ਸਭ ਤੋਂ ਵਧੀਆ ਹਫ਼ਤਾ",
+      "sensitiveWeek": "ਸਭ ਤੋਂ ਸੰਵੇਦਨਸ਼ੀਲ ਹਫ਼ਤਾ",
+      "quarter": "Q{n}"
+    },
+    "loader": {
+      "title": "ਤੁਹਾਡਾ {period} Rashifal ਗਣਨਾ ਕਰ ਰਿਹਾ ਹੈ…",
+      "subtitle": "ਗ੍ਰਹਿਆਂ ਦੀਆਂ ਲਾਈਵ ਸਥਿਤੀਆਂ ਅਤੇ Panchang ਡੇਟਾ ਪੜ੍ਹ ਰਿਹਾ ਹੈ।"
+    },
+    "error": "ਇਸ ਸਮੇਂ ਇਹ Rashifal ਲੋਡ ਨਹੀਂ ਹੋ ਸਕਦਾ। ਕਿਰਪਾ ਕਰਕੇ ਥੋੜ੍ਹੀ ਦੇਰ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "overall": "ਕੁੱਲ ਸਕੋਰ",
+    "outOf100": "100 ਵਿੱਚੋਂ · {range}",
+    "luckyNumber": "ਸ਼ੁਭ ਅੰਕ",
+    "luckyColour": "ਸ਼ੁਭ ਰੰਗ",
+    "luckyDirection": "ਸ਼ੁਭ ਦਿਸ਼ਾ",
+    "lifeAreas": "ਜੀਵਨ ਖੇਤਰ",
+    "whatFavoursYou": "ਤੁਹਾਡੇ ਲਈ ਕੀ ਅਨੁਕੂਲ ਹੈ",
+    "whatToAvoid": "ਕਿਸ ਤੋਂ ਬਚਣਾ ਚਾਹੀਦਾ ਹੈ",
+    "steadyDayFallback": "ਕੁੱਲ ਮਿਲਾ ਕੇ ਇੱਕ ਸਥਿਰ, ਸੰਤੁਲਿਤ ਦਿਨ।",
+    "noCautionsFallback": "ਅੱਜ ਕੋਈ ਖਾਸ ਸਾਵਧਾਨੀ ਨਹੀਂ।",
+    "panchangContext": "Panchang ਸੰਦਰਭ",
+    "detailTitle": "{sign} {period} Rashifal",
+    "ruledBy": "{planet} ਦੁਆਰਾ ਸ਼ਾਸਿਤ",
+    "periodsNav": "Rashifal ਦੇ ਕਾਲ",
+    "questionsEyebrow": "ਪ੍ਰਸ਼ਨ",
+    "faqTitle": "{period} Rashifal ਬਾਰੇ ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਪ੍ਰਸ਼ਨ",
+    "faqDescription": "ਇਸ Rashifal ਦੀ ਗਣਨਾ ਕਿਵੇਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ, ਬਾਰੇ ਉਹ ਸਭ ਕੁਝ ਜੋ ਤੁਹਾਨੂੰ ਜਾਣਨ ਦੀ ਲੋੜ ਹੈ।",
+    "allRashisEyebrow": "ਸਾਰੇ Rashis",
+    "allRashisTitle": "ਸਾਰੇ 12 Rashis ਲਈ {period} Rashifal",
+    "allRashisDescription": "ਹਰ zodiac ਚਿੰਨ੍ਹ ਲਈ Rashifal ਦੀ ਪੜਚੋਲ ਕਰੋ।",
+    "hub": {
+      "title": "ਅੱਜ ਦਾ {period} Rashifal",
+      "description": "ਸਾਰੇ 12 Rashis ਲਈ ਮੁਫ਼ਤ Vedic {period} Rashifal, sidereal ਗ੍ਰਹਿਆਂ ਦੀਆਂ ਸਥਿਤੀਆਂ ਤੋਂ ਲਾਈਵ ਗਣਨਾ ਕੀਤਾ ਗਿਆ।",
+      "shareTitle": "ਅੱਜ ਦਾ {period} Rashifal"
+    },
+    "grid": {
+      "periodDates": "{period} · {dates}"
+    },
+    "notFound": {
+      "title": "Rashi ਨਹੀਂ ਮਿਲਿਆ",
+      "cta": "Rashifal 'ਤੇ ਵਾਪਸ"
+    },
+    "faq": {
+      "whoSign": "{english} ({sanskrit})",
+      "whoDefault": "ਹਰ Rashi",
+      "calculated": {
+        "question": "{who} ਲਈ {period} Rashifal ਦੀ ਗਣਨਾ ਕਿਵੇਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ?",
+        "answer": "ਇਹ ਸਾਡੇ sidereal ਖਗੋਲ ਵਿਗਿਆਨ ਅਤੇ Panchang ਇੰਜਣਾਂ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਅਸਲ ਗ੍ਰਹਿਆਂ ਦੀਆਂ ਸਥਿਤੀਆਂ ਤੋਂ ਤਿਆਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ — ਤੁਹਾਡੇ Rashi ਦੇ ਸਾਪੇਖਕ ਚੰਦਰਮਾ ਦਾ ਗੋਚਾਰ (Chandra Gochar), Tithi, Nakshatra ਅਤੇ Yoga। ਕੋਈ ਵੀ ਸਮੱਗਰੀ ਹਰ ਦਿਨ ਹੱਥ ਨਾਲ ਨਹੀਂ ਲਿਖੀ ਜਾਂਦੀ।"
+      },
+      "zodiacSystem": {
+        "question": "ਤੁਸੀਂ ਕਿਹੜਾ zodiac ਸਿਸਟਮ ਵਰਤਦੇ ਹੋ?",
+        "answer": "Vedic (sidereal) astrology, Lahiri Ayanamsa ਦੇ ਨਾਲ, ਤੁਹਾਡੀ Moon sign (Rashi) 'ਤੇ ਅਧਾਰਤ ਹੈ ਨਾ ਕਿ ਪੱਛਮੀ Sun sign 'ਤੇ।"
+      },
+      "free": {
+        "question": "ਕੀ ਇਹ Rashifal ਮੁਫ਼ਤ ਹੈ?",
+        "answer": "ਹਾਂ। ਸਾਰੇ 12 Rashi Rashifals ਪੜ੍ਹਨ ਲਈ ਮੁਫ਼ਤ ਹਨ। ਤੁਹਾਡੇ ਪੂਰੇ ਜਨਮ ਚਾਰਟ 'ਤੇ ਅਧਾਰਤ ਵਿਅਕਤੀਗਤ Rashifals ਪ੍ਰੀਮੀਅਮ ਪਲਾਨ ਦਾ ਹਿੱਸਾ ਹਨ।"
+      },
+      "updated": {
+        "question": "ਇਹ ਕਿੰਨੀ ਵਾਰ ਅੱਪਡੇਟ ਕੀਤਾ ਜਾਂਦਾ ਹੈ?",
+        "answer": "{period} Rashifal ਹਰ ਵਾਰ ਪੰਨਾ ਲੋਡ ਹੋਣ 'ਤੇ ਲਾਈਵ ਗ੍ਰਹਿਆਂ ਦੇ ਡੇਟਾ ਤੋਂ ਦੁਬਾਰਾ ਗਣਨਾ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਇਸ ਲਈ ਇਹ ਹਮੇਸ਼ਾ ਵਰਤਮਾਨ ਹੁੰਦਾ ਹੈ।"
+      }
+    }
+  },
+  "badges": {
+    "popular": "ਮਸ਼ਹੂਰ",
+    "new": "ਨਵਾਂ",
+    "premium": "ਪ੍ਰੀਮੀਅਮ"
+  },
+  "kundli": {
+    "landing": {
+      "breadcrumb_home": "Home",
+      "breadcrumb_current": "Janam Kundli"
+    },
+    "hero": {
+      "badge": "Vedic Astrological Engine · 100% Free",
+      "title_line1": "Free Janam Kundli",
+      "title_line2": "Online Generator",
+      "subtitle": "Get your accurate Vedic birth chart, planetary longitudes, lagna, rashi, nakshatra, vimshottari dasha and instant AI report in seconds.",
+      "benefits": {
+        "accuracy": "99.77% Ephemeris Accuracy",
+        "languages": "PDF in 12 Languages",
+        "styles": "North / South / East Styles",
+        "free": "100% Free & Unlimited"
+      },
+      "reviews_count": "50,000+ Reviews",
+      "kundlis_generated": "Kundlis Generated",
+      "private_secure": "100% Private & Safe",
+      "form_title": "Birth Details Form",
+      "form_time_hint": "Accurate time gives exact Lagna",
+      "form_aria_label": "Enter birth details to compute Janam Kundli",
+      "form": {
+        "name_label": "Full Name",
+        "optional": "optional",
+        "name_placeholder": "e.g. Rahul Sharma",
+        "gender_label": "Gender",
+        "gender_select": "Select Gender",
+        "gender_male": "Male",
+        "gender_female": "Female",
+        "gender_other": "Other",
+        "dob_label": "Date of Birth",
+        "tob_label": "Time of Birth",
+        "place_label": "Place of Birth",
+        "language_label": "PDF Language",
+        "submit": "Generate Janam Kundli",
+        "calculating": "Calculating planetary longitudes…",
+        "privacy_note": "Your birth details are stored locally in your browser and never sold."
+      },
+      "loader": {
+        "title": "Computing Your Janam Kundli…",
+        "subtitle": "Calculating planetary longitudes, vargas, dashas & chart positions",
+        "tip1": "Lahiri Ayanamsa provides exact sidereal planetary positions.",
+        "tip2": "D1 chart (Lagna) reveals physical personality and life journey.",
+        "tip3": "D9 chart (Navamsha) shows spiritual path, marriage & destiny.",
+        "tip4": "Vimshottari Dasha details timing of major life events.",
+        "tip5": "Moon sign (Chandra Rashi) governs emotional nature and mind.",
+        "tip6": "Shadbala evaluates exact numerical planetary strengths."
+      }
+    },
+    "trust": {
+      "mit_engine": "MIT Astronomy Engine",
+      "accuracy": "99.77% Agreement",
+      "ayanamsa": "Lahiri Ayanamsa",
+      "languages": "12 Indian Languages",
+      "no_signup": "No Signup Required",
+      "gdpr": "GDPR Compliant"
+    },
+    "chart": {
+      "download_pdf": "Download Standard PDF",
+      "download_premium_pdf": "Download 22-Page Premium PDF",
+      "building_pdf": "Generating PDF...",
+      "print": "Print Chart",
+      "share": "Share Kundli",
+      "possessive_kundli": "'s Janam Kundli",
+      "stat": {
+        "lagna": "Ascendant / Lagna",
+        "moon_rashi": "Moon Sign (Rashi)",
+        "sun_rashi": "Sun Sign (Surya Rashi)",
+        "nakshatra": "Birth Nakshatra",
+        "tithi": "Birth Tithi",
+        "vaar": "Day of Birth",
+        "yoga": "Nitya Yoga",
+        "karana": "Karana"
+      },
+      "pada": "Pada",
+      "lord": "Lord",
+      "planetary_positions": "Planetary Positions (Graha Sthiti)",
+      "house_table": "House Cusp Positions (Bhava Sthiti)",
+      "birth_panchang": "Panchang at Time of Birth",
+      "avakahada_chakra": "Avakahada Chakra & Naming Details",
+      "vimshottari_title": "Vimshottari Dasha Timeline",
+      "balance_at_birth": "Balance Dasha at Birth",
+      "years_remaining": "Years Remaining",
+      "current_mahadasha": "Current Mahadasha",
+      "current_antardasha": "Current Antardasha",
+      "until": "Until",
+      "yogas_title": "Yogas Formed in Birth Chart",
+      "shadbala_title": "Shadbala — Planetary Strengths",
+      "strongest": "Strongest Planet",
+      "weakest": "Weakest Planet",
+      "ashtakvarga_title": "Ashtakvarga — Point Distribution",
+      "sarva_total": "Sarvashtakvarga Total",
+      "bindus": "Bindus",
+      "total": "Total",
+      "divisional_title": "Divisional Varga Charts",
+      "varga": {
+        "d3": "Siblings, Courage & Energy",
+        "d7": "Children & Lineage",
+        "d10": "Career, Profession & Achievements",
+        "d12": "Parents & Ancestral Lineage"
+      },
+      "full_grid_pdf": "Full chart grid available in PDF",
+      "table": {
+        "planet": "Planet",
+        "sign": "Rashi",
+        "degree": "Degree",
+        "house": "House",
+        "nakshatra": "Nakshatra",
+        "pada": "Pada",
+        "dignity": "Dignity",
+        "motion": "Motion",
+        "cusp": "Cusp Degree",
+        "planets": "Occupying Planets",
+        "mahadasha": "Mahadasha Lord",
+        "from": "From Date",
+        "to": "To Date",
+        "years": "Duration (Yrs)"
+      },
+      "avakahada": {
+        "varna": "Varna",
+        "vashya": "Vashya",
+        "yoni": "Yoni",
+        "gana": "Gana",
+        "nadi": "Nadi",
+        "tatva": "Tatva (Element)",
+        "paya": "Paya",
+        "nakshatra_lord": "Nakshatra Lord",
+        "rashi_lord": "Rashi Lord",
+        "naming_letter": "First Naming Letter",
+        "naming_letters_all": "All Naming Syllables"
+      },
+      "shadbala": {
+        "graha": "Planet",
+        "sthana": "Sthana",
+        "dig": "Dig",
+        "kala": "Kala",
+        "cheshta": "Cheshta",
+        "naisargika": "Naisargika",
+        "total": "Total Virupas",
+        "rupas": "Total Rupas",
+        "req": "Required"
+      },
+      "retrograde": "Retrograde (R)",
+      "direct": "Direct"
+    },
+    "features": {
+      "eyebrow": "Why SanatanTools",
+      "title": "Built with Authentic Vedic Astrology Science",
+      "subtitle": "The most precise and complete online Kundli generator built for seekers, students and professional astrologers.",
+      "sidereal": {
+        "title": "Lahiri Sidereal Zodiac",
+        "body": "Uses exact Lahiri Ayanamsa for true Vedic positions."
+      },
+      "instant": {
+        "title": "Sub-Second Speed",
+        "body": "Instant calculations in browser without page reloads."
+      },
+      "styles": {
+        "title": "3 Chart Styles",
+        "body": "North Indian diamond, South Indian grid & East Indian styles."
+      },
+      "languages": {
+        "title": "12 Indian Languages",
+        "body": "Full PDF report localized in 12 major Indian languages."
+      },
+      "privacy": {
+        "title": "100% Private & Safe",
+        "body": "Your birth data stays in your browser. We never sell data."
+      },
+      "opensource": {
+        "title": "Open Ephemeris",
+        "body": "Powered by MIT-licensed Astronomy Engine ephemeris."
+      },
+      "tables": {
+        "title": "Comprehensive Tables",
+        "body": "Planetary positions, house cusps, Ashtakvarga & Shadbala."
+      },
+      "premiumPdf": {
+        "title": "22-Page Designer PDF",
+        "body": "Print-ready high resolution PDF report with AI guidance."
+      }
+    },
+    "howItWorks": {
+      "eyebrow": "Easy 4-Step Process",
+      "title": "How to Generate Your Janam Kundli",
+      "subtitle": "Get your complete birth chart and report in less than 30 seconds.",
+      "step1": {
+        "title": "Enter Birth Details",
+        "body": "Provide date, exact time and birth city."
+      },
+      "step2": {
+        "title": "Instant Calculations",
+        "body": "Our engine computes sidereal positions and chart positions."
+      },
+      "step3": {
+        "title": "Explore Live Chart",
+        "body": "View D1/D9 charts, planet tables and dasha timelines."
+      },
+      "step4": {
+        "title": "Download PDF",
+        "body": "Export your print-ready PDF in your preferred language."
+      }
+    },
+    "whatIs": {
+      "eyebrow": "Vedic Knowledge",
+      "title": "Understanding Your Janam Kundli",
+      "subtitle": "Key elements that form the foundation of your birth chart.",
+      "lagna": {
+        "title": "Lagna (Ascendant)",
+        "body": "The zodiac sign rising on the eastern horizon at birth, representing physical self and life path."
+      },
+      "rashi": {
+        "title": "Chandra Rashi (Moon Sign)",
+        "body": "Sign where the Moon was positioned, reflecting emotions, mind and personality."
+      },
+      "nakshatra": {
+        "title": "Birth Nakshatra",
+        "body": "The lunar mansion of birth, determining core temperament and dasha balance."
+      },
+      "bhava": {
+        "title": "12 Bhavas (Houses)",
+        "body": "Divisions representing career, health, wealth, family, relationships and spirituality."
+      },
+      "graha": {
+        "title": "9 Grahas (Planets)",
+        "body": "Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu and Ketu."
+      },
+      "dignity": {
+        "title": "Planetary Dignity",
+        "body": "Exaltation, debilitation, own house or enemy sign placements."
+      }
+    },
+    "howWeCalculate": {
+      "eyebrow": "Engine Specifications",
+      "title": "Astronomical Calculation Method",
+      "subtitle": "Mathematical precision behind our birth chart calculations.",
+      "ephemeris": {
+        "k": "Ephemeris Source",
+        "v": "Astronomy Engine (VSOP87 / ELP2000-82 planetary theories)"
+      },
+      "frame": {
+        "k": "Reference Frame",
+        "v": "Geocentric Ecliptic Coordinates (IAU 2006 precession model)"
+      },
+      "ayanamsa": {
+        "k": "Ayanamsa",
+        "v": "Chitra Paksha / Lahiri (true ayanamsa)"
+      },
+      "houses": {
+        "k": "House System",
+        "v": "Equal Sign / Whole Sign (Parasari tradition)"
+      },
+      "ascendant": {
+        "k": "Lagna Calculation",
+        "v": "Local Sidereal Time derived from exact latitude & longitude"
+      },
+      "nakshatra": {
+        "k": "Lunar Mansions",
+        "v": "27 Nakshatras divided into 4 padas of 3°20′ each"
+      },
+      "time": {
+        "k": "Time Calibration",
+        "v": "UTC timestamp converted from local timezone offset"
+      }
+    },
+    "accuracy": {
+      "eyebrow": "Verified Accuracy",
+      "title": "Tested Against Reference Ephemerides",
+      "subtitle": "Mathematical precision you can rely on for astrology readings.",
+      "stat1": "Reference Charts Tested",
+      "stat2": "Agreement Rate",
+      "stat3": "Max Angular Variance",
+      "stat4": "Calculation Errors"
+    },
+    "technology": {
+      "eyebrow": "Tech Architecture",
+      "title": "Modern Web Technology",
+      "clientSide": {
+        "title": "Client-Side Engine",
+        "body": "Runs computations directly in your browser for zero latency."
+      },
+      "subSecond": {
+        "title": "Sub-Second Render",
+        "body": "Instant SVG rendering of diamond, grid and circle charts."
+      },
+      "openMath": {
+        "title": "Open Math Science",
+        "body": "Transparent algorithms verified by open astronomical code."
+      }
+    },
+    "privacy": {
+      "eyebrow": "Data Protection",
+      "title": "Your Privacy is Guaranteed",
+      "body": "We believe your personal birth details are sacred. Our application is designed with privacy-first principles.",
+      "bullet1": "No birth data sent to third-party ad networks",
+      "bullet2": "No forced account creation required",
+      "bullet3": "Data stored locally in browser storage",
+      "bullet4": "Fully compliant with global privacy standards"
+    },
+    "testimonials": {
+      "eyebrow": "User Feedback",
+      "title": "Trusted by Thousands Daily",
+      "role": {
+        "bengaluru": "Astrology Enthusiast · Bengaluru",
+        "pune": "Vedic Scholar · Pune",
+        "delhi": "Homemaker · New Delhi",
+        "chennai": "Software Engineer · Chennai",
+        "kolkata": "Teacher · Kolkata",
+        "hyderabad": "Business Analyst · Hyderabad"
+      },
+      "t1": "The most accurate Kundli generator I have used. The dasha timeline and PDF output are flawless.",
+      "t2": "Lahiri ayanamsa calculations match traditional panchang ephemeris perfectly.",
+      "t3": "Generating birth charts for my family in Hindi PDF is so quick and clean.",
+      "t4": "Clean interface with zero annoying popup ads. Instant North & South Indian chart views.",
+      "t5": "The Avakahada chakra and naming letters helped us select our baby's name easily.",
+      "t6": "High quality PDF download with full planet and house tables. Incredible free tool!"
+    },
+    "premium": {
+      "badge": "Premium Report Available",
+      "title": "Get Your Complete 22-Page Kundli Report",
+      "subtitle": "Detailed Yogas, Dosha remedies, Ashtakvarga analysis, Shadbala, D3/D7/D10/D12 charts and AI-guided life interpretation in a single print PDF.",
+      "cta_get": "Upgrade to Premium PDF",
+      "cta_donate": "Support SanatanTools",
+      "guarantee": "One-time purchase · Lifetime PDF access · 100% Satisfaction Guarantee",
+      "b1": {
+        "title": "AI Life Interpretation",
+        "body": "Deep AI readings for Career, Marriage, Health and Wealth."
+      },
+      "b2": {
+        "title": "Complete 16 Varga Charts",
+        "body": "High-resolution divisional charts D1 through D60."
+      },
+      "b3": {
+        "title": "Remedies & Gemstones",
+        "body": "Personalized Mantra, Yantra, Gemstone & Puja remedies."
+      },
+      "b4": {
+        "title": "Full Lifetime Dasha",
+        "body": "Detailed 120-year Vimshottari Mahadasha & Antardasha."
+      }
+    },
+    "faq": {
+      "eyebrow": "Frequently Asked Questions",
+      "title": "Questions About Janam Kundli",
+      "q1": {
+        "q": "Is the Janam Kundli generator really free?",
+        "a": "Yes — every calculation, chart style (North, South, East) and basic PDF are 100% free with no watermark."
+      },
+      "q2": {
+        "q": "How accurate is the birth chart?",
+        "a": "We compute positions using the Astronomy Engine (VSOP87) and Lahiri ayanamsa with sub-arcminute accuracy."
+      },
+      "q3": {
+        "q": "Do I need to create an account?",
+        "a": "No signup required. All charts and basic PDFs work instantly without registration."
+      },
+      "q4": {
+        "q": "Which chart styles are supported?",
+        "a": "North Indian (Diamond), South Indian (Square Grid) and East Indian (Bengali Style)."
+      },
+      "q5": {
+        "q": "Which languages can I generate the PDF in?",
+        "a": "12 Indian languages including English, Hindi, Marathi, Gujarati, Tamil, Telugu, Kannada, Bengali, Malayalam, Punjabi, Odia & Assamese."
+      },
+      "q6": {
+        "q": "What if I don't know my exact birth time?",
+        "a": "Enter your approximate time. You can still view your Moon Sign (Rashi) and planetary positions, though exact Lagna requires accurate time."
+      },
+      "q7": {
+        "q": "Is my birth data safe?",
+        "a": "Yes. Computations run locally in your browser and your personal data is never sold or shared."
+      },
+      "q8": {
+        "q": "Can I print the Kundli PDF?",
+        "a": "Yes! The generated PDF is formatted for A4 printing with high resolution fonts and sharp vector charts."
+      }
+    },
+    "relatedTools": {
+      "eyebrow": "More Astrological Tools",
+      "title": "Explore Other Free Vedic Tools",
+      "subtitle": "Discover calculators and guides to complement your birth chart.",
+      "open_tool": "Open Tool",
+      "browse_all": "Browse all 100+ SanatanTools →",
+      "items": {
+        "rashi_calculator": {
+          "title": "Rashi Calculator",
+          "desc": "Find your Moon sign (Chandra Rashi) accurately."
+        },
+        "nakshatra_finder": {
+          "title": "Nakshatra Finder",
+          "desc": "Discover your birth Nakshatra, pada & ruling deity."
+        },
+        "dasha_calculator": {
+          "title": "Dasha Timeline",
+          "desc": "View your 120-year Vimshottari Mahadasha timeline."
+        },
+        "todays_panchang": {
+          "title": "Daily Panchang",
+          "desc": "Today's Tithi, Nakshatra, Yoga, Karana & Rahu Kaal."
+        },
+        "panchang_by_date": {
+          "title": "Panchang by Date",
+          "desc": "Lookup authentic Panchang for any historical date."
+        },
+        "festival_calendar": {
+          "title": "Festival Calendar 2026",
+          "desc": "Complete Hindu festival dates and auspicious timings."
+        },
+        "rashi_guide": {
+          "title": "Rashi Guide",
+          "desc": "Comprehensive guide to 12 zodiac signs in Vedic astrology."
+        },
+        "nakshatra_guide": {
+          "title": "Nakshatra Guide",
+          "desc": "Deep dive into 27 lunar mansions and their characteristics."
+        }
+      }
+    },
+    "relatedArticles": {
+      "eyebrow": "Educational Guides",
+      "title": "Learn Vedic Astrology Basics",
+      "badge": "Guide",
+      "a1": {
+        "title": "How to Read Your Janam Kundli Chart",
+        "read": "5 min read · Beginner Guide"
+      },
+      "a2": {
+        "title": "Understanding Vimshottari Dasha System",
+        "read": "7 min read · Dasha Analysis"
+      },
+      "a3": {
+        "title": "Difference Between Sun Sign & Moon Sign",
+        "read": "4 min read · Astrology Fundamentals"
+      },
+      "a4": {
+        "title": "Importance of Lagna (Ascendant) in Vedic Horoscope",
+        "read": "6 min read · Advanced Concepts"
+      }
+    },
+    "newsletter": {
+      "badge": "Daily Panchang & Rashifal",
+      "title": "Get Daily Vedic Guidance in Your Inbox",
+      "subtitle": "Subscribe to receive daily Panchang, auspicious muhurats, festival alerts and horoscope updates.",
+      "email_placeholder": "Enter your email address",
+      "email_aria_label": "Email address for newsletter subscription",
+      "subscribe_button": "Subscribe Free",
+      "busy_button": "Subscribing…",
+      "subscribed_button": "Subscribed ✓",
+      "invalid_email": "Please enter a valid email address.",
+      "subscribed_toast": "Successfully subscribed to daily Vedic updates!",
+      "could_not_subscribe": "Could not subscribe at this time."
+    },
+    "finalCta": {
+      "title": "Ready to Discover Your Birth Chart?",
+      "subtitle": "Enter your birth details above to get your instant Janam Kundli and report.",
+      "generate_button": "Generate Kundli Now",
+      "explore_tools": "Explore All Tools"
+    },
+    "stickyCta": {
+      "generate_button": "Generate Janam Kundli"
+    },
+    "errors": {
+      "enter_date_time": "Please enter a valid birth date and time.",
+      "could_not_compute": "Could not compute Kundli chart. Please check birth details.",
+      "share_title": "My Janam Kundli — SanatanTools",
+      "share_text": "Check out my Vedic birth chart and Kundli on SanatanTools!",
+      "link_copied": "Kundli link copied to clipboard!",
+      "could_not_share": "Could not share link.",
+      "premium_pdf_downloaded": "Premium 22-page Kundli PDF downloaded!",
+      "free_pdf_downloaded": "Standard Kundli PDF downloaded!",
+      "could_not_build_pdf": "Could not build PDF report."
+    }
+  }
+}

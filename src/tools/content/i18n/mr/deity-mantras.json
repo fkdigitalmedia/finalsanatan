@@ -1,0 +1,58 @@
+{
+  "intro": "Panchang, Tithi, Nakshatra, Yoga, Karana, Rahu Kaal, Yamaganda, Gulika Kaal, Abhijit, Brahma Muhurat, Lagna, Kundli, Navamsa, Rashi, Mahadasha, Antardasha, Vimshottari, Choghadiya, Hora, Ekadashi, Pradosh, Sankashti, Amavasya, Purnima, Griha Pravesh, Havan, Puja, Sankalp, Samagri, Mantra, Beej, Gayatri, Mahamrityunjaya, Aarti, Chalisa, Stotra, Jaap, Vrat, Muhurat, Shloka, Shlok, Deity, Jyotirlinga, Shakti Peeth, Char Dham, Ayanamsa, Lahiri — गणेश, शिव, विष्णू, देवी, हनुमान, कृष्ण, राम, लक्ष्मी, सरस्वती, काली आणि इतरांसह प्रत्येक Deity साठी प्राथमिक, Gayatri आणि ध्यान Mantra चा संग्रह.",
+  "howToUse": [
+    "तुमच्या Deity च्या यादीतून तुमचे इष्ट देव Deity निवडा.",
+    "प्राथमिक Mantra, Deity-Gayatri, ध्यान Shloka आणि एक Stotra पहा.",
+    "प्रत्येकाचा अर्थ आणि त्याचा पारंपारिक लाभ वाचा.",
+    "दैनंदिन सरावासाठी प्रत काढा किंवा बुकमार्क करा."
+  ],
+  "benefits": [
+    "प्रत्येक Deity साठी एक पान — प्राथमिक, Gayatri, ध्यान आणि Stotra एकत्र.",
+    "सुसंगत स्वरूप: देवनागरी + IAST + अर्थ + Jaap संख्या.",
+    "कमी ज्ञात Deity Gayatris (गणेश, हनुमान, दुर्गा) समाविष्ट आहेत.",
+    "मोफत—वाचण्यासाठी लॉगिनची आवश्यकता नाही."
+  ],
+  "useCases": [
+    "दैनंदिन इष्ट-देवता Jaap दिनचर्या.",
+    "Puja किंवा Vrat साठी योग्य Mantra निवडणे.",
+    "कौटुंबिक Sankalp जिथे प्रत्येक सदस्य त्याच्या कुल-देवता Mantra चे पठण करतो.",
+    "Deity नुसार मुलांना त्यांचा पहिला Mantra शिकवणे."
+  ],
+  "mistakes": [
+    "चुकीच्या Gayatri आवृत्तीचे पठण करणे — अनेक Deities च्या अनेक Gayatris आहेत; आम्ही प्रमाणित एक दाखवतो.",
+    "ध्यान Shloka ला मूळ Mantra मध्ये मिसळणे — ध्यान हे दृश्यासाठी आहे, मूळ Jaap साठी.",
+    "मार्गदर्शनाशिवाय आक्रमक Deity Mantras (काली, भैरव) वापरणे.",
+    "Deity-विशिष्ट मुद्रा किंवा अर्पण वगळणे."
+  ],
+  "accuracy": "Puranic स्रोतांकडून (गणेश पुराण, शिव पुराण, भागवत) आणि प्रमाणित प्रकाशित Stotra रत्नमालांमधून Mantras तपासले आहेत.",
+  "privacy": "पूर्णपणे क्लायंट-साईड; काहीही लॉग केले जात नाही.",
+  "faqs": [
+    {
+      "q": "माझा इष्ट देव Deity मला माहित नसल्यास काय?",
+      "a": "गणेशापासून सुरुवात करा — सार्वत्रिक आरंभ Deity. नियमित सरावाने इष्ट Deity ची स्पष्टता अनेकदा येते."
+    },
+    {
+      "q": "Deity Gayatri वैदिक Gayatri पेक्षा वेगळी आहे का?",
+      "a": "होय — प्रत्येक Deity ची स्वतःची Gayatri (२४ अक्षरे, त्रि-पाद) असते, जी सावित्री Gayatri पेक्षा वेगळी आहे."
+    },
+    {
+      "q": "मी दररोज अनेक Deity Mantras पाठ करू शकतो का?",
+      "a": "होय — अनेक साधक गणेश, इष्ट आणि गुरुMantra चा क्रम पाठ करतात."
+    },
+    {
+      "q": "कोणत्या Deity साठी कोणती Mala?",
+      "a": "शिव/हनुमानासाठी रुद्राक्ष, विष्णू/कृष्ण/रामासाठी तुळस, लक्ष्मीसाठी कमलगट्टा, सरस्वती/देवीसाठी स्फटिक."
+    },
+    {
+      "q": "काली/भैरव Mantras समाविष्ट आहेत का?",
+      "a": "सार्वजनिक Mantras गुरु मार्गदर्शनाची शिफारस करणाऱ्या सावधगिरीच्या टीपसह दर्शविले आहेत."
+    }
+  ],
+  "relatedSlugs": [
+    "mantra-library",
+    "beej-mantras",
+    "gayatri-mantra",
+    "mahamrityunjaya-mantra",
+    "aarti-collection"
+  ]
+}

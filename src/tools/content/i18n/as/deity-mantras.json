@@ -1,0 +1,58 @@
+{
+  "intro": "Panchang, Tithi, Nakshatra, Yoga, Karana, Rahu Kaal, Yamaganda, Gulika Kaal, Abhijit, Brahma Muhurat, Lagna, Kundli, Navamsa, Rashi, Mahadasha, Antardasha, Vimshottari, Choghadiya, Hora, Ekadashi, Pradosh, Sankashti, Amavasya, Purnima, Griha Pravesh, Havan, Puja, Sankalp, Samagri, Mantra, Beej, Gayatri, Mahamrityunjaya, Aarti, Chalisa, Stotra, Jaap, Vrat, Muhurat, Shloka, Shlok, Deity, Jyotirlinga, Shakti Peeth, Char Dham, Ayanamsa, Lahiri — গণেশ, শিৱ, বিষ্ণু, দেৱী, হনুমান, কৃষ্ণ, ৰাম, লক্ষ্মী, সৰস্বতী, কালী আৰু আন বহুতো দেৱ-দেৱীৰ বাবে প্ৰাথমিক, Gayatri আৰু Dhyana Mantra সংগ্ৰহ।",
+  "howToUse": [
+    "দেৱতাৰ তালিকাৰ পৰা আপোনাৰ ইষ্ট দেৱতা বাছনি কৰক।",
+    "প্ৰাথমিক Mantra, Deity-Gayatri, Dhyana Shloka আৰু এটা Stotra চাওক।",
+    "প্ৰতিটোৰ অৰ্থ আৰু পৰম্পৰাগত লাভালাভ পঢ়ক।",
+    "দৈনিক অভ্যাসৰ তালিকালৈ কপি বা বুকমাৰ্ক কৰক।"
+  ],
+  "benefits": [
+    "প্ৰতিজন দেৱতাৰ বাবে এটা পৃষ্ঠাত — প্ৰাথমিক, Gayatri, Dhyana আৰু Stotra একেলগে উপলব্ধ।",
+    "সংগতিপূৰ্ণ ফৰ্মেট: দেৱনাগৰী + IAST + অৰ্থ + Jaap গণনা।",
+    "কম পৰিচিত Deity Gayatri (গণেশ, হনুমান, দুৰ্গা) অন্তৰ্ভুক্ত কৰা হৈছে।",
+    "বিনামূলীয়া — পঢ়িবলৈ কোনো লগইনৰ প্ৰয়োজন নাই।"
+  ],
+  "useCases": [
+    "দৈনিক ইষ্ট-দেৱতা Jaap ৰুটিন।",
+    "Puja বা Vrat ৰ বাবে সঠিক Mantra বাছনি কৰা।",
+    "পাৰিবাৰিক Sankalp য'ত প্ৰতিজন সদস্যই নিজৰ কুল-দেৱতা Mantra পাঠ কৰে।",
+    "শিশুক দেৱতা অনুসৰি তেওঁলোকৰ প্ৰথম Mantra শিকোৱা।"
+  ],
+  "mistakes": [
+    "ভুল Gayatri সংস্কৰণ পাঠ কৰা — বহু দেৱতাৰ একাধিক Gayatri আছে; আমি মানক সংস্কৰণটো দেখুৱাওঁ।",
+    "Dhyana Shloka ক মূল Mantra ৰ সৈতে মিহলোৱা — Dhyana visualization ৰ বাবে, মূল Jaap ৰ বাবে।",
+    "নিৰ্দেশনা অবিহনে আক্ৰমণাত্মক Deity Mantra (কালী, ভৈৰৱ) ব্যৱহাৰ কৰা।",
+    "দেৱতা-নিৰ্দিষ্ট Mudra বা নৈবেদ্য এৰি যোৱা।"
+  ],
+  "accuracy": "Mantra সমূহ পৌৰাণিক উৎস (গণেশ পুৰাণ, শিৱ পুৰাণ, ভাগৱত) আৰু মানক প্ৰকাশিত Stotra ৰত্নমালাৰ সৈতে ক্ৰছ-চেক কৰা হৈছে।",
+  "privacy": "সম্পূৰ্ণ ক্লায়েন্ট-চাইড; একো লগা নাই।",
+  "faqs": [
+    {
+      "q": "যদি মই মোৰ ইষ্ট-দেৱতা নাজানোঁ তেন্তে কি হ'ব?",
+      "a": "গণেশৰ পৰা আৰম্ভ কৰক — বিশ্বজনীন আৰম্ভণি Deity। ইষ্টৰ স্পষ্টতা প্ৰায়ে নিয়মিত অভ্যাসৰ পিছত আহে।"
+    },
+    {
+      "q": "Deity Gayatri বৈদিক Gayatri ৰ পৰা পৃথক নে?",
+      "a": "হয় — প্ৰতিজন দেৱতাৰ নিজস্ব Gayatri (২৪টা আখৰ, ত্ৰিপদ) আছে, যি Savitri Gayatri ৰ পৰা পৃথক।"
+    },
+    {
+      "q": "মই দৈনিক একাধিক Deity Mantra পাঠ কৰিব পাৰোনে?",
+      "a": "হয় — বহু সাধকে গণেশ, ইষ্ট আৰু গুৰুমন্ত্ৰৰ ক্ৰম পাঠ কৰে।"
+    },
+    {
+      "q": "কোন Deity ৰ বাবে কি Mala?",
+      "a": "শিৱ/হনুমানৰ বাবে ৰুদ্ৰাক্ষ, বিষ্ণু/কৃষ্ণ/ৰামৰ বাবে তুলসী, লক্ষ্মীৰ বাবে কমলগট্টা, সৰস্বতী/দেৱীৰ বাবে স্ফটিক।"
+    },
+    {
+      "q": "কালী/ভৈৰৱ Mantra অন্তৰ্ভুক্ত কৰা হৈছে নে?",
+      "a": "গুৰুৰ নিৰ্দেশনাৰ পৰামৰ্শৰে সাৱধানতা সূচকৰ সৈতে ৰাজহুৱা Mantra দেখুওৱা হৈছে।"
+    }
+  ],
+  "relatedSlugs": [
+    "mantra-library",
+    "beej-mantras",
+    "gayatri-mantra",
+    "mahamrityunjaya-mantra",
+    "aarti-collection"
+  ]
+}
