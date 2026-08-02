@@ -59,12 +59,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const meta = authUser.user_metadata || {};
       const provider = authUser.app_metadata?.provider || "email";
 
+      const name =
+        meta.display_name ||
+        meta.full_name ||
+        meta.name ||
+        authUser.email?.split("@")[0] ||
+        "Sanatan User";
+
       const profileData = {
         id: authUser.id,
         email: authUser.email,
-        full_name:
-          meta.full_name || meta.name || meta.display_name || authUser.email?.split("@")[0],
-        avatar_url: meta.avatar_url || meta.picture,
+        display_name: name,
+        full_name: name,
+        avatar_url: meta.avatar_url || meta.picture || null,
         provider,
         last_login: now,
         updated_at: now,

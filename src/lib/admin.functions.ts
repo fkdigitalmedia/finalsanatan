@@ -196,10 +196,14 @@ export const listUsers = createServerFn({ method: "GET" })
     await assertStaff(context as Ctx);
     let q = (context as any).supabase
       .from("profiles")
-      .select("id,display_name,avatar_url,created_at")
+      .select("*")
       .order("created_at", { ascending: false })
       .limit(data.limit);
-    if (data.search) q = q.ilike("display_name", `%${data.search}%`);
+    if (data.search) {
+      q = q.or(
+        `display_name.ilike.%${data.search}%,full_name.ilike.%${data.search}%,email.ilike.%${data.search}%`,
+      );
+    }
     const { data: users, error } = await q;
     if (error) throw new Error(error.message);
 

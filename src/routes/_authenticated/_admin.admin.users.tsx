@@ -78,7 +78,10 @@ function UsersPage() {
             {q.data?.rows?.map((u: any) => (
               <tr key={u.id} className="border-t align-top">
                 <td className="px-3 py-2">
-                  <div className="font-medium">{u.display_name ?? "—"}</div>
+                  <div className="font-medium">
+                    {u.display_name || u.full_name || u.email || "Sanatan User"}
+                  </div>
+                  {u.email && <div className="text-xs text-muted-foreground">{u.email}</div>}
                   <div className="font-mono text-[10px] text-muted-foreground">{u.id}</div>
                 </td>
                 <td className="px-3 py-2">
