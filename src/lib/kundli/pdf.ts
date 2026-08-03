@@ -34,6 +34,9 @@ import { generateLifeAnalysis, type LifeSection } from "./life-analysis";
 import { computeLuckyFactors } from "./lucky-factors";
 import { computeDecadeTimeline } from "./life-timeline";
 import { PDF_V2_FAQS, PDF_V2_GLOSSARY, PDF_V2_APPENDIX } from "./pdf-v2-meanings";
+import { PdfFlowEngine } from "./pdf-flow-engine";
+
+export { PdfFlowEngine };
 
 // ---------- Brand tokens (hard-coded so PDF matches print) ----------
 const BRAND = {
