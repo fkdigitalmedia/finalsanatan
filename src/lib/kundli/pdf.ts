@@ -2409,10 +2409,41 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   const traces = generateEvidenceTraces(r);
 
+  const CATEGORY_ICONS: Record<string, string> = {
+    Planet: "♃",  // unicode planet symbol
+    House: "⌂",
+    Yoga: "✦",
+    Dasha: "☽",
+    Dosha: "△",
+    Transit: "↗",
+  };
+
   for (const tr of traces) {
     const predLines = doc.splitTextToSize(tr.predictionText, PAGE.w - 2 * PAGE.m - 8);
-    const flowText = `Evidence Flow: ${tr.supportingRules.join(" -> ")} | Sources: [${tr.sources.join(", ")}]`;
-    const flowLines = doc.splitTextToSize(flowText, PAGE.w - 2 * PAGE.m - 14);
+
+    // Build evidence lines from real items — group by category
+    const byCategory = new Map<string, typeof tr.evidenceItems>();
+    for (const item of tr.evidenceItems) {
+      if (!byCategory.has(item.category)) byCategory.set(item.category, []);
+      byCategory.get(item.category)!.push(item);
+    }
+
+    const evidenceTextLines: string[] = [];
+    // Rule flow line
+    evidenceTextLines.push(`Evidence Flow: ${tr.supportingRules.join(" → ")}`);
+    // Dasha line
+    const dashaLine = [tr.activeDasha, tr.activeAntardasha, tr.activePratyantar].filter(Boolean).join(" · ");
+    if (dashaLine) evidenceTextLines.push(`Active Dasha: ${dashaLine}`);
+    // Category lines
+    for (const [cat, items] of byCategory) {
+      if (cat === "Dasha") continue; // already shown above
+      const icon = CATEGORY_ICONS[cat] ?? "•";
+      const vals = items.map((i) => i.label + (i.detail ? ` [${i.detail}]` : "")).join("  |  ");
+      evidenceTextLines.push(`${icon} ${cat}: ${vals}`);
+    }
+
+    const allEvidenceText = evidenceTextLines.join("\n");
+    const flowLines = doc.splitTextToSize(allEvidenceText, PAGE.w - 2 * PAGE.m - 14);
 
     const badgeH = 6 + flowLines.length * 4;
     const cardH = 16 + predLines.length * 4 + badgeH;
@@ -2447,7 +2478,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
       curY += 4;
     });
 
-    // Evidence Chain Badge
+    // Evidence Chain Badge — real values
     curY += 2;
     doc.setFillColor("#FFF6E1");
     doc.setDrawColor(BRAND.gold);
