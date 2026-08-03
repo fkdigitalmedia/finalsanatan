@@ -55,46 +55,135 @@ function saveStorage<T>(key: string, data: T): void {
 
 // ── Fetch real user credit accounts from Supabase ────────────
 export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
-  // 1. Fetch all profiles
-  const { data: profiles, error: profileErr } = await supabase
+  const userMap = new Map<string, { id: string; name: string; email: string; createdAt: string; updatedAt: string }>();
+
+  // 1. Fetch from profiles
+  const { data: profiles } = await supabase
     .from("profiles")
     .select("id, display_name, avatar_url, created_at, updated_at")
-    .order("created_at", { ascending: false })
-    .limit(100);
+    .order("created_at", { ascending: false });
 
-  if (profileErr || !profiles || profiles.length === 0) return [];
+  (profiles ?? []).forEach((p) => {
+    if (!p.id) return;
+    userMap.set(p.id, {
+      id: p.id,
+      name: p.display_name || "User",
+      email: "",
+      createdAt: p.created_at || new Date().toISOString(),
+      updatedAt: p.updated_at || p.created_at || new Date().toISOString(),
+    });
+  });
 
-  const userIds = profiles.map((p) => p.id);
+  // 2. Fetch from user_kundlis (for users who saved charts but may lack a profile row)
+  const { data: kundliUsers } = await supabase
+    .from("user_kundlis")
+    .select("user_id, name, created_at");
 
-  // 2. Fetch completed orders per user to compute revenue & purchased credits
+  (kundliUsers ?? []).forEach((k) => {
+    if (!k.user_id) return;
+    const existing = userMap.get(k.user_id);
+    if (existing) {
+      if ((existing.name === "User" || !existing.name) && k.name) {
+        existing.name = k.name;
+      }
+    } else {
+      userMap.set(k.user_id, {
+        id: k.user_id,
+        name: k.name || `User (${k.user_id.slice(0, 6)})`,
+        email: "",
+        createdAt: k.created_at || new Date().toISOString(),
+        updatedAt: k.created_at || new Date().toISOString(),
+      });
+    }
+  });
+
+  // 3. Fetch from orders (for paying users)
+  const { data: orderUsers } = await supabase
+    .from("orders")
+    .select("user_id, customer_name, customer_email, created_at");
+
+  (orderUsers ?? []).forEach((o) => {
+    if (!o.user_id) return;
+    const existing = userMap.get(o.user_id);
+    if (existing) {
+      if ((existing.name === "User" || !existing.name) && o.customer_name) {
+        existing.name = o.customer_name;
+      }
+      if (!existing.email && o.customer_email) {
+        existing.email = o.customer_email;
+      }
+    } else {
+      userMap.set(o.user_id, {
+        id: o.user_id,
+        name: o.customer_name || o.customer_email?.split("@")[0] || `User (${o.user_id.slice(0, 6)})`,
+        email: o.customer_email || "",
+        createdAt: o.created_at || new Date().toISOString(),
+        updatedAt: o.created_at || new Date().toISOString(),
+      });
+    }
+  });
+
+  // 4. Fetch from user_roles
+  const { data: roleUsers } = await supabase
+    .from("user_roles")
+    .select("user_id, created_at");
+
+  (roleUsers ?? []).forEach((r) => {
+    if (!r.user_id || userMap.has(r.user_id)) return;
+    userMap.set(r.user_id, {
+      id: r.user_id,
+      name: `Staff/User (${r.user_id.slice(0, 6)})`,
+      email: "",
+      createdAt: r.created_at || new Date().toISOString(),
+      updatedAt: r.created_at || new Date().toISOString(),
+    });
+  });
+
+  // 5. Fetch from user_entitlements
+  const { data: entitlementUsers } = await supabase
+    .from("user_entitlements")
+    .select("user_id, created_at");
+
+  (entitlementUsers ?? []).forEach((e) => {
+    if (!e.user_id || userMap.has(e.user_id)) return;
+    userMap.set(e.user_id, {
+      id: e.user_id,
+      name: `Member (${e.user_id.slice(0, 6)})`,
+      email: "",
+      createdAt: e.created_at || new Date().toISOString(),
+      updatedAt: e.created_at || new Date().toISOString(),
+    });
+  });
+
+  const allUsers = Array.from(userMap.values());
+  if (allUsers.length === 0) return [];
+
+  const userIds = allUsers.map((u) => u.id);
+
+  // Fetch paid orders
   const { data: orders } = await supabase
     .from("orders")
-    .select("user_id, amount_cents, product_type, status, created_at")
+    .select("user_id, amount_cents")
     .in("user_id", userIds)
     .eq("status", "paid");
 
-  // 3. Fetch kundli count as proxy for "credits used"
+  // Fetch kundli usage
   const { data: kundliRows } = await supabase
     .from("user_kundlis")
     .select("user_id")
     .in("user_id", userIds);
 
-  // 4. Fetch report downloads as proxy for "pdf credits used"
+  // Fetch downloads usage
   const { data: downloadRows } = await supabase
     .from("report_downloads")
     .select("user_id")
     .in("user_id", userIds);
 
-  // 5. Load admin overrides (freeze/balance adjustments made in UI)
   const overrides = loadStorage<Record<string, Partial<UserCreditAccount>>>(OVERRIDES_KEY, {});
 
-  // ── Build per-user maps ──────────────────────────────────
-  const orderMap: Record<string, { totalCents: number; orderCount: number }> = {};
+  const orderMap: Record<string, number> = {};
   (orders ?? []).forEach((o) => {
-    if (!o.user_id) return;
-    if (!orderMap[o.user_id]) orderMap[o.user_id] = { totalCents: 0, orderCount: 0 };
-    orderMap[o.user_id].totalCents += o.amount_cents ?? 0;
-    orderMap[o.user_id].orderCount += 1;
+    if (o.user_id) orderMap[o.user_id] = (orderMap[o.user_id] ?? 0) + (o.amount_cents ?? 0);
   });
 
   const kundliMap: Record<string, number> = {};
@@ -107,36 +196,32 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
     downloadMap[r.user_id] = (downloadMap[r.user_id] ?? 0) + 1;
   });
 
-  // ── Build account objects ────────────────────────────────
-  return profiles.map((p) => {
-    const ord    = orderMap[p.id] ?? { totalCents: 0, orderCount: 0 };
-    const kundliCount   = kundliMap[p.id] ?? 0;
-    const downloadCount = downloadMap[p.id] ?? 0;
+  return allUsers.map((u) => {
+    const totalSpentCents = orderMap[u.id] ?? 0;
+    const kundliCount    = kundliMap[u.id] ?? 0;
+    const downloadCount  = downloadMap[u.id] ?? 0;
 
-    // Credits earned = orders × 10 credits each (₹100 per credit rough estimate)
-    const purchasedCredits = Math.round(ord.totalCents / 10000) * 10;
-    // Credits used = kundlis (2 credits each) + downloads (5 credits each)
-    const creditsUsed = kundliCount * 2 + downloadCount * 5;
-    const lifetimeCredits = Math.max(purchasedCredits + 100, 100); // 100 signup bonus min
-    const currentBalance  = Math.max(0, lifetimeCredits - creditsUsed);
+    const purchasedCredits = Math.round(totalSpentCents / 10000) * 10;
+    const creditsUsed      = kundliCount * 2 + downloadCount * 5;
+    const lifetimeCredits  = Math.max(purchasedCredits + 100, 100);
+    const currentBalance   = Math.max(0, lifetimeCredits - creditsUsed);
 
     const base: UserCreditAccount = {
-      userId:           p.id,
-      userName:         p.display_name || "User",
-      userEmail:        "",                           // not exposed in profiles table (privacy)
+      userId:           u.id,
+      userName:         u.name,
+      userEmail:        u.email,
       currentBalance,
       lifetimeCredits,
       purchasedCredits,
-      bonusCredits:     100,                          // signup bonus
+      bonusCredits:     100,
       referralCredits:  0,
       expiredCredits:   0,
       status:           "active",
-      lastTopUpDate:    p.updated_at?.split("T")[0] ?? p.created_at?.split("T")[0],
-      createdAt:        p.created_at?.split("T")[0] ?? "",
+      lastTopUpDate:    u.updatedAt.split("T")[0] ?? u.createdAt.split("T")[0],
+      createdAt:        u.createdAt.split("T")[0] ?? "",
     };
 
-    // Merge any admin overrides (freeze, manual top-ups)
-    const ov = overrides[p.id] ?? {};
+    const ov = overrides[u.id] ?? {};
     return { ...base, ...ov };
   });
 }
