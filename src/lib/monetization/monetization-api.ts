@@ -240,22 +240,40 @@ export const DEFAULT_CREDIT_RULES: CreditCostRule[] = [
 // 24.9 User Wallet API
 // ------------------------------------------------------------
 
+const OVERRIDES_KEY = "sanatan_credit_overrides_v2";
+
 export async function fetchUserWallet(userId: string): Promise<UserWallet> {
   const wallets = loadStorage<Record<string, UserWallet>>(WALLETS_KEY, {});
-  if (wallets[userId]) return wallets[userId];
+  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
+  const override = overrides[userId];
 
-  const initialWallet: UserWallet = {
-    userId,
-    creditBalance: 45,
-    purchasedCredits: 30,
-    referralCredits: 10,
-    bonusCredits: 5,
-    expiredCredits: 0,
-    lastUpdated: new Date().toISOString(),
-  };
-  wallets[userId] = initialWallet;
+  let wallet = wallets[userId];
+
+  if (!wallet) {
+    wallet = {
+      userId,
+      creditBalance: 100,
+      purchasedCredits: 0,
+      referralCredits: 0,
+      bonusCredits: 100,
+      expiredCredits: 0,
+      lastUpdated: new Date().toISOString(),
+    };
+  }
+
+  // If admin has topped up or overridden balance for this user, apply it
+  if (override && typeof override.currentBalance === "number") {
+    wallet = {
+      ...wallet,
+      creditBalance: override.currentBalance,
+      bonusCredits: override.bonusCredits ?? wallet.bonusCredits,
+      lastUpdated: new Date().toISOString(),
+    };
+  }
+
+  wallets[userId] = wallet;
   saveStorage(WALLETS_KEY, wallets);
-  return initialWallet;
+  return wallet;
 }
 
 export async function fetchCreditTransactions(userId: string): Promise<CreditTransaction[]> {
@@ -321,6 +339,13 @@ export async function consumeCredits(
   wallets[userId] = updatedWallet;
   saveStorage(WALLETS_KEY, wallets);
 
+  // Sync admin overrides
+  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
+  if (overrides[userId]) {
+    overrides[userId].currentBalance = updatedWallet.creditBalance;
+    saveStorage(OVERRIDES_KEY, overrides);
+  }
+
   const transactions = loadStorage<CreditTransaction[]>(TRANSACTIONS_KEY, []);
   const newTx: CreditTransaction = {
     id: `tx-${Date.now()}`,
@@ -355,6 +380,16 @@ export async function grantCredits(
   const wallets = loadStorage<Record<string, UserWallet>>(WALLETS_KEY, {});
   wallets[userId] = updatedWallet;
   saveStorage(WALLETS_KEY, wallets);
+
+  // Sync admin overrides
+  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
+  if (overrides[userId]) {
+    overrides[userId].currentBalance = updatedWallet.creditBalance;
+    if (type === "admin_grant") {
+      overrides[userId].bonusCredits = (overrides[userId].bonusCredits ?? 0) + amount;
+    }
+    saveStorage(OVERRIDES_KEY, overrides);
+  }
 
   const transactions = loadStorage<CreditTransaction[]>(TRANSACTIONS_KEY, []);
   const newTx: CreditTransaction = {

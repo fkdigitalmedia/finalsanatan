@@ -282,7 +282,7 @@ export async function fetchCreditDashboardMetrics(): Promise<CreditDashboardMetr
   };
 }
 
-// ── Manual Top-up (persisted in overrides) ───────────────────
+// ── Manual Top-up (persisted in overrides & synced to user wallet) ─────────
 export async function performManualTopUp(req: ManualTopUpRequest): Promise<UserCreditAccount> {
   const all    = await fetchUserCreditAccounts();
   const target = all.find((a) => a.userId === req.userId);
@@ -303,6 +303,34 @@ export async function performManualTopUp(req: ManualTopUpRequest): Promise<UserC
     lastTopUpDate:   new Date().toISOString().split("T")[0],
   };
   saveStorage(OVERRIDES_KEY, overrides);
+
+  // Sync with user monetization wallet & transaction history
+  const WALLETS_KEY = "sanatan_monetization_wallets_v1";
+  const TRANSACTIONS_KEY = "sanatan_monetization_transactions_v1";
+
+  const wallets = loadStorage<Record<string, any>>(WALLETS_KEY, {});
+  wallets[req.userId] = {
+    userId: req.userId,
+    creditBalance: newBalance,
+    purchasedCredits: target.purchasedCredits,
+    referralCredits: target.referralCredits,
+    bonusCredits: newBonus,
+    expiredCredits: target.expiredCredits,
+    lastUpdated: new Date().toISOString(),
+  };
+  saveStorage(WALLETS_KEY, wallets);
+
+  const transactions = loadStorage<any[]>(TRANSACTIONS_KEY, []);
+  transactions.unshift({
+    id: `tx-${Date.now()}`,
+    userId: req.userId,
+    type: req.amount >= 0 ? "admin_grant" : "usage_deduction",
+    amount: req.amount,
+    balanceAfter: newBalance,
+    description: `Admin Credit Adjustment [${req.reasonCategory.toUpperCase()}]: ${req.customNote}`,
+    createdAt: new Date().toISOString(),
+  });
+  saveStorage(TRANSACTIONS_KEY, transactions);
 
   await addAuditLog({
     userId: req.userId,
