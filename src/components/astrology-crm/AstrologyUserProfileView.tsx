@@ -87,11 +87,17 @@ export function AstrologyUserProfileView({
         <h3 className="font-display font-bold text-lg mb-4">Personal Details</h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="relative group">
-            <img
-              src={profile.photoUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"}
-              alt={profile.name}
-              className="size-24 rounded-full object-cover border-2 border-accent shadow-md"
-            />
+            {profile.photoUrl ? (
+              <img
+                src={profile.photoUrl}
+                alt={profile.name}
+                className="size-24 rounded-full object-cover border-2 border-accent shadow-md"
+              />
+            ) : (
+              <div className="size-24 rounded-full border-2 border-accent bg-accent/20 text-accent font-bold font-display text-3xl flex items-center justify-center shadow-md">
+                {profile.name ? profile.name.charAt(0).toUpperCase() : "U"}
+              </div>
+            )}
             <Button
               size="sm"
               variant="outline"

@@ -138,8 +138,8 @@ export interface UserAstrologyProfile {
   dob: string; // YYYY-MM-DD
   birthTime: string; // HH:mm
   birthPlace: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   timezone: string;
   preferredLanguage: SupportedLanguage;
   preferredChartStyle: ChartStyle;

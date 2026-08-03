@@ -64,25 +64,30 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
       <Card className="relative overflow-hidden border-accent/20 bg-gradient-to-r from-primary-soft/40 via-background to-accent/5 p-6 md:p-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img
-              src={
-                profile.photoUrl ||
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
-              }
-              alt={profile.name}
-              className="size-16 md:size-20 rounded-full border-2 border-accent object-cover shadow-md"
-            />
+            {profile.photoUrl ? (
+              <img
+                src={profile.photoUrl}
+                alt={profile.name}
+                className="size-16 md:size-20 rounded-full border-2 border-accent object-cover shadow-md"
+              />
+            ) : (
+              <div className="size-16 md:size-20 rounded-full border-2 border-accent bg-accent/20 text-accent font-bold font-display text-2xl flex items-center justify-center shadow-md shrink-0">
+                {profile.name ? profile.name.charAt(0).toUpperCase() : "U"}
+              </div>
+            )}
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-display text-2xl md:text-3xl font-bold">
-                  Namaste, {profile.name}!
+                  Namaste, {profile.name || "User"}!
                 </h2>
                 <Badge className="bg-accent/20 text-accent border-accent/30 flex items-center gap-1">
                   <Crown className="size-3" /> {profile.currentSubscription}
                 </Badge>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
-                {profile.birthPlace ? `${profile.birthPlace} • ${profile.dob}` : "No Birth Details Set"}
+                {profile.birthPlace && profile.dob
+                  ? `${profile.birthPlace} • ${profile.dob}`
+                  : "No Birth Details Set"}
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1 font-medium text-foreground">

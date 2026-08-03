@@ -1,4 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import {
   FileText,
   Search,
@@ -53,79 +55,6 @@ export interface KundliReportItem {
   downloadUrl?: string;
 }
 
-const SAMPLE_REPORTS: KundliReportItem[] = [
-  {
-    id: "rep-1",
-    name: "Rahul Sharma - Complete Janam Kundli 2026",
-    kind: "Janam Kundli",
-    generationDate: "2026-08-03",
-    birthName: "Rahul Sharma",
-    birthDob: "04 Aug 1992",
-    birthTime: "07:30 AM",
-    birthPlace: "New Delhi, India",
-    language: "en",
-    version: "v2.1 Pro",
-    pdfSizeFormatted: "2.4 MB",
-    status: "Completed",
-  },
-  {
-    id: "rep-2",
-    name: "Rahul & Priya - Ashtakoot Kundli Matching",
-    kind: "Kundli Matching",
-    generationDate: "2026-07-28",
-    birthName: "Rahul & Priya",
-    birthDob: "04 Aug 1992 / 12 Oct 1994",
-    birthTime: "07:30 AM / 04:15 PM",
-    birthPlace: "Delhi / Ahmedabad",
-    language: "hi",
-    version: "v2.0",
-    pdfSizeFormatted: "3.1 MB",
-    status: "Completed",
-  },
-  {
-    id: "rep-3",
-    name: "Career & Financial Growth Horizon 2026-2030",
-    kind: "Career Report",
-    generationDate: "2026-07-15",
-    birthName: "Rahul Sharma",
-    birthDob: "04 Aug 1992",
-    birthTime: "07:30 AM",
-    birthPlace: "New Delhi, India",
-    language: "en",
-    version: "v1.8",
-    pdfSizeFormatted: "1.9 MB",
-    status: "Completed",
-  },
-  {
-    id: "rep-4",
-    name: "Annual Varshphal & Dasha Predictions 2026",
-    kind: "Varshphal",
-    generationDate: "2026-06-20",
-    birthName: "Rahul Sharma",
-    birthDob: "04 Aug 1992",
-    birthTime: "07:30 AM",
-    birthPlace: "New Delhi, India",
-    language: "gu",
-    version: "v1.5",
-    pdfSizeFormatted: "2.8 MB",
-    status: "Completed",
-  },
-  {
-    id: "rep-5",
-    name: "Home Vastu & Energy Flow Analysis",
-    kind: "Vastu Report",
-    generationDate: "2026-05-10",
-    birthName: "Rahul Sharma",
-    birthDob: "04 Aug 1992",
-    birthTime: "07:30 AM",
-    birthPlace: "New Delhi, India",
-    language: "en",
-    version: "v1.2",
-    pdfSizeFormatted: "4.2 MB",
-    status: "Archived",
-  },
-];
-
 interface PreviousReportsViewProps {
   language: SupportedLanguage;
   onSelectCompare?: (report1Id: string, report2Id: string) => void;
@@ -133,12 +62,55 @@ interface PreviousReportsViewProps {
 
 export function PreviousReportsView({ language, onSelectCompare }: PreviousReportsViewProps) {
   const t = getTranslation(language);
-  const [reports, setReports] = useState<KundliReportItem[]>(SAMPLE_REPORTS);
+  const [reports, setReports] = useState<KundliReportItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "name" | "size">("date");
   const [filterLanguage, setFilterLanguage] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [selectedReport, setSelectedReport] = useState<KundliReportItem | null>(null);
+
+  useEffect(() => {
+    async function loadRealReports() {
+      setLoading(true);
+      const { data: authData } = await supabase.auth.getUser();
+      const userId = authData?.user?.id;
+
+      if (!userId) {
+        setReports([]);
+        setLoading(false);
+        return;
+      }
+
+      const { data: kundlis } = await supabase
+        .from("user_kundlis")
+        .select("*")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false });
+
+      if (kundlis && kundlis.length > 0) {
+        const mapped: KundliReportItem[] = kundlis.map((k: any) => ({
+          id: k.id,
+          name: `${k.name} - Janam Kundli Report`,
+          kind: "Janam Kundli",
+          generationDate: k.created_at ? new Date(k.created_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+          birthName: k.name,
+          birthDob: k.birth_date || "N/A",
+          birthTime: k.birth_time ? String(k.birth_time).slice(0, 5) : "12:00",
+          birthPlace: k.place_name || "N/A",
+          language: (k.language as SupportedLanguage) || "en",
+          version: "v2.1",
+          pdfSizeFormatted: "2.4 MB",
+          status: k.is_archived ? "Archived" : "Completed",
+        }));
+        setReports(mapped);
+      } else {
+        setReports([]);
+      }
+      setLoading(false);
+    }
+    void loadRealReports();
+  }, []);
 
   const filteredReports = useMemo(() => {
     return reports
@@ -265,23 +237,37 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
       </Card>
 
       {/* Reports Table / List */}
-      {filteredReports.length === 0 ? (
+      {loading ? (
+        <div className="p-12 text-center text-sm text-muted-foreground">
+          <div className="size-6 border-2 border-accent border-t-transparent animate-spin rounded-full mx-auto mb-2" />
+          Loading your Kundli reports...
+        </div>
+      ) : filteredReports.length === 0 ? (
         <Card className="p-12 text-center border-dashed">
           <FileText className="size-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-          <h3 className="font-display text-lg font-semibold">{t.emptyStateTitle}</h3>
+          <h3 className="font-display text-lg font-semibold">No Kundli Reports Found</h3>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
-            No report matched your search or filters. Try clearing search keywords.
+            You haven't saved any Kundli reports yet. Create your first birth chart report to view and manage it here.
           </p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setSearchTerm("");
-              setFilterLanguage("all");
-              setFilterStatus("all");
-            }}
-          >
-            Reset Filters
-          </Button>
+          <div className="flex items-center justify-center gap-3">
+            <Link to="/kundli">
+              <Button className="gap-2">
+                <Plus className="size-4" /> {t.generateKundli}
+              </Button>
+            </Link>
+            {(searchTerm || filterLanguage !== "all" || filterStatus !== "all") && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchTerm("");
+                  setFilterLanguage("all");
+                  setFilterStatus("all");
+                }}
+              >
+                Reset Filters
+              </Button>
+            )}
+          </div>
         </Card>
       ) : (
         <div className="space-y-3">

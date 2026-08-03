@@ -238,11 +238,24 @@ export async function markAllNotificationsRead(userId: string): Promise<void> {
 
 export async function fetchUserProfile(userId: string): Promise<UserAstrologyProfile> {
   const { data: authUser } = await supabase.auth.getUser();
-  const name = authUser?.user?.user_metadata?.display_name || "Sanatan User";
+  const user = authUser?.user;
+  const authName =
+    user?.user_metadata?.display_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    (user?.email ? user.email.split("@")[0] : undefined);
+
+  let profileRow: any = null;
+  if (userId && userId !== "user-1") {
+    const { data } = await supabase.from("profiles").select("*").eq("id", userId).maybeSingle();
+    profileRow = data;
+  }
 
   const { data: savedCharts } = await supabase
     .from("user_kundlis")
     .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .limit(1);
 
   const chart = savedCharts?.[0];
@@ -250,18 +263,18 @@ export async function fetchUserProfile(userId: string): Promise<UserAstrologyPro
   const profile: UserAstrologyProfile = {
     id: userId,
     userId: userId,
-    name,
-    photoUrl: undefined,
-    dob: chart?.birth_date || "1992-08-04",
-    birthTime: String(chart?.birth_time || "07:30").slice(0, 5),
-    birthPlace: chart?.place_name || "New Delhi, India",
-    latitude: chart?.latitude || 28.6139,
-    longitude: chart?.longitude || 77.209,
+    name: profileRow?.display_name || authName || "User",
+    photoUrl: profileRow?.avatar_url || user?.user_metadata?.avatar_url || undefined,
+    dob: chart?.birth_date || "",
+    birthTime: chart?.birth_time ? String(chart.birth_time).slice(0, 5) : "",
+    birthPlace: chart?.place_name || "",
+    latitude: chart?.latitude ?? undefined,
+    longitude: chart?.longitude ?? undefined,
     timezone: chart?.timezone || "Asia/Kolkata",
-    preferredLanguage: "en",
+    preferredLanguage: (profileRow?.preferred_language as SupportedLanguage) || "en",
     preferredChartStyle: "north_indian",
-    currentSubscription: "Free Plan",
-    creditsRemaining: 45,
+    currentSubscription: profileRow?.subscription_tier || "Free Plan",
+    creditsRemaining: profileRow?.credits ?? user?.user_metadata?.credits ?? 100,
     notificationPreferences: {
       emailAlerts: true,
       dashaChangeAlerts: true,
@@ -271,7 +284,16 @@ export async function fetchUserProfile(userId: string): Promise<UserAstrologyPro
   };
 
   const local = loadStorage<UserAstrologyProfile | null>(PROFILE_KEY, null);
-  return local || profile;
+  if (local && local.name !== "Sanatan User" && local.userId === userId) {
+    return {
+      ...profile,
+      ...local,
+      name: profile.name !== "User" ? profile.name : local.name,
+      creditsRemaining: profile.creditsRemaining,
+    };
+  }
+
+  return profile;
 }
 
 export async function fetchUserAstrologyProfile(userId: string): Promise<UserAstrologyProfile> {
@@ -452,18 +474,59 @@ export async function fetchLiveUserDasha(userId: string): Promise<{
   const { data: charts } = await supabase
     .from("user_kundlis")
     .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .limit(1);
 
-  if (!charts || charts.length === 0) {
+  if (!charts || charts.length === 0 || !charts[0]?.birth_date) {
     return null;
   }
 
-  return {
-    mahadasha: "Rahu Mahadasha",
-    antardasha: "Jupiter Antardasha",
-    pratyantardasha: "Saturn Pratyantardasha",
-    endDate: "14 Oct 2028",
-  };
+  const chart = charts[0];
+  try {
+    const dob = new Date(chart.birth_date);
+    if (!isNaN(dob.getTime())) {
+      const birthYear = dob.getFullYear();
+      const currentYear = new Date().getFullYear();
+
+      const dashaLords = [
+        { lord: "Ketu", years: 7 },
+        { lord: "Venus", years: 20 },
+        { lord: "Sun", years: 6 },
+        { lord: "Moon", years: 10 },
+        { lord: "Mars", years: 7 },
+        { lord: "Rahu", years: 18 },
+        { lord: "Jupiter", years: 16 },
+        { lord: "Saturn", years: 19 },
+        { lord: "Mercury", years: 17 },
+      ];
+
+      const dayOfYear = Math.floor((dob.getTime() - new Date(birthYear, 0, 0).getTime()) / 86400000);
+      let lordIndex = Math.floor((dayOfYear * 9) / 365) % 9;
+      let startYear = birthYear;
+
+      while (startYear + dashaLords[lordIndex].years <= currentYear) {
+        startYear += dashaLords[lordIndex].years;
+        lordIndex = (lordIndex + 1) % 9;
+      }
+
+      const currentLord = dashaLords[lordIndex];
+      const endYear = startYear + currentLord.years;
+      const antardashaLord = dashaLords[(lordIndex + 1) % 9];
+      const pratyantardashaLord = dashaLords[(lordIndex + 2) % 9];
+
+      return {
+        mahadasha: `${currentLord.lord} Mahadasha`,
+        antardasha: `${antardashaLord.lord} Antardasha`,
+        pratyantardasha: `${pratyantardashaLord.lord} Pratyantardasha`,
+        endDate: `31 Dec ${endYear}`,
+      };
+    }
+  } catch (e) {
+    console.error("Error computing dasha:", e);
+  }
+
+  return null;
 }
 
 export async function fetchLiveUserTransit(userId: string): Promise<{
@@ -472,10 +535,22 @@ export async function fetchLiveUserTransit(userId: string): Promise<{
   rahuTransit: string;
   harmonyScore: number;
 } | null> {
+  const { data: charts } = await supabase
+    .from("user_kundlis")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (!charts || charts.length === 0 || !charts[0]?.birth_date) {
+    return null;
+  }
+
+  const currentYear = new Date().getFullYear();
   return {
-    jupiterTransit: "Jupiter transiting 10th House (Career Growth & Honor)",
-    saturnTransit: "Saturn transiting 8th House (Shani Dhaiya Window)",
-    rahuTransit: "Rahu transiting 11th House (Financial Gains & Network)",
+    jupiterTransit: `Jupiter transiting Gemini (Gochar Window ${currentYear})`,
+    saturnTransit: `Saturn transiting Pisces (Shani Transit)`,
+    rahuTransit: `Rahu in Aquarius / Ketu in Leo Transit`,
     harmonyScore: 82,
   };
 }

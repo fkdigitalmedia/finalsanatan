@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Search,
   FileText,
@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { SupportedLanguage } from "@/lib/astrology-crm/crm-types";
 import { getTranslation } from "@/lib/astrology-crm/i18n-astrology";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SearchHit {
   id: string;
@@ -25,69 +26,76 @@ interface SearchHit {
   dateOrDetail?: string;
 }
 
-const SEARCH_DATABASE: SearchHit[] = [
-  {
-    id: "s-1",
-    category: "Report",
-    title: "Rahul Sharma - Complete Janam Kundli 2026",
-    subtitle: "Full 45-page Janam Kundli report generated on v2.1 Engine",
-    dateOrDetail: "03 Aug 2026",
-  },
-  {
-    id: "s-2",
-    category: "Yoga",
-    title: "Gajakesari Raj Yoga",
-    subtitle: "Jupiter & Moon in mutual Kendra in 1st/7th House",
-    dateOrDetail: "Strong Benefit",
-  },
-  {
-    id: "s-3",
-    category: "Dosha",
-    title: "Kalsarp Dasha Shadow (Anant Kalsarp)",
-    subtitle: "Rahu in 1st house & Ketu in 7th house alignment",
-    dateOrDetail: "Remedy Required",
-  },
-  {
-    id: "s-4",
-    category: "Prediction",
-    title: "Career Elevation & Foreign Placement Window",
-    subtitle: "October 2026 - March 2027 Jupiter transit over 10th House",
-    dateOrDetail: "Oct 2026 - Mar 2027",
-  },
-  {
-    id: "s-5",
-    category: "Remedy",
-    title: "Mahamrityunjaya Mantra Chanting",
-    subtitle: "Daily 108 chants for Rahu/Saturn pacification",
-    dateOrDetail: "41-Day Discipline",
-  },
-  {
-    id: "s-6",
-    category: "Muhurat",
-    title: "Abhijit Muhurat - Auspicious Financial Dealings",
-    subtitle: "Daily 11:54 AM to 12:46 PM auspicious window",
-    dateOrDetail: "Daily",
-  },
-  {
-    id: "s-7",
-    category: "BirthDetail",
-    title: "Rahul Sharma Birth Chart Data",
-    subtitle: "04 Aug 1992 at 07:30 AM in New Delhi, India (28.6139 N, 77.2090 E)",
-    dateOrDetail: "Primary Chart",
-  },
-];
-
 interface SearchCenterViewProps {
   language: SupportedLanguage;
   onNavigateTab: (tabKey: string) => void;
 }
 
+const GENERAL_ASTRO_HITS: SearchHit[] = [
+  {
+    id: "s-2",
+    category: "Yoga",
+    title: "Gajakesari Raj Yoga",
+    subtitle: "Jupiter & Moon in mutual Kendra alignment",
+    dateOrDetail: "Auspicious Yoga",
+  },
+  {
+    id: "s-3",
+    category: "Dosha",
+    title: "Kalsarp Dasha Analysis",
+    subtitle: "Rahu & Ketu natal axis evaluation",
+    dateOrDetail: "Chart Check",
+  },
+  {
+    id: "s-5",
+    category: "Remedy",
+    title: "Mahamrityunjaya Mantra Chanting",
+    subtitle: "Daily 108 chants for health & peace",
+    dateOrDetail: "Recommended",
+  },
+  {
+    id: "s-6",
+    category: "Muhurat",
+    title: "Daily Abhijit Muhurat",
+    subtitle: "Daily midday auspicious window",
+    dateOrDetail: "Daily",
+  },
+];
+
 export function SearchCenterView({ language, onNavigateTab }: SearchCenterViewProps) {
   const t = getTranslation(language);
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [userHits, setUserHits] = useState<SearchHit[]>([]);
 
-  const results = SEARCH_DATABASE.filter((item) => {
+  useEffect(() => {
+    async function loadUserHits() {
+      const { data: authData } = await supabase.auth.getUser();
+      const userId = authData?.user?.id;
+      if (!userId) return;
+
+      const { data: kundlis } = await supabase
+        .from("user_kundlis")
+        .select("*")
+        .eq("user_id", userId);
+
+      if (kundlis && kundlis.length > 0) {
+        const hits: SearchHit[] = kundlis.map((k: any) => ({
+          id: `rep-${k.id}`,
+          category: "Report",
+          title: `${k.name} - Birth Chart`,
+          subtitle: `Born on ${k.birth_date || 'N/A'} at ${k.place_name || 'N/A'}`,
+          dateOrDetail: k.created_at ? new Date(k.created_at).toISOString().split("T")[0] : "Saved Chart",
+        }));
+        setUserHits(hits);
+      }
+    }
+    void loadUserHits();
+  }, []);
+
+  const allHits = [...userHits, ...GENERAL_ASTRO_HITS];
+
+  const results = allHits.filter((item) => {
     const matchesCat = activeCategory === "All" || item.category === activeCategory;
     const matchesQuery =
       item.title.toLowerCase().includes(query.toLowerCase()) ||
