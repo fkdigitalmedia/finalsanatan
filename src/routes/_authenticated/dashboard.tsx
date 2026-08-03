@@ -95,7 +95,7 @@ function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    void fetchUserAstrologyProfile(uid).then((p) => {
+    void fetchUserAstrologyProfile(uid).then((p: UserAstrologyProfile) => {
       setProfile(p);
       if (p.preferredLanguage) setLanguage(p.preferredLanguage);
       setLoading(false);
