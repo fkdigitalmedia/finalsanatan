@@ -322,7 +322,7 @@ export async function updateUserAstrologyProfile(profile: UserAstrologyProfile):
 export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
   const { data: profiles } = await supabase
     .from("profiles")
-    .select("id, display_name, email, created_at, updated_at, subscription_tier, credits")
+    .select("id, display_name, avatar_url, created_at, updated_at")
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -348,11 +348,11 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
 
   return profiles.map((p) => ({
     id: p.id,
-    email: p.email || "",
-    name: p.display_name || (p.email ? p.email.split("@")[0] : "User"),
+    email: "",
+    name: p.display_name || "User",
     joinedAt: p.created_at || new Date().toISOString(),
-    plan: p.subscription_tier || "Free",
-    credits: p.credits ?? 100,
+    plan: "Free",
+    credits: 100,
     totalReports: kundliMap[p.id] ?? 0,
     totalDownloads: downloadMap[p.id] ?? 0,
     lastActive: p.updated_at || p.created_at || new Date().toISOString(),
