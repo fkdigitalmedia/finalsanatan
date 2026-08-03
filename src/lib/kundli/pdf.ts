@@ -39,6 +39,9 @@ import { generateDomainNarratives } from "./personalized-narratives";
 import { generateEvidenceTraces, generateChapterActionCard } from "./explainable-astrology-engine";
 import { CLASSICAL_KNOWLEDGE_DATABASE } from "./classical-knowledge-database";
 import { ASTROLOGY_LEARNING_MODULES } from "./astrology-learning-engine";
+import { computeLifeScores, evaluatePriorityDashboard } from "./life-score-engine";
+import { generateOpportunityCalendar, generateDecisionSupport } from "./opportunity-risk-calendar";
+import { evaluatePlanetRelationships } from "./planet-house-matrix";
 
 export { PdfFlowEngine };
 
@@ -120,6 +123,7 @@ export async function generateKundliPdf(
         () => personalizedLifeDomainPdfPage(doc, result, ctx),
         () => explainableRuleTracePdfPage(doc, result, ctx),
         () => classicalKnowledgePdfPage(doc, result, ctx),
+        () => interactiveIntelligencePdfPage(doc, result, ctx),
         () => opportunityRiskPdfPage(doc, result, ctx),
         () => timeBasedTimelinePdfPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
@@ -2517,6 +2521,50 @@ function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(8);
     curY += 2;
     modernLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 4, curY);
+      curY += 4;
+    });
+
+    y += cardH + 6;
+  }
+}
+
+function interactiveIntelligencePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "INTERACTIVE ASTROLOGY INTELLIGENCE", "Phase 22 Decision Support", ctx);
+
+  let y = renderPageTitle(doc, "Decision Support & Opportunity Calendar", "Strategic Life Guidance & Priority Matrix", ctx);
+
+  const decisions = generateDecisionSupport(r);
+
+  for (const d of decisions) {
+    const verdictLines = doc.splitTextToSize(d.verdict, PAGE.w - 2 * PAGE.m - 8);
+    const cardH = 18 + verdictLines.length * 4;
+
+    if (y + cardH > PAGE.h - 20) {
+      doc.addPage();
+      pageHeader(doc, "INTERACTIVE ASTROLOGY INTELLIGENCE", "Phase 22 Decision Support", ctx);
+      y = 28;
+    }
+
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9.5);
+    doc.text(d.question, PAGE.m + 4, y + 6, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    doc.setTextColor(BRAND.excellent);
+    doc.setFontSize(8.5);
+    doc.text(`Recommended Period: ${d.recommendedPeriod}  |  Confidence: ${d.confidenceScore}%`, PAGE.m + 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    let curY = y + 16;
+    verdictLines.forEach((line: string) => {
       doc.text(line, PAGE.m + 4, curY);
       curY += 4;
     });
