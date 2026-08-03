@@ -35,6 +35,8 @@ import { computeLuckyFactors } from "./lucky-factors";
 import { computeDecadeTimeline } from "./life-timeline";
 import { PDF_V2_FAQS, PDF_V2_GLOSSARY, PDF_V2_APPENDIX } from "./pdf-v2-meanings";
 import { PdfFlowEngine } from "./pdf-flow-engine";
+import { generateDomainNarratives } from "./personalized-narratives";
+import { CLASSICAL_CITATIONS_CATALOG } from "./classical-citations";
 
 export { PdfFlowEngine };
 
@@ -113,6 +115,7 @@ export async function generateKundliPdf(
         () => doshasPage(doc, result, ctx),
         () => remediesPage(doc, result, ctx),
         () => predictionsPage(doc, result, ctx),
+        () => personalizedLifeDomainPdfPage(doc, result, ctx),
         () => opportunityRiskPdfPage(doc, result, ctx),
         () => timeBasedTimelinePdfPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
@@ -2335,6 +2338,47 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   challenges.forEach((c, idx) => {
     doc.text(c, col2X + 4, y + 14 + idx * 6);
   });
+}
+
+function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "PERSONALIZED LIFE DOMAINS", "Phase 19 Astrological Intelligence", ctx);
+
+  let y = renderPageTitle(doc, "Personalized Life Domain Intelligence", "Native Consultation & Classical Citations", ctx);
+
+  const domainData = generateDomainNarratives(r);
+  const chapters = [domainData.career, domainData.marriage, domainData.finance, domainData.health];
+
+  for (const ch of chapters) {
+    if (!ch) continue;
+    if (y > PAGE.h - 45) break;
+
+    // Chapter Visual Card
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 38, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10.5);
+    doc.text(`❖ ${ch.title}`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.excellent);
+    doc.setFontSize(9);
+    doc.text(`Score: ${ch.score}/100  |  Confidence: ${ch.confidence}%`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(ch.summary, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "italic");
+    doc.setFontSize(7.5);
+    doc.text(`Source: ${ch.classicalSource}`, PAGE.m + 4, y + 33);
+
+    y += 42;
+  }
 }
 
 function verifyPdfLayout(doc: jsPDF) {
