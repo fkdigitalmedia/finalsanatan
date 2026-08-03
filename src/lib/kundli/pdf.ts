@@ -36,8 +36,9 @@ import { computeDecadeTimeline } from "./life-timeline";
 import { PDF_V2_FAQS, PDF_V2_GLOSSARY, PDF_V2_APPENDIX } from "./pdf-v2-meanings";
 import { PdfFlowEngine } from "./pdf-flow-engine";
 import { generateDomainNarratives } from "./personalized-narratives";
-import { CLASSICAL_CITATIONS_CATALOG } from "./classical-citations";
 import { generateEvidenceTraces, generateChapterActionCard } from "./explainable-astrology-engine";
+import { CLASSICAL_KNOWLEDGE_DATABASE } from "./classical-knowledge-database";
+import { ASTROLOGY_LEARNING_MODULES } from "./astrology-learning-engine";
 
 export { PdfFlowEngine };
 
@@ -118,6 +119,7 @@ export async function generateKundliPdf(
         () => predictionsPage(doc, result, ctx),
         () => personalizedLifeDomainPdfPage(doc, result, ctx),
         () => explainableRuleTracePdfPage(doc, result, ctx),
+        () => classicalKnowledgePdfPage(doc, result, ctx),
         () => opportunityRiskPdfPage(doc, result, ctx),
         () => timeBasedTimelinePdfPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
@@ -2425,6 +2427,44 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.text(`Evidence Flow: ${tr.supportingRules.join(" → ")}  |  Sources: [${tr.sources.join(", ")}]`, PAGE.m + 7, y + 29.5);
 
     y += 42;
+  }
+}
+
+function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "CLASSICAL ASTROLOGY KNOWLEDGE ENGINE", "Phase 21 Authentic Citations", ctx);
+
+  let y = renderPageTitle(doc, "Classical Text Citations & Educational Modules", "Authentic Vedic References & Learn-Why Guide", ctx);
+
+  const knowledgeEntries = Object.values(CLASSICAL_KNOWLEDGE_DATABASE);
+
+  for (const ke of knowledgeEntries) {
+    if (y > PAGE.h - 45) break;
+
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 36, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`📖 ${ke.ruleName} (${ke.sanskritName})`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.gold);
+    doc.setFontSize(8.5);
+    doc.text(`${ke.classicalSource} · ${ke.chapter} (${ke.verseNumber})`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "italic");
+    doc.setFontSize(8.5);
+    doc.text(`"${ke.translation}"`, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8);
+    doc.text(`Modern Application: ${ke.modernInterpretation}`, PAGE.m + 4, y + 28, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    y += 40;
   }
 }
 

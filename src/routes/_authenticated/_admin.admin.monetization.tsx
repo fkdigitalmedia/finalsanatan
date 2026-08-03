@@ -13,6 +13,7 @@ import { adminList, adminUpsert } from "@/lib/admin.functions";
 import { parseBoolSetting } from "@/lib/settings.functions";
 import { PredictionRuleManager } from "@/components/admin/PredictionRuleManager";
 import { PdfConfigurator } from "@/components/admin/PdfConfigurator";
+import { KnowledgeBaseManager } from "@/components/admin/KnowledgeBaseManager";
 
 const plansConfig: CrudConfig = {
   table: "subscription_plans",
@@ -185,6 +186,7 @@ function KundliFreeToggle() {
       <div className="mt-8 border-t pt-8 space-y-8">
         <PredictionRuleManager />
         <PdfConfigurator />
+        <KnowledgeBaseManager />
       </div>
     </section>
   );
