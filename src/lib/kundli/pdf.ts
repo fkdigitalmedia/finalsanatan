@@ -61,7 +61,7 @@ const BRAND = {
   weak: "#B91C1C",
 };
 
-const PAGE = { w: 210, h: 297, m: 15 }; // A4 mm
+const PAGE = { w: 210, h: 297, m: 22 }; // A4 mm (22mm left & right margins)
 
 interface PdfOptions {
   filename?: string;
@@ -1950,7 +1950,7 @@ function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(9);
-    doc.text(d.text, PAGE.m + 5, y + 5);
+    doc.text(d.text, PAGE.m + 5, y + 5, { maxWidth: PAGE.w - 2 * PAGE.m - 10 });
 
     y += 14;
   }
@@ -1985,10 +1985,10 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   opportunities.forEach((o, idx) => {
     doc.setTextColor("#166534");
     setFont(doc, font, "bold");
-    doc.text(`• ${o.title}`, PAGE.m + 4, y + 15 + idx * 15);
+    doc.text(`• ${o.title}`, PAGE.m + 4, y + 15 + idx * 15, { maxWidth: cardW - 8 });
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
-    doc.text(o.text, PAGE.m + 4, y + 20 + idx * 15);
+    doc.text(o.text, PAGE.m + 4, y + 20 + idx * 15, { maxWidth: cardW - 8 });
   });
 
   // Right Column: Risks
@@ -2013,10 +2013,10 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   risks.forEach((rk, idx) => {
     doc.setTextColor("#991B1B");
     setFont(doc, font, "bold");
-    doc.text(`• ${rk.title}`, col2X + 4, y + 15 + idx * 15);
+    doc.text(`• ${rk.title}`, col2X + 4, y + 15 + idx * 15, { maxWidth: cardW - 8 });
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
-    doc.text(rk.text, col2X + 4, y + 20 + idx * 15);
+    doc.text(rk.text, col2X + 4, y + 20 + idx * 15, { maxWidth: cardW - 8 });
   });
 }
 
@@ -2047,7 +2047,7 @@ function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(9);
-    doc.text(t.text, PAGE.m + 4, y + 12);
+    doc.text(t.text, PAGE.m + 4, y + 12, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     y += 20;
   }
@@ -2143,9 +2143,9 @@ function lifeTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(t.detailedPrediction, PAGE.m + 4, y + 12);
+    doc.text(t.detailedPrediction, PAGE.m + 4, y + 12, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
     doc.setTextColor(BRAND.muted);
-    doc.text(`Focus: ${t.recommendedFocus}`, PAGE.m + 4, y + 17);
+    doc.text(`Focus: ${t.recommendedFocus}`, PAGE.m + 4, y + 17, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     y += 24;
   }
@@ -2162,12 +2162,12 @@ function faqPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(9.5);
-    doc.text(`Q: ${f.question}`, PAGE.m, y);
+    doc.text(`Q: ${f.question}`, PAGE.m, y, { maxWidth: PAGE.w - 2 * PAGE.m });
 
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(f.answer, PAGE.m + 4, y + 5);
+    doc.text(f.answer, PAGE.m + 4, y + 5, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     y += 18;
   }
@@ -2189,7 +2189,7 @@ function glossaryPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(g.definition, PAGE.m + 4, y + 5);
+    doc.text(g.definition, PAGE.m + 4, y + 5, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     y += 14;
   }
@@ -2222,7 +2222,7 @@ function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(d.val, PAGE.m + 55, y + 6);
+    doc.text(d.val, PAGE.m + 55, y + 6, { maxWidth: PAGE.w - 2 * PAGE.m - 60 });
 
     y += 18;
   }
@@ -2424,7 +2424,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text(`Evidence Flow: ${tr.supportingRules.join(" → ")}  |  Sources: [${tr.sources.join(", ")}]`, PAGE.m + 7, y + 29.5);
+    doc.text(`Evidence Flow: ${tr.supportingRules.join(" → ")}  |  Sources: [${tr.sources.join(", ")}]`, PAGE.m + 7, y + 29.5, { maxWidth: PAGE.w - 2 * PAGE.m - 14 });
 
     y += 42;
   }
