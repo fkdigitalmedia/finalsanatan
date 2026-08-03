@@ -31,6 +31,9 @@ import {
   NAKSHATRA_MEANING,
 } from "./pdf-meanings";
 import { generateLifeAnalysis, type LifeSection } from "./life-analysis";
+import { computeLuckyFactors } from "./lucky-factors";
+import { computeDecadeTimeline } from "./life-timeline";
+import { PDF_V2_FAQS, PDF_V2_GLOSSARY, PDF_V2_APPENDIX } from "./pdf-v2-meanings";
 
 // ---------- Brand tokens (hard-coded so PDF matches print) ----------
 const BRAND = {
@@ -105,6 +108,12 @@ export async function generateKundliPdf(
         () => divisionalChartsPage(doc, result, ctx),
         () => shadbalaPage(doc, result, ctx),
         () => ashtakvargaPage(doc, result, ctx),
+        () => luckyFactorsPdfPage(doc, result, ctx),
+        () => remedyPlannerPdfPage(doc, result, ctx),
+        () => lifeTimelinePdfPage(doc, result, ctx),
+        () => faqPdfPage(doc, result, ctx),
+        () => glossaryPdfPage(doc, result, ctx),
+        () => appendixPdfPage(doc, result, ctx),
         () => lifeAnalysisPage(doc, result, ctx),
         ...(opts.narratives ?? []).map((n) => () => narrativePages(doc, n.title, n.text, ctx)),
         () => summaryPage(doc, result, ctx),
@@ -2033,6 +2042,213 @@ function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.text(t.text, PAGE.m + 4, y + 12);
 
     y += 20;
+  }
+}
+
+function luckyFactorsPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "LUCKY FACTORS & PROSPERITY INDICATORS", "Phase 18 PDF v2", ctx);
+
+  const lucky = computeLuckyFactors(r);
+  let y = 30;
+
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Personal Lucky Attributes", PAGE.m, y);
+  y += 12;
+
+  const items = [
+    { label: "Lucky Numbers", value: lucky.numbers.join(", ") },
+    { label: "Lucky Colours", value: lucky.colors.join(", ") },
+    { label: "Lucky Days", value: lucky.days.join(", ") },
+    { label: "Lucky Gemstones", value: lucky.gemstones.join(" / ") },
+    { label: "Lucky Rudraksha", value: lucky.rudraksha.join(" / ") },
+    { label: "Lucky Direction", value: lucky.direction },
+    { label: "Lucky Deity", value: lucky.deity },
+    { label: "Lucky Mantras", value: lucky.mantras.join(" | ") },
+  ];
+
+  for (const it of items) {
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.divider);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 14, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9.5);
+    doc.text(it.label, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(it.value, PAGE.m + 50, y + 6);
+
+    y += 18;
+  }
+}
+
+function remedyPlannerPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "CUSTOM REMEDY PLANNER", "Daily, Weekly, Monthly Matrix", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Structured Remedy Action Plan", PAGE.m, y);
+  y += 12;
+
+  const plans = [
+    { interval: "Daily Routine", detail: "Morning Surya Arghya facing East; Recite 108 repetitions of Maha Mrityunjaya Mantra." },
+    { interval: "Weekly Rituals", detail: "Tuesday Hanuman Chalisa recitation & Friday Mahalakshmi Puja with white flowers." },
+    { interval: "Monthly Observances", detail: "Fast on Amavasya / Pradosham and water Peepal tree with unboiled milk and water." },
+    { interval: "Annual Festivals", detail: "Participate in Mahashivratri dhyana & Maha Navratri Chandi Path." },
+  ];
+
+  for (const p of plans) {
+    doc.setFillColor("#FFF6E1");
+    doc.setDrawColor(BRAND.gold);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`❖ ${p.interval}`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(p.detail, PAGE.m + 4, y + 12);
+
+    y += 22;
+  }
+}
+
+function lifeTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "DECADE LIFE TIMELINE (0–60+)", "Macro Life Phases", ctx);
+
+  const timeline = computeDecadeTimeline(r);
+  let y = 30;
+
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Decade-by-Decade Planetary Predictions", PAGE.m, y);
+  y += 10;
+
+  for (const t of timeline) {
+    if (y > PAGE.h - 30) break;
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.divider);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 20, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.saffron);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`[${t.decade}] ${t.phaseTitle} (${t.ageSpan})`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(t.detailedPrediction, PAGE.m + 4, y + 12);
+    doc.setTextColor(BRAND.muted);
+    doc.text(`Focus: ${t.recommendedFocus}`, PAGE.m + 4, y + 17);
+
+    y += 24;
+  }
+}
+
+function faqPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "FREQUENTLY ASKED QUESTIONS", "Educational Interpretive Guide", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Astrological Clarifications & FAQ", PAGE.m, y);
+  y += 10;
+
+  for (const f of PDF_V2_FAQS) {
+    if (y > PAGE.h - 30) break;
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9.5);
+    doc.text(`Q: ${f.question}`, PAGE.m, y);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(f.answer, PAGE.m + 4, y + 5);
+
+    y += 18;
+  }
+}
+
+function glossaryPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "SANSKRIT TERMS GLOSSARY", "Jyotisha Vocabulary", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Vedic Astrology Glossary", PAGE.m, y);
+  y += 10;
+
+  for (const g of PDF_V2_GLOSSARY) {
+    if (y > PAGE.h - 25) break;
+    doc.setTextColor(BRAND.saffron);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9.5);
+    doc.text(`• ${g.term} (${g.sanskrit})`, PAGE.m, y);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(g.definition, PAGE.m + 4, y + 5);
+
+    y += 14;
+  }
+}
+
+function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "APPENDIX & CALCULATION METHODOLOGY", "Astronomical Standards", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Astronomy Engine & Calculation Methods", PAGE.m, y);
+  y += 12;
+
+  const details = [
+    { label: "Ayanamsa System", val: PDF_V2_APPENDIX.ayanamsaSystem },
+    { label: "House System", val: PDF_V2_APPENDIX.houseSystem },
+    { label: "Ephemeris Engine", val: PDF_V2_APPENDIX.ephemerisEngine },
+    { label: "Sidereal Time Computation", val: PDF_V2_APPENDIX.timeCalculation },
+    { label: "Software Engine Version", val: PDF_V2_APPENDIX.softwareVersion },
+  ];
+
+  for (const d of details) {
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.divider);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 14, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9.5);
+    doc.text(d.label, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(d.val, PAGE.m + 55, y + 6);
+
+    y += 18;
   }
 }
 

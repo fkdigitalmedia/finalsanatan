@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { adminList, adminUpsert } from "@/lib/admin.functions";
 import { parseBoolSetting } from "@/lib/settings.functions";
 import { PredictionRuleManager } from "@/components/admin/PredictionRuleManager";
+import { PdfConfigurator } from "@/components/admin/PdfConfigurator";
 
 const plansConfig: CrudConfig = {
   table: "subscription_plans",
@@ -181,8 +182,9 @@ function KundliFreeToggle() {
           </div>
         </div>
       </div>
-      <div className="mt-8 border-t pt-8">
+      <div className="mt-8 border-t pt-8 space-y-8">
         <PredictionRuleManager />
+        <PdfConfigurator />
       </div>
     </section>
   );
