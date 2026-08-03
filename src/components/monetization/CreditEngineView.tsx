@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Zap,
   FileText,
@@ -14,7 +14,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { DEFAULT_CREDIT_RULES } from "@/lib/monetization/monetization-api";
+import type { DynamicCreditRule } from "@/lib/credit-rules/credit-rules-types";
+import { fetchCreditRules } from "@/lib/credit-rules/credit-rules-api";
 
 interface CreditEngineViewProps {
   creditBalance?: number;
@@ -25,6 +26,12 @@ export function CreditEngineView({
   creditBalance = 45,
   onTopUpClick,
 }: CreditEngineViewProps) {
+  const [rules, setRules] = useState<DynamicCreditRule[]>([]);
+
+  useEffect(() => {
+    void fetchCreditRules().then(setRules);
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Header & Balance Card */}
@@ -48,10 +55,10 @@ export function CreditEngineView({
         </div>
       </Card>
 
-      {/* 24.3 Usage Limits Progress Bars */}
+      {/* Usage Limits Progress Bars */}
       <div>
         <h3 className="text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-3">
-          24.3 Monthly Quota & Usage Limits
+          Monthly Quota & Usage Limits
         </h3>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -93,10 +100,10 @@ export function CreditEngineView({
         </div>
       </div>
 
-      {/* 24.2 Credit Cost Breakdown Table */}
+      {/* Credit Cost Breakdown Table */}
       <Card className="p-6">
         <h3 className="font-display font-bold text-lg mb-4 flex items-center gap-2">
-          <Zap className="size-5 text-amber-500" /> Credit Cost Per Feature
+          <Zap className="size-5 text-amber-500" /> Dynamic Credit Cost Per Feature
         </h3>
 
         <div className="overflow-x-auto">
@@ -107,11 +114,11 @@ export function CreditEngineView({
                 <th className="p-3">Cost (Credits)</th>
                 <th className="p-3">Daily Limit</th>
                 <th className="p-3">Monthly Limit</th>
-                <th className="p-3">Unlimited In Plans</th>
+                <th className="p-3">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {DEFAULT_CREDIT_RULES.map((rule) => (
+              {rules.map((rule) => (
                 <tr key={rule.featureKey} className="hover:bg-secondary/20">
                   <td className="p-3 font-semibold flex items-center gap-2">
                     <span className="size-2 rounded-full bg-accent inline-block" />
@@ -131,13 +138,15 @@ export function CreditEngineView({
                   </td>
 
                   <td className="p-3">
-                    <div className="flex flex-wrap gap-1">
-                      {rule.unlimitedInPlans.map((p) => (
-                        <Badge key={p} variant="outline" className="text-[10px] uppercase">
-                          {p}
-                        </Badge>
-                      ))}
-                    </div>
+                    <Badge
+                      className={
+                        rule.isEnabled
+                          ? "bg-emerald-500 text-white text-[10px]"
+                          : "bg-rose-500 text-white text-[10px]"
+                      }
+                    >
+                      {rule.isEnabled ? "ACTIVE" : "DISABLED"}
+                    </Badge>
                   </td>
                 </tr>
               ))}
