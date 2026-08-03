@@ -7,7 +7,7 @@ const config: CrudConfig = {
   title: "Newsletter Subscribers",
   description: "View, search, add and manage all subscribers registered for the weekly newsletter.",
   searchColumn: "email",
-  order: "created_at.desc",
+  order: "created_at",
   fields: [
     { name: "email", label: "Email Address", type: "text", required: true },
     {

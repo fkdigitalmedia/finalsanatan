@@ -85,11 +85,19 @@ export const adminList = createServerFn({ method: "GET" })
       integration_settings: "key",
       translations: "key",
     };
+    let rawOrder = NO_CREATED_AT[v.table] ?? v.order ?? "created_at";
+    let isAscending = NO_CREATED_AT[v.table] ? true : (v.ascending ?? false);
+    if (rawOrder.endsWith(".desc")) {
+      rawOrder = rawOrder.replace(/\.desc$/, "");
+      isAscending = false;
+    } else if (rawOrder.endsWith(".asc")) {
+      rawOrder = rawOrder.replace(/\.asc$/, "");
+      isAscending = true;
+    }
     return {
       table: v.table,
-      // Some tables have no created_at column: always force their safe order column
-      order: NO_CREATED_AT[v.table] ?? v.order ?? "created_at",
-      ascending: NO_CREATED_AT[v.table] ? true : (v.ascending ?? false),
+      order: rawOrder,
+      ascending: isAscending,
       limit: Math.min(Math.max(v.limit ?? 200, 1), 1000),
       search: (v.search ?? "").trim().slice(0, 200),
       searchColumn: v.searchColumn,

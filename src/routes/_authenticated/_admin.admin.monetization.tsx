@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { adminList, adminUpsert } from "@/lib/admin.functions";
+import { parseBoolSetting } from "@/lib/settings.functions";
 
 const plansConfig: CrudConfig = {
   table: "subscription_plans",
@@ -97,7 +98,7 @@ function KundliFreeToggle() {
   });
 
   const row = (q.data?.rows ?? []).find((r: any) => r.key === "kundli.report") as any;
-  const initial = !!row?.value?.free_full_report;
+  const initial = parseBoolSetting(row?.value);
   const [free, setFree] = useState(initial);
   const [dirty, setDirty] = useState(false);
 
@@ -125,6 +126,7 @@ function KundliFreeToggle() {
       );
       setDirty(false);
       qc.invalidateQueries({ queryKey: ["admin", "site_settings"] });
+      qc.invalidateQueries({ queryKey: ["site_settings"] });
     },
     onError: (e: any) => toast.error(e?.message ?? "Failed to save"),
   });

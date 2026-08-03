@@ -58,6 +58,7 @@ import { PhotonPlacePicker } from "@/components/tools/PhotonPlacePicker";
 import { LANGUAGES } from "@/i18n/config";
 import { subscribeNewsletter } from "@/lib/newsletter.functions";
 import { getMyEntitlements } from "@/lib/payments.functions";
+import { getKundliReportSetting } from "@/lib/settings.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -293,19 +294,13 @@ function Hero({
   const hasPaidEntitlement =
     !!entitlementsQuery.data?.entitlements?.includes("kundli_premium_report");
 
+  const getKundliReportSettingFn = useServerFn(getKundliReportSetting);
+
   // Admin-controlled: give full report free to everyone when this flag is ON
   const reportSettingQuery = useQuery({
-    queryKey: ["site-setting", "kundli.report"],
-    queryFn: async () => {
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { data } = await supabase
-        .from("site_settings")
-        .select("value")
-        .eq("key", "kundli.report")
-        .maybeSingle();
-      return (data?.value ?? {}) as { free_full_report?: boolean };
-    },
-    staleTime: 5 * 60_000,
+    queryKey: ["site_settings", "kundli.report"],
+    queryFn: () => getKundliReportSettingFn(),
+    staleTime: 15_000,
   });
   const freeFullReport = !!reportSettingQuery.data?.free_full_report;
   const isPremium = hasPaidEntitlement || freeFullReport;
