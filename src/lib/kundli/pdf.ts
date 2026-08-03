@@ -37,6 +37,7 @@ import { PDF_V2_FAQS, PDF_V2_GLOSSARY, PDF_V2_APPENDIX } from "./pdf-v2-meanings
 import { PdfFlowEngine } from "./pdf-flow-engine";
 import { generateDomainNarratives } from "./personalized-narratives";
 import { CLASSICAL_CITATIONS_CATALOG } from "./classical-citations";
+import { generateEvidenceTraces, generateChapterActionCard } from "./explainable-astrology-engine";
 
 export { PdfFlowEngine };
 
@@ -116,6 +117,7 @@ export async function generateKundliPdf(
         () => remediesPage(doc, result, ctx),
         () => predictionsPage(doc, result, ctx),
         () => personalizedLifeDomainPdfPage(doc, result, ctx),
+        () => explainableRuleTracePdfPage(doc, result, ctx),
         () => opportunityRiskPdfPage(doc, result, ctx),
         () => timeBasedTimelinePdfPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
@@ -2376,6 +2378,51 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     setFont(doc, font, "italic");
     doc.setFontSize(7.5);
     doc.text(`Source: ${ch.classicalSource}`, PAGE.m + 4, y + 33);
+
+    y += 42;
+  }
+}
+
+function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
+
+  let y = renderPageTitle(doc, "Prediction Evidence & Rule Flow Traces", "Transparent Astrological Reasoning", ctx);
+
+  const traces = generateEvidenceTraces(r);
+
+  for (const tr of traces) {
+    if (y > PAGE.h - 45) break;
+
+    // Trace Card
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 38, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`🔍 ${tr.domain}`, PAGE.m + 4, y + 6);
+
+    const confColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.good;
+    doc.setTextColor(confColor);
+    doc.setFontSize(8.5);
+    doc.text(`Confidence: ${tr.confidenceScore}% [${tr.confidenceRating}]`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.text(tr.predictionText, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+
+    // Evidence Chain Badge
+    doc.setFillColor("#FFF6E1");
+    doc.setDrawColor(BRAND.gold);
+    doc.roundedRect(PAGE.m + 4, y + 22, PAGE.w - 2 * PAGE.m - 8, 12, 1, 1, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(7.5);
+    doc.text(`Evidence Flow: ${tr.supportingRules.join(" → ")}  |  Sources: [${tr.sources.join(", ")}]`, PAGE.m + 7, y + 29.5);
 
     y += 42;
   }

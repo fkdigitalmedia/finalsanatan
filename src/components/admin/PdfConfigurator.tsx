@@ -47,6 +47,7 @@ export const DEFAULT_PDF_V2_SECTIONS: PdfSectionItem[] = [
   { id: 25, title: "Section 25: Frequently Asked Questions (FAQ)", category: "Appendix", enabled: true },
   { id: 26, title: "Section 26: Sanskrit Terms Glossary", category: "Appendix", enabled: true },
   { id: 27, title: "Section 27: Calculation Methods Appendix", category: "Appendix", enabled: true },
+  { id: 28, title: "Section 28: Explainable AI Rule Traces & Evidence Flow", category: "Explainable AI", enabled: true },
 ];
 
 export function PdfConfigurator() {
