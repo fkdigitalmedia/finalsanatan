@@ -1,6 +1,6 @@
 // ============================================================
 // Phase 23 & 24 — Production Data Integration Astrology CRM API Engine
-// Direct Supabase DB & Engine Queries — Strict Type Safe with All Component Export Aliases
+// Direct Supabase DB & Engine Queries — Explicit Named Function Exports for Rolldown / Vite Bundler
 // ============================================================
 
 import { supabase } from "@/integrations/supabase/client";
@@ -184,7 +184,9 @@ export async function fetchUserActivityTimeline(userId: string): Promise<Activit
   return current.filter((a) => a.userId === userId || userId === "demo");
 }
 
-export const fetchActivityTimeline = fetchUserActivityTimeline;
+export async function fetchActivityTimeline(userId: string): Promise<ActivityItem[]> {
+  return fetchUserActivityTimeline(userId);
+}
 
 export async function addActivityLog(item: Omit<ActivityItem, "id" | "timestamp">): Promise<ActivityItem> {
   const current = loadStorage<ActivityItem[]>(TIMELINE_KEY, []);
@@ -206,7 +208,9 @@ export async function fetchUserNotifications(userId: string): Promise<CRMNotific
   return current.filter((n) => n.userId === userId || userId === "demo");
 }
 
-export const fetchCRMNotifications = fetchUserNotifications;
+export async function fetchCRMNotifications(userId: string): Promise<CRMNotification[]> {
+  return fetchUserNotifications(userId);
+}
 
 export async function markNotificationAsRead(id: string): Promise<void> {
   const current = loadStorage<CRMNotification[]>(NOTIFICATIONS_KEY, []);
@@ -216,7 +220,9 @@ export async function markNotificationAsRead(id: string): Promise<void> {
   );
 }
 
-export const markNotificationRead = markNotificationAsRead;
+export async function markNotificationRead(id: string): Promise<void> {
+  return markNotificationAsRead(id);
+}
 
 export async function markAllNotificationsRead(userId: string): Promise<void> {
   const current = loadStorage<CRMNotification[]>(NOTIFICATIONS_KEY, []);
@@ -268,7 +274,9 @@ export async function fetchUserProfile(userId: string): Promise<UserAstrologyPro
   return local || profile;
 }
 
-export const fetchUserAstrologyProfile = fetchUserProfile;
+export async function fetchUserAstrologyProfile(userId: string): Promise<UserAstrologyProfile> {
+  return fetchUserProfile(userId);
+}
 
 export async function saveUserProfile(profile: UserAstrologyProfile): Promise<UserAstrologyProfile> {
   saveStorage(PROFILE_KEY, profile);
@@ -281,7 +289,9 @@ export async function saveUserProfile(profile: UserAstrologyProfile): Promise<Us
   return profile;
 }
 
-export const updateUserAstrologyProfile = saveUserProfile;
+export async function updateUserAstrologyProfile(profile: UserAstrologyProfile): Promise<UserAstrologyProfile> {
+  return saveUserProfile(profile);
+}
 
 // ------------------------------------------------------------
 // 23.13 Admin CRM API
@@ -353,7 +363,9 @@ export async function fetchAstrologyAnalytics(): Promise<AnalyticsMetrics> {
   };
 }
 
-export const fetchCRMAnalytics = fetchAstrologyAnalytics;
+export async function fetchCRMAnalytics(): Promise<AnalyticsMetrics> {
+  return fetchAstrologyAnalytics();
+}
 
 // ------------------------------------------------------------
 // 23.15 Storage Policy API
@@ -370,7 +382,9 @@ export async function getPDFStoragePolicy(): Promise<PDFStoragePolicy> {
   };
 }
 
-export const fetchPDFStoragePolicy = getPDFStoragePolicy;
+export async function fetchPDFStoragePolicy(): Promise<PDFStoragePolicy> {
+  return getPDFStoragePolicy();
+}
 
 // ------------------------------------------------------------
 // Security Audit Logs & Report Comparison
