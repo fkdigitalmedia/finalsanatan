@@ -597,6 +597,20 @@
     "premium": "പ്രീമിയം"
   },
   "kundli": {
+    "form": {
+      "name": "പൂർണ്ണമായ പേര്",
+      "gender": "ലിംഗം",
+      "gender_male": "പുരുഷൻ",
+      "gender_female": "സ്ത്രീ",
+      "gender_other": "മറ്റുള്ളവ",
+      "date_of_birth": "ജനന തീയതി",
+      "time_of_birth": "ജനന സമയം",
+      "report_language": "റിപ്പോർട്ട് ഭാഷ",
+      "notes": "കുറിപ്പുകൾ",
+      "save_chart": "ചാർട്ട് സംരക്ഷിക്കുക",
+      "saving": "സംരക്ഷിക്കുന്നു…",
+      "cancel": "റദ്ദാക്കുക"
+    },
     "landing": {
       "breadcrumb_home": "Home",
       "breadcrumb_current": "Janam Kundli"

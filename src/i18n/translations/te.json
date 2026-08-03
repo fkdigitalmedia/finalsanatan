@@ -597,6 +597,20 @@
     "premium": "ప్రీమియం"
   },
   "kundli": {
+    "form": {
+      "name": "పూర్తి పేరు",
+      "gender": "లింగం",
+      "gender_male": "పురుషుడు",
+      "gender_female": "స్త్రీ",
+      "gender_other": "ఇతర",
+      "date_of_birth": "జన్మ తేదీ",
+      "time_of_birth": "జన్మ సమయం",
+      "report_language": "నివేదిక భాష",
+      "notes": "గమనికలు",
+      "save_chart": "చార్ట్ సేవ్ చేయండి",
+      "saving": "సేవ్ చేస్తోంది…",
+      "cancel": "రద్దు చేయి"
+    },
     "landing": {
       "breadcrumb_home": "Home",
       "breadcrumb_current": "Janam Kundli"

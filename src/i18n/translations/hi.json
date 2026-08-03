@@ -632,6 +632,68 @@
     "premium": "प्रीमियम"
   },
   "kundli": {
+    "form": {
+      "name": "पूरा नाम",
+      "gender": "लिंग",
+      "gender_male": "पुरुष",
+      "gender_female": "महिला",
+      "gender_other": "अन्य",
+      "date_of_birth": "जन्म तिथि",
+      "time_of_birth": "जन्म समय",
+      "report_language": "रिपोर्ट की भाषा",
+      "notes": "नोट्स",
+      "save_chart": "कुंडली सहेजें",
+      "saving": "सहेजा जा रहा है…",
+      "cancel": "रद्द करें"
+    },
+    "matching": {
+      "errors": {
+        "fill_both": "कृपया दोनों विवरण दर्ज करें।",
+        "compute_failed": "गुण मिलान की गणना नहीं की जा सकी।"
+      },
+      "default_boy": "वर",
+      "default_girl": "वधू",
+      "breadcrumb_home": "होम",
+      "breadcrumb_current": "कुंडली मिलान",
+      "hero_badge": "अष्टकूट 36 गुण मिलान",
+      "hero_title": "कुंडली मिलान (गुण मिलान)",
+      "hero_subtitle": "वैदिक विवाह अनुकूलता, अष्टकूट स्कोर, मंगल दोष, नाड़ी और भकूट दोष की जांच करें।",
+      "boy_details": "वर का विवरण",
+      "girl_details": "वधू का विवरण",
+      "matching_progress": "अनुकूलता गणना की जा रही है...",
+      "match_cta": "अनुकूलता जांचें",
+      "trust_line": "100% निःशुल्क और गोपनीय",
+      "loader_title": "गुण मिलान की गणना हो रही है...",
+      "loader_subtitle": "8 कूटों और दोषों का विश्लेषण किया जा रहा है",
+      "cross_promo": "व्यक्तिगत कुंडली ढूंढ रहे हैं?",
+      "cross_promo_cta": "जन्म कुंडली बनाएं →",
+      "full_name": "पूरा नाम",
+      "full_name_placeholder": "उदा. नाम",
+      "date_of_birth": "जन्म तिथि",
+      "time_of_birth": "जन्म समय",
+      "total_guna_score": "कुल गुण प्राप्तांक",
+      "boy": "वर",
+      "girl": "वधू",
+      "ashtakoot_breakdown": "अष्टकूट विवरण",
+      "table": {
+        "koota": "कूट",
+        "score": "प्राप्तांक",
+        "max": "अधिकतम",
+        "meaning": "क्षेत्र / अर्थ",
+        "total": "कुल अनुकूलता प्राप्तांक"
+      },
+      "doshas": {
+        "mangal": "मंगल दोष विश्लेषण",
+        "nadi": "नाड़ी दोष जांच",
+        "nadi_bad": "नाड़ी दोष उपस्थित (उपाय की सलाह)",
+        "nadi_good": "कोई नाड़ी दोष नहीं मिला",
+        "bhakoot": "भकूट दोष जांच",
+        "bhakoot_bad": "भकूट दोष उपस्थित",
+        "bhakoot_good": "कोई भकूट दोष नहीं मिला"
+      },
+      "disclaimer_label": "अस्वीकरण:",
+      "disclaimer_text": "गुण मिलान प्राथमिक अनुकूलता सूचकांक है। पूर्ण कुंडली मिलान के लिए नवमांश (D9), भाव एवं दशा संरेखण भी देखें।"
+    },
     "landing": {
       "breadcrumb_home": "होम",
       "breadcrumb_current": "जन्म कुंडली"

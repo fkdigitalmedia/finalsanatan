@@ -1216,6 +1216,68 @@
     }
   },
   "kundli": {
+    "form": {
+      "name": "Full Name",
+      "gender": "Gender",
+      "gender_male": "Male",
+      "gender_female": "Female",
+      "gender_other": "Other",
+      "date_of_birth": "Date of Birth",
+      "time_of_birth": "Time of Birth",
+      "report_language": "Report Language",
+      "notes": "Notes",
+      "save_chart": "Save Chart",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "matching": {
+      "errors": {
+        "fill_both": "Please enter birth details for both partner charts.",
+        "compute_failed": "Could not compute matching. Please check birth details."
+      },
+      "default_boy": "Boy",
+      "default_girl": "Girl",
+      "breadcrumb_home": "Home",
+      "breadcrumb_current": "Kundli Matching",
+      "hero_badge": "Ashtakoot 36 Guna Milan",
+      "hero_title": "Kundli Matching (Guna Milan)",
+      "hero_subtitle": "Calculate Vedic marriage compatibility, Ashtakoot score, Mangal Dosha & Nadi/Bhakoot check.",
+      "boy_details": "Boy's Birth Details",
+      "girl_details": "Girl's Birth Details",
+      "matching_progress": "Calculating compatibility...",
+      "match_cta": "Check Compatibility",
+      "trust_line": "100% Free, Instant & Confidential",
+      "loader_title": "Calculating Guna Milan...",
+      "loader_subtitle": "Analyzing 8 Kootas & Doshas",
+      "cross_promo": "Looking for individual chart?",
+      "cross_promo_cta": "Generate Janam Kundli →",
+      "full_name": "Full Name",
+      "full_name_placeholder": "e.g. Name",
+      "date_of_birth": "Date of Birth",
+      "time_of_birth": "Time of Birth",
+      "total_guna_score": "Total Guna Score",
+      "boy": "Boy",
+      "girl": "Girl",
+      "ashtakoot_breakdown": "Ashtakoot Breakdown",
+      "table": {
+        "koota": "Koota",
+        "score": "Score",
+        "max": "Max",
+        "meaning": "Area / Meaning",
+        "total": "Total Compatibility Score"
+      },
+      "doshas": {
+        "mangal": "Mangal Dosha Analysis",
+        "nadi": "Nadi Dosha Check",
+        "nadi_bad": "Nadi Dosha Present (Remedy Advised)",
+        "nadi_good": "No Nadi Dosha Found",
+        "bhakoot": "Bhakoot Dosha Check",
+        "bhakoot_bad": "Bhakoot Dosha Present",
+        "bhakoot_good": "No Bhakoot Dosha Found"
+      },
+      "disclaimer_label": "Disclaimer:",
+      "disclaimer_text": "Guna Milan is an initial compatibility index. Full horoscope matching should consider D9 chart, Bhavas and Dasha alignment."
+    },
     "landing": {
       "breadcrumb_home": "Home",
       "breadcrumb_current": "Janam Kundli"

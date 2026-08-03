@@ -597,6 +597,20 @@
     "premium": "પ્રીમિયમ"
   },
   "kundli": {
+    "form": {
+      "name": "પૂરું નામ",
+      "gender": "જાતિ",
+      "gender_male": "પુરુષ",
+      "gender_female": "મહિલા",
+      "gender_other": "અન્ય",
+      "date_of_birth": "જન્મ તારીખ",
+      "time_of_birth": "જન્મ સમય",
+      "report_language": "રિપોર્ટ ભાષા",
+      "notes": "નોંધો",
+      "save_chart": "ચાર્ટ સાચવો",
+      "saving": "સાચવી રહ્યું છે…",
+      "cancel": "રદ કરો"
+    },
     "landing": {
       "breadcrumb_home": "Home",
       "breadcrumb_current": "Janam Kundli"
