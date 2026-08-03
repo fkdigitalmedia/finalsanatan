@@ -17,6 +17,7 @@ import type {
   WebhookAuditLog,
 } from "./monetization-types";
 import { calculateTaxes } from "./gateway-manager";
+import { supabase } from "@/integrations/supabase/client";
 
 const PLANS_KEY = "sanatan_monetization_plans_v1";
 const WALLETS_KEY = "sanatan_monetization_wallets_v1";
@@ -478,66 +479,47 @@ export async function fetchUserReferral(userId: string): Promise<ReferralAccount
 // ------------------------------------------------------------
 
 export async function fetchUserInvoices(userId: string): Promise<Invoice[]> {
-  const all = loadStorage<Invoice[]>(INVOICES_KEY, [
-    {
-      id: "inv-101",
-      invoiceNumber: "INV-2026-08001",
-      userId,
-      userName: "Rahul Sharma",
-      userEmail: "rahul.sharma@example.com",
-      companyName: "Sanatan Astro Media",
-      billingAddress: "Connaught Place, New Delhi, 110001",
-      planName: "Premium Pro Annual Plan",
-      lineItems: [
-        {
-          id: "li-1",
-          name: "Premium Pro Annual Subscription (12 Months)",
-          quantity: 1,
-          unitPriceCents: 999000,
-          totalPriceCents: 999000,
-        },
-      ],
-      subtotalCents: 999000,
-      taxCents: 179820, // 18% GST
-      discountCents: 199800, // Coupon SANATAN20
-      totalCents: 979020,
-      currency: "INR",
-      paymentMethod: "Razorpay (UPI / Net Banking)",
-      gatewayTransactionId: "pay_rzp_mock987654321",
-      status: "paid",
-      issuedAt: new Date(Date.now() - 10 * 86400000).toISOString(),
-      paidAt: new Date(Date.now() - 10 * 86400000).toISOString(),
-    },
-    {
-      id: "inv-100",
-      invoiceNumber: "INV-2026-06042",
-      userId,
-      userName: "Rahul Sharma",
-      userEmail: "rahul.sharma@example.com",
-      planName: "50 Credits Pack",
-      lineItems: [
-        {
-          id: "li-2",
-          name: "Astrology Credit Top-Up (50 Credits)",
-          quantity: 1,
-          unitPriceCents: 49900,
-          totalPriceCents: 49900,
-        },
-      ],
-      subtotalCents: 49900,
-      taxCents: 8982,
-      discountCents: 0,
-      totalCents: 58882,
-      currency: "INR",
-      paymentMethod: "Razorpay (Credit Card)",
-      gatewayTransactionId: "pay_rzp_mock123456789",
-      status: "paid",
-      issuedAt: new Date(Date.now() - 45 * 86400000).toISOString(),
-      paidAt: new Date(Date.now() - 45 * 86400000).toISOString(),
-    },
-  ]);
+  // Fetch real orders from Supabase
+  const { data: orders } = await supabase
+    .from("orders")
+    .select("id, amount_cents, currency, status, created_at, updated_at, plan_id, product_type, provider, provider_payment_id, customer_name")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(50);
 
-  return all.filter((inv) => inv.userId === userId || userId === "demo");
+  if (orders && orders.length > 0) {
+    return orders.map((o, idx) => ({
+      id: o.id,
+      invoiceNumber: `INV-${new Date(o.created_at).getFullYear()}-${String(idx + 1).padStart(5, "0")}`,
+      userId,
+      userName: o.customer_name || "User",
+      userEmail: "",
+      planName: o.product_type || "Credit Pack",
+      lineItems: [
+        {
+          id: `li-${o.id}`,
+          name: o.product_type || "Subscription",
+          quantity: 1,
+          unitPriceCents: o.amount_cents,
+          totalPriceCents: o.amount_cents,
+        },
+      ],
+      subtotalCents: o.amount_cents,
+      taxCents: Math.round(o.amount_cents * 0.18),
+      discountCents: 0,
+      totalCents: Math.round(o.amount_cents * 1.18),
+      currency: o.currency || "INR",
+      paymentMethod: o.provider || "Online",
+      gatewayTransactionId: o.provider_payment_id || "",
+      status: o.status === "paid" ? "paid" : "pending",
+      issuedAt: o.created_at,
+      paidAt: o.status === "paid" ? o.updated_at : undefined,
+    }));
+  }
+
+  // Fallback: check localStorage for any manually added invoices
+  const cached = loadStorage<Invoice[]>(INVOICES_KEY, []);
+  return cached.filter((inv) => inv.userId === userId);
 }
 
 // ------------------------------------------------------------
@@ -591,33 +573,64 @@ export async function updateSubscriptionStatus(
 // ------------------------------------------------------------
 
 export async function fetchRevenueAnalytics(): Promise<RevenueAnalyticsMetrics> {
+  // Fetch real paid orders from Supabase
+  const { data: orders } = await supabase
+    .from("orders")
+    .select("amount_cents, status, created_at, customer_name, user_id")
+    .eq("status", "paid");
+
+  const allOrders = orders ?? [];
+  const totalRevenueCents = allOrders.reduce((s, o) => s + (o.amount_cents ?? 0), 0);
+  const activeSubsCount   = allOrders.length;
+
+  // Compute per-user revenue for top customers
+  const perUser: Record<string, { name: string; revenueCents: number }> = {};
+  for (const o of allOrders) {
+    const key = o.user_id ?? "unknown";
+    if (!perUser[key]) perUser[key] = { name: o.customer_name || "User", revenueCents: 0 };
+    perUser[key].revenueCents += o.amount_cents ?? 0;
+  }
+  const topCustomers = Object.values(perUser)
+    .sort((a, b) => b.revenueCents - a.revenueCents)
+    .slice(0, 5)
+    .map((c) => ({ name: c.name, email: "", revenueCents: c.revenueCents }));
+
+  // Monthly breakdown from real orders
+  const monthMap: Record<string, number> = {};
+  for (const o of allOrders) {
+    const month = new Date(o.created_at).toLocaleString("en-IN", { month: "short" });
+    monthMap[month] = (monthMap[month] ?? 0) + (o.amount_cents ?? 0);
+  }
+  const monthlyRevenueChart = Object.entries(monthMap).map(([month, revenueCents]) => ({ month, revenueCents }));
+
+  // Fetch subscription plan distribution from user_entitlements
+  const { data: entitlements } = await supabase
+    .from("user_entitlements")
+    .select("entitlement_key, active")
+    .eq("active", true);
+
+  const planDist: Record<string, number> = {};
+  for (const e of entitlements ?? []) {
+    const key = e.entitlement_key || "free";
+    planDist[key] = (planDist[key] ?? 0) + 1;
+  }
+
+  // Estimate MRR = last 30 days revenue
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
+  const recentRevenue = allOrders
+    .filter((o) => o.created_at >= thirtyDaysAgo)
+    .reduce((s, o) => s + (o.amount_cents ?? 0), 0);
+
   return {
-    mrrCents: 48500000, // ₹4,85,000 / mo
-    arrCents: 582000000, // ₹58,20,000 / yr
-    lifetimeRevenueCents: 1240000000, // ₹1.24 Cr
-    arpuCents: 145000, // ₹1,450 / user
-    conversionRate: 9.4,
-    refundRate: 0.4,
-    activeSubscriptionsCount: 1420,
-    planDistribution: {
-      "Free Developer": 6800,
-      "Basic Astrology": 850,
-      "Premium Pro": 480,
-      "Lifetime VIP": 90,
-    },
-    topCustomers: [
-      { name: "Rahul Sharma", email: "rahul.sharma@example.com", revenueCents: 4999900 },
-      { name: "Suresh Kumar", email: "suresh.k@example.com", revenueCents: 3999900 },
-      { name: "Priya Patel", email: "priya.p@example.com", revenueCents: 2499900 },
-      { name: "Vikram Malhotra", email: "vikram.m@example.com", revenueCents: 1999900 },
-    ],
-    monthlyRevenueChart: [
-      { month: "Mar", revenueCents: 32000000 },
-      { month: "Apr", revenueCents: 38000000 },
-      { month: "May", revenueCents: 41000000 },
-      { month: "Jun", revenueCents: 45000000 },
-      { month: "Jul", revenueCents: 47500000 },
-      { month: "Aug", revenueCents: 48500000 },
-    ],
+    mrrCents:                 recentRevenue,
+    arrCents:                 recentRevenue * 12,
+    lifetimeRevenueCents:     totalRevenueCents,
+    arpuCents:                activeSubsCount > 0 ? Math.round(totalRevenueCents / activeSubsCount) : 0,
+    conversionRate:           0,   // requires analytics event data
+    refundRate:               0,
+    activeSubscriptionsCount: activeSubsCount,
+    planDistribution:         Object.keys(planDist).length > 0 ? planDist : { "No subscriptions yet": 0 },
+    topCustomers:             topCustomers.length > 0 ? topCustomers : [],
+    monthlyRevenueChart:      monthlyRevenueChart.length > 0 ? monthlyRevenueChart : [],
   };
 }
