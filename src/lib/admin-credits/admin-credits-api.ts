@@ -53,6 +53,19 @@ function saveStorage<T>(key: string, data: T): void {
   }
 }
 
+function isGenericName(name?: string): boolean {
+  if (!name || !name.trim()) return true;
+  const lower = name.trim().toLowerCase();
+  return (
+    lower === "user" ||
+    lower === "sanatan user" ||
+    lower.startsWith("staff") ||
+    lower.startsWith("member") ||
+    lower.startsWith("user (") ||
+    lower.startsWith("staff/user")
+  );
+}
+
 // ── Fetch real user credit accounts from Supabase ────────────
 export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
   const userMap = new Map<string, { id: string; name: string; email: string; createdAt: string; updatedAt: string }>();
@@ -65,31 +78,35 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
 
   (profiles ?? []).forEach((p) => {
     if (!p.id) return;
+    const name = p.display_name && !isGenericName(p.display_name) ? p.display_name : "";
     userMap.set(p.id, {
       id: p.id,
-      name: p.display_name || "User",
+      name,
       email: "",
       createdAt: p.created_at || new Date().toISOString(),
       updatedAt: p.updated_at || p.created_at || new Date().toISOString(),
     });
   });
 
-  // 2. Fetch from user_kundlis (for users who saved charts but may lack a profile row)
+  // 2. Fetch from user_kundlis (real names entered during Kundli creation)
   const { data: kundliUsers } = await supabase
     .from("user_kundlis")
-    .select("user_id, name, created_at");
+    .select("user_id, name, created_at")
+    .order("created_at", { ascending: false });
 
   (kundliUsers ?? []).forEach((k) => {
     if (!k.user_id) return;
     const existing = userMap.get(k.user_id);
+    const validKundliName = k.name && !isGenericName(k.name) ? k.name : "";
+
     if (existing) {
-      if ((existing.name === "User" || !existing.name) && k.name) {
-        existing.name = k.name;
+      if (isGenericName(existing.name) && validKundliName) {
+        existing.name = validKundliName;
       }
     } else {
       userMap.set(k.user_id, {
         id: k.user_id,
-        name: k.name || `User (${k.user_id.slice(0, 6)})`,
+        name: validKundliName,
         email: "",
         createdAt: k.created_at || new Date().toISOString(),
         updatedAt: k.created_at || new Date().toISOString(),
@@ -105,9 +122,11 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
   (orderUsers ?? []).forEach((o) => {
     if (!o.user_id) return;
     const existing = userMap.get(o.user_id);
+    const validOrderName = o.customer_name && !isGenericName(o.customer_name) ? o.customer_name : (o.customer_email?.split("@")[0] || "");
+
     if (existing) {
-      if ((existing.name === "User" || !existing.name) && o.customer_name) {
-        existing.name = o.customer_name;
+      if (isGenericName(existing.name) && validOrderName) {
+        existing.name = validOrderName;
       }
       if (!existing.email && o.customer_email) {
         existing.email = o.customer_email;
@@ -115,7 +134,7 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
     } else {
       userMap.set(o.user_id, {
         id: o.user_id,
-        name: o.customer_name || o.customer_email?.split("@")[0] || `User (${o.user_id.slice(0, 6)})`,
+        name: validOrderName,
         email: o.customer_email || "",
         createdAt: o.created_at || new Date().toISOString(),
         updatedAt: o.created_at || new Date().toISOString(),
@@ -132,7 +151,7 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
     if (!r.user_id || userMap.has(r.user_id)) return;
     userMap.set(r.user_id, {
       id: r.user_id,
-      name: `Staff/User (${r.user_id.slice(0, 6)})`,
+      name: "",
       email: "",
       createdAt: r.created_at || new Date().toISOString(),
       updatedAt: r.created_at || new Date().toISOString(),
@@ -148,7 +167,7 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
     if (!e.user_id || userMap.has(e.user_id)) return;
     userMap.set(e.user_id, {
       id: e.user_id,
-      name: `Member (${e.user_id.slice(0, 6)})`,
+      name: "",
       email: "",
       createdAt: e.created_at || new Date().toISOString(),
       updatedAt: e.created_at || new Date().toISOString(),
@@ -206,10 +225,13 @@ export async function fetchUserCreditAccounts(): Promise<UserCreditAccount[]> {
     const lifetimeCredits  = Math.max(purchasedCredits + 100, 100);
     const currentBalance   = Math.max(0, lifetimeCredits - creditsUsed);
 
+    const nameResolved  = u.name && !isGenericName(u.name) ? u.name : "Sanatan User";
+    const emailResolved = u.email || `ID: ${u.id.slice(0, 10)}...`;
+
     const base: UserCreditAccount = {
       userId:           u.id,
-      userName:         u.name,
-      userEmail:        u.email,
+      userName:         nameResolved,
+      userEmail:        emailResolved,
       currentBalance,
       lifetimeCredits,
       purchasedCredits,

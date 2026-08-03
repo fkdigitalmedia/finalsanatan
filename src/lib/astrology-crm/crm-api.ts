@@ -319,6 +319,19 @@ export async function updateUserAstrologyProfile(profile: UserAstrologyProfile):
 // 23.13 Admin CRM API
 // ------------------------------------------------------------
 
+function isGenericName(name?: string): boolean {
+  if (!name || !name.trim()) return true;
+  const lower = name.trim().toLowerCase();
+  return (
+    lower === "user" ||
+    lower === "sanatan user" ||
+    lower.startsWith("staff") ||
+    lower.startsWith("member") ||
+    lower.startsWith("user (") ||
+    lower.startsWith("staff/user")
+  );
+}
+
 export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
   const userMap = new Map<string, { id: string; name: string; email: string; createdAt: string; updatedAt: string }>();
 
@@ -330,31 +343,35 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
 
   (profiles ?? []).forEach((p) => {
     if (!p.id) return;
+    const name = p.display_name && !isGenericName(p.display_name) ? p.display_name : "";
     userMap.set(p.id, {
       id: p.id,
-      name: p.display_name || "User",
+      name,
       email: "",
       createdAt: p.created_at || new Date().toISOString(),
       updatedAt: p.updated_at || p.created_at || new Date().toISOString(),
     });
   });
 
-  // 2. Fetch from user_kundlis
+  // 2. Fetch from user_kundlis (real names entered during Kundli creation)
   const { data: kundliUsers } = await supabase
     .from("user_kundlis")
-    .select("user_id, name, created_at");
+    .select("user_id, name, created_at")
+    .order("created_at", { ascending: false });
 
   (kundliUsers ?? []).forEach((k) => {
     if (!k.user_id) return;
     const existing = userMap.get(k.user_id);
+    const validKundliName = k.name && !isGenericName(k.name) ? k.name : "";
+
     if (existing) {
-      if ((existing.name === "User" || !existing.name) && k.name) {
-        existing.name = k.name;
+      if (isGenericName(existing.name) && validKundliName) {
+        existing.name = validKundliName;
       }
     } else {
       userMap.set(k.user_id, {
         id: k.user_id,
-        name: k.name || `User (${k.user_id.slice(0, 6)})`,
+        name: validKundliName,
         email: "",
         createdAt: k.created_at || new Date().toISOString(),
         updatedAt: k.created_at || new Date().toISOString(),
@@ -362,7 +379,7 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
     }
   });
 
-  // 3. Fetch from orders
+  // 3. Fetch from orders (for paying users)
   const { data: orderUsers } = await supabase
     .from("orders")
     .select("user_id, customer_name, customer_email, created_at");
@@ -370,9 +387,11 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
   (orderUsers ?? []).forEach((o) => {
     if (!o.user_id) return;
     const existing = userMap.get(o.user_id);
+    const validOrderName = o.customer_name && !isGenericName(o.customer_name) ? o.customer_name : (o.customer_email?.split("@")[0] || "");
+
     if (existing) {
-      if ((existing.name === "User" || !existing.name) && o.customer_name) {
-        existing.name = o.customer_name;
+      if (isGenericName(existing.name) && validOrderName) {
+        existing.name = validOrderName;
       }
       if (!existing.email && o.customer_email) {
         existing.email = o.customer_email;
@@ -380,7 +399,7 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
     } else {
       userMap.set(o.user_id, {
         id: o.user_id,
-        name: o.customer_name || o.customer_email?.split("@")[0] || `User (${o.user_id.slice(0, 6)})`,
+        name: validOrderName,
         email: o.customer_email || "",
         createdAt: o.created_at || new Date().toISOString(),
         updatedAt: o.created_at || new Date().toISOString(),
@@ -397,7 +416,7 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
     if (!r.user_id || userMap.has(r.user_id)) return;
     userMap.set(r.user_id, {
       id: r.user_id,
-      name: `Staff/User (${r.user_id.slice(0, 6)})`,
+      name: "",
       email: "",
       createdAt: r.created_at || new Date().toISOString(),
       updatedAt: r.created_at || new Date().toISOString(),
@@ -413,7 +432,7 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
     if (!e.user_id || userMap.has(e.user_id)) return;
     userMap.set(e.user_id, {
       id: e.user_id,
-      name: `Member (${e.user_id.slice(0, 6)})`,
+      name: "",
       email: "",
       createdAt: e.created_at || new Date().toISOString(),
       updatedAt: e.created_at || new Date().toISOString(),
@@ -440,19 +459,24 @@ export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
   (kundliCounts ?? []).forEach((r: any) => { kundliMap[r.user_id] = (kundliMap[r.user_id] ?? 0) + 1; });
   (downloadCounts ?? []).forEach((r: any) => { downloadMap[r.user_id] = (downloadMap[r.user_id] ?? 0) + 1; });
 
-  return allUsers.map((u) => ({
-    id: u.id,
-    email: u.email,
-    name: u.name,
-    joinedAt: u.createdAt,
-    plan: "Free",
-    credits: 100,
-    totalReports: kundliMap[u.id] ?? 0,
-    totalDownloads: downloadMap[u.id] ?? 0,
-    lastActive: u.updatedAt,
-    preferredLanguage: "en",
-    revenueGenerated: 0,
-  }));
+  return allUsers.map((u) => {
+    const nameResolved  = u.name && !isGenericName(u.name) ? u.name : "Sanatan User";
+    const emailResolved = u.email || `ID: ${u.id.slice(0, 10)}...`;
+
+    return {
+      id: u.id,
+      email: emailResolved,
+      name: nameResolved,
+      joinedAt: u.createdAt,
+      plan: "Free",
+      credits: 100,
+      totalReports: kundliMap[u.id] ?? 0,
+      totalDownloads: downloadMap[u.id] ?? 0,
+      lastActive: u.updatedAt,
+      preferredLanguage: "en",
+      revenueGenerated: 0,
+    };
+  });
 }
 
 // ------------------------------------------------------------

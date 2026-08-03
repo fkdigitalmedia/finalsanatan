@@ -76,8 +76,8 @@ export function UserCreditManagementView() {
               {filtered.map((user) => (
                 <tr key={user.userId} className="hover:bg-secondary/20">
                   <td className="p-3 font-semibold">
-                    <p className="text-foreground">{user.userName}</p>
-                    <p className="text-xs text-muted-foreground font-normal">{user.userEmail}</p>
+                    <p className="text-foreground">{user.userName || "Sanatan User"}</p>
+                    <p className="text-xs text-muted-foreground font-normal">{user.userEmail || `ID: ${user.userId.slice(0, 10)}...`}</p>
                   </td>
 
                   <td className="p-3 font-display font-bold text-base text-accent">
