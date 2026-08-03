@@ -1,147 +1,194 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { CreditCard, ShieldCheck, Receipt } from "lucide-react";
+import { useState } from "react";
+import {
+  CreditCard,
+  Crown,
+  Wallet,
+  Receipt,
+  Gift,
+  Zap,
+  Tag,
+  ShieldCheck,
+  BarChart3,
+  Lock,
+} from "lucide-react";
 import { DashboardShell } from "@/components/user/DashboardShell";
-import { EmptyState, SkeletonGrid } from "@/components/user/WorkspaceUI";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import type { SubscriptionPlan } from "@/lib/monetization/monetization-types";
+import { BillingDashboardView } from "@/components/monetization/BillingDashboardView";
+import { UserWalletView } from "@/components/monetization/UserWalletView";
+import { CreditEngineView } from "@/components/monetization/CreditEngineView";
+import { InvoiceEngineView } from "@/components/monetization/InvoiceEngineView";
+import { ReferralSystemView } from "@/components/monetization/ReferralSystemView";
+import { CouponsManagerView } from "@/components/monetization/CouponsManagerView";
+import { SubscriptionPlansManager } from "@/components/monetization/SubscriptionPlansManager";
+import { CheckoutModal } from "@/components/monetization/CheckoutModal";
+import { AdminBillingDashboard } from "@/components/monetization/AdminBillingDashboard";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   ssr: false,
   head: () => ({
-    meta: [{ title: "Billing — SanatanTools" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Monetization, Billing & Credits — SanatanTools" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: BillingPage,
 });
 
-function money(cents: number, currency: string) {
-  try {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: currency || "INR",
-    }).format(cents / 100);
-  } catch {
-    return `${(cents / 100).toFixed(2)} ${currency}`;
-  }
-}
+type BillingTab =
+  | "portal"
+  | "wallet"
+  | "credits"
+  | "plans"
+  | "invoices"
+  | "referrals"
+  | "coupons"
+  | "admin";
 
 function BillingPage() {
   const { user } = useAuth();
-  const uid = user?.id;
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["ws", "billing", uid],
-    enabled: !!uid,
-    queryFn: async () => {
-      const [orders, entitlements, plans] = await Promise.all([
-        supabase
-          .from("orders")
-          .select("*")
-          .eq("user_id", uid!)
-          .order("created_at", { ascending: false })
-          .limit(25),
-        supabase.from("user_entitlements").select("*").eq("user_id", uid!).eq("active", true),
-        supabase.from("subscription_plans").select("*").eq("active", true).order("sort_order"),
-      ]);
-      return {
-        orders: orders.data ?? [],
-        entitlements: entitlements.data ?? [],
-        plans: plans.data ?? [],
-      };
-    },
-  });
-
-  const active = data?.entitlements?.[0];
-  const renewal = active?.expires_at ? new Date(active.expires_at).toLocaleDateString() : "—";
+  const uid = user?.id || "user-1";
+  const [activeTab, setActiveTab] = useState<BillingTab>("portal");
+  const [selectedPlanForCheckout, setSelectedPlanForCheckout] = useState<SubscriptionPlan | null>(null);
 
   return (
     <DashboardShell
-      title="Billing"
-      description="Subscription, invoices, payment history and plan upgrades."
+      title="Subscriptions, Credits & Billing Portal"
+      description="Manage subscription plans, credit wallet balance, GST invoices, and referral rewards."
+      actions={
+        <div className="flex items-center gap-2">
+          <Link to="/pricing">
+            <Button variant="outline" size="sm" className="gap-1">
+              <Crown className="size-4 text-amber-500" /> Pricing Page
+            </Button>
+          </Link>
+        </div>
+      }
     >
-      {isLoading ? (
-        <SkeletonGrid rows={2} />
-      ) : (
-        <>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <Card className="p-5 bg-gradient-brand text-primary-foreground border-transparent">
-              <ShieldCheck className="size-5" />
-              <p className="mt-3 text-xs uppercase tracking-widest text-primary-foreground/80">
-                Current plan
-              </p>
-              <p className="mt-1 font-display text-2xl font-semibold capitalize">
-                {active ? active.entitlement_key.replace(/[-_]/g, " ") : "Free"}
-              </p>
-            </Card>
-            <Card className="p-5">
-              <CreditCard className="size-5 text-accent" />
-              <p className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">
-                Renews on
-              </p>
-              <p className="mt-1 font-display text-2xl font-semibold">{renewal}</p>
-            </Card>
-            <Card className="p-5">
-              <Receipt className="size-5 text-accent" />
-              <p className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">
-                Payments
-              </p>
-              <p className="mt-1 font-display text-2xl font-semibold">{data?.orders.length ?? 0}</p>
-            </Card>
-          </div>
+      {/* Sub-Tab Navigation Bar */}
+      <div className="mb-6 border-b border-border pb-2 flex items-center gap-1.5 overflow-x-auto">
+        <Button
+          size="sm"
+          variant={activeTab === "portal" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("portal")}
+        >
+          <CreditCard className="size-3.5" /> 24.10 Billing Portal
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "wallet" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("wallet")}
+        >
+          <Wallet className="size-3.5 text-amber-500" /> 24.9 Wallet
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "credits" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("credits")}
+        >
+          <Zap className="size-3.5 text-purple-500" /> 24.2 Credits
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "plans" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("plans")}
+        >
+          <Crown className="size-3.5 text-accent" /> 24.1 Plans
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "invoices" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("invoices")}
+        >
+          <Receipt className="size-3.5" /> 24.11 Invoices
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "referrals" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("referrals")}
+        >
+          <Gift className="size-3.5 text-rose-500" /> 24.8 Referrals
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "coupons" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("coupons")}
+        >
+          <Tag className="size-3.5 text-emerald-500" /> 24.7 Coupons
+        </Button>
+        <Button
+          size="sm"
+          variant={activeTab === "admin" ? "default" : "ghost"}
+          className="text-xs rounded-xl gap-1.5"
+          onClick={() => setActiveTab("admin")}
+        >
+          <BarChart3 className="size-3.5 text-blue-500" /> 24.13 Admin Billing
+        </Button>
+      </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/pricing">
-              <Button>Upgrade plan</Button>
-            </Link>
-            <Link to="/pricing">
-              <Button variant="outline">Apply coupon</Button>
-            </Link>
-          </div>
+      {/* Tab Render */}
+      <div>
+        {activeTab === "portal" && (
+          <BillingDashboardView
+            userId={uid}
+            onUpgradeClick={() => setActiveTab("plans")}
+            onTopUpClick={() => setActiveTab("wallet")}
+          />
+        )}
 
-          <h2 className="mt-10 font-display text-xl font-semibold">Payment history</h2>
-          {!data?.orders.length ? (
-            <div className="mt-4">
-              <EmptyState
-                title="No payments yet"
-                hint="Your invoices and receipts will appear here after your first purchase."
-              />
-            </div>
-          ) : (
-            <Card className="mt-4 overflow-x-auto">
-              <table className="w-full text-sm">
-                <caption className="sr-only">Your payment history</caption>
-                <thead className="bg-secondary/60 text-left">
-                  <tr>
-                    <th scope="col" className="px-4 py-3 font-medium">
-                      Date
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-medium">
-                      Amount
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-medium">
-                      Provider
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-medium">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {data.orders.map((o) => (
-                    <tr key={o.id}>
-                      <td className="px-4 py-3">{new Date(o.created_at).toLocaleDateString()}</td>
-                      <td className="px-4 py-3 font-medium">{money(o.amount_cents, o.currency)}</td>
-                      <td className="px-4 py-3 capitalize text-muted-foreground">{o.provider}</td>
-                      <td className="px-4 py-3 capitalize">{o.status}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Card>
-          )}
-        </>
+        {activeTab === "wallet" && (
+          <UserWalletView
+            userId={uid}
+            onTopUpClick={() => setActiveTab("plans")}
+          />
+        )}
+
+        {activeTab === "credits" && (
+          <CreditEngineView
+            onTopUpClick={() => setActiveTab("plans")}
+          />
+        )}
+
+        {activeTab === "plans" && (
+          <SubscriptionPlansManager
+            onSelectPlan={(p) => setSelectedPlanForCheckout(p)}
+          />
+        )}
+
+        {activeTab === "invoices" && (
+          <InvoiceEngineView userId={uid} />
+        )}
+
+        {activeTab === "referrals" && (
+          <ReferralSystemView userId={uid} />
+        )}
+
+        {activeTab === "coupons" && (
+          <CouponsManagerView />
+        )}
+
+        {activeTab === "admin" && (
+          <AdminBillingDashboard />
+        )}
+      </div>
+
+      {/* Checkout Modal */}
+      {selectedPlanForCheckout && (
+        <CheckoutModal
+          plan={selectedPlanForCheckout}
+          isOpen={!!selectedPlanForCheckout}
+          onClose={() => setSelectedPlanForCheckout(null)}
+          onSuccess={() => setActiveTab("portal")}
+        />
       )}
     </DashboardShell>
   );

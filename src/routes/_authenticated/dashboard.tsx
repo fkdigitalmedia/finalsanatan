@@ -1,420 +1,232 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import {
-  Sun,
-  Sparkles,
-  Clock3,
-  TrendingUp,
+  LayoutDashboard,
   FileText,
-  Download,
-  Star,
-  Crown,
-  Users,
+  GitCompare,
+  Zap,
+  History,
+  Heart,
+  Globe,
+  Search,
   Bell,
-  ArrowRight,
-  Activity,
+  User,
+  ShieldCheck,
+  Users,
+  BarChart3,
+  HardDrive,
+  Star,
+  Sparkles,
 } from "lucide-react";
 import { DashboardShell } from "@/components/user/DashboardShell";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
-import { useKundlis, useWorkspaceAnalytics } from "@/lib/workspace/hooks";
-import * as api from "@/lib/workspace/api";
-import {
-  birthInputFromKundli,
-  formatDate,
-  locationFromKundli,
-  summarizeDasha,
-  summarizeGochar,
-  summarizePanchang,
-  upcomingMuhurats,
-} from "@/lib/workspace/insights";
-import { DEFAULT_LOCATION } from "@/lib/panchang";
+import type { SupportedLanguage, UserAstrologyProfile } from "@/lib/astrology-crm/crm-types";
+import { fetchUserAstrologyProfile } from "@/lib/astrology-crm/crm-api";
+import { DashboardHomeView } from "@/components/astrology-crm/DashboardHomeView";
+import { PreviousReportsView } from "@/components/astrology-crm/PreviousReportsView";
+import { CompareReportsView } from "@/components/astrology-crm/CompareReportsView";
+import { SavedRemediesView } from "@/components/astrology-crm/SavedRemediesView";
+import { PdfVersionHistoryView } from "@/components/astrology-crm/PdfVersionHistoryView";
+import { FavoritesCenterView } from "@/components/astrology-crm/FavoritesCenterView";
+import { MultiLanguageSelector } from "@/components/astrology-crm/MultiLanguageSelector";
+import { SearchCenterView } from "@/components/astrology-crm/SearchCenterView";
+import { ActivityTimelineView } from "@/components/astrology-crm/ActivityTimelineView";
+import { NotificationCenterView } from "@/components/astrology-crm/NotificationCenterView";
+import { AstrologyUserProfileView } from "@/components/astrology-crm/AstrologyUserProfileView";
+import { SecurityDashboardView } from "@/components/astrology-crm/SecurityDashboardView";
+import { AdminCrmView } from "@/components/astrology-crm/AdminCrmView";
+import { AstrologyAnalyticsView } from "@/components/astrology-crm/AstrologyAnalyticsView";
+import { StorageManagerView } from "@/components/astrology-crm/StorageManagerView";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   ssr: false,
   head: () => ({
-    meta: [{ title: "Dashboard — SanatanTools" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Astrology CRM & User Dashboard — Sanatan Dharma Suite" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: DashboardPage,
 });
 
+type CRMTab =
+  | "overview"
+  | "previous_reports"
+  | "compare_reports"
+  | "saved_remedies"
+  | "version_history"
+  | "favorites"
+  | "language"
+  | "search"
+  | "timeline"
+  | "notifications"
+  | "user_profile"
+  | "security"
+  | "admin_crm"
+  | "analytics"
+  | "storage";
+
+const CRM_TABS: { key: CRMTab; label: string; icon: React.ReactNode }[] = [
+  { key: "overview", label: "23.1 Home", icon: <LayoutDashboard className="size-4" /> },
+  { key: "previous_reports", label: "23.2 Reports", icon: <FileText className="size-4" /> },
+  { key: "compare_reports", label: "23.3 Compare", icon: <GitCompare className="size-4" /> },
+  { key: "saved_remedies", label: "23.4 Remedies", icon: <Zap className="size-4 text-amber-500" /> },
+  { key: "version_history", label: "23.5 PDF Versions", icon: <History className="size-4" /> },
+  { key: "favorites", label: "23.6 Favorites", icon: <Heart className="size-4 text-rose-500" /> },
+  { key: "language", label: "23.7 Multi-Lang", icon: <Globe className="size-4 text-purple-500" /> },
+  { key: "search", label: "23.8 Search", icon: <Search className="size-4" /> },
+  { key: "timeline", label: "23.9 Timeline", icon: <History className="size-4" /> },
+  { key: "notifications", label: "23.10 Alerts", icon: <Bell className="size-4 text-accent" /> },
+  { key: "user_profile", label: "23.11 Profile", icon: <User className="size-4" /> },
+  { key: "security", label: "23.12 Security", icon: <ShieldCheck className="size-4 text-emerald-500" /> },
+  { key: "admin_crm", label: "23.13 Admin CRM", icon: <Users className="size-4 text-blue-500" /> },
+  { key: "analytics", label: "23.14 Analytics", icon: <BarChart3 className="size-4 text-accent" /> },
+  { key: "storage", label: "23.15 Storage", icon: <HardDrive className="size-4" /> },
+];
+
 function DashboardPage() {
   const { user } = useAuth();
-  const uid = user?.id;
-  const { data: analytics } = useWorkspaceAnalytics();
-  const { data: charts } = useKundlis({ pageSize: 4 });
-  const primary = charts?.rows?.[0];
+  const uid = user?.id || "user-1";
+  const [activeTab, setActiveTab] = useState<CRMTab>("overview");
+  const [language, setLanguage] = useState<SupportedLanguage>("en");
+  const [profile, setProfile] = useState<UserAstrologyProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!uid) return;
-    void api.registerDevice(uid, navigator.userAgent);
+    void fetchUserAstrologyProfile(uid).then((p) => {
+      setProfile(p);
+      if (p.preferredLanguage) setLanguage(p.preferredLanguage);
+      setLoading(false);
+    });
   }, [uid]);
 
-  const loc = useMemo(() => (primary ? locationFromKundli(primary) : DEFAULT_LOCATION), [primary]);
-
-  const { data: today } = useQuery({
-    queryKey: ["ws", "today", loc.lat, loc.lon, new Date().toDateString()],
-    staleTime: 15 * 60 * 1000,
-    queryFn: async () => {
-      const now = new Date();
-      return {
-        panchang: summarizePanchang(now, loc, loc.tz),
-        muhurats: upcomingMuhurats(now, loc, loc.tz),
-      };
-    },
-  });
-
-  const { data: personal } = useQuery({
-    queryKey: ["ws", "personal", primary?.id],
-    enabled: !!primary,
-    staleTime: 60 * 60 * 1000,
-    queryFn: async () => {
-      const birth = birthInputFromKundli(primary!);
-      return { dasha: summarizeDasha(birth), gochar: summarizeGochar(birth) };
-    },
-  });
-
-  const { data: side } = useQuery({
-    queryKey: ["ws", "side", uid],
-    enabled: !!uid,
-    queryFn: async () => {
-      const [reports, downloads, unread, entitlement, profile] = await Promise.all([
-        supabase
-          .from("user_reports")
-          .select("id,title,kind,created_at")
-          .eq("user_id", uid!)
-          .order("created_at", { ascending: false })
-          .limit(5),
-        supabase
-          .from("report_downloads")
-          .select("id,filename,created_at")
-          .eq("user_id", uid!)
-          .order("created_at", { ascending: false })
-          .limit(5),
-        supabase
-          .from("notifications")
-          .select("id", { count: "exact", head: true })
-          .eq("user_id", uid!)
-          .eq("read", false),
-        supabase
-          .from("user_entitlements")
-          .select("entitlement_key,expires_at")
-          .eq("user_id", uid!)
-          .eq("active", true)
-          .limit(1)
-          .maybeSingle(),
-        supabase.from("profiles").select("display_name").eq("id", uid!).maybeSingle(),
-      ]);
-      return {
-        reports: reports.data ?? [],
-        downloads: downloads.data ?? [],
-        unread: unread.count ?? 0,
-        entitlement: entitlement.data,
-        name: profile.data?.display_name ?? user?.email?.split("@")[0] ?? "friend",
-      };
-    },
-  });
+  const handleSelectTab = (tabKey: string) => {
+    setActiveTab(tabKey as CRMTab);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <DashboardShell
-      title={`Namaste, ${side?.name ?? "friend"}`}
-      description="Your personal astrology workspace — panchang, dasha, gochar, reports and downloads in one place."
+      title="Astrology CRM & Customer Dashboard"
+      description="Manage all your Kundli reports, compare predictions, track remedies, view PDF versions, and organize favorites."
       actions={
-        <Link to="/my-kundlis">
-          <Button>
-            <Star className="size-4" /> My Kundlis
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-xs uppercase font-semibold">
+            {language.toUpperCase()}
+          </Badge>
+          <Link to="/kundli">
+            <Button className="gap-1.5 shadow-sm">
+              <Sparkles className="size-4 text-amber-300" /> Generate Kundli
+            </Button>
+          </Link>
+        </div>
       }
     >
-      {/* Today */}
-      <div className="grid lg:grid-cols-3 gap-4">
-        <Card className="p-6 lg:col-span-2">
-          <div className="flex items-center gap-2 text-accent">
-            <Sun className="size-4" />
-            <span className="text-xs font-semibold uppercase tracking-widest">
-              Today’s Panchang · {loc.label}
-            </span>
-          </div>
-          {today ? (
-            <dl className="mt-4 grid sm:grid-cols-3 gap-4 text-sm">
-              <Fact label="Tithi" value={today.panchang.tithi} />
-              <Fact label="Nakshatra" value={today.panchang.nakshatra} />
-              <Fact label="Yoga" value={today.panchang.yoga} />
-              <Fact label="Moon sign" value={today.panchang.moonSign} />
-              <Fact label="Sunrise" value={today.panchang.sunrise} />
-              <Fact label="Sunset" value={today.panchang.sunset} />
-            </dl>
-          ) : (
-            <p className="mt-4 text-sm text-muted-foreground">Calculating today’s panchang…</p>
-          )}
-          <Link
-            to="/panchang"
-            className="mt-5 inline-flex items-center gap-1 text-sm text-accent hover:underline"
-          >
-            Full panchang <ArrowRight className="size-4" />
-          </Link>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex items-center gap-2 text-accent">
-            <Clock3 className="size-4" />
-            <span className="text-xs font-semibold uppercase tracking-widest">
-              Upcoming Muhurat
-            </span>
-          </div>
-          {today?.muhurats.length ? (
-            <ul className="mt-4 space-y-3 text-sm">
-              {today.muhurats.map((m) => (
-                <li key={m.name} className="flex items-center justify-between gap-3">
-                  <span className="truncate">{m.name}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {m.start}–{m.end}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-4 text-sm text-muted-foreground">No auspicious window left today.</p>
-          )}
-        </Card>
-      </div>
-
-      {/* Personalised */}
-      <div className="mt-4 grid lg:grid-cols-3 gap-4">
-        <Card className="p-6">
-          <div className="flex items-center gap-2 text-accent">
-            <Sparkles className="size-4" />
-            <span className="text-xs font-semibold uppercase tracking-widest">Mahadasha</span>
-          </div>
-          <p className="mt-3 font-display text-2xl font-semibold">
-            {personal?.dasha.mahadasha ?? "—"}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            until {formatDate(personal?.dasha.mahadashaEnds)}
-          </p>
-          <div className="mt-3 h-2 rounded-full bg-secondary overflow-hidden">
-            <div
-              className="h-full bg-gradient-brand"
-              style={{ width: `${personal?.dasha.progress ?? 0}%` }}
-            />
-          </div>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center gap-2 text-accent">
-            <Sparkles className="size-4" />
-            <span className="text-xs font-semibold uppercase tracking-widest">Antardasha</span>
-          </div>
-          <p className="mt-3 font-display text-2xl font-semibold">
-            {personal?.dasha.antardasha ?? "—"}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {primary ? `Based on ${primary.name}’s chart` : "Save a chart to personalise"}
-          </p>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center gap-2 text-accent">
-            <TrendingUp className="size-4" />
-            <span className="text-xs font-semibold uppercase tracking-widest">Gochar today</span>
-          </div>
-          <p className="mt-3 font-display text-2xl font-semibold capitalize">
-            {personal?.gochar.verdict ?? "—"}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Score {personal?.gochar.score ?? 0}/100
-            {personal?.gochar.favourable.length
-              ? ` · favourable: ${personal.gochar.favourable.slice(0, 3).join(", ")}`
-              : ""}
-          </p>
-        </Card>
-      </div>
-
-      {/* Analytics */}
-      <div className="mt-8 grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <Metric
-          icon={<FileText className="size-4" />}
-          label="Reports"
-          value={analytics?.reports ?? 0}
-          to="/reports"
-        />
-        <Metric
-          icon={<Download className="size-4" />}
-          label="Downloads"
-          value={analytics?.downloads ?? 0}
-          to="/downloads"
-        />
-        <Metric
-          icon={<Sparkles className="size-4" />}
-          label="Horoscopes"
-          value={analytics?.horoscopeViews ?? 0}
-          to="/horoscope-history"
-        />
-        <Metric
-          icon={<Star className="size-4" />}
-          label="Saved charts"
-          value={analytics?.savedCharts ?? 0}
-          to="/my-kundlis"
-        />
-        <Metric
-          icon={<Users className="size-4" />}
-          label="Family"
-          value={analytics?.familyMembers ?? 0}
-          to="/family"
-        />
-        <Metric
-          icon={<Activity className="size-4" />}
-          label="AI usage"
-          value={analytics?.aiUsage ?? 0}
-        />
-      </div>
-
-      {/* Lists */}
-      <div className="mt-8 grid lg:grid-cols-3 gap-4">
-        <Card className="p-6 lg:col-span-2">
-          <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold">Recent reports</h2>
-            <Link to="/reports" className="text-sm text-accent hover:underline">
-              Library
-            </Link>
-          </div>
-          {side?.reports.length ? (
-            <ul className="mt-4 divide-y divide-border">
-              {side.reports.map((r) => (
-                <li key={r.id} className="py-3 flex items-center justify-between gap-3">
-                  <span className="truncate text-sm font-medium">{r.title}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {new Date(r.created_at).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-4 text-sm text-muted-foreground">
-              No reports yet —{" "}
-              <Link to="/kundli" className="text-accent hover:underline">
-                generate a Kundli
-              </Link>
-              .
-            </p>
-          )}
-
-          <h3 className="mt-8 font-display text-lg font-semibold">Recent downloads</h3>
-          {side?.downloads.length ? (
-            <ul className="mt-3 divide-y divide-border">
-              {side.downloads.map((d) => (
-                <li key={d.id} className="py-2.5 flex items-center justify-between gap-3 text-sm">
-                  <span className="truncate">{d.filename}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {new Date(d.created_at).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-3 text-sm text-muted-foreground">Nothing downloaded yet.</p>
-          )}
-        </Card>
-
-        <div className="space-y-4">
-          <Card className="p-6">
-            <div className="flex items-center gap-2 text-accent">
-              <Crown className="size-4" />
-              <span className="text-xs font-semibold uppercase tracking-widest">
-                Premium status
-              </span>
-            </div>
-            <p className="mt-3 font-display text-xl font-semibold capitalize">
-              {side?.entitlement
-                ? side.entitlement.entitlement_key.replace(/[-_]/g, " ")
-                : "Free plan"}
-            </p>
-            <Link
-              to="/billing"
-              className="mt-3 inline-flex items-center gap-1 text-sm text-accent hover:underline"
-            >
-              Billing <ArrowRight className="size-4" />
-            </Link>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center gap-2 text-accent">
-              <Bell className="size-4" />
-              <span className="text-xs font-semibold uppercase tracking-widest">Notifications</span>
-            </div>
-            <p className="mt-3 font-display text-3xl font-semibold">{side?.unread ?? 0}</p>
-            <p className="text-sm text-muted-foreground">unread updates</p>
-            <Link
-              to="/notifications"
-              className="mt-3 inline-flex items-center gap-1 text-sm text-accent hover:underline"
-            >
-              View all <ArrowRight className="size-4" />
-            </Link>
-          </Card>
-
-          <Card className="p-6">
-            <h3 className="font-display text-lg font-semibold">Saved birth charts</h3>
-            {charts?.rows.length ? (
-              <ul className="mt-3 space-y-2 text-sm">
-                {charts.rows.map((c) => (
-                  <li key={c.id} className="flex items-center justify-between gap-3">
-                    <span className="truncate">{c.name}</span>
-                    <span className="shrink-0 text-xs text-muted-foreground">{c.birth_date}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-3 text-sm text-muted-foreground">
-                No charts saved yet — add one from{" "}
-                <Link to="/my-kundlis" className="text-accent hover:underline">
-                  My Kundlis
-                </Link>
-                .
-              </p>
-            )}
-            <Link
-              to="/my-kundlis"
-              className="mt-4 inline-flex items-center gap-1 text-sm text-accent hover:underline"
-            >
-              Manage charts <ArrowRight className="size-4" />
-            </Link>
-          </Card>
+      {/* Tab Navigation Scrollable Strip */}
+      <div className="mb-6 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center gap-1.5 min-w-max border-b border-border pb-2">
+          {CRM_TABS.map((tab) => {
+            const isActive = activeTab === tab.key;
+            return (
+              <Button
+                key={tab.key}
+                size="sm"
+                variant={isActive ? "default" : "ghost"}
+                className={`text-xs font-semibold gap-1.5 rounded-xl transition-all ${
+                  isActive ? "shadow-sm bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+                onClick={() => handleSelectTab(tab.key)}
+              >
+                {tab.icon}
+                {tab.label}
+              </Button>
+            );
+          })}
         </div>
       </div>
+
+      {/* View Loader / Tab Content */}
+      {loading || !profile ? (
+        <div className="p-12 text-center space-y-3">
+          <div className="size-8 rounded-full border-2 border-accent border-t-transparent animate-spin mx-auto" />
+          <p className="text-sm text-muted-foreground">Loading your Astrology CRM Workspace...</p>
+        </div>
+      ) : (
+        <div>
+          {activeTab === "overview" && (
+            <DashboardHomeView
+              profile={profile}
+              language={language}
+              onNavigateTab={handleSelectTab}
+            />
+          )}
+
+          {activeTab === "previous_reports" && (
+            <PreviousReportsView language={language} />
+          )}
+
+          {activeTab === "compare_reports" && (
+            <CompareReportsView language={language} />
+          )}
+
+          {activeTab === "saved_remedies" && (
+            <SavedRemediesView language={language} userId={uid} />
+          )}
+
+          {activeTab === "version_history" && (
+            <PdfVersionHistoryView language={language} />
+          )}
+
+          {activeTab === "favorites" && (
+            <FavoritesCenterView language={language} userId={uid} />
+          )}
+
+          {activeTab === "language" && (
+            <MultiLanguageSelector
+              currentLanguage={language}
+              onSelectLanguage={(lang) => setLanguage(lang)}
+            />
+          )}
+
+          {activeTab === "search" && (
+            <SearchCenterView language={language} onNavigateTab={handleSelectTab} />
+          )}
+
+          {activeTab === "timeline" && (
+            <ActivityTimelineView language={language} userId={uid} />
+          )}
+
+          {activeTab === "notifications" && (
+            <NotificationCenterView language={language} userId={uid} />
+          )}
+
+          {activeTab === "user_profile" && (
+            <AstrologyUserProfileView
+              language={language}
+              userId={uid}
+              onLanguageChange={(lang) => setLanguage(lang)}
+            />
+          )}
+
+          {activeTab === "security" && (
+            <SecurityDashboardView language={language} userId={uid} />
+          )}
+
+          {activeTab === "admin_crm" && (
+            <AdminCrmView language={language} />
+          )}
+
+          {activeTab === "analytics" && (
+            <AstrologyAnalyticsView language={language} />
+          )}
+
+          {activeTab === "storage" && (
+            <StorageManagerView language={language} />
+          )}
+        </div>
+      )}
     </DashboardShell>
   );
-}
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-xs uppercase tracking-widest text-muted-foreground">{label}</dt>
-      <dd className="mt-1 font-medium">{value}</dd>
-    </div>
-  );
-}
-
-function Metric({
-  icon,
-  label,
-  value,
-  to,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-  to?: "/reports" | "/downloads" | "/horoscope-history" | "/my-kundlis" | "/family";
-}) {
-  const body = (
-    <Card className="p-4">
-      <div className="inline-flex size-8 items-center justify-center rounded-lg bg-primary-soft text-accent">
-        {icon}
-      </div>
-      <p className="mt-2 text-[11px] uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className="font-display text-xl font-semibold">{value}</p>
-    </Card>
-  );
-  return to ? <Link to={to}>{body}</Link> : body;
 }
