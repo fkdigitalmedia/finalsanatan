@@ -132,6 +132,7 @@ export type ChartStyle = "north_indian" | "south_indian" | "east_indian";
 
 export interface UserAstrologyProfile {
   id: string;
+  userId?: string;
   photoUrl?: string;
   name: string;
   dob: string; // YYYY-MM-DD
@@ -142,6 +143,8 @@ export interface UserAstrologyProfile {
   timezone: string;
   preferredLanguage: SupportedLanguage;
   preferredChartStyle: ChartStyle;
+  currentSubscription?: string;
+  creditsRemaining?: number;
   notificationPreferences: {
     emailAlerts: boolean;
     dashaChangeAlerts: boolean;

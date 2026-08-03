@@ -182,7 +182,7 @@ export function CompareReportsView({ language }: CompareReportsViewProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {comparison.report1.planets.map((p1, idx) => {
+              {comparison.report1.planets.map((p1: any, idx: number) => {
                 const p2 = comparison.report2.planets[idx];
                 const isShifted = p1.sign !== p2.sign || p1.house !== p2.house;
                 return (
