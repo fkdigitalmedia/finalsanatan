@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { adminList, adminUpsert } from "@/lib/admin.functions";
 import { parseBoolSetting } from "@/lib/settings.functions";
+import { PredictionRuleManager } from "@/components/admin/PredictionRuleManager";
 
 const plansConfig: CrudConfig = {
   table: "subscription_plans",
@@ -179,6 +180,9 @@ function KundliFreeToggle() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-8 border-t pt-8">
+        <PredictionRuleManager />
       </div>
     </section>
   );

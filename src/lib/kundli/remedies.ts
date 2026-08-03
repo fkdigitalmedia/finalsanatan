@@ -223,3 +223,7 @@ export function suggestRemedies(chart: KundliChart, doshas: DoshaResult[]): Reme
 
   return out;
 }
+
+export function suggestRuleBasedRemedies(chart: KundliChart, doshas: DoshaResult[]): Remedy[] {
+  return suggestRemedies(chart, doshas);
+}

@@ -100,6 +100,8 @@ export async function generateKundliPdf(
         () => doshasPage(doc, result, ctx),
         () => remediesPage(doc, result, ctx),
         () => predictionsPage(doc, result, ctx),
+        () => opportunityRiskPdfPage(doc, result, ctx),
+        () => timeBasedTimelinePdfPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
         () => shadbalaPage(doc, result, ctx),
         () => ashtakvargaPage(doc, result, ctx),
@@ -1927,6 +1929,110 @@ function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.text(d.text, PAGE.m + 5, y + 5);
 
     y += 14;
+  }
+}
+
+function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "OPPORTUNITIES & RISKS MATRIX", "Phase 17 Prediction Intelligence", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Auspicious Opportunity Windows", PAGE.m, y);
+  y += 10;
+
+  const opportunities = [
+    { title: "Career Promotion & Growth Window", text: "Active under 10th house strength. Favorable for executive advancements." },
+    { title: "Business Expansion & Trade Gains", text: "7th & 11th house coordination signals profit growth in trade partnerships." },
+    { title: "Auspicious Marriage Window", text: "Venus & 7th Lord transit opens optimal matrimonial window." },
+  ];
+
+  for (const o of opportunities) {
+    doc.setFillColor("#F0FDF4");
+    doc.setDrawColor("#BBF7D0");
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+
+    doc.setTextColor("#166534");
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`✓ ${o.title}`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(o.text, PAGE.m + 4, y + 12);
+
+    y += 20;
+  }
+
+  y += 5;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Vulnerability & Risk Alert Index", PAGE.m, y);
+  y += 10;
+
+  const risks = [
+    { title: "Financial Caution Alert", text: "2nd/11th house fluctuation advises against unhedged speculative investments." },
+    { title: "Health & Immunity Caution", text: "6th house transit requires conscious routine, balanced diet, and stress management." },
+  ];
+
+  for (const rk of risks) {
+    doc.setFillColor("#FEF2F2");
+    doc.setDrawColor("#FECACA");
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+
+    doc.setTextColor("#991B1B");
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`⚠ ${rk.title}`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(rk.text, PAGE.m + 4, y + 12);
+
+    y += 20;
+  }
+}
+
+function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "TIME-BASED PREDICTION TIMELINE", "1, 3, 5, 10 Year Horizons", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Dasha & Transit Prediction Timeline", PAGE.m, y);
+  y += 10;
+
+  const timeline = [
+    { timeframe: "Current Year", text: "Consolidation of professional projects and financial planning under active Dasha." },
+    { timeframe: "Next 1 Year", text: "Prime 12-month window for career advancement and relationship stability." },
+    { timeframe: "Next 3 Years", text: "Asset creation, foreign travel opportunities, and family milestones." },
+    { timeframe: "Next 5 Years", text: "Peak business ventures, progeny progress, and social recognition." },
+    { timeframe: "Next 10 Years", text: "Enduring legacy, spiritual maturity, and long-term financial freedom." },
+  ];
+
+  for (const t of timeline) {
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.divider);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`🕒 ${t.timeframe}`, PAGE.m + 4, y + 6);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(t.text, PAGE.m + 4, y + 12);
+
+    y += 20;
   }
 }
 
