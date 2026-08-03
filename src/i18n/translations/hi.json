@@ -504,155 +504,6 @@
     "featured_eyebrow": "चुनिन्दा"
   },
   "kundli": {
-    "aiPanel": {
-      "title": "एआई कुंडली विश्लेषण और मार्गदर्शन",
-      "subtitle": "आपकी जन्मपत्रिका का व्यक्तिगत एआई-संचालित ज्योतिषीय विश्लेषण",
-      "premium_badge": "प्रीमियम रिपोर्ट",
-      "free_preview_badge": "मुफ़्त पूर्वावलोकन",
-      "unlock_full_report": "पूर्ण रिपोर्ट अनलॉक करें",
-      "premium_only": "केवल प्रीमियम सुविधा",
-      "loading_title": "एआई कुंडली विश्लेषण तैयार हो रहा है",
-      "loading_subtitle": "ग्रहों की स्थिति, भावों और शास्त्रीय वैदिक योगों का विश्लेषण किया जा रहा है...",
-      "loading_tips": {
-        "0": "ग्रह बल और अष्टकवर्ग शक्ति की गणना की जा रही है...",
-        "1": "विंशोत्तरी दशा और जन्म कुंडली का समन्वय किया जा रहा है...",
-        "2": "150+ शास्त्रीय योगों और दोषों का मूल्यांकन किया जा रहा है...",
-        "3": "व्यक्तिगत जीवन सलाह और सुझाव तैयार किए जा रहे हैं..."
-      },
-      "could_not_generate": "एआई विश्लेषण उत्पन्न नहीं हो सका",
-      "retry": "पुनः प्रयास करें",
-      "disclaimer": "अस्वीकरण: एआई विश्लेषण शास्त्रीय वैदिक ज्योतिष सिद्धांतों पर आधारित है।"
-    }
-  },
-  "horoscope": {
-    "periods": {
-      "daily": "दैनिक",
-      "weekly": "साप्ताहिक",
-      "monthly": "मासिक",
-      "yearly": "वार्षिक"
-    },
-    "signs": {
-      "aries": "मेष",
-      "taurus": "वृषभ",
-      "gemini": "मिथुन",
-      "cancer": "कर्क",
-      "leo": "सिंह",
-      "virgo": "कन्या",
-      "libra": "तुला",
-      "scorpio": "वृश्चिक",
-      "sagittarius": "धनु",
-      "capricorn": "मकर",
-      "aquarius": "कुंभ",
-      "pisces": "मीन"
-    },
-    "elements": {
-      "fire": "अग्नि",
-      "earth": "पृथ्वी",
-      "air": "वायु",
-      "water": "जल"
-    },
-    "planets": {
-      "sun": "सूर्य",
-      "moon": "चंद्रमा",
-      "mars": "मंगल",
-      "mercury": "बुध",
-      "jupiter": "बृहस्पति",
-      "venus": "शुक्र",
-      "saturn": "शनि",
-      "rahu": "Rahu",
-      "ketu": "Ketu"
-    },
-    "categories": {
-      "money": "धन",
-      "career": "कैरियर",
-      "business": "व्यवसाय",
-      "finance": "वित्त",
-      "love": "प्रेम",
-      "relationships": "रिश्ते",
-      "family": "परिवार",
-      "education": "शिक्षा",
-      "travel": "यात्रा",
-      "health": "स्वास्थ्य",
-      "spiritual": "आध्यात्मिक",
-      "social": "सामाजिक",
-      "productivity": "उत्पादकता",
-      "communication": "संचार",
-      "confidence": "आत्मविश्वास"
-    },
-    "panchangLabels": {
-      "tithi": "Tithi",
-      "nakshatra": "Nakshatra",
-      "yoga": "Yoga",
-      "favourableDays": "शुभ दिन",
-      "cautionDays": "सावधानी वाले दिन",
-      "bestWeek": "सर्वश्रेष्ठ सप्ताह",
-      "sensitiveWeek": "सबसे संवेदनशील सप्ताह",
-      "quarter": "तिमाही {n}"
-    },
-    "loader": {
-      "title": "आपके {period} Horoscope की गणना हो रही है…",
-      "subtitle": "प्रत्यक्ष ग्रह स्थितियों और Panchang डेटा को पढ़ रहा है।"
-    },
-    "error": "यह Horoscope अभी लोड नहीं हो सका। कृपया शीघ्र ही पुनः प्रयास करें।",
-    "overall": "समग्र स्कोर",
-    "outOf100": "100 में से · {range}",
-    "luckyNumber": "शुभ अंक",
-    "luckyColour": "शुभ रंग",
-    "luckyDirection": "शुभ दिशा",
-    "lifeAreas": "जीवन के क्षेत्र",
-    "whatFavoursYou": "आपके लिए क्या अनुकूल है",
-    "whatToAvoid": "क्या टालना चाहिए",
-    "steadyDayFallback": "कुल मिलाकर एक स्थिर, संतुलित दिन।",
-    "noCautionsFallback": "आज कोई विशेष सावधानी नहीं।",
-    "panchangContext": "Panchang संदर्भ",
-    "detailTitle": "{sign} {period} Horoscope",
-    "ruledBy": "{planet} द्वारा शासित",
-    "periodsNav": "Horoscope अवधियाँ",
-    "questionsEyebrow": "प्रश्न",
-    "faqTitle": "{period} Horoscope के बारे में अक्सर पूछे जाने वाले प्रश्न",
-    "faqDescription": "इस Horoscope की गणना कैसे की जाती है, इसके बारे में आपको जो कुछ भी जानना आवश्यक है।",
-    "allRashisEyebrow": "सभी Rashis",
-    "allRashisTitle": "सभी 12 Rashis के लिए {period} Horoscope",
-    "allRashisDescription": "प्रत्येक Rashi के लिए Horoscope देखें।",
-    "hub": {
-      "title": "{period} Horoscope आज",
-      "description": "सभी 12 Rashis के लिए निःशुल्क वैदिक {period} Horoscope, जो siderial ग्रह स्थितियों से लाइव गणना की जाती है।",
-      "shareTitle": "{period} Horoscope आज"
-    },
-    "grid": {
-      "periodDates": "{period} · {dates}"
-    },
-    "notFound": {
-      "title": "Rashi नहीं मिली",
-      "cta": "Horoscope पर वापस जाएँ"
-    },
-    "faq": {
-      "whoSign": "{english} ({sanskrit})",
-      "whoDefault": "प्रत्येक Rashi",
-      "calculated": {
-        "question": "{who} के लिए {period} Horoscope की गणना कैसे की जाती है?",
-        "answer": "यह हमारी siderial ज्योतिष और Panchang इंजनों का उपयोग करके वास्तविक ग्रह स्थितियों से उत्पन्न होता है — आपकी Rashi, Tithi, Nakshatra और Yoga के सापेक्ष चंद्रमा का Gochar। प्रति दिन कोई भी सामग्री हाथ से नहीं लिखी जाती है।"
-      },
-      "zodiacSystem": {
-        "question": "आप किस Zodiac प्रणाली का उपयोग करते हैं?",
-        "answer": "वैदिक (siderial) ज्योतिष Lahiri Ayanamsa के साथ, आपके Moon sign (Rashi) पर आधारित न कि पश्चिमी Sun sign पर।"
-      },
-      "free": {
-        "question": "क्या यह Horoscope निःशुल्क है?",
-        "answer": "हाँ। सभी 12 Rashi Horoscope पढ़ने के लिए निःशुल्क हैं। आपके पूर्ण जन्म Kundli पर आधारित व्यक्तिगत Horoscope प्रीमियम योजनाओं का हिस्सा हैं।"
-      },
-      "updated": {
-        "question": "यह कितनी बार अपडेट होता है?",
-        "answer": "जब भी पेज लोड होता है, तो {period} Horoscope को लाइव ग्रह डेटा से पुनर्गणित किया जाता है, इसलिए यह हमेशा वर्तमान रहता है।"
-      }
-    }
-  },
-  "badges": {
-    "popular": "लोकप्रिय",
-    "new": "नया",
-    "premium": "प्रीमियम"
-  },
-  "kundli": {
     "form": {
       "name": "पूरा नाम",
       "gender": "लिंग",
@@ -1186,6 +1037,153 @@
       "premium_pdf_downloaded": "प्रीमियम 22-पेज कुंडली PDF डाउनलोड हो गई!",
       "free_pdf_downloaded": "मानक कुंडली PDF डाउनलोड हो गई!",
       "could_not_build_pdf": "PDF रिपोर्ट तैयार नहीं हो सकी।"
+    },
+    "aiPanel": {
+      "title": "एआई कुंडली विश्लेषण और मार्गदर्शन",
+      "subtitle": "आपकी जन्मपत्रिका का व्यक्तिगत एआई-संचालित ज्योतिषीय विश्लेषण",
+      "premium_badge": "प्रीमियम रिपोर्ट",
+      "free_preview_badge": "मुफ़्त पूर्वावलोकन",
+      "unlock_full_report": "पूर्ण रिपोर्ट अनलॉक करें",
+      "premium_only": "केवल प्रीमियम सुविधा",
+      "loading_title": "एआई कुंडली विश्लेषण तैयार हो रहा है",
+      "loading_subtitle": "ग्रहों की स्थिति, भावों और शास्त्रीय वैदिक योगों का विश्लेषण किया जा रहा है...",
+      "loading_tips": {
+        "0": "ग्रह बल और अष्टकवर्ग शक्ति की गणना की जा रही है...",
+        "1": "विंशोत्तरी दशा और जन्म कुंडली का समन्वय किया जा रहा है...",
+        "2": "150+ शास्त्रीय योगों और दोषों का मूल्यांकन किया जा रहा है...",
+        "3": "व्यक्तिगत जीवन सलाह और सुझाव तैयार किए जा रहे हैं..."
+      },
+      "could_not_generate": "एआई विश्लेषण उत्पन्न नहीं हो सका",
+      "retry": "पुनः प्रयास करें",
+      "disclaimer": "अस्वीकरण: एआई विश्लेषण शास्त्रीय वैदिक ज्योतिष सिद्धांतों पर आधारित है।"
     }
+  },
+  "horoscope": {
+    "periods": {
+      "daily": "दैनिक",
+      "weekly": "साप्ताहिक",
+      "monthly": "मासिक",
+      "yearly": "वार्षिक"
+    },
+    "signs": {
+      "aries": "मेष",
+      "taurus": "वृषभ",
+      "gemini": "मिथुन",
+      "cancer": "कर्क",
+      "leo": "सिंह",
+      "virgo": "कन्या",
+      "libra": "तुला",
+      "scorpio": "वृश्चिक",
+      "sagittarius": "धनु",
+      "capricorn": "मकर",
+      "aquarius": "कुंभ",
+      "pisces": "मीन"
+    },
+    "elements": {
+      "fire": "अग्नि",
+      "earth": "पृथ्वी",
+      "air": "वायु",
+      "water": "जल"
+    },
+    "planets": {
+      "sun": "सूर्य",
+      "moon": "चंद्रमा",
+      "mars": "मंगल",
+      "mercury": "बुध",
+      "jupiter": "बृहस्पति",
+      "venus": "शुक्र",
+      "saturn": "शनि",
+      "rahu": "Rahu",
+      "ketu": "Ketu"
+    },
+    "categories": {
+      "money": "धन",
+      "career": "कैरियर",
+      "business": "व्यवसाय",
+      "finance": "वित्त",
+      "love": "प्रेम",
+      "relationships": "रिश्ते",
+      "family": "परिवार",
+      "education": "शिक्षा",
+      "travel": "यात्रा",
+      "health": "स्वास्थ्य",
+      "spiritual": "आध्यात्मिक",
+      "social": "सामाजिक",
+      "productivity": "उत्पादकता",
+      "communication": "संचार",
+      "confidence": "आत्मविश्वास"
+    },
+    "panchangLabels": {
+      "tithi": "Tithi",
+      "nakshatra": "Nakshatra",
+      "yoga": "Yoga",
+      "favourableDays": "शुभ दिन",
+      "cautionDays": "सावधानी वाले दिन",
+      "bestWeek": "सर्वश्रेष्ठ सप्ताह",
+      "sensitiveWeek": "सबसे संवेदनशील सप्ताह",
+      "quarter": "तिमाही {n}"
+    },
+    "loader": {
+      "title": "आपके {period} Horoscope की गणना हो रही है…",
+      "subtitle": "प्रत्यक्ष ग्रह स्थितियों और Panchang डेटा को पढ़ रहा है।"
+    },
+    "error": "यह Horoscope अभी लोड नहीं हो सका। कृपया शीघ्र ही पुनः प्रयास करें।",
+    "overall": "समग्र स्कोर",
+    "outOf100": "100 में से · {range}",
+    "luckyNumber": "शुभ अंक",
+    "luckyColour": "शुभ रंग",
+    "luckyDirection": "शुभ दिशा",
+    "lifeAreas": "जीवन के क्षेत्र",
+    "whatFavoursYou": "आपके लिए क्या अनुकूल है",
+    "whatToAvoid": "क्या टालना चाहिए",
+    "steadyDayFallback": "कुल मिलाकर एक स्थिर, संतुलित दिन।",
+    "noCautionsFallback": "आज कोई विशेष सावधानी नहीं।",
+    "panchangContext": "Panchang संदर्भ",
+    "detailTitle": "{sign} {period} Horoscope",
+    "ruledBy": "{planet} द्वारा शासित",
+    "periodsNav": "Horoscope अवधियाँ",
+    "questionsEyebrow": "प्रश्न",
+    "faqTitle": "{period} Horoscope के बारे में अक्सर पूछे जाने वाले प्रश्न",
+    "faqDescription": "इस Horoscope की गणना कैसे की जाती है, इसके बारे में आपको जो कुछ भी जानना आवश्यक है।",
+    "allRashisEyebrow": "सभी Rashis",
+    "allRashisTitle": "सभी 12 Rashis के लिए {period} Horoscope",
+    "allRashisDescription": "प्रत्येक Rashi के लिए Horoscope देखें।",
+    "hub": {
+      "title": "{period} Horoscope आज",
+      "description": "सभी 12 Rashis के लिए निःशुल्क वैदिक {period} Horoscope, जो siderial ग्रह स्थितियों से लाइव गणना की जाती है।",
+      "shareTitle": "{period} Horoscope आज"
+    },
+    "grid": {
+      "periodDates": "{period} · {dates}"
+    },
+    "notFound": {
+      "title": "Rashi नहीं मिली",
+      "cta": "Horoscope पर वापस जाएँ"
+    },
+    "faq": {
+      "whoSign": "{english} ({sanskrit})",
+      "whoDefault": "प्रत्येक Rashi",
+      "calculated": {
+        "question": "{who} के लिए {period} Horoscope की गणना कैसे की जाती है?",
+        "answer": "यह हमारी siderial ज्योतिष और Panchang इंजनों का उपयोग करके वास्तविक ग्रह स्थितियों से उत्पन्न होता है — आपकी Rashi, Tithi, Nakshatra और Yoga के सापेक्ष चंद्रमा का Gochar। प्रति दिन कोई भी सामग्री हाथ से नहीं लिखी जाती है।"
+      },
+      "zodiacSystem": {
+        "question": "आप किस Zodiac प्रणाली का उपयोग करते हैं?",
+        "answer": "वैदिक (siderial) ज्योतिष Lahiri Ayanamsa के साथ, आपके Moon sign (Rashi) पर आधारित न कि पश्चिमी Sun sign पर।"
+      },
+      "free": {
+        "question": "क्या यह Horoscope निःशुल्क है?",
+        "answer": "हाँ। सभी 12 Rashi Horoscope पढ़ने के लिए निःशुल्क हैं। आपके पूर्ण जन्म Kundli पर आधारित व्यक्तिगत Horoscope प्रीमियम योजनाओं का हिस्सा हैं।"
+      },
+      "updated": {
+        "question": "यह कितनी बार अपडेट होता है?",
+        "answer": "जब भी पेज लोड होता है, तो {period} Horoscope को लाइव ग्रह डेटा से पुनर्गणित किया जाता है, इसलिए यह हमेशा वर्तमान रहता है।"
+      }
+    }
+  },
+  "badges": {
+    "popular": "लोकप्रिय",
+    "new": "नया",
+    "premium": "प्रीमियम"
   }
 }

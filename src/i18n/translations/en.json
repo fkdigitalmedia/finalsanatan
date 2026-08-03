@@ -503,6 +503,540 @@
     "featured_eyebrow": "Featured"
   },
   "kundli": {
+    "form": {
+      "name": "Full Name",
+      "gender": "Gender",
+      "gender_male": "Male",
+      "gender_female": "Female",
+      "gender_other": "Other",
+      "date_of_birth": "Date of Birth",
+      "time_of_birth": "Time of Birth",
+      "report_language": "Report Language",
+      "notes": "Notes",
+      "save_chart": "Save Chart",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "matching": {
+      "errors": {
+        "fill_both": "Please enter birth details for both partner charts.",
+        "compute_failed": "Could not compute matching. Please check birth details."
+      },
+      "default_boy": "Boy",
+      "default_girl": "Girl",
+      "breadcrumb_home": "Home",
+      "breadcrumb_current": "Kundli Matching",
+      "hero_badge": "Ashtakoot 36 Guna Milan",
+      "hero_title": "Kundli Matching (Guna Milan)",
+      "hero_subtitle": "Calculate Vedic marriage compatibility, Ashtakoot score, Mangal Dosha & Nadi/Bhakoot check.",
+      "boy_details": "Boy's Birth Details",
+      "girl_details": "Girl's Birth Details",
+      "matching_progress": "Calculating compatibility...",
+      "match_cta": "Check Compatibility",
+      "trust_line": "100% Free, Instant & Confidential",
+      "loader_title": "Calculating Guna Milan...",
+      "loader_subtitle": "Analyzing 8 Kootas & Doshas",
+      "cross_promo": "Looking for individual chart?",
+      "cross_promo_cta": "Generate Janam Kundli →",
+      "full_name": "Full Name",
+      "full_name_placeholder": "e.g. Name",
+      "date_of_birth": "Date of Birth",
+      "time_of_birth": "Time of Birth",
+      "total_guna_score": "Total Guna Score",
+      "boy": "Boy",
+      "girl": "Girl",
+      "ashtakoot_breakdown": "Ashtakoot Breakdown",
+      "table": {
+        "koota": "Koota",
+        "score": "Score",
+        "max": "Max",
+        "meaning": "Area / Meaning",
+        "total": "Total Compatibility Score"
+      },
+      "doshas": {
+        "mangal": "Mangal Dosha Analysis",
+        "nadi": "Nadi Dosha Check",
+        "nadi_bad": "Nadi Dosha Present (Remedy Advised)",
+        "nadi_good": "No Nadi Dosha Found",
+        "bhakoot": "Bhakoot Dosha Check",
+        "bhakoot_bad": "Bhakoot Dosha Present",
+        "bhakoot_good": "No Bhakoot Dosha Found"
+      },
+      "disclaimer_label": "Disclaimer:",
+      "disclaimer_text": "Guna Milan is an initial compatibility index. Full horoscope matching should consider D9 chart, Bhavas and Dasha alignment."
+    },
+    "landing": {
+      "breadcrumb_home": "Home",
+      "breadcrumb_current": "Janam Kundli"
+    },
+    "hero": {
+      "badge": "Vedic Astrological Engine · 100% Free",
+      "title_line1": "Free Janam Kundli",
+      "title_line2": "Online Generator",
+      "subtitle": "Get your accurate Vedic birth chart, planetary longitudes, lagna, rashi, nakshatra, vimshottari dasha and instant AI report in seconds.",
+      "benefits": {
+        "accuracy": "99.77% Ephemeris Accuracy",
+        "languages": "PDF in 12 Languages",
+        "styles": "North / South / East Styles",
+        "free": "100% Free & Unlimited"
+      },
+      "reviews_count": "50,000+ Reviews",
+      "kundlis_generated": "Kundlis Generated",
+      "private_secure": "100% Private & Safe",
+      "form_title": "Birth Details Form",
+      "form_time_hint": "Accurate time gives exact Lagna",
+      "form_aria_label": "Enter birth details to compute Janam Kundli",
+      "form": {
+        "name_label": "Full Name",
+        "optional": "optional",
+        "name_placeholder": "e.g. Rahul Sharma",
+        "gender_label": "Gender",
+        "gender_select": "Select Gender",
+        "gender_male": "Male",
+        "gender_female": "Female",
+        "gender_other": "Other",
+        "dob_label": "Date of Birth",
+        "tob_label": "Time of Birth",
+        "place_label": "Place of Birth",
+        "language_label": "PDF Language",
+        "submit": "Generate Janam Kundli",
+        "calculating": "Calculating planetary longitudes…",
+        "privacy_note": "Your birth details are stored locally in your browser and never sold."
+      },
+      "loader": {
+        "title": "Computing Your Janam Kundli…",
+        "subtitle": "Calculating planetary longitudes, vargas, dashas & chart positions",
+        "tip1": "Lahiri Ayanamsa provides exact sidereal planetary positions.",
+        "tip2": "D1 chart (Lagna) reveals physical personality and life journey.",
+        "tip3": "D9 chart (Navamsha) shows spiritual path, marriage & destiny.",
+        "tip4": "Vimshottari Dasha details timing of major life events.",
+        "tip5": "Moon sign (Chandra Rashi) governs emotional nature and mind.",
+        "tip6": "Shadbala evaluates exact numerical planetary strengths."
+      }
+    },
+    "trust": {
+      "mit_engine": "MIT Astronomy Engine",
+      "accuracy": "99.77% Agreement",
+      "ayanamsa": "Lahiri Ayanamsa",
+      "languages": "12 Indian Languages",
+      "no_signup": "No Signup Required",
+      "gdpr": "GDPR Compliant"
+    },
+    "chart": {
+      "download_pdf": "Download Standard PDF",
+      "download_premium_pdf": "Download 22-Page Premium PDF",
+      "building_pdf": "Generating PDF...",
+      "print": "Print Chart",
+      "share": "Share Kundli",
+      "possessive_kundli": "'s Janam Kundli",
+      "stat": {
+        "lagna": "Ascendant / Lagna",
+        "moon_rashi": "Moon Sign (Rashi)",
+        "sun_rashi": "Sun Sign (Surya Rashi)",
+        "nakshatra": "Birth Nakshatra",
+        "tithi": "Birth Tithi",
+        "vaar": "Day of Birth",
+        "yoga": "Nitya Yoga",
+        "karana": "Karana"
+      },
+      "pada": "Pada",
+      "lord": "Lord",
+      "planetary_positions": "Planetary Positions (Graha Sthiti)",
+      "house_table": "House Cusp Positions (Bhava Sthiti)",
+      "birth_panchang": "Panchang at Time of Birth",
+      "avakahada_chakra": "Avakahada Chakra & Naming Details",
+      "vimshottari_title": "Vimshottari Dasha Timeline",
+      "balance_at_birth": "Balance Dasha at Birth",
+      "years_remaining": "Years Remaining",
+      "current_mahadasha": "Current Mahadasha",
+      "current_antardasha": "Current Antardasha",
+      "until": "Until",
+      "yogas_title": "Yogas Formed in Birth Chart",
+      "shadbala_title": "Shadbala — Planetary Strengths",
+      "strongest": "Strongest Planet",
+      "weakest": "Weakest Planet",
+      "ashtakvarga_title": "Ashtakvarga — Point Distribution",
+      "sarva_total": "Sarvashtakvarga Total",
+      "bindus": "Bindus",
+      "total": "Total",
+      "divisional_title": "Divisional Varga Charts",
+      "varga": {
+        "d3": "Siblings, Courage & Energy",
+        "d7": "Children & Lineage",
+        "d10": "Career, Profession & Achievements",
+        "d12": "Parents & Ancestral Lineage"
+      },
+      "full_grid_pdf": "Full chart grid available in PDF",
+      "table": {
+        "planet": "Planet",
+        "sign": "Rashi",
+        "degree": "Degree",
+        "house": "House",
+        "nakshatra": "Nakshatra",
+        "pada": "Pada",
+        "dignity": "Dignity",
+        "motion": "Motion",
+        "cusp": "Cusp Degree",
+        "planets": "Occupying Planets",
+        "mahadasha": "Mahadasha Lord",
+        "from": "From Date",
+        "to": "To Date",
+        "years": "Duration (Yrs)"
+      },
+      "avakahada": {
+        "varna": "Varna",
+        "vashya": "Vashya",
+        "yoni": "Yoni",
+        "gana": "Gana",
+        "nadi": "Nadi",
+        "tatva": "Tatva (Element)",
+        "paya": "Paya",
+        "nakshatra_lord": "Nakshatra Lord",
+        "rashi_lord": "Rashi Lord",
+        "naming_letter": "First Naming Letter",
+        "naming_letters_all": "All Naming Syllables"
+      },
+      "shadbala": {
+        "graha": "Planet",
+        "sthana": "Sthana",
+        "dig": "Dig",
+        "kala": "Kala",
+        "cheshta": "Cheshta",
+        "naisargika": "Naisargika",
+        "total": "Total Virupas",
+        "rupas": "Total Rupas",
+        "req": "Required"
+      },
+      "retrograde": "Retrograde (R)",
+      "direct": "Direct"
+    },
+    "features": {
+      "eyebrow": "Why SanatanTools",
+      "title": "Built with Authentic Vedic Astrology Science",
+      "subtitle": "The most precise and complete online Kundli generator built for seekers, students and professional astrologers.",
+      "sidereal": {
+        "title": "Lahiri Sidereal Zodiac",
+        "body": "Uses exact Lahiri Ayanamsa for true Vedic positions."
+      },
+      "instant": {
+        "title": "Sub-Second Speed",
+        "body": "Instant calculations in browser without page reloads."
+      },
+      "styles": {
+        "title": "3 Chart Styles",
+        "body": "North Indian diamond, South Indian grid & East Indian styles."
+      },
+      "languages": {
+        "title": "12 Indian Languages",
+        "body": "Full PDF report localized in 12 major Indian languages."
+      },
+      "privacy": {
+        "title": "100% Private & Safe",
+        "body": "Your birth data stays in your browser. We never sell data."
+      },
+      "opensource": {
+        "title": "Open Ephemeris",
+        "body": "Powered by MIT-licensed Astronomy Engine ephemeris."
+      },
+      "tables": {
+        "title": "Comprehensive Tables",
+        "body": "Planetary positions, house cusps, Ashtakvarga & Shadbala."
+      },
+      "premiumPdf": {
+        "title": "22-Page Designer PDF",
+        "body": "Print-ready high resolution PDF report with AI guidance."
+      }
+    },
+    "howItWorks": {
+      "eyebrow": "Easy 4-Step Process",
+      "title": "How to Generate Your Janam Kundli",
+      "subtitle": "Get your complete birth chart and report in less than 30 seconds.",
+      "step1": {
+        "title": "Enter Birth Details",
+        "body": "Provide date, exact time and birth city."
+      },
+      "step2": {
+        "title": "Instant Calculations",
+        "body": "Our engine computes sidereal positions and chart positions."
+      },
+      "step3": {
+        "title": "Explore Live Chart",
+        "body": "View D1/D9 charts, planet tables and dasha timelines."
+      },
+      "step4": {
+        "title": "Download PDF",
+        "body": "Export your print-ready PDF in your preferred language."
+      }
+    },
+    "whatIs": {
+      "eyebrow": "Vedic Knowledge",
+      "title": "Understanding Your Janam Kundli",
+      "subtitle": "Key elements that form the foundation of your birth chart.",
+      "lagna": {
+        "title": "Lagna (Ascendant)",
+        "body": "The zodiac sign rising on the eastern horizon at birth, representing physical self and life path."
+      },
+      "rashi": {
+        "title": "Chandra Rashi (Moon Sign)",
+        "body": "Sign where the Moon was positioned, reflecting emotions, mind and personality."
+      },
+      "nakshatra": {
+        "title": "Birth Nakshatra",
+        "body": "The lunar mansion of birth, determining core temperament and dasha balance."
+      },
+      "bhava": {
+        "title": "12 Bhavas (Houses)",
+        "body": "Divisions representing career, health, wealth, family, relationships and spirituality."
+      },
+      "graha": {
+        "title": "9 Grahas (Planets)",
+        "body": "Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu and Ketu."
+      },
+      "dignity": {
+        "title": "Planetary Dignity",
+        "body": "Exaltation, debilitation, own house or enemy sign placements."
+      }
+    },
+    "howWeCalculate": {
+      "eyebrow": "Engine Specifications",
+      "title": "Astronomical Calculation Method",
+      "subtitle": "Mathematical precision behind our birth chart calculations.",
+      "ephemeris": {
+        "k": "Ephemeris Source",
+        "v": "Astronomy Engine (VSOP87 / ELP2000-82 planetary theories)"
+      },
+      "frame": {
+        "k": "Reference Frame",
+        "v": "Geocentric Ecliptic Coordinates (IAU 2006 precession model)"
+      },
+      "ayanamsa": {
+        "k": "Ayanamsa",
+        "v": "Chitra Paksha / Lahiri (true ayanamsa)"
+      },
+      "houses": {
+        "k": "House System",
+        "v": "Equal Sign / Whole Sign (Parasari tradition)"
+      },
+      "ascendant": {
+        "k": "Lagna Calculation",
+        "v": "Local Sidereal Time derived from exact latitude & longitude"
+      },
+      "nakshatra": {
+        "k": "Lunar Mansions",
+        "v": "27 Nakshatras divided into 4 padas of 3°20′ each"
+      },
+      "time": {
+        "k": "Time Calibration",
+        "v": "UTC timestamp converted from local timezone offset"
+      }
+    },
+    "accuracy": {
+      "eyebrow": "Verified Accuracy",
+      "title": "Tested Against Reference Ephemerides",
+      "subtitle": "Mathematical precision you can rely on for astrology readings.",
+      "stat1": "Reference Charts Tested",
+      "stat2": "Agreement Rate",
+      "stat3": "Max Angular Variance",
+      "stat4": "Calculation Errors"
+    },
+    "technology": {
+      "eyebrow": "Tech Architecture",
+      "title": "Modern Web Technology",
+      "clientSide": {
+        "title": "Client-Side Engine",
+        "body": "Runs computations directly in your browser for zero latency."
+      },
+      "subSecond": {
+        "title": "Sub-Second Render",
+        "body": "Instant SVG rendering of diamond, grid and circle charts."
+      },
+      "openMath": {
+        "title": "Open Math Science",
+        "body": "Transparent algorithms verified by open astronomical code."
+      }
+    },
+    "privacy": {
+      "eyebrow": "Data Protection",
+      "title": "Your Privacy is Guaranteed",
+      "body": "We believe your personal birth details are sacred. Our application is designed with privacy-first principles.",
+      "bullet1": "No birth data sent to third-party ad networks",
+      "bullet2": "No forced account creation required",
+      "bullet3": "Data stored locally in browser storage",
+      "bullet4": "Fully compliant with global privacy standards"
+    },
+    "testimonials": {
+      "eyebrow": "User Feedback",
+      "title": "Trusted by Thousands Daily",
+      "role": {
+        "bengaluru": "Astrology Enthusiast · Bengaluru",
+        "pune": "Vedic Scholar · Pune",
+        "delhi": "Homemaker · New Delhi",
+        "chennai": "Software Engineer · Chennai",
+        "kolkata": "Teacher · Kolkata",
+        "hyderabad": "Business Analyst · Hyderabad"
+      },
+      "t1": "The most accurate Kundli generator I have used. The dasha timeline and PDF output are flawless.",
+      "t2": "Lahiri ayanamsa calculations match traditional panchang ephemeris perfectly.",
+      "t3": "Generating birth charts for my family in Hindi PDF is so quick and clean.",
+      "t4": "Clean interface with zero annoying popup ads. Instant North & South Indian chart views.",
+      "t5": "The Avakahada chakra and naming letters helped us select our baby's name easily.",
+      "t6": "High quality PDF download with full planet and house tables. Incredible free tool!"
+    },
+    "premium": {
+      "badge": "Premium Report Available",
+      "title": "Get Your Complete 22-Page Kundli Report",
+      "subtitle": "Detailed Yogas, Dosha remedies, Ashtakvarga analysis, Shadbala, D3/D7/D10/D12 charts and AI-guided life interpretation in a single print PDF.",
+      "cta_get": "Upgrade to Premium PDF",
+      "cta_donate": "Support SanatanTools",
+      "guarantee": "One-time purchase · Lifetime PDF access · 100% Satisfaction Guarantee",
+      "b1": {
+        "title": "AI Life Interpretation",
+        "body": "Deep AI readings for Career, Marriage, Health and Wealth."
+      },
+      "b2": {
+        "title": "Complete 16 Varga Charts",
+        "body": "High-resolution divisional charts D1 through D60."
+      },
+      "b3": {
+        "title": "Remedies & Gemstones",
+        "body": "Personalized Mantra, Yantra, Gemstone & Puja remedies."
+      },
+      "b4": {
+        "title": "Full Lifetime Dasha",
+        "body": "Detailed 120-year Vimshottari Mahadasha & Antardasha."
+      }
+    },
+    "faq": {
+      "eyebrow": "Frequently Asked Questions",
+      "title": "Questions About Janam Kundli",
+      "q1": {
+        "q": "Is the Janam Kundli generator really free?",
+        "a": "Yes — every calculation, chart style (North, South, East) and basic PDF are 100% free with no watermark."
+      },
+      "q2": {
+        "q": "How accurate is the birth chart?",
+        "a": "We compute positions using the Astronomy Engine (VSOP87) and Lahiri ayanamsa with sub-arcminute accuracy."
+      },
+      "q3": {
+        "q": "Do I need to create an account?",
+        "a": "No signup required. All charts and basic PDFs work instantly without registration."
+      },
+      "q4": {
+        "q": "Which chart styles are supported?",
+        "a": "North Indian (Diamond), South Indian (Square Grid) and East Indian (Bengali Style)."
+      },
+      "q5": {
+        "q": "Which languages can I generate the PDF in?",
+        "a": "12 Indian languages including English, Hindi, Marathi, Gujarati, Tamil, Telugu, Kannada, Bengali, Malayalam, Punjabi, Odia & Assamese."
+      },
+      "q6": {
+        "q": "What if I don't know my exact birth time?",
+        "a": "Enter your approximate time. You can still view your Moon Sign (Rashi) and planetary positions, though exact Lagna requires accurate time."
+      },
+      "q7": {
+        "q": "Is my birth data safe?",
+        "a": "Yes. Computations run locally in your browser and your personal data is never sold or shared."
+      },
+      "q8": {
+        "q": "Can I print the Kundli PDF?",
+        "a": "Yes! The generated PDF is formatted for A4 printing with high resolution fonts and sharp vector charts."
+      }
+    },
+    "relatedTools": {
+      "eyebrow": "More Astrological Tools",
+      "title": "Explore Other Free Vedic Tools",
+      "subtitle": "Discover calculators and guides to complement your birth chart.",
+      "open_tool": "Open Tool",
+      "browse_all": "Browse all 100+ SanatanTools →",
+      "items": {
+        "rashi_calculator": {
+          "title": "Rashi Calculator",
+          "desc": "Find your Moon sign (Chandra Rashi) accurately."
+        },
+        "nakshatra_finder": {
+          "title": "Nakshatra Finder",
+          "desc": "Discover your birth Nakshatra, pada & ruling deity."
+        },
+        "dasha_calculator": {
+          "title": "Dasha Timeline",
+          "desc": "View your 120-year Vimshottari Mahadasha timeline."
+        },
+        "todays_panchang": {
+          "title": "Daily Panchang",
+          "desc": "Today's Tithi, Nakshatra, Yoga, Karana & Rahu Kaal."
+        },
+        "panchang_by_date": {
+          "title": "Panchang by Date",
+          "desc": "Lookup authentic Panchang for any historical date."
+        },
+        "festival_calendar": {
+          "title": "Festival Calendar 2026",
+          "desc": "Complete Hindu festival dates and auspicious timings."
+        },
+        "rashi_guide": {
+          "title": "Rashi Guide",
+          "desc": "Comprehensive guide to 12 zodiac signs in Vedic astrology."
+        },
+        "nakshatra_guide": {
+          "title": "Nakshatra Guide",
+          "desc": "Deep dive into 27 lunar mansions and their characteristics."
+        }
+      }
+    },
+    "relatedArticles": {
+      "eyebrow": "Educational Guides",
+      "title": "Learn Vedic Astrology Basics",
+      "badge": "Guide",
+      "a1": {
+        "title": "How to Read Your Janam Kundli Chart",
+        "read": "5 min read · Beginner Guide"
+      },
+      "a2": {
+        "title": "Understanding Vimshottari Dasha System",
+        "read": "7 min read · Dasha Analysis"
+      },
+      "a3": {
+        "title": "Difference Between Sun Sign & Moon Sign",
+        "read": "4 min read · Astrology Fundamentals"
+      },
+      "a4": {
+        "title": "Importance of Lagna (Ascendant) in Vedic Horoscope",
+        "read": "6 min read · Advanced Concepts"
+      }
+    },
+    "newsletter": {
+      "badge": "Daily Panchang & Rashifal",
+      "title": "Get Daily Vedic Guidance in Your Inbox",
+      "subtitle": "Subscribe to receive daily Panchang, auspicious muhurats, festival alerts and horoscope updates.",
+      "email_placeholder": "Enter your email address",
+      "email_aria_label": "Email address for newsletter subscription",
+      "subscribe_button": "Subscribe Free",
+      "busy_button": "Subscribing…",
+      "subscribed_button": "Subscribed ✓",
+      "invalid_email": "Please enter a valid email address.",
+      "subscribed_toast": "Successfully subscribed to daily Vedic updates!",
+      "could_not_subscribe": "Could not subscribe at this time."
+    },
+    "finalCta": {
+      "title": "Ready to Discover Your Birth Chart?",
+      "subtitle": "Enter your birth details above to get your instant Janam Kundli and report.",
+      "generate_button": "Generate Kundli Now",
+      "explore_tools": "Explore All Tools"
+    },
+    "stickyCta": {
+      "generate_button": "Generate Janam Kundli"
+    },
+    "errors": {
+      "enter_date_time": "Please enter a valid birth date and time.",
+      "could_not_compute": "Could not compute Kundli chart. Please check birth details.",
+      "share_title": "My Janam Kundli — SanatanTools",
+      "share_text": "Check out my Vedic birth chart and Kundli on SanatanTools!",
+      "link_copied": "Kundli link copied to clipboard!",
+      "could_not_share": "Could not share link.",
+      "premium_pdf_downloaded": "Premium 22-page Kundli PDF downloaded!",
+      "free_pdf_downloaded": "Standard Kundli PDF downloaded!",
+      "could_not_build_pdf": "Could not build PDF report."
+    },
     "aiPanel": {
       "title": "AI Kundli Analysis & Insights",
       "subtitle": "Personalized AI-powered astrological interpretation of your birth chart",
@@ -1234,542 +1768,6 @@
           "remedy": "Good for guest & short-term stays."
         }
       ]
-    }
-  },
-  "kundli": {
-    "form": {
-      "name": "Full Name",
-      "gender": "Gender",
-      "gender_male": "Male",
-      "gender_female": "Female",
-      "gender_other": "Other",
-      "date_of_birth": "Date of Birth",
-      "time_of_birth": "Time of Birth",
-      "report_language": "Report Language",
-      "notes": "Notes",
-      "save_chart": "Save Chart",
-      "saving": "Saving…",
-      "cancel": "Cancel"
-    },
-    "matching": {
-      "errors": {
-        "fill_both": "Please enter birth details for both partner charts.",
-        "compute_failed": "Could not compute matching. Please check birth details."
-      },
-      "default_boy": "Boy",
-      "default_girl": "Girl",
-      "breadcrumb_home": "Home",
-      "breadcrumb_current": "Kundli Matching",
-      "hero_badge": "Ashtakoot 36 Guna Milan",
-      "hero_title": "Kundli Matching (Guna Milan)",
-      "hero_subtitle": "Calculate Vedic marriage compatibility, Ashtakoot score, Mangal Dosha & Nadi/Bhakoot check.",
-      "boy_details": "Boy's Birth Details",
-      "girl_details": "Girl's Birth Details",
-      "matching_progress": "Calculating compatibility...",
-      "match_cta": "Check Compatibility",
-      "trust_line": "100% Free, Instant & Confidential",
-      "loader_title": "Calculating Guna Milan...",
-      "loader_subtitle": "Analyzing 8 Kootas & Doshas",
-      "cross_promo": "Looking for individual chart?",
-      "cross_promo_cta": "Generate Janam Kundli →",
-      "full_name": "Full Name",
-      "full_name_placeholder": "e.g. Name",
-      "date_of_birth": "Date of Birth",
-      "time_of_birth": "Time of Birth",
-      "total_guna_score": "Total Guna Score",
-      "boy": "Boy",
-      "girl": "Girl",
-      "ashtakoot_breakdown": "Ashtakoot Breakdown",
-      "table": {
-        "koota": "Koota",
-        "score": "Score",
-        "max": "Max",
-        "meaning": "Area / Meaning",
-        "total": "Total Compatibility Score"
-      },
-      "doshas": {
-        "mangal": "Mangal Dosha Analysis",
-        "nadi": "Nadi Dosha Check",
-        "nadi_bad": "Nadi Dosha Present (Remedy Advised)",
-        "nadi_good": "No Nadi Dosha Found",
-        "bhakoot": "Bhakoot Dosha Check",
-        "bhakoot_bad": "Bhakoot Dosha Present",
-        "bhakoot_good": "No Bhakoot Dosha Found"
-      },
-      "disclaimer_label": "Disclaimer:",
-      "disclaimer_text": "Guna Milan is an initial compatibility index. Full horoscope matching should consider D9 chart, Bhavas and Dasha alignment."
-    },
-    "landing": {
-      "breadcrumb_home": "Home",
-      "breadcrumb_current": "Janam Kundli"
-    },
-    "hero": {
-      "badge": "Vedic Astrological Engine · 100% Free",
-      "title_line1": "Free Janam Kundli",
-      "title_line2": "Online Generator",
-      "subtitle": "Get your accurate Vedic birth chart, planetary longitudes, lagna, rashi, nakshatra, vimshottari dasha and instant AI report in seconds.",
-      "benefits": {
-        "accuracy": "99.77% Ephemeris Accuracy",
-        "languages": "PDF in 12 Languages",
-        "styles": "North / South / East Styles",
-        "free": "100% Free & Unlimited"
-      },
-      "reviews_count": "50,000+ Reviews",
-      "kundlis_generated": "Kundlis Generated",
-      "private_secure": "100% Private & Safe",
-      "form_title": "Birth Details Form",
-      "form_time_hint": "Accurate time gives exact Lagna",
-      "form_aria_label": "Enter birth details to compute Janam Kundli",
-      "form": {
-        "name_label": "Full Name",
-        "optional": "optional",
-        "name_placeholder": "e.g. Rahul Sharma",
-        "gender_label": "Gender",
-        "gender_select": "Select Gender",
-        "gender_male": "Male",
-        "gender_female": "Female",
-        "gender_other": "Other",
-        "dob_label": "Date of Birth",
-        "tob_label": "Time of Birth",
-        "place_label": "Place of Birth",
-        "language_label": "PDF Language",
-        "submit": "Generate Janam Kundli",
-        "calculating": "Calculating planetary longitudes…",
-        "privacy_note": "Your birth details are stored locally in your browser and never sold."
-      },
-      "loader": {
-        "title": "Computing Your Janam Kundli…",
-        "subtitle": "Calculating planetary longitudes, vargas, dashas & chart positions",
-        "tip1": "Lahiri Ayanamsa provides exact sidereal planetary positions.",
-        "tip2": "D1 chart (Lagna) reveals physical personality and life journey.",
-        "tip3": "D9 chart (Navamsha) shows spiritual path, marriage & destiny.",
-        "tip4": "Vimshottari Dasha details timing of major life events.",
-        "tip5": "Moon sign (Chandra Rashi) governs emotional nature and mind.",
-        "tip6": "Shadbala evaluates exact numerical planetary strengths."
-      }
-    },
-    "trust": {
-      "mit_engine": "MIT Astronomy Engine",
-      "accuracy": "99.77% Agreement",
-      "ayanamsa": "Lahiri Ayanamsa",
-      "languages": "12 Indian Languages",
-      "no_signup": "No Signup Required",
-      "gdpr": "GDPR Compliant"
-    },
-    "chart": {
-      "download_pdf": "Download Standard PDF",
-      "download_premium_pdf": "Download 22-Page Premium PDF",
-      "building_pdf": "Generating PDF...",
-      "print": "Print Chart",
-      "share": "Share Kundli",
-      "possessive_kundli": "'s Janam Kundli",
-      "stat": {
-        "lagna": "Ascendant / Lagna",
-        "moon_rashi": "Moon Sign (Rashi)",
-        "sun_rashi": "Sun Sign (Surya Rashi)",
-        "nakshatra": "Birth Nakshatra",
-        "tithi": "Birth Tithi",
-        "vaar": "Day of Birth",
-        "yoga": "Nitya Yoga",
-        "karana": "Karana"
-      },
-      "pada": "Pada",
-      "lord": "Lord",
-      "planetary_positions": "Planetary Positions (Graha Sthiti)",
-      "house_table": "House Cusp Positions (Bhava Sthiti)",
-      "birth_panchang": "Panchang at Time of Birth",
-      "avakahada_chakra": "Avakahada Chakra & Naming Details",
-      "vimshottari_title": "Vimshottari Dasha Timeline",
-      "balance_at_birth": "Balance Dasha at Birth",
-      "years_remaining": "Years Remaining",
-      "current_mahadasha": "Current Mahadasha",
-      "current_antardasha": "Current Antardasha",
-      "until": "Until",
-      "yogas_title": "Yogas Formed in Birth Chart",
-      "shadbala_title": "Shadbala — Planetary Strengths",
-      "strongest": "Strongest Planet",
-      "weakest": "Weakest Planet",
-      "ashtakvarga_title": "Ashtakvarga — Point Distribution",
-      "sarva_total": "Sarvashtakvarga Total",
-      "bindus": "Bindus",
-      "total": "Total",
-      "divisional_title": "Divisional Varga Charts",
-      "varga": {
-        "d3": "Siblings, Courage & Energy",
-        "d7": "Children & Lineage",
-        "d10": "Career, Profession & Achievements",
-        "d12": "Parents & Ancestral Lineage"
-      },
-      "full_grid_pdf": "Full chart grid available in PDF",
-      "table": {
-        "planet": "Planet",
-        "sign": "Rashi",
-        "degree": "Degree",
-        "house": "House",
-        "nakshatra": "Nakshatra",
-        "pada": "Pada",
-        "dignity": "Dignity",
-        "motion": "Motion",
-        "cusp": "Cusp Degree",
-        "planets": "Occupying Planets",
-        "mahadasha": "Mahadasha Lord",
-        "from": "From Date",
-        "to": "To Date",
-        "years": "Duration (Yrs)"
-      },
-      "avakahada": {
-        "varna": "Varna",
-        "vashya": "Vashya",
-        "yoni": "Yoni",
-        "gana": "Gana",
-        "nadi": "Nadi",
-        "tatva": "Tatva (Element)",
-        "paya": "Paya",
-        "nakshatra_lord": "Nakshatra Lord",
-        "rashi_lord": "Rashi Lord",
-        "naming_letter": "First Naming Letter",
-        "naming_letters_all": "All Naming Syllables"
-      },
-      "shadbala": {
-        "graha": "Planet",
-        "sthana": "Sthana",
-        "dig": "Dig",
-        "kala": "Kala",
-        "cheshta": "Cheshta",
-        "naisargika": "Naisargika",
-        "total": "Total Virupas",
-        "rupas": "Total Rupas",
-        "req": "Required"
-      },
-      "retrograde": "Retrograde (R)",
-      "direct": "Direct"
-    },
-    "features": {
-      "eyebrow": "Why SanatanTools",
-      "title": "Built with Authentic Vedic Astrology Science",
-      "subtitle": "The most precise and complete online Kundli generator built for seekers, students and professional astrologers.",
-      "sidereal": {
-        "title": "Lahiri Sidereal Zodiac",
-        "body": "Uses exact Lahiri Ayanamsa for true Vedic positions."
-      },
-      "instant": {
-        "title": "Sub-Second Speed",
-        "body": "Instant calculations in browser without page reloads."
-      },
-      "styles": {
-        "title": "3 Chart Styles",
-        "body": "North Indian diamond, South Indian grid & East Indian styles."
-      },
-      "languages": {
-        "title": "12 Indian Languages",
-        "body": "Full PDF report localized in 12 major Indian languages."
-      },
-      "privacy": {
-        "title": "100% Private & Safe",
-        "body": "Your birth data stays in your browser. We never sell data."
-      },
-      "opensource": {
-        "title": "Open Ephemeris",
-        "body": "Powered by MIT-licensed Astronomy Engine ephemeris."
-      },
-      "tables": {
-        "title": "Comprehensive Tables",
-        "body": "Planetary positions, house cusps, Ashtakvarga & Shadbala."
-      },
-      "premiumPdf": {
-        "title": "22-Page Designer PDF",
-        "body": "Print-ready high resolution PDF report with AI guidance."
-      }
-    },
-    "howItWorks": {
-      "eyebrow": "Easy 4-Step Process",
-      "title": "How to Generate Your Janam Kundli",
-      "subtitle": "Get your complete birth chart and report in less than 30 seconds.",
-      "step1": {
-        "title": "Enter Birth Details",
-        "body": "Provide date, exact time and birth city."
-      },
-      "step2": {
-        "title": "Instant Calculations",
-        "body": "Our engine computes sidereal positions and chart positions."
-      },
-      "step3": {
-        "title": "Explore Live Chart",
-        "body": "View D1/D9 charts, planet tables and dasha timelines."
-      },
-      "step4": {
-        "title": "Download PDF",
-        "body": "Export your print-ready PDF in your preferred language."
-      }
-    },
-    "whatIs": {
-      "eyebrow": "Vedic Knowledge",
-      "title": "Understanding Your Janam Kundli",
-      "subtitle": "Key elements that form the foundation of your birth chart.",
-      "lagna": {
-        "title": "Lagna (Ascendant)",
-        "body": "The zodiac sign rising on the eastern horizon at birth, representing physical self and life path."
-      },
-      "rashi": {
-        "title": "Chandra Rashi (Moon Sign)",
-        "body": "Sign where the Moon was positioned, reflecting emotions, mind and personality."
-      },
-      "nakshatra": {
-        "title": "Birth Nakshatra",
-        "body": "The lunar mansion of birth, determining core temperament and dasha balance."
-      },
-      "bhava": {
-        "title": "12 Bhavas (Houses)",
-        "body": "Divisions representing career, health, wealth, family, relationships and spirituality."
-      },
-      "graha": {
-        "title": "9 Grahas (Planets)",
-        "body": "Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu and Ketu."
-      },
-      "dignity": {
-        "title": "Planetary Dignity",
-        "body": "Exaltation, debilitation, own house or enemy sign placements."
-      }
-    },
-    "howWeCalculate": {
-      "eyebrow": "Engine Specifications",
-      "title": "Astronomical Calculation Method",
-      "subtitle": "Mathematical precision behind our birth chart calculations.",
-      "ephemeris": {
-        "k": "Ephemeris Source",
-        "v": "Astronomy Engine (VSOP87 / ELP2000-82 planetary theories)"
-      },
-      "frame": {
-        "k": "Reference Frame",
-        "v": "Geocentric Ecliptic Coordinates (IAU 2006 precession model)"
-      },
-      "ayanamsa": {
-        "k": "Ayanamsa",
-        "v": "Chitra Paksha / Lahiri (true ayanamsa)"
-      },
-      "houses": {
-        "k": "House System",
-        "v": "Equal Sign / Whole Sign (Parasari tradition)"
-      },
-      "ascendant": {
-        "k": "Lagna Calculation",
-        "v": "Local Sidereal Time derived from exact latitude & longitude"
-      },
-      "nakshatra": {
-        "k": "Lunar Mansions",
-        "v": "27 Nakshatras divided into 4 padas of 3°20′ each"
-      },
-      "time": {
-        "k": "Time Calibration",
-        "v": "UTC timestamp converted from local timezone offset"
-      }
-    },
-    "accuracy": {
-      "eyebrow": "Verified Accuracy",
-      "title": "Tested Against Reference Ephemerides",
-      "subtitle": "Mathematical precision you can rely on for astrology readings.",
-      "stat1": "Reference Charts Tested",
-      "stat2": "Agreement Rate",
-      "stat3": "Max Angular Variance",
-      "stat4": "Calculation Errors"
-    },
-    "technology": {
-      "eyebrow": "Tech Architecture",
-      "title": "Modern Web Technology",
-      "clientSide": {
-        "title": "Client-Side Engine",
-        "body": "Runs computations directly in your browser for zero latency."
-      },
-      "subSecond": {
-        "title": "Sub-Second Render",
-        "body": "Instant SVG rendering of diamond, grid and circle charts."
-      },
-      "openMath": {
-        "title": "Open Math Science",
-        "body": "Transparent algorithms verified by open astronomical code."
-      }
-    },
-    "privacy": {
-      "eyebrow": "Data Protection",
-      "title": "Your Privacy is Guaranteed",
-      "body": "We believe your personal birth details are sacred. Our application is designed with privacy-first principles.",
-      "bullet1": "No birth data sent to third-party ad networks",
-      "bullet2": "No forced account creation required",
-      "bullet3": "Data stored locally in browser storage",
-      "bullet4": "Fully compliant with global privacy standards"
-    },
-    "testimonials": {
-      "eyebrow": "User Feedback",
-      "title": "Trusted by Thousands Daily",
-      "role": {
-        "bengaluru": "Astrology Enthusiast · Bengaluru",
-        "pune": "Vedic Scholar · Pune",
-        "delhi": "Homemaker · New Delhi",
-        "chennai": "Software Engineer · Chennai",
-        "kolkata": "Teacher · Kolkata",
-        "hyderabad": "Business Analyst · Hyderabad"
-      },
-      "t1": "The most accurate Kundli generator I have used. The dasha timeline and PDF output are flawless.",
-      "t2": "Lahiri ayanamsa calculations match traditional panchang ephemeris perfectly.",
-      "t3": "Generating birth charts for my family in Hindi PDF is so quick and clean.",
-      "t4": "Clean interface with zero annoying popup ads. Instant North & South Indian chart views.",
-      "t5": "The Avakahada chakra and naming letters helped us select our baby's name easily.",
-      "t6": "High quality PDF download with full planet and house tables. Incredible free tool!"
-    },
-    "premium": {
-      "badge": "Premium Report Available",
-      "title": "Get Your Complete 22-Page Kundli Report",
-      "subtitle": "Detailed Yogas, Dosha remedies, Ashtakvarga analysis, Shadbala, D3/D7/D10/D12 charts and AI-guided life interpretation in a single print PDF.",
-      "cta_get": "Upgrade to Premium PDF",
-      "cta_donate": "Support SanatanTools",
-      "guarantee": "One-time purchase · Lifetime PDF access · 100% Satisfaction Guarantee",
-      "b1": {
-        "title": "AI Life Interpretation",
-        "body": "Deep AI readings for Career, Marriage, Health and Wealth."
-      },
-      "b2": {
-        "title": "Complete 16 Varga Charts",
-        "body": "High-resolution divisional charts D1 through D60."
-      },
-      "b3": {
-        "title": "Remedies & Gemstones",
-        "body": "Personalized Mantra, Yantra, Gemstone & Puja remedies."
-      },
-      "b4": {
-        "title": "Full Lifetime Dasha",
-        "body": "Detailed 120-year Vimshottari Mahadasha & Antardasha."
-      }
-    },
-    "faq": {
-      "eyebrow": "Frequently Asked Questions",
-      "title": "Questions About Janam Kundli",
-      "q1": {
-        "q": "Is the Janam Kundli generator really free?",
-        "a": "Yes — every calculation, chart style (North, South, East) and basic PDF are 100% free with no watermark."
-      },
-      "q2": {
-        "q": "How accurate is the birth chart?",
-        "a": "We compute positions using the Astronomy Engine (VSOP87) and Lahiri ayanamsa with sub-arcminute accuracy."
-      },
-      "q3": {
-        "q": "Do I need to create an account?",
-        "a": "No signup required. All charts and basic PDFs work instantly without registration."
-      },
-      "q4": {
-        "q": "Which chart styles are supported?",
-        "a": "North Indian (Diamond), South Indian (Square Grid) and East Indian (Bengali Style)."
-      },
-      "q5": {
-        "q": "Which languages can I generate the PDF in?",
-        "a": "12 Indian languages including English, Hindi, Marathi, Gujarati, Tamil, Telugu, Kannada, Bengali, Malayalam, Punjabi, Odia & Assamese."
-      },
-      "q6": {
-        "q": "What if I don't know my exact birth time?",
-        "a": "Enter your approximate time. You can still view your Moon Sign (Rashi) and planetary positions, though exact Lagna requires accurate time."
-      },
-      "q7": {
-        "q": "Is my birth data safe?",
-        "a": "Yes. Computations run locally in your browser and your personal data is never sold or shared."
-      },
-      "q8": {
-        "q": "Can I print the Kundli PDF?",
-        "a": "Yes! The generated PDF is formatted for A4 printing with high resolution fonts and sharp vector charts."
-      }
-    },
-    "relatedTools": {
-      "eyebrow": "More Astrological Tools",
-      "title": "Explore Other Free Vedic Tools",
-      "subtitle": "Discover calculators and guides to complement your birth chart.",
-      "open_tool": "Open Tool",
-      "browse_all": "Browse all 100+ SanatanTools →",
-      "items": {
-        "rashi_calculator": {
-          "title": "Rashi Calculator",
-          "desc": "Find your Moon sign (Chandra Rashi) accurately."
-        },
-        "nakshatra_finder": {
-          "title": "Nakshatra Finder",
-          "desc": "Discover your birth Nakshatra, pada & ruling deity."
-        },
-        "dasha_calculator": {
-          "title": "Dasha Timeline",
-          "desc": "View your 120-year Vimshottari Mahadasha timeline."
-        },
-        "todays_panchang": {
-          "title": "Daily Panchang",
-          "desc": "Today's Tithi, Nakshatra, Yoga, Karana & Rahu Kaal."
-        },
-        "panchang_by_date": {
-          "title": "Panchang by Date",
-          "desc": "Lookup authentic Panchang for any historical date."
-        },
-        "festival_calendar": {
-          "title": "Festival Calendar 2026",
-          "desc": "Complete Hindu festival dates and auspicious timings."
-        },
-        "rashi_guide": {
-          "title": "Rashi Guide",
-          "desc": "Comprehensive guide to 12 zodiac signs in Vedic astrology."
-        },
-        "nakshatra_guide": {
-          "title": "Nakshatra Guide",
-          "desc": "Deep dive into 27 lunar mansions and their characteristics."
-        }
-      }
-    },
-    "relatedArticles": {
-      "eyebrow": "Educational Guides",
-      "title": "Learn Vedic Astrology Basics",
-      "badge": "Guide",
-      "a1": {
-        "title": "How to Read Your Janam Kundli Chart",
-        "read": "5 min read · Beginner Guide"
-      },
-      "a2": {
-        "title": "Understanding Vimshottari Dasha System",
-        "read": "7 min read · Dasha Analysis"
-      },
-      "a3": {
-        "title": "Difference Between Sun Sign & Moon Sign",
-        "read": "4 min read · Astrology Fundamentals"
-      },
-      "a4": {
-        "title": "Importance of Lagna (Ascendant) in Vedic Horoscope",
-        "read": "6 min read · Advanced Concepts"
-      }
-    },
-    "newsletter": {
-      "badge": "Daily Panchang & Rashifal",
-      "title": "Get Daily Vedic Guidance in Your Inbox",
-      "subtitle": "Subscribe to receive daily Panchang, auspicious muhurats, festival alerts and horoscope updates.",
-      "email_placeholder": "Enter your email address",
-      "email_aria_label": "Email address for newsletter subscription",
-      "subscribe_button": "Subscribe Free",
-      "busy_button": "Subscribing…",
-      "subscribed_button": "Subscribed ✓",
-      "invalid_email": "Please enter a valid email address.",
-      "subscribed_toast": "Successfully subscribed to daily Vedic updates!",
-      "could_not_subscribe": "Could not subscribe at this time."
-    },
-    "finalCta": {
-      "title": "Ready to Discover Your Birth Chart?",
-      "subtitle": "Enter your birth details above to get your instant Janam Kundli and report.",
-      "generate_button": "Generate Kundli Now",
-      "explore_tools": "Explore All Tools"
-    },
-    "stickyCta": {
-      "generate_button": "Generate Janam Kundli"
-    },
-    "errors": {
-      "enter_date_time": "Please enter a valid birth date and time.",
-      "could_not_compute": "Could not compute Kundli chart. Please check birth details.",
-      "share_title": "My Janam Kundli — SanatanTools",
-      "share_text": "Check out my Vedic birth chart and Kundli on SanatanTools!",
-      "link_copied": "Kundli link copied to clipboard!",
-      "could_not_share": "Could not share link.",
-      "premium_pdf_downloaded": "Premium 22-page Kundli PDF downloaded!",
-      "free_pdf_downloaded": "Standard Kundli PDF downloaded!",
-      "could_not_build_pdf": "Could not build PDF report."
     }
   },
   "badges": {

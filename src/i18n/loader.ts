@@ -96,19 +96,48 @@ export function getCachedTranslations(lang: string): TranslationDict | undefined
   return cache.get(lang);
 }
 
+const STATIC_FALLBACKS: Record<string, string> = {
+  "kundli.aiPanel.title": "AI Kundli Analysis & Insights",
+  "kundli.aiPanel.subtitle": "Personalized AI-powered astrological interpretation of your birth chart",
+  "kundli.aiPanel.premium_badge": "PREMIUM REPORT",
+  "kundli.aiPanel.free_preview_badge": "FREE PREVIEW",
+  "kundli.aiPanel.unlock_full_report": "Unlock Full Report",
+  "kundli.aiPanel.premium_only": "Premium Feature",
+  "kundli.aiPanel.loading_title": "GENERATING AI KUNDLI INTERPRETATION",
+  "kundli.aiPanel.loading_subtitle": "Analyzing planetary placements, house positions & classical Vedic yogas...",
+  "kundli.aiPanel.loading_tips.0": "Calculating planetary dignities and Ashtakavarga strength...",
+  "kundli.aiPanel.loading_tips.1": "Synthesizing Vimshottari Dasha sub-periods with natal chart placements...",
+  "kundli.aiPanel.loading_tips.2": "Evaluating 150+ classical Yogas and Dosha cancellation rules...",
+  "kundli.aiPanel.loading_tips.3": "Formatting custom personalized life recommendations...",
+  "kundli.aiPanel.could_not_generate": "Could not generate AI interpretation",
+  "kundli.aiPanel.retry": "Retry",
+  "kundli.aiPanel.disclaimer": "Disclaimer: AI interpretations are generated using classical Vedic astrology principles for guidance and educational purposes."
+};
+
 /**
  * Read a dotted key path (`common.sign_in`) out of a translation dict.
  * Falls back to English if the target language is missing the key.
- * Returns the key itself if neither has it, so missing strings are visible
- * during development but never crash the UI.
+ * Returns a human-readable fallback if neither has it, so raw dotted keys never appear.
  */
 export function resolveKey(
   dict: TranslationDict | undefined,
   key: string,
   vars?: Record<string, string | number>,
 ): string {
-  const value = pick(dict, key) ?? pick(fallbackTranslations, key);
-  if (typeof value !== "string") return key;
+  const value =
+    pick(dict, key) ??
+    pick(fallbackTranslations, key) ??
+    STATIC_FALLBACKS[key];
+
+  if (typeof value !== "string") {
+    const parts = key.split(".");
+    const lastPart = parts[parts.length - 1] ?? key;
+    const readable = lastPart
+      .replace(/_/g, " ")
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    return vars ? interpolate(readable, vars) : readable;
+  }
   return vars ? interpolate(value, vars) : value;
 }
 

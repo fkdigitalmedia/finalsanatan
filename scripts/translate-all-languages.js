@@ -21,6 +21,27 @@ const dictionaries = {
       free_core: "100% Free core tools",
       see_all: "See all astrology tools →",
     },
+    kundli: {
+      aiPanel: {
+        title: "AI Kundli Analysis & Insights",
+        subtitle: "Personalized AI-powered astrological interpretation of your birth chart",
+        premium_badge: "PREMIUM REPORT",
+        free_preview_badge: "FREE PREVIEW",
+        unlock_full_report: "Unlock Full Report",
+        premium_only: "Premium Feature",
+        loading_title: "GENERATING AI KUNDLI INTERPRETATION",
+        loading_subtitle: "Analyzing planetary placements, house positions & classical Vedic yogas...",
+        loading_tips: {
+          "0": "Calculating planetary dignities and Ashtakavarga strength...",
+          "1": "Synthesizing Vimshottari Dasha sub-periods with natal chart placements...",
+          "2": "Evaluating 150+ classical Yogas and Dosha cancellation rules...",
+          "3": "Formatting custom personalized life recommendations..."
+        },
+        could_not_generate: "Could not generate AI interpretation",
+        retry: "Retry",
+        disclaimer: "Disclaimer: AI interpretations are generated using classical Vedic astrology principles for guidance and educational purposes."
+      }
+    },
     kundli_tools: {
       free_kundli: {
         title: "Free Janam Kundli",
