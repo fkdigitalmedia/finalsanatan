@@ -2355,33 +2355,45 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   for (const ch of chapters) {
     if (!ch) continue;
-    if (y > PAGE.h - 45) break;
+
+    const summaryLines = doc.splitTextToSize(ch.summary, PAGE.w - 2 * PAGE.m - 8);
+    const cardH = 22 + summaryLines.length * 4;
+
+    if (y + cardH > PAGE.h - 20) {
+      doc.addPage();
+      pageHeader(doc, "PERSONALIZED LIFE DOMAINS", "Phase 19 Astrological Intelligence", ctx);
+      y = 28;
+    }
 
     // Chapter Visual Card
     doc.setFillColor(BRAND.cardBg);
     doc.setDrawColor(BRAND.cardBorder);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 38, 2, 2, "FD");
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(10.5);
-    doc.text(`❖ ${ch.title}`, PAGE.m + 4, y + 6);
+    doc.setFontSize(10);
+    doc.text(ch.title, PAGE.m + 4, y + 6);
 
     doc.setTextColor(BRAND.excellent);
-    doc.setFontSize(9);
+    doc.setFontSize(8.5);
     doc.text(`Score: ${ch.score}/100  |  Confidence: ${ch.confidence}%`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
 
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(ch.summary, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    let curY = y + 12;
+    summaryLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 4, curY);
+      curY += 4;
+    });
 
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "italic");
     doc.setFontSize(7.5);
-    doc.text(`Source: ${ch.classicalSource}`, PAGE.m + 4, y + 33);
+    doc.text(`Source: ${ch.classicalSource}`, PAGE.m + 4, y + cardH - 4);
 
-    y += 42;
+    y += cardH + 6;
   }
 }
 
@@ -2394,17 +2406,28 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const traces = generateEvidenceTraces(r);
 
   for (const tr of traces) {
-    if (y > PAGE.h - 45) break;
+    const predLines = doc.splitTextToSize(tr.predictionText, PAGE.w - 2 * PAGE.m - 8);
+    const flowText = `Evidence Flow: ${tr.supportingRules.join(" -> ")} | Sources: [${tr.sources.join(", ")}]`;
+    const flowLines = doc.splitTextToSize(flowText, PAGE.w - 2 * PAGE.m - 14);
+
+    const badgeH = 6 + flowLines.length * 4;
+    const cardH = 16 + predLines.length * 4 + badgeH;
+
+    if (y + cardH > PAGE.h - 20) {
+      doc.addPage();
+      pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
+      y = 28;
+    }
 
     // Trace Card
     doc.setFillColor(BRAND.cardBg);
     doc.setDrawColor(BRAND.cardBorder);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 38, 2, 2, "FD");
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(10);
-    doc.text(`🔍 ${tr.domain}`, PAGE.m + 4, y + 6);
+    doc.text(`Rule Trace: ${tr.domain}`, PAGE.m + 4, y + 6);
 
     const confColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.good;
     doc.setTextColor(confColor);
@@ -2414,19 +2437,28 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(tr.predictionText, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    let curY = y + 12;
+    predLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 4, curY);
+      curY += 4;
+    });
 
     // Evidence Chain Badge
+    curY += 2;
     doc.setFillColor("#FFF6E1");
     doc.setDrawColor(BRAND.gold);
-    doc.roundedRect(PAGE.m + 4, y + 22, PAGE.w - 2 * PAGE.m - 8, 12, 1, 1, "FD");
+    doc.roundedRect(PAGE.m + 4, curY, PAGE.w - 2 * PAGE.m - 8, badgeH, 1, 1, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text(`Evidence Flow: ${tr.supportingRules.join(" → ")}  |  Sources: [${tr.sources.join(", ")}]`, PAGE.m + 7, y + 29.5, { maxWidth: PAGE.w - 2 * PAGE.m - 14 });
+    let badgeY = curY + 4;
+    flowLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 7, badgeY);
+      badgeY += 4;
+    });
 
-    y += 42;
+    y += cardH + 6;
   }
 }
 
@@ -2439,32 +2471,57 @@ function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const knowledgeEntries = Object.values(CLASSICAL_KNOWLEDGE_DATABASE);
 
   for (const ke of knowledgeEntries) {
-    if (y > PAGE.h - 45) break;
+    const translationText = `"${ke.translation}"`;
+    const modernText = `Modern Application: ${ke.modernInterpretation}`;
+
+    const translationLines = doc.splitTextToSize(translationText, PAGE.w - 2 * PAGE.m - 8);
+    const modernLines = doc.splitTextToSize(modernText, PAGE.w - 2 * PAGE.m - 8);
+
+    const cardH = 20 + translationLines.length * 4 + modernLines.length * 4;
+
+    if (y + cardH > PAGE.h - 20) {
+      doc.addPage();
+      pageHeader(doc, "CLASSICAL ASTROLOGY KNOWLEDGE ENGINE", "Phase 21 Authentic Citations", ctx);
+      y = 28;
+    }
 
     doc.setFillColor(BRAND.cardBg);
     doc.setDrawColor(BRAND.cardBorder);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 36, 2, 2, "FD");
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
 
+    // Line 1: Rule Name
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(10);
-    doc.text(`📖 ${ke.ruleName} (${ke.sanskritName})`, PAGE.m + 4, y + 6);
+    doc.text(ke.ruleName, PAGE.m + 4, y + 6, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
+    // Line 2: Classical Source & Verse (Below Title on Line 2 to prevent horizontal overlap)
     doc.setTextColor(BRAND.gold);
+    setFont(doc, font, "bold");
     doc.setFontSize(8.5);
-    doc.text(`${ke.classicalSource} · ${ke.chapter} (${ke.verseNumber})`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+    doc.text(`Source: ${ke.classicalSource} · ${ke.chapter} (${ke.verseNumber})`, PAGE.m + 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
+    // Line 3: Translation
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "italic");
     doc.setFontSize(8.5);
-    doc.text(`"${ke.translation}"`, PAGE.m + 4, y + 13, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    let curY = y + 16;
+    translationLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 4, curY);
+      curY += 4;
+    });
 
+    // Line 4: Modern Application
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "normal");
     doc.setFontSize(8);
-    doc.text(`Modern Application: ${ke.modernInterpretation}`, PAGE.m + 4, y + 28, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    curY += 2;
+    modernLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 4, curY);
+      curY += 4;
+    });
 
-    y += 40;
+    y += cardH + 6;
   }
 }
 
