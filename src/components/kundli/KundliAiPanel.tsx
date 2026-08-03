@@ -15,6 +15,7 @@ import { Sparkles, Lock, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
+import { FormattedMarkdown } from "@/components/ui/FormattedMarkdown";
 import {
   interpretKundliSection,
   KUNDLI_SECTIONS,
@@ -182,9 +183,7 @@ export function KundliAiPanel({
                     </p>
                   )}
                   {entry?.text && (
-                    <div className="prose prose-sm max-w-none whitespace-pre-wrap leading-relaxed text-foreground/90">
-                      {entry.text}
-                    </div>
+                    <FormattedMarkdown content={entry.text} className="mt-2" />
                   )}
                 </div>
               )}
