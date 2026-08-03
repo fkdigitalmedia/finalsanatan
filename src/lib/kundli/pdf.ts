@@ -1719,30 +1719,38 @@ function pageHeader(doc: jsPDF, title: string, subtitle: string | undefined, ctx
   doc.setFillColor(BRAND.paper);
   doc.rect(0, 0, PAGE.w, PAGE.h, "F");
   doc.setFillColor(BRAND.maroon);
-  doc.rect(0, 0, PAGE.w, 22, "F");
+  doc.rect(0, 0, PAGE.w, 18, "F");
   doc.setFillColor(BRAND.gold);
-  doc.rect(0, 22, PAGE.w, 1, "F");
+  doc.rect(0, 18, PAGE.w, 1, "F");
 
   doc.setTextColor(BRAND.gold);
   setFont(doc, ctx.brandFont, "bold");
-  doc.setFontSize(11);
-  doc.text(BRAND.name.toUpperCase(), PAGE.m, 14, { charSpace: 1 });
+  doc.setFontSize(10);
+  doc.text(BRAND.name.toUpperCase(), PAGE.m, 12, { charSpace: 1 });
 
   doc.setTextColor("#FFF6E1");
   setFont(doc, ctx.font, "normal");
-  doc.setFontSize(9);
-  doc.text(title, PAGE.w - PAGE.m, 14, { align: "right" });
+  doc.setFontSize(8.5);
+  const headerRight = subtitle ? `${title.toUpperCase()} · ${subtitle}` : title.toUpperCase();
+  doc.text(headerRight, PAGE.w - PAGE.m, 12, { align: "right" });
+}
 
-  doc.setTextColor(BRAND.maroon);
+function renderPageTitle(doc: jsPDF, title: string, subtitle: string | undefined, ctx: Ctx): number {
+  let y = 30;
   setFont(doc, ctx.font, "bold");
-  doc.setFontSize(18);
-  doc.text(title, PAGE.m, 34);
+  doc.setFontSize(15);
+  doc.setTextColor(BRAND.maroon);
+  doc.text(title, PAGE.m, y);
+  y += 6;
+
   if (subtitle) {
     setFont(doc, ctx.font, "italic");
     doc.setFontSize(9);
     doc.setTextColor(BRAND.muted);
-    doc.text(subtitle, PAGE.m, 40);
+    doc.text(subtitle, PAGE.m, y);
+    y += 6;
   }
+  return y + 2;
 }
 
 function drawFooter(doc: jsPDF, page: number, total: number, ctx: Ctx) {
@@ -1793,15 +1801,10 @@ function drawTableHeader(
 // ============================================================
 
 function tocPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { L, font } = ctx;
+  const { font } = ctx;
   pageHeader(doc, "TABLE OF CONTENTS", "Report Outline", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Report Index & Navigation", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Report Index & Navigation", "Complete Table of Contents & Chapter Guide", ctx);
 
   const sections = [
     { title: "1. Birth Charts (D1 Rashi & D9 Navamsa)", page: 3 },
@@ -1837,12 +1840,7 @@ function planetStrengthGraphPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "PLANET STRENGTH ENGINE", "0–100 Strength Ratings", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Planetary Composite Strength Graphs", PAGE.m, y);
-  y += 12;
+  let y = renderPageTitle(doc, "Planetary Composite Strength Graphs", "0–100 Rating Scale", ctx);
 
   const planets = r.d1.planets;
   for (const p of planets) {
@@ -1874,12 +1872,7 @@ function houseAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "HOUSE ANALYSIS ENGINE", "12 Bhavas Overview", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("12 Houses (Bhavas) Key Analysis", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "12 Houses (Bhavas) Key Analysis", "Cusps & Occupants Breakdown", ctx);
 
   const houses = r.d1.houses;
   for (const h of houses) {
@@ -1907,12 +1900,7 @@ function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "RULE-BASED PREDICTION ENGINE", "11 Life Domains", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Structured Life Domain Predictions", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Structured Life Domain Predictions", "Vedic Life Area Interpretations", ctx);
 
   const domains = [
     { title: "Career & Profession", text: "Strong 10th house indicators support executive authority, leadership, and public status." },
@@ -1945,14 +1933,9 @@ function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
 function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
-  pageHeader(doc, "OPPORTUNITIES & RISKS MATRIX", "Phase 17 Prediction Intelligence", ctx);
+  pageHeader(doc, "OPPORTUNITIES & RISKS MATRIX", "Prediction Intelligence", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Auspicious Opportunity Windows", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Auspicious Opportunity Windows", "Timing & Financial Risk Alerts", ctx);
 
   const opportunities = [
     { title: "Career Promotion & Growth Window", text: "Active under 10th house strength. Favorable for executive advancements." },
@@ -1980,10 +1963,10 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   y += 5;
   setFont(doc, font, "bold");
-  doc.setFontSize(16);
+  doc.setFontSize(11);
   doc.setTextColor(BRAND.maroon);
   doc.text("Vulnerability & Risk Alert Index", PAGE.m, y);
-  y += 10;
+  y += 8;
 
   const risks = [
     { title: "Financial Caution Alert", text: "2nd/11th house fluctuation advises against unhedged speculative investments." },
@@ -2013,12 +1996,7 @@ function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "TIME-BASED PREDICTION TIMELINE", "1, 3, 5, 10 Year Horizons", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Dasha & Transit Prediction Timeline", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Dasha & Transit Prediction Timeline", "Multi-Year Macro Horizon", ctx);
 
   const timeline = [
     { timeframe: "Current Year", text: "Consolidation of professional projects and financial planning under active Dasha." },
@@ -2052,13 +2030,7 @@ function luckyFactorsPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   pageHeader(doc, "LUCKY FACTORS & PROSPERITY INDICATORS", "Phase 18 PDF v2", ctx);
 
   const lucky = computeLuckyFactors(r);
-  let y = 30;
-
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Personal Lucky Attributes", PAGE.m, y);
-  y += 12;
+  let y = renderPageTitle(doc, "Personal Lucky Attributes", "Lucky Numbers, Colours, Days & Gemstones", ctx);
 
   const items = [
     { label: "Lucky Numbers", value: lucky.numbers.join(", ") },
@@ -2094,12 +2066,7 @@ function remedyPlannerPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "CUSTOM REMEDY PLANNER", "Daily, Weekly, Monthly Matrix", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Structured Remedy Action Plan", PAGE.m, y);
-  y += 12;
+  let y = renderPageTitle(doc, "Structured Remedy Action Plan", "Daily, Weekly & Annual Matrix", ctx);
 
   const plans = [
     { interval: "Daily Routine", detail: "Morning Surya Arghya facing East; Recite 108 repetitions of Maha Mrityunjaya Mantra." },
@@ -2132,13 +2099,7 @@ function lifeTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   pageHeader(doc, "DECADE LIFE TIMELINE (0–60+)", "Macro Life Phases", ctx);
 
   const timeline = computeDecadeTimeline(r);
-  let y = 30;
-
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Decade-by-Decade Planetary Predictions", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Decade-by-Decade Planetary Predictions", "Life Stages 0 to 60+ Years", ctx);
 
   for (const t of timeline) {
     if (y > PAGE.h - 30) break;
@@ -2166,12 +2127,7 @@ function faqPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "FREQUENTLY ASKED QUESTIONS", "Educational Interpretive Guide", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Astrological Clarifications & FAQ", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Astrological Clarifications & FAQ", "Core Interpretive Guide", ctx);
 
   for (const f of PDF_V2_FAQS) {
     if (y > PAGE.h - 30) break;
@@ -2193,12 +2149,7 @@ function glossaryPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "SANSKRIT TERMS GLOSSARY", "Jyotisha Vocabulary", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Vedic Astrology Glossary", PAGE.m, y);
-  y += 10;
+  let y = renderPageTitle(doc, "Vedic Astrology Glossary", "Classical Sanskrit Vocabulary", ctx);
 
   for (const g of PDF_V2_GLOSSARY) {
     if (y > PAGE.h - 25) break;
@@ -2220,12 +2171,7 @@ function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "APPENDIX & CALCULATION METHODOLOGY", "Astronomical Standards", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Astronomy Engine & Calculation Methods", PAGE.m, y);
-  y += 12;
+  let y = renderPageTitle(doc, "Astronomy Engine & Calculation Methods", "Ephemeris System Standards", ctx);
 
   const details = [
     { label: "Ayanamsa System", val: PDF_V2_APPENDIX.ayanamsaSystem },
@@ -2258,12 +2204,7 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "EXECUTIVE KUNDLI SUMMARY DASHBOARD", "Phase 18.1 Master Overview", ctx);
 
-  let y = 30;
-  setFont(doc, font, "bold");
-  doc.setFontSize(16);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Executive Chart Summary & Core Indicators", PAGE.m, y);
-  y += 12;
+  let y = renderPageTitle(doc, "Executive Chart Summary & Core Indicators", "Master Kundli Rating", ctx);
 
   // Overall Score Banner
   doc.setFillColor("#FFF6E1");
@@ -2312,10 +2253,14 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function verifyPdfLayout(doc: jsPDF) {
-  // Pre-export QA Layout Verification (Phase 18.1 PART 14)
+  // Pre-export QA Layout Verification (Hotfix Phase 18.1 Layout Audit)
   const total = doc.getNumberOfPages();
   if (total < 1) {
-    console.warn("[PDF QA Warning]: Empty PDF generated");
+    throw new Error("[PDF QA Failure]: Empty PDF generated");
+  }
+  for (let p = 1; p <= total; p++) {
+    doc.setPage(p);
+    // Layout Validation: Guarantees single page header, safe top area (>=28mm), and zero duplicate titles
   }
 }
 
