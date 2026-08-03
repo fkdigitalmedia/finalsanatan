@@ -384,6 +384,65 @@ export const interpretKundliFull = createServerFn({ method: "POST" })
     };
   });
 
+// ============================================================
+// Phase 16.8 — AI Explainable Astrology Engine
+// ------------------------------------------------------------
+// Accepts pre-calculated facts (Yogas, Doshas, Strengths, Predictions).
+// Generates clear explanations WITHOUT performing any calculations:
+// 1. Why this was detected
+// 2. Which rule matched
+// 3. Which planets created it
+// 4. Confidence level
+// 5. Practical meaning
+// 6. Suggested actions
+// ============================================================
+
+export const explainCalculatedAstrology = createServerFn({ method: "POST" })
+  .validator((v: unknown) => {
+    return z
+      .object({
+        itemType: z.enum(["yoga", "dosha", "prediction", "strength"]),
+        itemData: z.record(z.unknown()),
+        language: z.string().default("en"),
+      })
+      .parse(v);
+  })
+  .handler(async ({ data }) => {
+    const { itemType, itemData, language } = data;
+    const { callAi } = await import("@/lib/ai-router.server");
+
+    const prompt = `
+Explain the following PRE-CALCULATED Vedic Astrology fact in a clear, educational, non-fatalistic manner.
+IMPORTANT: Do NOT perform any astronomical or astrological calculations yourself. Explain ONLY the provided fact.
+
+FACT DATA:
+${JSON.stringify(itemData, null, 2)}
+
+Provide your response in structured Markdown with the following exact subheadings:
+1. **Why This Was Detected**
+2. **Which Rule Matched**
+3. **Planets Involved**
+4. **Confidence & Severity Level**
+5. **Practical Life Meaning**
+6. **Suggested Actions & Remedies**
+
+Language: ${language}. Keep Sanskrit terms in standard IAST with brief explanations.
+`.trim();
+
+    const r = await callAi({
+      feature: `kundli.explain.${itemType}`,
+      system: `${VOICE}\n${GLOBAL_GUARDRAILS}`,
+      prompt,
+    });
+
+    return {
+      itemType,
+      explanation: r.text,
+      provider: r.provider,
+      model: r.model,
+    };
+  });
+
 // Re-export for convenience
 export const KUNDLI_INTERPRETATION_DISCLAIMER = DISCLAIMER;
 

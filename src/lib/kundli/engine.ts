@@ -12,7 +12,9 @@ import { computeAscendant } from "./ascendant";
 import { nineGrahas } from "./planets";
 import { buildD1, buildD9 } from "./charts";
 import {
+  buildD2,
   buildD3,
+  buildD4,
   buildD7,
   buildD10,
   buildD12,
@@ -49,9 +51,11 @@ export function generateKundli(input: BirthInput): KundliResult {
   const asc = computeAscendant(utc, input.latitude, input.longitude);
   const grahas = nineGrahas(utc);
   const d1 = buildD1(asc.longitudeSidereal, asc.longitudeTropical, grahas);
-  const d9 = buildD9(asc.longitudeSidereal, asc.longitudeTropical, grahas);
+  const d2 = buildD2(asc.longitudeSidereal, asc.longitudeTropical, grahas);
   const d3 = buildD3(asc.longitudeSidereal, asc.longitudeTropical, grahas);
+  const d4 = buildD4(asc.longitudeSidereal, asc.longitudeTropical, grahas);
   const d7 = buildD7(asc.longitudeSidereal, asc.longitudeTropical, grahas);
+  const d9 = buildD9(asc.longitudeSidereal, asc.longitudeTropical, grahas);
   const d10 = buildD10(asc.longitudeSidereal, asc.longitudeTropical, grahas);
   const d12 = buildD12(asc.longitudeSidereal, asc.longitudeTropical, grahas);
   const d16 = buildD16(asc.longitudeSidereal, asc.longitudeTropical, grahas);
@@ -111,7 +115,9 @@ export function generateKundli(input: BirthInput): KundliResult {
     yogas,
     doshas,
     remedies,
+    d2,
     d3,
+    d4,
     d7,
     d10,
     d12,

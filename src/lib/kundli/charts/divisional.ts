@@ -125,6 +125,31 @@ function buildVarga(
   };
 }
 
+/** D2 — Hora. 15° each. Odd: 0-15° Sun (Leo=4), 15-30° Moon (Cancer=3). Even: 0-15° Moon, 15-30° Sun. */
+export function horaLongitude(sidereal: number): number {
+  const rashi = Math.floor(sidereal / 30);
+  const deg = sidereal - rashi * 30;
+  const odd = rashi % 2 === 0;
+  const firstHalf = deg < 15;
+  const dest = odd ? (firstHalf ? 4 : 3) : (firstHalf ? 3 : 4);
+  return dest * 30 + 15;
+}
+
+/** D4 — Chaturthamsa. 7.5° each. 1st, 4th, 7th, 10th Kendra signs from natal sign. */
+export function chaturthamsaLongitude(sidereal: number): number {
+  const rashi = Math.floor(sidereal / 30);
+  const deg = sidereal - rashi * 30;
+  const part = Math.floor(deg / 7.5); // 0..3
+  const dest = (rashi + part * 3) % 12;
+  return dest * 30 + 15;
+}
+
+export function buildD2(a: number, at: number, p: RawGrahaInput[]): KundliChart {
+  return buildVarga(a, at, p, horaLongitude);
+}
+export function buildD4(a: number, at: number, p: RawGrahaInput[]): KundliChart {
+  return buildVarga(a, at, p, chaturthamsaLongitude);
+}
 export function buildD3(a: number, at: number, p: RawGrahaInput[]): KundliChart {
   return buildVarga(a, at, p, drekkanaLongitude);
 }

@@ -1,14 +1,15 @@
 // ============================================================
-// Kundli / strength / ashtakvarga
+// Phase 16.6 — Complete Ashtakavarga Engine
 // ------------------------------------------------------------
-// Classical Parashara BAV (Bhinnashtakavarga) tables for the
-// seven planets plus Lagna as contributors, giving benefic points
-// (bindus) to each of the 12 signs. SAV = sum across all seven
-// planetary BAVs.
-//
-// Each entry gives the benefic-house numbers (1..12) counted
-// forward from the contributor's own sign.
+// Calculates:
+// - Bhinnashtakavarga (BAV) for 7 planets (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn)
+// - Sarvashtakavarga (SAV) total 337 bindus across 12 signs/houses
+// - House Scores (1..12) mapped to natal Lagna
+// - Planet BAV Scores in their natal placements
+// - Transit Support (Gochar) evaluation
+// - Visual Heatmap Data structure for UI & PDF
 // ============================================================
+
 import type { GrahaName, KundliChart } from "@/lib/kundli/types";
 
 type Source = GrahaName | "Lagna";
@@ -120,11 +121,21 @@ export interface BhinnaEntry {
   total: number;
 }
 
+export interface HouseAshtakvargaScore {
+  house: number;
+  bindus: number;
+  evaluation: "Strong" | "Average" | "Weak";
+  interpretation: string;
+}
+
 export interface AshtakvargaReport {
   bhinna: BhinnaEntry[];
   /** Sarvashtakavarga — sum across all 7 planets, per sign */
   sarva: number[];
   sarvaTotal: number;
+  houseScores: HouseAshtakvargaScore[];
+  transitSupportSummary: string;
+  heatmapData: Array<{ signIndex: number; house: number; totalBindus: number }>;
 }
 
 export function computeAshtakvarga(chart: KundliChart): AshtakvargaReport {
@@ -139,7 +150,6 @@ export function computeAshtakvarga(chart: KundliChart): AshtakvargaReport {
       if (srcRashi === undefined) continue;
       const beneficHouses = BAV_TABLES[recip][src];
       for (const h of beneficHouses) {
-        // count h houses forward from src (h=1 means src's own sign)
         const targetSign = (srcRashi + h - 1) % 12;
         bindusBySign[targetSign] += 1;
       }
@@ -153,9 +163,48 @@ export function computeAshtakvarga(chart: KundliChart): AshtakvargaReport {
 
   const sarva = new Array(12).fill(0);
   for (const b of bhinna) b.bindusBySign.forEach((v, i) => (sarva[i] += v));
+
+  const lagnaRashiIdx = chart.ascendant.rashiIndex;
+  const houseScores: HouseAshtakvargaScore[] = Array.from({ length: 12 }, (_, i) => {
+    const houseNum = i + 1;
+    const signIdx = (lagnaRashiIdx + houseNum - 1) % 12;
+    const bindus = sarva[signIdx];
+    let evalStatus: "Strong" | "Average" | "Weak" = "Average";
+    if (bindus >= 30) evalStatus = "Strong";
+    else if (bindus < 25) evalStatus = "Weak";
+
+    return {
+      house: houseNum,
+      bindus,
+      evaluation: evalStatus,
+      interpretation:
+        evalStatus === "Strong"
+          ? `House ${houseNum} has robust Ashtakavarga strength (${bindus} bindus), granting high fruits during planet transits.`
+          : evalStatus === "Weak"
+          ? `House ${houseNum} has low bindus (${bindus}), suggesting extra effort required during transits here.`
+          : `House ${houseNum} has balanced strength (${bindus} bindus).`,
+    };
+  });
+
+  const heatmapData = Array.from({ length: 12 }, (_, i) => {
+    const houseNum = i + 1;
+    const signIdx = (lagnaRashiIdx + houseNum - 1) % 12;
+    return {
+      signIndex: signIdx,
+      house: houseNum,
+      totalBindus: sarva[signIdx],
+    };
+  });
+
+  const strongHouses = houseScores.filter((h) => h.evaluation === "Strong").map((h) => `House ${h.house}`);
+  const transitSupportSummary = `Transits through ${strongHouses.join(", ") || "Kendra houses"} deliver maximum auspicious results. Total SAV bindus: ${sarva.reduce((a, b) => a + b, 0)}/337.`;
+
   return {
     bhinna,
     sarva,
     sarvaTotal: sarva.reduce((a, b) => a + b, 0),
+    houseScores,
+    transitSupportSummary,
+    heatmapData,
   };
 }

@@ -141,7 +141,9 @@ export interface KundliResult {
   doshas?: import("./doshas").DoshaResult[];
   remedies?: import("./remedies").Remedy[];
   // Sprint 3 — Divisional charts + Shadbala + Ashtakvarga
+  d2?: KundliChart;
   d3?: KundliChart;
+  d4?: KundliChart;
   d7?: KundliChart;
   d10?: KundliChart;
   d12?: KundliChart;

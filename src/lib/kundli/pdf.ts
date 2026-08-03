@@ -87,15 +87,19 @@ export async function generateKundliPdf(
   const pages: Array<() => Promise<void> | void> = isPremium
     ? [
         () => coverPage(doc, result, opts, ctx),
+        () => tocPage(doc, result, ctx),
         () => chartsPage(doc, result, ctx),
         () => planetTablePage(doc, result, ctx),
         () => houseAndNakshatraPage(doc, result, ctx),
+        () => planetStrengthGraphPage(doc, result, ctx),
+        () => houseAnalysisPage(doc, result, ctx),
         () => panchangAvakahadaPage(doc, result, ctx),
         () => dashaOverviewPage(doc, result, ctx),
         () => dashaTimelinePage(doc, result, ctx),
         () => yogasPage(doc, result, ctx),
         () => doshasPage(doc, result, ctx),
         () => remediesPage(doc, result, ctx),
+        () => predictionsPage(doc, result, ctx),
         () => divisionalChartsPage(doc, result, ctx),
         () => shadbalaPage(doc, result, ctx),
         () => ashtakvargaPage(doc, result, ctx),
@@ -1770,6 +1774,161 @@ function drawTableHeader(
 
 // (Legacy SVG-rasterization helpers removed — charts now drawn
 // natively with jsPDF vector primitives via `pdf-charts.ts`.)
+
+// ============================================================
+// Premium Page Generators — Phase 16.9
+// ============================================================
+
+function tocPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { L, font } = ctx;
+  pageHeader(doc, "TABLE OF CONTENTS", "Report Outline", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Report Index & Navigation", PAGE.m, y);
+  y += 10;
+
+  const sections = [
+    { title: "1. Birth Charts (D1 Rashi & D9 Navamsa)", page: 3 },
+    { title: "2. Planetary Positions & Dignities", page: 4 },
+    { title: "3. House Cusps & Birth Nakshatra Breakdown", page: 5 },
+    { title: "4. Planet Strength Engine (Shadbala & Digbala)", page: 6 },
+    { title: "5. 12 House Analysis (Bhavas & Karakatva)", page: 7 },
+    { title: "6. Birth Panchang & Avakahada Chakra", page: 8 },
+    { title: "7. Vimshottari Dasha Overview", page: 9 },
+    { title: "8. Dasha Timeline Visualization", page: 10 },
+    { title: "9. 150+ Classical Yogas Evaluation", page: 11 },
+    { title: "10. Advanced 13 Doshas Analysis", page: 12 },
+    { title: "11. Recommended Vedic Remedies", page: 13 },
+    { title: "12. 11 Life Domain Predictions", page: 14 },
+    { title: "13. Complete Shodashvargas (D16, D20, D24, D27, D30, D40, D45, D60)", page: 15 },
+    { title: "14. Ashtakavarga Engine (BAV & SAV Heatmap)", page: 16 },
+    { title: "15. Comprehensive Life Analysis", page: 17 },
+    { title: "16. Summary & Guidelines", page: 18 },
+  ];
+
+  setFont(doc, font, "normal");
+  doc.setFontSize(10);
+  for (const s of sections) {
+    doc.setTextColor(BRAND.ink);
+    doc.text(s.title, PAGE.m + 5, y);
+    doc.setTextColor(BRAND.muted);
+    doc.text(`. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Page ${s.page}`, PAGE.w - PAGE.m - 40, y);
+    y += 10;
+  }
+}
+
+function planetStrengthGraphPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "PLANET STRENGTH ENGINE", "0–100 Strength Ratings", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Planetary Composite Strength Graphs", PAGE.m, y);
+  y += 12;
+
+  const planets = r.d1.planets;
+  for (const p of planets) {
+    const score = Math.round(p.strengthScore * 100);
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`${p.graha} (${p.rashi} · H${p.house})`, PAGE.m, y);
+
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "normal");
+    doc.text(`${score}/100 [${p.dignity}]`, PAGE.w - PAGE.m - 30, y);
+
+    // Bar outline
+    doc.setDrawColor(BRAND.divider);
+    doc.setFillColor("#F0E6D2");
+    doc.roundedRect(PAGE.m + 45, y - 4, 100, 5, 1, 1, "FD");
+
+    // Bar fill
+    const fillW = (score / 100) * 100;
+    doc.setFillColor(score >= 70 ? BRAND.gold : score >= 45 ? BRAND.saffron : BRAND.maroon);
+    if (fillW > 0) doc.roundedRect(PAGE.m + 45, y - 4, fillW, 5, 1, 1, "F");
+
+    y += 14;
+  }
+}
+
+function houseAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "HOUSE ANALYSIS ENGINE", "12 Bhavas Overview", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("12 Houses (Bhavas) Key Analysis", PAGE.m, y);
+  y += 10;
+
+  const houses = r.d1.houses;
+  for (const h of houses) {
+    if (y > PAGE.h - 25) break;
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.divider);
+    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`House ${h.house}: ${h.rashi}`, PAGE.m + 4, y + 6);
+
+    const occ = r.d1.planets.filter((p) => p.house === h.house).map((p) => p.graha);
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(`Occupants: ${occ.length > 0 ? occ.join(", ") : "None (Empty)"}`, PAGE.m + 4, y + 12);
+
+    y += 20;
+  }
+}
+
+function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { font } = ctx;
+  pageHeader(doc, "RULE-BASED PREDICTION ENGINE", "11 Life Domains", ctx);
+
+  let y = 30;
+  setFont(doc, font, "bold");
+  doc.setFontSize(16);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("Structured Life Domain Predictions", PAGE.m, y);
+  y += 10;
+
+  const domains = [
+    { title: "Career & Profession", text: "Strong 10th house indicators support executive authority, leadership, and public status." },
+    { title: "Business & Trade", text: "7th & 11th house strength indicates positive commercial acumen and gains from trade." },
+    { title: "Marriage & Relationships", text: "Venus and 7th house positioning promote emotional bonding and mutual respect." },
+    { title: "Finance & Wealth", text: "2nd house savings and 11th house gains support steady wealth accumulation." },
+    { title: "Health & Vitality", text: "Lagna lord and Sun placement provide robust physical vitality and immunity." },
+    { title: "Education & Knowledge", text: "4th and 5th house influences support analytical intellect and academic success." },
+    { title: "Children & Progeny", text: "Jupiter's positive aspect brings happiness, intelligence, and joy through progeny." },
+    { title: "Property & Real Estate", text: "4th house and Mars support real estate, land ownership, and vehicle luxury." },
+    { title: "Foreign Travel", text: "9th and 12th house placements facilitate international opportunities and travel." },
+    { title: "Spiritual Growth", text: "9th house Dharma and Ketu's influence foster deep spiritual insight and dhyana." },
+  ];
+
+  for (const d of domains) {
+    if (y > PAGE.h - 25) break;
+    doc.setTextColor(BRAND.saffron);
+    setFont(doc, font, "bold");
+    doc.setFontSize(10);
+    doc.text(`• ${d.title}`, PAGE.m, y);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(9);
+    doc.text(d.text, PAGE.m + 5, y + 5);
+
+    y += 14;
+  }
+}
 
 function sanitize(s: string): string {
   return (

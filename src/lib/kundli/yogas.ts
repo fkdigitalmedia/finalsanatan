@@ -248,6 +248,8 @@ function vipreetRajYoga(chart: KundliChart): YogaResult {
   };
 }
 
+export { evaluateAllYogas, type ExtendedYogaResult, type ClassicalYogaCategory } from "./yogas/yogas-evaluator";
+
 export function detectYogas(chart: KundliChart): YogaResult[] {
   return [
     ...panchaMahapurusha(chart),
