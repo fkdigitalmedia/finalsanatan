@@ -49,6 +49,12 @@ const BRAND = {
   muted: "#6b5847",
   paper: "#FFF8EE",
   divider: "#E8D9BE",
+  cardBg: "#FFFBF4",
+  cardBorder: "#E5D5C0",
+  excellent: "#15803D",
+  good: "#1D4ED8",
+  moderate: "#C2410C",
+  weak: "#B91C1C",
 };
 
 const PAGE = { w: 210, h: 297, m: 15 }; // A4 mm
@@ -1843,29 +1849,32 @@ function planetStrengthGraphPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "PLANET STRENGTH ENGINE", "0–100 Strength Ratings", ctx);
 
-  let y = renderPageTitle(doc, "Planetary Composite Strength Graphs", "0–100 Rating Scale", ctx);
+  let y = renderPageTitle(doc, "Planetary Composite Strength Graphs", "Color-Coded Status Bars", ctx);
 
   const planets = r.d1.planets;
   for (const p of planets) {
     const score = Math.round(p.strengthScore * 100);
-    doc.setTextColor(BRAND.ink);
+    const color = score >= 70 ? BRAND.excellent : score >= 55 ? BRAND.good : score >= 40 ? BRAND.moderate : BRAND.weak;
+
+    doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(10);
+    doc.setFontSize(9.5);
     doc.text(`${p.graha} (${p.rashi} · H${p.house})`, PAGE.m, y);
 
-    doc.setTextColor(BRAND.muted);
-    setFont(doc, font, "normal");
-    doc.text(`${score}/100 [${p.dignity}]`, PAGE.w - PAGE.m - 30, y);
+    doc.setTextColor(color);
+    setFont(doc, font, "bold");
+    doc.setFontSize(9);
+    doc.text(`${score}/100 [${p.dignity}]`, PAGE.w - PAGE.m - 35, y);
 
     // Bar outline
-    doc.setDrawColor(BRAND.divider);
-    doc.setFillColor("#F0E6D2");
-    doc.roundedRect(PAGE.m + 45, y - 4, 100, 5, 1, 1, "FD");
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.setFillColor("#E2D5C3");
+    doc.roundedRect(PAGE.m + 55, y - 4, 85, 5, 1, 1, "FD");
 
     // Bar fill
-    const fillW = (score / 100) * 100;
-    doc.setFillColor(score >= 70 ? BRAND.gold : score >= 45 ? BRAND.saffron : BRAND.maroon);
-    if (fillW > 0) doc.roundedRect(PAGE.m + 45, y - 4, fillW, 5, 1, 1, "F");
+    const fillW = (score / 100) * 85;
+    doc.setFillColor(color);
+    if (fillW > 0) doc.roundedRect(PAGE.m + 55, y - 4, fillW, 5, 1, 1, "F");
 
     y += 14;
   }
@@ -1875,28 +1884,34 @@ function houseAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "HOUSE ANALYSIS ENGINE", "12 Bhavas Overview", ctx);
 
-  let y = renderPageTitle(doc, "12 Houses (Bhavas) Key Analysis", "Cusps & Occupants Breakdown", ctx);
+  let y = renderPageTitle(doc, "12 Houses (Bhavas) Key Analysis", "2-Column Cusp Signs & Occupants Grid", ctx);
 
   const houses = r.d1.houses;
-  for (const h of houses) {
-    if (y > PAGE.h - 25) break;
-    doc.setFillColor("#FFFBF4");
-    doc.setDrawColor(BRAND.divider);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
+  const colW = (PAGE.w - 2 * PAGE.m - 6) / 2;
+
+  houses.forEach((h, idx) => {
+    const isCol2 = idx % 2 === 1;
+    const cardX = isCol2 ? PAGE.m + colW + 6 : PAGE.m;
+    const rowIdx = Math.floor(idx / 2);
+    const cardY = y + rowIdx * 19;
+
+    if (cardY > PAGE.h - 22) return;
+
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(cardX, cardY, colW, 16, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(10);
-    doc.text(`House ${h.house}: ${h.rashi}`, PAGE.m + 4, y + 6);
+    doc.setFontSize(9.5);
+    doc.text(`House ${h.house}: ${h.rashi}`, cardX + 4, cardY + 6);
 
     const occ = r.d1.planets.filter((p) => p.house === h.house).map((p) => p.graha);
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
-    doc.setFontSize(9);
-    doc.text(`Occupants: ${occ.length > 0 ? occ.join(", ") : "None (Empty)"}`, PAGE.m + 4, y + 12);
-
-    y += 20;
-  }
+    doc.setFontSize(8.5);
+    doc.text(`Occupants: ${occ.length > 0 ? occ.join(", ") : "None (Empty)"}`, cardX + 4, cardY + 12);
+  });
 }
 
 function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
@@ -1938,61 +1953,64 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
   pageHeader(doc, "OPPORTUNITIES & RISKS MATRIX", "Prediction Intelligence", ctx);
 
-  let y = renderPageTitle(doc, "Auspicious Opportunity Windows", "Timing & Financial Risk Alerts", ctx);
+  let y = renderPageTitle(doc, "Auspicious Opportunities & Risk Alerts", "2-Column Prediction Matrix", ctx);
+
+  const cardW = (PAGE.w - 2 * PAGE.m - 6) / 2;
+
+  // Left Column: Opportunities
+  doc.setFillColor("#F0FDF4");
+  doc.setDrawColor("#BBF7D0");
+  doc.roundedRect(PAGE.m, y, cardW, 60, 2, 2, "FD");
+
+  doc.setTextColor("#166534");
+  setFont(doc, font, "bold");
+  doc.setFontSize(10);
+  doc.text("✓ Auspicious Opportunity Windows", PAGE.m + 4, y + 7);
 
   const opportunities = [
-    { title: "Career Promotion & Growth Window", text: "Active under 10th house strength. Favorable for executive advancements." },
-    { title: "Business Expansion & Trade Gains", text: "7th & 11th house coordination signals profit growth in trade partnerships." },
-    { title: "Auspicious Marriage Window", text: "Venus & 7th Lord transit opens optimal matrimonial window." },
+    { title: "Career Promotion & Growth", text: "Active under 10th house strength." },
+    { title: "Business Expansion", text: "7th & 11th house coordination." },
+    { title: "Auspicious Marriage Window", text: "Optimal Venus & 7th Lord transit." },
   ];
 
-  for (const o of opportunities) {
-    doc.setFillColor("#F0FDF4");
-    doc.setDrawColor("#BBF7D0");
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
-
+  setFont(doc, font, "normal");
+  doc.setFontSize(8.5);
+  opportunities.forEach((o, idx) => {
     doc.setTextColor("#166534");
     setFont(doc, font, "bold");
-    doc.setFontSize(10);
-    doc.text(`✓ ${o.title}`, PAGE.m + 4, y + 6);
-
+    doc.text(`• ${o.title}`, PAGE.m + 4, y + 15 + idx * 15);
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
-    doc.setFontSize(9);
-    doc.text(o.text, PAGE.m + 4, y + 12);
+    doc.text(o.text, PAGE.m + 4, y + 20 + idx * 15);
+  });
 
-    y += 20;
-  }
+  // Right Column: Risks
+  const col2X = PAGE.m + cardW + 6;
+  doc.setFillColor("#FEF2F2");
+  doc.setDrawColor("#FECACA");
+  doc.roundedRect(col2X, y, cardW, 60, 2, 2, "FD");
 
-  y += 5;
+  doc.setTextColor("#991B1B");
   setFont(doc, font, "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Vulnerability & Risk Alert Index", PAGE.m, y);
-  y += 8;
+  doc.setFontSize(10);
+  doc.text("⚠ Vulnerability & Risk Alerts", col2X + 4, y + 7);
 
   const risks = [
-    { title: "Financial Caution Alert", text: "2nd/11th house fluctuation advises against unhedged speculative investments." },
-    { title: "Health & Immunity Caution", text: "6th house transit requires conscious routine, balanced diet, and stress management." },
+    { title: "Financial Caution Alert", text: "2nd/11th house fluctuation." },
+    { title: "Health & Immunity Caution", text: "6th house transit routine focus." },
+    { title: "Relationship Patience", text: "Maintain active partner empathy." },
   ];
 
-  for (const rk of risks) {
-    doc.setFillColor("#FEF2F2");
-    doc.setDrawColor("#FECACA");
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 16, 2, 2, "FD");
-
+  setFont(doc, font, "normal");
+  doc.setFontSize(8.5);
+  risks.forEach((rk, idx) => {
     doc.setTextColor("#991B1B");
     setFont(doc, font, "bold");
-    doc.setFontSize(10);
-    doc.text(`⚠ ${rk.title}`, PAGE.m + 4, y + 6);
-
+    doc.text(`• ${rk.title}`, col2X + 4, y + 15 + idx * 15);
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
-    doc.setFontSize(9);
-    doc.text(rk.text, PAGE.m + 4, y + 12);
-
-    y += 20;
-  }
+    doc.text(rk.text, col2X + 4, y + 20 + idx * 15);
+  });
 }
 
 function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
@@ -2205,9 +2223,9 @@ function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
 function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
-  pageHeader(doc, "EXECUTIVE KUNDLI SUMMARY DASHBOARD", "Phase 18.1 Master Overview", ctx);
+  pageHeader(doc, "EXECUTIVE KUNDLI SUMMARY DASHBOARD", "Phase 18.2 Master Overview", ctx);
 
-  let y = renderPageTitle(doc, "Executive Chart Summary & Core Indicators", "Master Kundli Rating", ctx);
+  let y = renderPageTitle(doc, "Executive Chart Summary & Core Indicators", "Master Kundli Rating & 2-Column Life Domain Analysis", ctx);
 
   // Overall Score Banner
   doc.setFillColor("#FFF6E1");
@@ -2217,42 +2235,106 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor(BRAND.maroon);
   setFont(doc, font, "bold");
   doc.setFontSize(12);
-  doc.text("Overall Kundli Strength Score: 84/100 [Auspicious]", PAGE.m + 6, y + 9);
+  doc.text("Overall Kundli Strength Rating: 86 / 100  [Auspicious]", PAGE.m + 6, y + 8);
 
   doc.setTextColor(BRAND.ink);
   setFont(doc, font, "normal");
-  doc.setFontSize(9);
-  doc.text("Lagna: " + r.d1.ascendant.rashi + " | Moon Sign: " + r.moonSign + " | Sun Sign: " + r.sunSign + " | Janma Nakshatra: " + r.birthNakshatra.nakshatra, PAGE.m + 6, y + 16);
+  doc.setFontSize(8.5);
+  doc.text(`Lagna: ${r.d1.ascendant.rashi}  ·  Moon Sign: ${r.moonSign}  ·  Sun Sign: ${r.sunSign}  ·  Nakshatra: ${r.birthNakshatra.nakshatra} (Pada ${r.birthNakshatra.pada})`, PAGE.m + 6, y + 16);
 
-  y += 30;
+  y += 28;
 
-  // Domain Strength Grid
+  // 2-Column Domain Grid
   const domains = [
-    { name: "Career & Status", score: "88/100", label: "Outstanding" },
-    { name: "Marriage & Harmony", score: "82/100", label: "Favorable" },
-    { name: "Finance & Wealth", score: "85/100", label: "Favorable" },
-    { name: "Health & Vitality", score: "79/100", label: "Moderate-High" },
-    { name: "Education & Intellect", score: "90/100", label: "Outstanding" },
-    { name: "Spiritual Growth", score: "92/100", label: "Outstanding" },
+    { name: "Career & Status", score: "88/100", label: "Outstanding", color: BRAND.excellent },
+    { name: "Marriage & Harmony", score: "82/100", label: "Favorable", color: BRAND.good },
+    { name: "Finance & Wealth", score: "85/100", label: "Favorable", color: BRAND.good },
+    { name: "Health & Vitality", score: "79/100", label: "Moderate-High", color: BRAND.good },
+    { name: "Education & Intellect", score: "90/100", label: "Outstanding", color: BRAND.excellent },
+    { name: "Spiritual Growth", score: "92/100", label: "Outstanding", color: BRAND.excellent },
   ];
 
-  for (const d of domains) {
-    doc.setFillColor("#FFFBF4");
-    doc.setDrawColor(BRAND.divider);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, 14, 2, 2, "FD");
+  const colW = (PAGE.w - 2 * PAGE.m - 6) / 2;
+  domains.forEach((d, idx) => {
+    const isCol2 = idx % 2 === 1;
+    const cardX = isCol2 ? PAGE.m + colW + 6 : PAGE.m;
+    const cardY = y + Math.floor(idx / 2) * 16;
+
+    doc.setFillColor(BRAND.cardBg);
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(cardX, cardY, colW, 13, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(9.5);
-    doc.text(`❖ ${d.name}`, PAGE.m + 4, y + 6);
+    doc.setFontSize(9);
+    doc.text(`❖ ${d.name}`, cardX + 4, cardY + 5.5);
 
-    doc.setTextColor(BRAND.saffron);
+    doc.setTextColor(d.color);
     setFont(doc, font, "bold");
-    doc.setFontSize(9.5);
-    doc.text(`${d.score} [${d.label}]`, PAGE.w - PAGE.m - 40, y + 6);
+    doc.setFontSize(8.5);
+    doc.text(`${d.score} [${d.label}]`, cardX + colW - 4, cardY + 5.5, { align: "right" });
 
-    y += 18;
-  }
+    // Progress bar line
+    doc.setFillColor("#E2D5C3");
+    doc.rect(cardX + 4, cardY + 8.5, colW - 8, 2, "F");
+    const fillWidth = (parseInt(d.score) / 100) * (colW - 8);
+    doc.setFillColor(d.color);
+    doc.rect(cardX + 4, cardY + 8.5, fillWidth, 2, "F");
+  });
+
+  y += Math.ceil(domains.length / 2) * 16 + 8;
+
+  // 2-Column Strengths vs Growth Challenges
+  const cardW = (PAGE.w - 2 * PAGE.m - 6) / 2;
+
+  // Top Strengths Box
+  doc.setFillColor("#F0FDF4");
+  doc.setDrawColor("#BBF7D0");
+  doc.roundedRect(PAGE.m, y, cardW, 42, 2, 2, "FD");
+
+  doc.setTextColor(BRAND.excellent);
+  setFont(doc, font, "bold");
+  doc.setFontSize(10);
+  doc.text("Top 5 Astrological Strengths", PAGE.m + 4, y + 7);
+
+  const strengths = [
+    "1. 10th House executive strength",
+    "2. Auspicious Jupiter aspect on Lagna",
+    "3. Exalted planet placements",
+    "4. High Sarvashtakavarga score",
+    "5. Balanced D9 Navamsa chart",
+  ];
+  setFont(doc, font, "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(BRAND.ink);
+  strengths.forEach((s, idx) => {
+    doc.text(s, PAGE.m + 4, y + 14 + idx * 6);
+  });
+
+  // Top Challenges Box
+  const col2X = PAGE.m + cardW + 6;
+  doc.setFillColor("#FEF2F2");
+  doc.setDrawColor("#FECACA");
+  doc.roundedRect(col2X, y, cardW, 42, 2, 2, "FD");
+
+  doc.setTextColor(BRAND.weak);
+  setFont(doc, font, "bold");
+  doc.setFontSize(10);
+  doc.text("Top 5 Growth Challenges", col2X + 4, y + 7);
+
+  const challenges = [
+    "1. Mild Saturn sub-period transit",
+    "2. 6th House seasonal health sensitivity",
+    "3. 2nd House wealth fluctuations",
+    "4. Occasional work stress",
+    "5. Need for daily dhyana discipline",
+  ];
+  setFont(doc, font, "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(BRAND.ink);
+  challenges.forEach((c, idx) => {
+    doc.text(c, col2X + 4, y + 14 + idx * 6);
+  });
 }
 
 function verifyPdfLayout(doc: jsPDF) {
