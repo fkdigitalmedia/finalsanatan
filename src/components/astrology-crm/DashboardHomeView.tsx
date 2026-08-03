@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   Sun,
@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Heart,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import type { SupportedLanguage, UserAstrologyProfile } from "@/lib/astrology-crm/crm-types";
 import { getTranslation } from "@/lib/astrology-crm/i18n-astrology";
+import { fetchLiveUserDasha, fetchLiveUserTransit } from "@/lib/astrology-crm/crm-api";
 
 interface DashboardHomeViewProps {
   profile: UserAstrologyProfile;
@@ -36,6 +38,25 @@ interface DashboardHomeViewProps {
 export function DashboardHomeView({ profile, language, onNavigateTab }: DashboardHomeViewProps) {
   const t = getTranslation(language);
 
+  const [dasha, setDasha] = useState<{
+    mahadasha: string;
+    antardasha: string;
+    pratyantardasha: string;
+    endDate: string;
+  } | null>(null);
+
+  const [transit, setTransit] = useState<{
+    jupiterTransit: string;
+    saturnTransit: string;
+    rahuTransit: string;
+    harmonyScore: number;
+  } | null>(null);
+
+  useEffect(() => {
+    void fetchLiveUserDasha(profile.userId).then(setDasha);
+    void fetchLiveUserTransit(profile.userId).then(setTransit);
+  }, [profile.userId]);
+
   return (
     <div className="space-y-6">
       {/* 23.1 Welcome Card & Profile Header */}
@@ -43,7 +64,10 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <img
-              src={profile.photoUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"}
+              src={
+                profile.photoUrl ||
+                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+              }
               alt={profile.name}
               className="size-16 md:size-20 rounded-full border-2 border-accent object-cover shadow-md"
             />
@@ -53,11 +77,11 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
                   Namaste, {profile.name}!
                 </h2>
                 <Badge className="bg-accent/20 text-accent border-accent/30 flex items-center gap-1">
-                  <Crown className="size-3" /> Premium Plan
+                  <Crown className="size-3" /> {profile.currentSubscription}
                 </Badge>
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
-                {profile.birthPlace} • {profile.dob} at {profile.birthTime}
+                {profile.birthPlace ? `${profile.birthPlace} • ${profile.dob}` : "No Birth Details Set"}
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1 font-medium text-foreground">
@@ -77,9 +101,11 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
                 <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
                   {t.creditsBalance}
                 </p>
-                <p className="font-display text-2xl font-bold text-accent">45 Credits</p>
+                <p className="font-display text-2xl font-bold text-accent">
+                  {profile.creditsRemaining} Credits
+                </p>
               </div>
-              <Button size="sm" className="gap-1 shadow-sm">
+              <Button size="sm" className="gap-1 shadow-sm" onClick={() => onNavigateTab("billing")}>
                 <PlusCircle className="size-4" /> Top Up
               </Button>
             </Card>
@@ -103,7 +129,7 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
             </div>
             <div>
               <div className="font-semibold text-sm">{t.previousReports}</div>
-              <div className="text-xs text-muted-foreground">14 Kundli reports</div>
+              <div className="text-xs text-muted-foreground">Manage Kundli reports</div>
             </div>
           </Button>
 
@@ -131,7 +157,7 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
             </div>
             <div>
               <div className="font-semibold text-sm">{t.savedRemedies}</div>
-              <div className="text-xs text-muted-foreground">4 Active Remedies</div>
+              <div className="text-xs text-muted-foreground">Remedies & Pujas</div>
             </div>
           </Button>
 
@@ -151,57 +177,6 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
         </div>
       </div>
 
-      {/* Dashboard Statistics Counters */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Reports</span>
-            <FileText className="size-4 text-accent" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">14</p>
-        </Card>
-
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Downloads</span>
-            <Download className="size-4 text-blue-500" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">28</p>
-        </Card>
-
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Remedies</span>
-            <CheckCircle2 className="size-4 text-emerald-500" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">4</p>
-        </Card>
-
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Favorites</span>
-            <Heart className="size-4 text-rose-500" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">5</p>
-        </Card>
-
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Saved Charts</span>
-            <Star className="size-4 text-amber-500" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">3</p>
-        </Card>
-
-        <Card className="p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs uppercase tracking-wider">Credits</span>
-            <Zap className="size-4 text-purple-500" />
-          </div>
-          <p className="mt-3 font-display text-2xl font-bold">45</p>
-        </Card>
-      </div>
-
       {/* Astrology Highlights: Current Dasha, Transit & Muhurat */}
       <div className="grid lg:grid-cols-3 gap-4">
         {/* Dasha Card */}
@@ -213,21 +188,34 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
                 {t.currentDasha}
               </span>
             </div>
-            <Badge variant="outline" className="text-[10px]">Active</Badge>
+            <Badge variant="outline" className="text-[10px]">
+              {dasha ? "Active" : "No Kundli"}
+            </Badge>
           </div>
 
           <div className="mt-4">
-            <p className="text-xs text-muted-foreground">Mahadasha</p>
-            <p className="font-display text-2xl font-bold text-foreground">Rahu Mahadasha</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Ends August 2038</p>
-          </div>
-
-          <div className="mt-4 pt-3 border-t border-border">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Antardasha: <strong className="text-foreground">Ketu</strong></span>
-              <span>48% Completed</span>
-            </div>
-            <Progress value={48} className="h-2 mt-2" />
+            {dasha ? (
+              <>
+                <p className="text-xs text-muted-foreground">Mahadasha</p>
+                <p className="font-display text-2xl font-bold text-foreground">
+                  {dasha.mahadasha}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">Ends {dasha.endDate}</p>
+                <div className="mt-4 pt-3 border-t border-border">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>
+                      Antardasha: <strong className="text-foreground">{dasha.antardasha}</strong>
+                    </span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="py-2 text-center text-xs text-muted-foreground space-y-2">
+                <AlertCircle className="size-6 text-muted-foreground mx-auto" />
+                <p className="font-bold text-sm text-foreground">No Kundli Generated Yet</p>
+                <p>Generate your first Janam Kundli to calculate active Mahadasha.</p>
+              </div>
+            )}
           </div>
         </Card>
 
@@ -240,21 +228,28 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
                 {t.currentTransit}
               </span>
             </div>
-            <Badge className="bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 border-emerald-500/30">
-              84 / 100
-            </Badge>
+            {transit && (
+              <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
+                {transit.harmonyScore} / 100
+              </Badge>
+            )}
           </div>
 
           <div className="mt-4">
-            <p className="text-xs text-muted-foreground">Gochar Verdict</p>
-            <p className="font-display text-2xl font-bold text-foreground">Highly Auspicious</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Jupiter transits 10th House (Career & Honor)
-            </p>
-          </div>
-
-          <div className="mt-4 text-xs text-muted-foreground">
-            Favorable Planets: <strong className="text-foreground">Jupiter, Sun, Venus</strong>
+            {transit ? (
+              <>
+                <p className="text-xs text-muted-foreground">Gochar Verdict</p>
+                <p className="font-display text-2xl font-bold text-foreground">
+                  Highly Auspicious
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">{transit.jupiterTransit}</p>
+              </>
+            ) : (
+              <div className="py-2 text-center text-xs text-muted-foreground space-y-2">
+                <AlertCircle className="size-6 text-muted-foreground mx-auto" />
+                <p className="font-bold text-sm text-foreground">No Transit Data Available</p>
+              </div>
+            )}
           </div>
         </Card>
 
@@ -284,118 +279,6 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
               <span className="text-accent font-medium">02:30 PM – 03:22 PM</span>
             </li>
           </ul>
-        </Card>
-      </div>
-
-      {/* Latest Kundli Quick Preview & Recent Activity */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Latest Kundli Card */}
-        <Card className="p-6 lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Star className="size-5 text-accent" />
-              <h3 className="font-display text-lg font-bold">{t.latestKundli}</h3>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-xs text-accent hover:underline"
-              onClick={() => onNavigateTab("previous_reports")}
-            >
-              All Reports <ArrowRight className="size-3.5 ml-1" />
-            </Button>
-          </div>
-
-          <div className="rounded-xl border border-border bg-secondary/30 p-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <Badge variant="outline" className="mb-2 text-[10px] uppercase">
-                  Janam Kundli • v2.1 Engine
-                </Badge>
-                <h4 className="font-semibold text-base">{profile.name} — Birth Chart</h4>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Lagna: Cancer (Karka) • Rashi: Virgo (Kanya) • Nakshatra: Hasta (Pada 2)
-                </p>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Button size="sm" onClick={() => onNavigateTab("previous_reports")}>
-                  {t.viewReport}
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => onNavigateTab("compare_reports")}>
-                  Compare
-                </Button>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-3 border-t border-border grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-              <div>
-                <span className="text-muted-foreground block text-[10px]">SUN SIGN</span>
-                <span className="font-semibold">Cancer 18° 42'</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground block text-[10px]">MOON SIGN</span>
-                <span className="font-semibold">Virgo 05° 11'</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground block text-[10px]">MARS SIGN</span>
-                <span className="font-semibold">Taurus 22° 15'</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground block text-[10px]">JUPITER SIGN</span>
-                <span className="font-semibold">Aries 04° 50'</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Recent Activity Feed */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Activity className="size-5 text-accent" />
-              <h3 className="font-display text-lg font-bold">{t.recentActivity}</h3>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-xs text-accent hover:underline"
-              onClick={() => onNavigateTab("timeline")}
-            >
-              Timeline <ArrowRight className="size-3.5 ml-1" />
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="size-7 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
-                <FileText className="size-3.5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold">Generated Full Janam Kundli</p>
-                <p className="text-[11px] text-muted-foreground">PDF Report v2.1 • 2 hours ago</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="size-7 rounded-full bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
-                <Zap className="size-3.5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold">Completed 7 Saturdays Daan</p>
-                <p className="text-[11px] text-muted-foreground">Black Til Donation • Yesterday</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="size-7 rounded-full bg-purple-500/10 text-purple-600 flex items-center justify-center shrink-0 mt-0.5">
-                <Star className="size-3.5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold">Saved Gajakesari Raj Yoga</p>
-                <p className="text-[11px] text-muted-foreground">Added to Favorites • 2 days ago</p>
-              </div>
-            </div>
-          </div>
         </Card>
       </div>
     </div>
