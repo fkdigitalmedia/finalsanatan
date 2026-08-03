@@ -52,10 +52,11 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
     harmonyScore: number;
   } | null>(null);
 
+  const uid = profile.id || profile.userId || "user-1";
   useEffect(() => {
-    void fetchLiveUserDasha(profile.userId).then(setDasha);
-    void fetchLiveUserTransit(profile.userId).then(setTransit);
-  }, [profile.userId]);
+    void fetchLiveUserDasha(uid).then(setDasha);
+    void fetchLiveUserTransit(uid).then(setTransit);
+  }, [uid]);
 
   return (
     <div className="space-y-6">

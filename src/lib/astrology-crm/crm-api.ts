@@ -359,7 +359,7 @@ export const fetchCRMAnalytics = fetchAstrologyAnalytics;
 // 23.15 Storage Policy API
 // ------------------------------------------------------------
 
-export function getPDFStoragePolicy(): PDFStoragePolicy {
+export async function getPDFStoragePolicy(): Promise<PDFStoragePolicy> {
   return {
     namingScheme: "Kundli_[Name]_[Lang]_[Version].pdf",
     compressionEnabled: true,
