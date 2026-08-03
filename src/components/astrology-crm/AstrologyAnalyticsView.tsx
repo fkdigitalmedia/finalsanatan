@@ -51,7 +51,7 @@ export function AstrologyAnalyticsView({ language }: AstrologyAnalyticsViewProps
           <p className="font-display text-2xl font-bold mt-2 text-foreground">
             {metrics.dailyActiveUsers.toLocaleString()}
           </p>
-          <p className="text-xs text-emerald-600 mt-1">↑ +14% vs last week</p>
+          <p className="text-xs text-muted-foreground mt-1">Registered active users (live)</p>
         </Card>
 
         <Card className="p-4 bg-card">

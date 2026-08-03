@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import type { SecurityAuditLog, SupportedLanguage } from "@/lib/astrology-crm/crm-types";
 import { fetchSecurityAuditLogs } from "@/lib/astrology-crm/crm-api";
 import { getTranslation } from "@/lib/astrology-crm/i18n-astrology";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SecurityDashboardViewProps {
   language: SupportedLanguage;
@@ -27,10 +28,31 @@ export function SecurityDashboardView({
 }: SecurityDashboardViewProps) {
   const t = getTranslation(language);
   const [logs, setLogs] = useState<SecurityAuditLog[]>([]);
+  const [sessionExpiresIn, setSessionExpiresIn] = useState<string>("—");
 
   useEffect(() => {
     void fetchSecurityAuditLogs(userId).then(setLogs);
   }, [userId]);
+
+  useEffect(() => {
+    async function loadSession() {
+      const { data } = await supabase.auth.getSession();
+      const expiresAt = data?.session?.expires_at;
+      if (expiresAt) {
+        const diffMs = expiresAt * 1000 - Date.now();
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffMins = Math.floor((diffMs % 3600000) / 60000);
+        if (diffMs <= 0) {
+          setSessionExpiresIn("Expired");
+        } else if (diffHours > 0) {
+          setSessionExpiresIn(`Expires in ${diffHours}h ${diffMins}m`);
+        } else {
+          setSessionExpiresIn(`Expires in ${diffMins}m`);
+        }
+      }
+    }
+    void loadSession();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -65,7 +87,7 @@ export function SecurityDashboardView({
             <KeyRound className="size-4 text-blue-500" />
           </div>
           <p className="font-display text-lg font-bold text-foreground">JWT Token Active</p>
-          <p className="text-xs text-muted-foreground mt-1">Expires in 23 hours</p>
+          <p className="text-xs text-muted-foreground mt-1">{sessionExpiresIn}</p>
         </Card>
 
         <Card className="p-4 bg-purple-500/5 border-purple-500/30">
@@ -86,8 +108,8 @@ export function SecurityDashboardView({
             </span>
             <Zap className="size-4 text-amber-500" />
           </div>
-          <p className="font-display text-lg font-bold text-foreground">4 / 60 Requests</p>
-          <p className="text-xs text-muted-foreground mt-1">Normal Operating Usage</p>
+          <p className="font-display text-lg font-bold text-foreground">Supabase RLS</p>
+          <p className="text-xs text-muted-foreground mt-1">Policy-Based Access Control</p>
         </Card>
       </div>
 

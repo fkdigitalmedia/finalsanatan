@@ -320,23 +320,45 @@ export async function updateUserAstrologyProfile(profile: UserAstrologyProfile):
 // ------------------------------------------------------------
 
 export async function fetchAdminCRMUsers(): Promise<AdminCRMUser[]> {
-  const { data: profiles } = await supabase.from("profiles").select("*").limit(50);
-  if (profiles && profiles.length > 0) {
-    return profiles.map((p) => ({
-      id: p.id,
-      email: p.id + "@example.com",
-      name: p.display_name || "User",
-      joinedAt: p.created_at || new Date().toISOString(),
-      plan: "Free",
-      credits: 45,
-      totalReports: 2,
-      totalDownloads: 4,
-      lastActive: p.updated_at || new Date().toISOString(),
-      preferredLanguage: "en",
-      revenueGenerated: 0,
-    }));
-  }
-  return [];
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("id, display_name, email, created_at, updated_at, subscription_tier, credits")
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  if (!profiles || profiles.length === 0) return [];
+
+  // Fetch per-user report & download counts from user_kundlis and report_downloads
+  const userIds = profiles.map((p) => p.id);
+
+  const { data: kundliCounts } = await supabase
+    .from("user_kundlis")
+    .select("user_id")
+    .in("user_id", userIds);
+
+  const { data: downloadCounts } = await supabase
+    .from("report_downloads")
+    .select("user_id")
+    .in("user_id", userIds);
+
+  const kundliMap: Record<string, number> = {};
+  const downloadMap: Record<string, number> = {};
+  (kundliCounts ?? []).forEach((r: any) => { kundliMap[r.user_id] = (kundliMap[r.user_id] ?? 0) + 1; });
+  (downloadCounts ?? []).forEach((r: any) => { downloadMap[r.user_id] = (downloadMap[r.user_id] ?? 0) + 1; });
+
+  return profiles.map((p) => ({
+    id: p.id,
+    email: p.email || "",
+    name: p.display_name || (p.email ? p.email.split("@")[0] : "User"),
+    joinedAt: p.created_at || new Date().toISOString(),
+    plan: p.subscription_tier || "Free",
+    credits: p.credits ?? 100,
+    totalReports: kundliMap[p.id] ?? 0,
+    totalDownloads: downloadMap[p.id] ?? 0,
+    lastActive: p.updated_at || p.created_at || new Date().toISOString(),
+    preferredLanguage: "en",
+    revenueGenerated: 0,
+  }));
 }
 
 // ------------------------------------------------------------
@@ -394,13 +416,21 @@ export async function fetchCRMAnalytics(): Promise<AnalyticsMetrics> {
 // ------------------------------------------------------------
 
 export async function getPDFStoragePolicy(): Promise<PDFStoragePolicy> {
+  const { count: filesCount } = await supabase
+    .from("user_kundlis")
+    .select("id", { count: "exact", head: true });
+
+  const totalFiles = filesCount ?? 0;
+  // Estimate ~2.5MB per PDF on average
+  const estimatedBytes = totalFiles * 2.5 * 1024 * 1024;
+
   return {
     namingScheme: "Kundli_[Name]_[Lang]_[Version].pdf",
     compressionEnabled: true,
     retentionDays: 365,
     autoCleanupEnabled: true,
-    totalFilesCount: 14,
-    totalStorageBytes: 412 * 1024 * 1024,
+    totalFilesCount: totalFiles,
+    totalStorageBytes: estimatedBytes,
   };
 }
 
@@ -413,17 +443,43 @@ export async function fetchPDFStoragePolicy(): Promise<PDFStoragePolicy> {
 // ------------------------------------------------------------
 
 export async function fetchSecurityAuditLogs(userId: string): Promise<SecurityAuditLog[]> {
-  return [
-    {
-      id: "sec-1",
-      userId,
-      action: "JWT Session Refreshed",
-      ipAddress: "103.21.124.8",
-      userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-      status: "success",
-      timestamp: new Date().toISOString(),
-    },
-  ];
+  // Try fetching from user_activity_log which tracks real user actions
+  const { data: activityLogs } = await supabase
+    .from("user_activity_log")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (activityLogs && activityLogs.length > 0) {
+    return activityLogs.map((log: any) => ({
+      id: log.id,
+      userId: log.user_id,
+      action: log.action || log.resource_type || "Activity",
+      ipAddress: log.ip_address || "—",
+      userAgent: log.user_agent || "—",
+      status: "success" as const,
+      timestamp: log.created_at || new Date().toISOString(),
+    }));
+  }
+
+  // Fallback: show auth session info only (no fake IP/action)
+  const { data: authUser } = await supabase.auth.getUser();
+  if (authUser?.user) {
+    return [
+      {
+        id: "session-current",
+        userId,
+        action: "Session Active",
+        ipAddress: "—",
+        userAgent: navigator?.userAgent?.slice(0, 80) || "—",
+        status: "success" as const,
+        timestamp: new Date().toISOString(),
+      },
+    ];
+  }
+
+  return [];
 }
 
 export function generateReportComparison(rep1: any, rep2: any): ReportComparisonData {

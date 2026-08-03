@@ -56,7 +56,9 @@ export function StorageManagerView({ language }: StorageManagerViewProps) {
           <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold block mb-1">
             Total Storage Size
           </span>
-          <p className="font-display text-2xl font-bold text-accent">512 MB</p>
+          <p className="font-display text-2xl font-bold text-accent">
+            {policy.totalStorageBytes ? `${(policy.totalStorageBytes / (1024 * 1024)).toFixed(1)} MB (est.)` : "—"}
+          </p>
         </Card>
 
         <Card className="p-5">
@@ -92,9 +94,9 @@ export function StorageManagerView({ language }: StorageManagerViewProps) {
 {`/storage/v1/object/public/reports/
 ├── {user_id}/
 │   ├── kundlis/
-│   │   └── Kundli_Rahul_v2.1.pdf
+│   │   └── Kundli_[Name]_[Lang]_v[Version].pdf
 │   ├── matching/
-│   │   └── Ashtakoot_Rahul_Priya.pdf
+│   │   └── Ashtakoot_[Name1]_[Name2].pdf
 │   └── versions/
 │       ├── v1.0_archived.pdf
 │       └── v2.0_previous.pdf`}
