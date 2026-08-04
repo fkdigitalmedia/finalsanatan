@@ -6,7 +6,6 @@ import {
   Receipt,
   Gift,
   Tag,
-  BarChart3,
 } from "lucide-react";
 import { DashboardShell } from "@/components/user/DashboardShell";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,6 @@ import { ReferralSystemView } from "@/components/monetization/ReferralSystemView
 import { CouponsManagerView } from "@/components/monetization/CouponsManagerView";
 import { SubscriptionPlansManager } from "@/components/monetization/SubscriptionPlansManager";
 import { CheckoutModal } from "@/components/monetization/CheckoutModal";
-import { AdminBillingDashboard } from "@/components/monetization/AdminBillingDashboard";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   ssr: false,
@@ -36,8 +34,7 @@ type BillingTab =
   | "plans"
   | "invoices"
   | "referrals"
-  | "coupons"
-  | "admin";
+  | "coupons";
 
 function BillingPage() {
   const { user } = useAuth();
@@ -101,14 +98,6 @@ function BillingPage() {
         >
           <Tag className="size-3.5 text-emerald-500" /> Coupons
         </Button>
-        <Button
-          size="sm"
-          variant={activeTab === "admin" ? "default" : "ghost"}
-          className="text-xs rounded-xl gap-1.5"
-          onClick={() => setActiveTab("admin")}
-        >
-          <BarChart3 className="size-3.5 text-blue-500" /> Admin Billing
-        </Button>
       </div>
 
       {/* Tab Render */}
@@ -122,6 +111,7 @@ function BillingPage() {
 
         {activeTab === "plans" && (
           <SubscriptionPlansManager
+            isAdmin={false}
             onSelectPlan={(p) => setSelectedPlanForCheckout(p)}
           />
         )}
@@ -136,10 +126,6 @@ function BillingPage() {
 
         {activeTab === "coupons" && (
           <CouponsManagerView />
-        )}
-
-        {activeTab === "admin" && (
-          <AdminBillingDashboard />
         )}
       </div>
 
