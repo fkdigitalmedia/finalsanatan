@@ -2410,59 +2410,173 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const traces = generateEvidenceTraces(r);
 
   for (const tr of traces) {
-    const predLines = doc.splitTextToSize(tr.predictionText, PAGE.w - 2 * PAGE.m - 8);
-    const flowText = `Evidence Flow: ${tr.supportingRules.join(" -> ")} | Sources: [${tr.sources.join(", ")}]`;
-    const flowLines = doc.splitTextToSize(flowText, PAGE.w - 2 * PAGE.m - 14);
+    const innerW = PAGE.w - 2 * PAGE.m - 12; // 154mm inner printable width
 
-    const badgeH = 6 + flowLines.length * 4;
-    const cardH = 16 + predLines.length * 4 + badgeH;
+    // 1. Summary text lines
+    const summaryLines = doc.splitTextToSize(tr.predictionText, innerW);
 
-    if (y + cardH > PAGE.h - 20) {
+    // 2. Evidence Flow chain text
+    const flowText = tr.supportingRules.join("  →  ");
+    const flowLines = doc.splitTextToSize(flowText, innerW - 24);
+
+    // 3. Dynamic Source Badges list
+    const sourceBadges: string[] = [];
+    if (tr.supportingPlanets && tr.supportingPlanets.length > 0) {
+      sourceBadges.push(`🪐 Planets: ${tr.supportingPlanets.join(", ")}`);
+    }
+    if (tr.supportingHouses && tr.supportingHouses.length > 0) {
+      sourceBadges.push(`🏠 Houses: ${tr.supportingHouses.map((h) => `${h}th`).join(", ")}`);
+    }
+    if (tr.supportingYogas && tr.supportingYogas.length > 0) {
+      sourceBadges.push(`⭐ Yogas: ${tr.supportingYogas.join(", ")}`);
+    }
+    if (tr.activeDasha) {
+      sourceBadges.push(`🕉 Dasha: ${tr.activeDasha}`);
+    }
+    if (tr.supportingDoshas && tr.supportingDoshas.length > 0) {
+      sourceBadges.push(`⚠ Doshas: ${tr.supportingDoshas.join(", ")}`);
+    }
+
+    const sourceText = sourceBadges.join("   |   ");
+    const sourceLines = doc.splitTextToSize(sourceText, innerW - 28);
+
+    // Height calculations
+    const headerH = 10;
+    const summaryH = summaryLines.length * 4.5;
+    const flowH = 6 + flowLines.length * 4.2;
+    const sourceH = 6 + sourceLines.length * 4.2;
+    const badgesH = 9;
+    const padding = 12;
+
+    const cardH = headerH + summaryH + flowH + sourceH + badgesH + padding;
+
+    // Check page overflow
+    if (y + cardH > PAGE.h - 22) {
       doc.addPage();
       pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
       y = 28;
     }
 
-    // Trace Card
-    doc.setFillColor(BRAND.cardBg);
-    doc.setDrawColor(BRAND.cardBorder);
-    doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
+    const cardX = PAGE.m;
+    const cardW = PAGE.w - 2 * PAGE.m;
 
+    // Card Outer Box (Soft border, warm paper bg)
+    doc.setFillColor("#FFFBF4");
+    doc.setDrawColor(BRAND.cardBorder);
+    doc.roundedRect(cardX, y, cardW, cardH, 3, 3, "FD");
+
+    // Left accent strip
+    doc.setFillColor(BRAND.saffron);
+    doc.rect(cardX, y + 3, 2, cardH - 6, "F");
+
+    let curY = y + 6;
+
+    // HEADER: Domain Title + Confidence Badge
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(10);
-    doc.text(`Rule Trace: ${tr.domain}`, PAGE.m + 4, y + 6);
+    doc.setFontSize(10.5);
+    doc.text(tr.domain, cardX + 6, curY + 2);
 
-    const confColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.good;
-    doc.setTextColor(confColor);
-    doc.setFontSize(8.5);
-    doc.text(`Confidence: ${tr.confidenceScore}% [${tr.confidenceRating}]`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+    // Confidence Badge on Right
+    const confScore = `${tr.confidenceScore}% ${tr.confidenceRating}`;
+    const badgeBg = tr.confidenceRating === "Very High" ? "#F0FDF4" : "#FFF7ED";
+    const badgeBorder = tr.confidenceRating === "Very High" ? "#BBF7D0" : "#FED7AA";
+    const badgeTextColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.moderate;
 
+    doc.setFillColor(badgeBg);
+    doc.setDrawColor(badgeBorder);
+    doc.roundedRect(cardX + cardW - 42, curY - 2, 36, 7, 1.5, 1.5, "FD");
+
+    doc.setTextColor(badgeTextColor);
+    setFont(doc, font, "bold");
+    doc.setFontSize(8);
+    doc.text(confScore, cardX + cardW - 24, curY + 2.5, { align: "center" });
+
+    curY += 9;
+
+    // SUMMARY: Short human-readable text
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    let curY = y + 12;
-    predLines.forEach((line: string) => {
-      doc.text(line, PAGE.m + 4, curY);
-      curY += 4;
+    summaryLines.forEach((line: string) => {
+      doc.text(line, cardX + 6, curY);
+      curY += 4.5;
     });
 
-    // Evidence Chain Badge
     curY += 2;
+
+    // EVIDENCE FLOW BOX
     doc.setFillColor("#FFF6E1");
     doc.setDrawColor(BRAND.gold);
-    doc.roundedRect(PAGE.m + 4, curY, PAGE.w - 2 * PAGE.m - 8, badgeH, 1, 1, "FD");
+    doc.roundedRect(cardX + 6, curY, innerW, flowH, 1.5, 1.5, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    let badgeY = curY + 4;
-    flowLines.forEach((line: string) => {
-      doc.text(line, PAGE.m + 7, badgeY);
-      badgeY += 4;
+    doc.text("EVIDENCE FLOW:", cardX + 9, curY + 4);
+
+    doc.setTextColor(BRAND.ink);
+    setFont(doc, font, "normal");
+    doc.setFontSize(7.5);
+    let flowY = curY + 4;
+    flowLines.forEach((line: string, idx: number) => {
+      if (idx === 0) {
+        doc.text(line, cardX + 32, flowY);
+      } else {
+        doc.text(line, cardX + 9, flowY);
+      }
+      flowY += 4.2;
     });
 
-    y += cardH + 6;
+    curY += flowH + 3;
+
+    // EVIDENCE SOURCES BOX
+    doc.setFillColor("#F9FAFB");
+    doc.setDrawColor("#E5E7EB");
+    doc.roundedRect(cardX + 6, curY, innerW, sourceH, 1.5, 1.5, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(7.5);
+    doc.text("SOURCES:", cardX + 9, curY + 4);
+
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "normal");
+    doc.setFontSize(7.5);
+    let sourceY = curY + 4;
+    sourceLines.forEach((line: string, idx: number) => {
+      if (idx === 0) {
+        doc.text(line, cardX + 24, sourceY);
+      } else {
+        doc.text(line, cardX + 9, sourceY);
+      }
+      sourceY += 4.2;
+    });
+
+    curY += sourceH + 3;
+
+    // OPTIONAL DETAILS / STATUS BADGES ROW
+    const badges = [
+      `Planet Strength: ${tr.planetStrengthScore ?? 80}/100`,
+      `House: ${tr.houseStatus ?? "Strong"}`,
+      `Yoga: ${tr.yogaStatus ?? "Active"}`,
+      `Dasha: ${tr.dashaStatus ?? "Running"}`,
+    ];
+
+    const badgeW = (innerW - 9) / 4;
+    badges.forEach((bgText, bIdx) => {
+      const bx = cardX + 6 + bIdx * (badgeW + 3);
+      doc.setFillColor("#FFFFFF");
+      doc.setDrawColor(BRAND.cardBorder);
+      doc.roundedRect(bx, curY, badgeW, 6, 1, 1, "FD");
+
+      doc.setTextColor(BRAND.ink);
+      setFont(doc, font, "bold");
+      doc.setFontSize(7);
+      doc.text(bgText, bx + badgeW / 2, curY + 4, { align: "center" });
+    });
+
+    y += cardH + 7;
   }
 }
 
