@@ -192,13 +192,35 @@ export async function listReports(userId: string, q: ReportQuery = {}): Promise<
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = q;
   const { from, to } = range(page, pageSize);
   let req = supabase.from("user_reports").select("*", { count: "exact" }).eq("user_id", userId);
-  if (q.kind && q.kind !== "all") req = req.eq("kind", q.kind);
+  if (q.kind && q.kind !== "all") {
+    // Map UI filter kinds if needed
+    const kMap: Record<string, string[]> = {
+      "janam-kundli": ["janam-kundli", "kundli"],
+      "varshphal": ["varshphal", "annual"],
+      "kundli-matching": ["kundli-matching", "matching"],
+      "numerology": ["numerology"],
+      "muhurat": ["muhurat"],
+    };
+    const targetKinds = kMap[q.kind] || [q.kind];
+    if (targetKinds.length === 1) {
+      req = req.eq("kind", targetKinds[0]);
+    } else {
+      req = req.in("kind", targetKinds);
+    }
+  }
   if (q.favoritesOnly) req = req.eq("is_favorite", true);
   const term = sanitizeSearch(q.search);
   if (term) req = req.ilike("title", `%${term}%`);
-  const { data, count, error } = await req
-    .order("created_at", { ascending: false })
-    .range(from, to);
+
+  if (q.sortBy === "oldest") {
+    req = req.order("created_at", { ascending: true });
+  } else if (q.sortBy === "title_asc") {
+    req = req.order("title", { ascending: true });
+  } else {
+    req = req.order("created_at", { ascending: false });
+  }
+
+  const { data, count, error } = await req.range(from, to);
   if (error) throw error;
   return toPage(data, count, page, pageSize);
 }
@@ -252,16 +274,37 @@ export async function setReportShared(
 
 export async function listDownloads(
   userId: string,
-  q: ListQuery = {},
+  q: DownloadQuery = {},
 ): Promise<Page<ReportDownload>> {
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = q;
   const { from, to } = range(page, pageSize);
   let req = supabase.from("report_downloads").select("*", { count: "exact" }).eq("user_id", userId);
+
+  // Timeframe filter
+  if (q.timeframe && q.timeframe !== "all") {
+    const now = new Date();
+    if (q.timeframe === "today") {
+      now.setHours(0, 0, 0, 0);
+      req = req.gte("created_at", now.toISOString());
+    } else if (q.timeframe === "week") {
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      req = req.gte("created_at", weekAgo.toISOString());
+    } else if (q.timeframe === "month") {
+      const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      req = req.gte("created_at", monthAgo.toISOString());
+    }
+  }
+
   const term = sanitizeSearch(q.search);
   if (term) req = req.ilike("filename", `%${term}%`);
-  const { data, count, error } = await req
-    .order("created_at", { ascending: false })
-    .range(from, to);
+
+  if (q.sortBy === "oldest") {
+    req = req.order("created_at", { ascending: true });
+  } else {
+    req = req.order("created_at", { ascending: false });
+  }
+
+  const { data, count, error } = await req.range(from, to);
   if (error) throw error;
   return toPage(data, count, page, pageSize);
 }

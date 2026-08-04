@@ -360,6 +360,33 @@ function Hero({
           ? t("kundli.errors.premium_pdf_downloaded")
           : t("kundli.errors.free_pdf_downloaded"),
       );
+
+      // Requirements #1 & #2: Auto-save generated report & log download for registered users
+      if (user?.id) {
+        try {
+          const { trackReportGenerated, trackPdfDownload } = await import("@/lib/workspace/tracker");
+          const reportTitle = `${name || "Native"}'s Janam Kundli`;
+          
+          const rep = await trackReportGenerated(user.id, {
+            title: reportTitle,
+            kind: "janam-kundli",
+            language: pdfLang,
+            pdf_version: premium ? "v40.0" : "v6.0",
+            engine_version: "Vedic Engine v4.0",
+            status: "Completed",
+          });
+
+          await trackPdfDownload(user.id, {
+            filename: `${reportTitle.toLowerCase().replace(/['\s]+/g, "-")}.pdf`,
+            language: pdfLang,
+            file_type: "PDF",
+            file_size: premium ? "3.8 MB" : "1.2 MB",
+            report_id: rep?.id,
+          });
+        } catch (trackErr) {
+          console.warn("Tracking failed quietly:", trackErr);
+        }
+      }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : t("kundli.errors.could_not_build_pdf"));
     } finally {

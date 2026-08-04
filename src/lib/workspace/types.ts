@@ -90,6 +90,17 @@ export interface ListQuery {
   pageSize?: number;
 }
 
+export interface ReportQuery extends ListQuery {
+  kind?: string;
+  sortBy?: "newest" | "oldest" | "title_asc";
+  favoritesOnly?: boolean;
+}
+
+export interface DownloadQuery extends ListQuery {
+  timeframe?: "all" | "today" | "week" | "month";
+  sortBy?: "newest" | "oldest";
+}
+
 export interface WorkspaceAnalytics {
   reports: number;
   downloads: number;
