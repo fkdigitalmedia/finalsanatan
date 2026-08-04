@@ -1,5 +1,5 @@
 /**
- * Admin Monetization & Enterprise Credit Console Page
+ * Admin Monetization & Billing Page
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminBillingDashboard } from "@/components/monetization/AdminBillingDashboard";
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_authenticated/_admin/admin/monetization"
   component: MonetizationPage,
   head: () => ({
     meta: [
-      { title: "Admin — Enterprise Credit Console & Monetization" },
+      { title: "Admin — Monetization & Billing" },
       { name: "robots", content: "noindex" },
     ],
   }),

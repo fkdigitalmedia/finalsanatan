@@ -3,22 +3,16 @@ import { useState } from "react";
 import {
   CreditCard,
   Crown,
-  Wallet,
   Receipt,
   Gift,
-  Zap,
   Tag,
-  ShieldCheck,
   BarChart3,
-  Lock,
 } from "lucide-react";
 import { DashboardShell } from "@/components/user/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import type { SubscriptionPlan } from "@/lib/monetization/monetization-types";
 import { BillingDashboardView } from "@/components/monetization/BillingDashboardView";
-import { UserWalletView } from "@/components/monetization/UserWalletView";
-import { CreditEngineView } from "@/components/monetization/CreditEngineView";
 import { InvoiceEngineView } from "@/components/monetization/InvoiceEngineView";
 import { ReferralSystemView } from "@/components/monetization/ReferralSystemView";
 import { CouponsManagerView } from "@/components/monetization/CouponsManagerView";
@@ -30,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/billing")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Monetization, Billing & Credits — SanatanTools" },
+      { title: "Subscriptions & Billing Portal — SanatanTools" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -39,8 +33,6 @@ export const Route = createFileRoute("/_authenticated/billing")({
 
 type BillingTab =
   | "portal"
-  | "wallet"
-  | "credits"
   | "plans"
   | "invoices"
   | "referrals"
@@ -55,8 +47,8 @@ function BillingPage() {
 
   return (
     <DashboardShell
-      title="Subscriptions, Credits & Billing Portal"
-      description="Manage subscription plans, credit wallet balance, GST invoices, and referral rewards."
+      title="Subscriptions & Billing Portal"
+      description="Manage subscription plans, GST invoices, and referral rewards."
       actions={
         <div className="flex items-center gap-2">
           <Link to="/pricing">
@@ -75,23 +67,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("portal")}
         >
-          <CreditCard className="size-3.5" /> 24.10 Billing Portal
-        </Button>
-        <Button
-          size="sm"
-          variant={activeTab === "wallet" ? "default" : "ghost"}
-          className="text-xs rounded-xl gap-1.5"
-          onClick={() => setActiveTab("wallet")}
-        >
-          <Wallet className="size-3.5 text-amber-500" /> 24.9 Wallet
-        </Button>
-        <Button
-          size="sm"
-          variant={activeTab === "credits" ? "default" : "ghost"}
-          className="text-xs rounded-xl gap-1.5"
-          onClick={() => setActiveTab("credits")}
-        >
-          <Zap className="size-3.5 text-purple-500" /> 24.2 Credits
+          <CreditCard className="size-3.5" /> Billing Portal
         </Button>
         <Button
           size="sm"
@@ -99,7 +75,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("plans")}
         >
-          <Crown className="size-3.5 text-accent" /> 24.1 Plans
+          <Crown className="size-3.5 text-accent" /> Plans
         </Button>
         <Button
           size="sm"
@@ -107,7 +83,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("invoices")}
         >
-          <Receipt className="size-3.5" /> 24.11 Invoices
+          <Receipt className="size-3.5" /> Invoices
         </Button>
         <Button
           size="sm"
@@ -115,7 +91,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("referrals")}
         >
-          <Gift className="size-3.5 text-rose-500" /> 24.8 Referrals
+          <Gift className="size-3.5 text-rose-500" /> Referrals
         </Button>
         <Button
           size="sm"
@@ -123,7 +99,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("coupons")}
         >
-          <Tag className="size-3.5 text-emerald-500" /> 24.7 Coupons
+          <Tag className="size-3.5 text-emerald-500" /> Coupons
         </Button>
         <Button
           size="sm"
@@ -131,7 +107,7 @@ function BillingPage() {
           className="text-xs rounded-xl gap-1.5"
           onClick={() => setActiveTab("admin")}
         >
-          <BarChart3 className="size-3.5 text-blue-500" /> 24.13 Admin Billing
+          <BarChart3 className="size-3.5 text-blue-500" /> Admin Billing
         </Button>
       </div>
 
@@ -141,20 +117,6 @@ function BillingPage() {
           <BillingDashboardView
             userId={uid}
             onUpgradeClick={() => setActiveTab("plans")}
-            onTopUpClick={() => setActiveTab("wallet")}
-          />
-        )}
-
-        {activeTab === "wallet" && (
-          <UserWalletView
-            userId={uid}
-            onTopUpClick={() => setActiveTab("plans")}
-          />
-        )}
-
-        {activeTab === "credits" && (
-          <CreditEngineView
-            onTopUpClick={() => setActiveTab("plans")}
           />
         )}
 

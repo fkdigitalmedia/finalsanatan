@@ -2,54 +2,42 @@ import React, { useState, useEffect } from "react";
 import {
   CreditCard,
   Crown,
-  ShieldCheck,
   Calendar,
-  Zap,
   ArrowUpRight,
   PauseCircle,
   PlayCircle,
   XCircle,
-  Receipt,
-  Download,
-  AlertTriangle,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import type { UserSubscription, UserWallet } from "@/lib/monetization/monetization-types";
+import type { UserSubscription } from "@/lib/monetization/monetization-types";
 import {
   fetchUserSubscription,
-  fetchUserWallet,
   updateSubscriptionStatus,
 } from "@/lib/monetization/monetization-api";
 
 interface BillingDashboardViewProps {
   userId?: string;
   onUpgradeClick?: () => void;
-  onTopUpClick?: () => void;
 }
 
 export function BillingDashboardView({
   userId = "user-1",
   onUpgradeClick,
-  onTopUpClick,
 }: BillingDashboardViewProps) {
   const [sub, setSub] = useState<UserSubscription | null>(null);
-  const [wallet, setWallet] = useState<UserWallet | null>(null);
 
   const loadData = async () => {
     const s = await fetchUserSubscription(userId);
-    const w = await fetchUserWallet(userId);
     setSub(s);
-    setWallet(w);
   };
 
   useEffect(() => {
     void loadData();
   }, [userId]);
 
-  if (!sub || !wallet) return <div className="p-8 text-center text-sm text-muted-foreground">Loading billing portal...</div>;
+  if (!sub) return <div className="p-8 text-center text-sm text-muted-foreground">Loading billing portal...</div>;
 
   const handlePauseResume = async () => {
     const nextStatus = sub.status === "paused" ? "active" : "paused";
@@ -113,24 +101,8 @@ export function BillingDashboardView({
         </div>
       </Card>
 
-      {/* Credit & Quota Gauge Cards */}
-      <div className="grid sm:grid-cols-3 gap-4">
-        <Card className="p-5">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-xs uppercase tracking-wider font-semibold">Credits Balance</span>
-            <Zap className="size-4 text-amber-500" />
-          </div>
-          <p className="font-display text-3xl font-bold text-accent">{wallet.creditBalance}</p>
-          <Button
-            size="sm"
-            variant="ghost"
-            className="mt-2 text-xs text-accent p-0 h-auto hover:underline"
-            onClick={onTopUpClick}
-          >
-            + Top Up Credits
-          </Button>
-        </Card>
-
+      {/* Quota Gauge Cards */}
+      <div className="grid sm:grid-cols-2 gap-4">
         <Card className="p-5">
           <div className="flex items-center justify-between text-muted-foreground mb-2">
             <span className="text-xs uppercase tracking-wider font-semibold">Next Renewal</span>
