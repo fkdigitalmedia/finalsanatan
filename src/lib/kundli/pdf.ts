@@ -2415,6 +2415,9 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   const traces = generateEvidenceTraces(r);
 
+  // Safe bottom boundary (Reserve 25mm for footer area to eliminate any footer overlap)
+  const MAX_SAFE_Y = PAGE.h - 25; // 297 - 25 = 272mm
+
   for (const tr of traces) {
     const cardX = PAGE.m;
     const cardW = PAGE.w - 2 * PAGE.m;
@@ -2422,19 +2425,76 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     // Summary lines
     const summaryLines = doc.splitTextToSize(tr.predictionText, innerW - 40);
+    const summaryH = Math.max(8, summaryLines.length * 4.2);
 
-    // Height calculations for Image 2 design layout
-    const headerH = 16;
+    // 1. Evidence Flow Box height (fixed horizontal 4-step layout)
     const flowBoxH = 26;
-    const sourcesBoxH = 38;
-    const metricsH = 18;
-    const footerH = 6;
+
+    // 2. Sources Box dynamic height based on wrapped rows
+    const sourceRowsData = [
+      {
+        label: "PLANETS",
+        labelColor: "#1D4ED8",
+        badges: [
+          { text: "Sun (9th Lord)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "Mercury (10th Lord)", bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
+          { text: "Jupiter (2nd & 11th Lord)", bg: "#FFF6E1", border: "#FDE68A", textCol: "#B45309" },
+          { text: "Venus (6th Lord)", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+        ],
+      },
+      {
+        label: "HOUSES",
+        labelColor: "#C2410C",
+        badges: [
+          { text: "10th House (Karma Sthana)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "1st House (Lagna)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "5th House (Purva Punya)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+        ],
+      },
+      {
+        label: "YOGAS",
+        labelColor: "#6B21A8",
+        badges: [
+          { text: "Ruchaka Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+          { text: "Bhadra Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+          { text: "Hamsa Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+        ],
+      },
+      {
+        label: "DASHA",
+        labelColor: "#047857",
+        badges: [
+          { text: `${tr.activeDasha} (2023-2043)`, bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
+        ],
+      },
+    ];
+
+    // Calculate total wrapped rows in Sources Box
+    let totalSourceLines = 0;
+    sourceRowsData.forEach((rGroup) => {
+      let bX = cardX + 32;
+      let linesInGroup = 1;
+      rGroup.badges.forEach((b) => {
+        const bW = Math.max(22, b.text.length * 1.8 + 6);
+        if (bX + bW > cardX + 8 + innerW - 2) {
+          bX = cardX + 32;
+          linesInGroup++;
+        }
+        bX += bW + 3;
+      });
+      totalSourceLines += linesInGroup;
+    });
+
+    const sourcesBoxH = Math.max(34, 10 + totalSourceLines * 6.5);
+    const metricsH = 16;
+    const footerH = 5;
     const padding = 12;
+    const gap = 4;
 
-    const cardH = headerH + Math.max(8, summaryLines.length * 4) + flowBoxH + sourcesBoxH + metricsH + footerH + padding;
+    const cardH = 10 + summaryH + gap + flowBoxH + gap + sourcesBoxH + gap + metricsH + gap + footerH + padding;
 
-    // Check page overflow
-    if (y + cardH > PAGE.h - 22) {
+    // Check strict footer safety: If y + cardH > MAX_SAFE_Y (272mm), move COMPLETE card to next page!
+    if (y + cardH > MAX_SAFE_Y) {
       doc.addPage();
       pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
       y = 28;
@@ -2466,21 +2526,21 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     doc.setFillColor(confBg);
     doc.setDrawColor(confBorder);
-    doc.roundedRect(cardX + cardW - 42, curY - 2, 34, 15, 2, 2, "FD");
+    doc.roundedRect(cardX + cardW - 42, curY - 2, 34, 14, 2, 2, "FD");
 
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "bold");
     doc.setFontSize(6.5);
-    doc.text("CONFIDENCE", cardX + cardW - 25, curY + 2, { align: "center" });
+    doc.text("CONFIDENCE", cardX + cardW - 25, curY + 1.8, { align: "center" });
 
     doc.setTextColor(confText);
     setFont(doc, font, "bold");
-    doc.setFontSize(12);
-    doc.text(`${tr.confidenceScore}%`, cardX + cardW - 25, curY + 7.5, { align: "center" });
+    doc.setFontSize(11);
+    doc.text(`${tr.confidenceScore}%`, cardX + cardW - 25, curY + 7, { align: "center" });
 
     setFont(doc, font, "bold");
-    doc.setFontSize(7.5);
-    doc.text(tr.confidenceRating, cardX + cardW - 25, curY + 11.5, { align: "center" });
+    doc.setFontSize(7);
+    doc.text(tr.confidenceRating, cardX + cardW - 25, curY + 11, { align: "center" });
 
     // Summary Text below title
     curY += 7;
@@ -2489,10 +2549,10 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(8.5);
     summaryLines.forEach((line: string) => {
       doc.text(line, cardX + 8, curY);
-      curY += 4;
+      curY += 4.2;
     });
 
-    curY += 5;
+    curY += gap;
 
     // ============================================================
     // 2. EVIDENCE FLOW CONTAINER (4 Horizontal Steps with Arrows)
@@ -2504,7 +2564,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("EVIDENCE FLOW", cardX + 11, curY + 5);
+    doc.text("EVIDENCE FLOW", cardX + 11, curY + 4.5);
 
     const steps = [
       { num: "1", title: tr.supportingRules[0] || "Dasamesh Kendra Yoga", desc: "10th lord is in a Kendra from Lagna." },
@@ -2551,7 +2611,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
       }
     });
 
-    curY += flowBoxH + 4;
+    curY += flowBoxH + gap;
 
     // ============================================================
     // 3. SOURCES CONTAINER (Grouped Rows: Planets, Houses, Yogas, Dasha)
@@ -2563,55 +2623,17 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("SOURCES", cardX + 11, curY + 5);
+    doc.text("SOURCES", cardX + 11, curY + 4.5);
 
-    const sourceRows = [
-      {
-        label: "PLANETS",
-        labelColor: "#1D4ED8",
-        badges: [
-          { text: "Sun (9th Lord)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
-          { text: "Mercury (10th Lord)", bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
-          { text: "Jupiter (2nd & 11th Lord)", bg: "#FFF6E1", border: "#FDE68A", textCol: "#B45309" },
-          { text: "Venus (6th Lord)", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
-        ],
-      },
-      {
-        label: "HOUSES",
-        labelColor: "#C2410C",
-        badges: [
-          { text: "10th House (Karma Sthana)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
-          { text: "1st House (Lagna)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
-          { text: "5th House (Purva Punya)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
-        ],
-      },
-      {
-        label: "YOGAS",
-        labelColor: "#6B21A8",
-        badges: [
-          { text: "Ruchaka Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
-          { text: "Bhadra Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
-          { text: "Hamsa Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
-        ],
-      },
-      {
-        label: "DASHA",
-        labelColor: "#047857",
-        badges: [
-          { text: `${tr.activeDasha} (2023-2043)`, bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
-        ],
-      },
-    ];
-
-    let rowY = curY + 7;
-    sourceRows.forEach((rGroup, rIdx) => {
+    let rowY = curY + 6;
+    sourceRowsData.forEach((rGroup, rIdx) => {
       // Row Left Label
       doc.setTextColor(rGroup.labelColor);
       setFont(doc, font, "bold");
       doc.setFontSize(7);
       doc.text(rGroup.label, cardX + 11, rowY + 3.5);
 
-      // Render Badges (NO placeholder prefixes like [Planet] inside badge text!)
+      // Render Badges
       let bX = cardX + 32;
       rGroup.badges.forEach((b) => {
         const bW = Math.max(22, b.text.length * 1.8 + 6);
@@ -2632,17 +2654,17 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
         bX += bW + 3;
       });
 
-      rowY += 7;
+      rowY += 6.5;
 
       // Dotted divider between rows
-      if (rIdx < sourceRows.length - 1) {
+      if (rIdx < sourceRowsData.length - 1) {
         doc.setDrawColor("#E5E7EB");
         doc.setLineWidth(0.15);
-        doc.line(cardX + 11, rowY - 1.5, cardX + 8 + innerW - 3, rowY - 1.5);
+        doc.line(cardX + 11, rowY - 1.2, cardX + 8 + innerW - 3, rowY - 1.2);
       }
     });
 
-    curY += sourcesBoxH + 4;
+    curY += sourcesBoxH + gap;
 
     // ============================================================
     // 4. COLORED STATUS METRIC CARDS
@@ -2690,7 +2712,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
       doc.text(m.status, mx + mWidth / 2, curY + 14, { align: "center" });
     });
 
-    curY += metricsH + 3;
+    curY += metricsH + gap;
 
     // ============================================================
     // 5. FOOTER DISCLAIMER LINE
@@ -2701,7 +2723,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.text("ⓘ Note: Strength scores are calculated based on planetary dignity, positions, aspects, and yogas.", cardX + 8, curY + 2);
     doc.text("Scale: 0 (Very Weak) to 100 (Very Strong)", cardX + cardW - 8, curY + 2, { align: "right" });
 
-    y += cardH + 8;
+    y += cardH + 8; // Gap between cards = 8mm
   }
 }
 
