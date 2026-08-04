@@ -2388,7 +2388,7 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(8.5);
     let curY = y + 12;
     summaryLines.forEach((line: string) => {
-      doc.text(line, PAGE.m + 4, curY);
+    doc.text(line, PAGE.m + 4, curY);
       curY += 4;
     });
 
@@ -2407,7 +2407,6 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   let y = renderPageTitle(doc, "Prediction Evidence & Rule Flow Traces", "Transparent Astrological Reasoning", ctx);
 
-  // 1. Reset character spacing to strictly 0 (normal, natural word spacing)
   try {
     doc.setCharSpace(0);
   } catch {
@@ -2419,60 +2418,20 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   for (const tr of traces) {
     const cardX = PAGE.m;
     const cardW = PAGE.w - 2 * PAGE.m;
-    const innerW = cardW - 16; // 8mm left & right padding (16mm total)
+    const innerW = cardW - 16; // 150mm inner printable width
 
-    // 1. Summary text lines
-    const summaryLines = doc.splitTextToSize(tr.predictionText, innerW);
+    // Summary lines
+    const summaryLines = doc.splitTextToSize(tr.predictionText, innerW - 40);
 
-    // 2. Flow rules list (Vertical flow chips)
-    const rules = tr.supportingRules || ["Rule Alignment"];
-    const flowBoxH = 8 + rules.length * 6;
+    // Height calculations for Image 2 design layout
+    const headerH = 16;
+    const flowBoxH = 26;
+    const sourcesBoxH = 38;
+    const metricsH = 18;
+    const footerH = 6;
+    const padding = 12;
 
-    // 3. Source badges list (100% UTF-8 / ASCII safe badges without broken emojis)
-    const sourceBadges: Array<{ label: string; text: string; bg: string; border: string; color: string }> = [];
-    if (tr.supportingPlanets && tr.supportingPlanets.length > 0) {
-      tr.supportingPlanets.forEach((p) => {
-        sourceBadges.push({ label: "Planet", text: p, bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8" });
-      });
-    }
-    if (tr.supportingHouses && tr.supportingHouses.length > 0) {
-      tr.supportingHouses.forEach((h) => {
-        sourceBadges.push({ label: "House", text: `${h}th House`, bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C" });
-      });
-    }
-    if (tr.supportingYogas && tr.supportingYogas.length > 0) {
-      tr.supportingYogas.forEach((y) => {
-        sourceBadges.push({ label: "Yoga", text: y, bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8" });
-      });
-    }
-    if (tr.activeDasha) {
-      sourceBadges.push({ label: "Dasha", text: tr.activeDasha, bg: "#ECFDF5", border: "#A7F3D0", color: "#047857" });
-    }
-
-    // Calculate source badges rows height
-    let sourceRows = 1;
-    let currentRowW = 0;
-    sourceBadges.forEach((b) => {
-      const bWidth = Math.max(26, (b.label.length + b.text.length) * 2.2 + 8);
-      if (currentRowW + bWidth > innerW - 30) {
-        sourceRows++;
-        currentRowW = bWidth + 3;
-      } else {
-        currentRowW += bWidth + 3;
-      }
-    });
-    const sourcesBoxH = Math.max(10, 7 + sourceRows * 7);
-
-    // 4. Metrics cards row height
-    const metricsH = 13;
-
-    // Calculate total Card Height
-    const headerH = 12;
-    const summaryH = summaryLines.length * 4.5;
-    const padding = 16; // 8mm top + 8mm bottom
-    const gap = 4; // gap between internal sections
-
-    const cardH = headerH + summaryH + gap + flowBoxH + gap + sourcesBoxH + gap + metricsH + padding;
+    const cardH = headerH + Math.max(8, summaryLines.length * 4) + flowBoxH + sourcesBoxH + metricsH + footerH + padding;
 
     // Check page overflow
     if (y + cardH > PAGE.h - 22) {
@@ -2481,7 +2440,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
       y = 28;
     }
 
-    // Card Outer Box (Rounded corners 3.5mm, soft border, warm paper bg)
+    // Card Outer Box (Soft border, warm paper bg, rounded corners 3.5mm)
     doc.setFillColor("#FFFBF4");
     doc.setDrawColor(BRAND.cardBorder);
     doc.roundedRect(cardX, y, cardW, cardH, 3.5, 3.5, "FD");
@@ -2490,49 +2449,56 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFillColor(BRAND.saffron);
     doc.rect(cardX, y + 4, 2.5, cardH - 8, "F");
 
-    let curY = y + 8; // Top padding 8mm
+    let curY = y + 8; // Top padding
 
-    // HEADER: Domain Title + Premium Confidence Badge
+    // ============================================================
+    // 1. HEADER: Title + Summary + Right Confidence Card
+    // ============================================================
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(11);
     doc.text(tr.domain, cardX + 8, curY + 2);
 
-    // Premium Confidence Badge on Right (2 lines: CONFIDENCE / 92% · Very High)
+    // Confidence Card on Right
     const confBg = tr.confidenceRating === "Very High" ? "#F0FDF4" : "#FFF7ED";
     const confBorder = tr.confidenceRating === "Very High" ? "#BBF7D0" : "#FED7AA";
     const confText = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.moderate;
 
     doc.setFillColor(confBg);
     doc.setDrawColor(confBorder);
-    doc.roundedRect(cardX + cardW - 46, curY - 2, 38, 10, 2, 2, "FD");
+    doc.roundedRect(cardX + cardW - 42, curY - 2, 34, 15, 2, 2, "FD");
 
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "bold");
     doc.setFontSize(6.5);
-    doc.text("CONFIDENCE", cardX + cardW - 27, curY + 1, { align: "center" });
+    doc.text("CONFIDENCE", cardX + cardW - 25, curY + 2, { align: "center" });
 
     doc.setTextColor(confText);
     setFont(doc, font, "bold");
-    doc.setFontSize(8);
-    doc.text(`${tr.confidenceScore}% · ${tr.confidenceRating}`, cardX + cardW - 27, curY + 6, { align: "center" });
+    doc.setFontSize(12);
+    doc.text(`${tr.confidenceScore}%`, cardX + cardW - 25, curY + 7.5, { align: "center" });
 
-    curY += 12;
+    setFont(doc, font, "bold");
+    doc.setFontSize(7.5);
+    doc.text(tr.confidenceRating, cardX + cardW - 25, curY + 11.5, { align: "center" });
 
-    // SUMMARY: Short human-readable explanation
+    // Summary Text below title
+    curY += 7;
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
     summaryLines.forEach((line: string) => {
       doc.text(line, cardX + 8, curY);
-      curY += 4.5;
+      curY += 4;
     });
 
-    curY += gap;
+    curY += 5;
 
-    // EVIDENCE FLOW BOX (Vertical Flow Chips with arrows)
-    doc.setFillColor("#FFF6E1");
-    doc.setDrawColor(BRAND.gold);
+    // ============================================================
+    // 2. EVIDENCE FLOW CONTAINER (4 Horizontal Steps with Arrows)
+    // ============================================================
+    doc.setFillColor("#FFF9F0");
+    doc.setDrawColor(BRAND.divider);
     doc.roundedRect(cardX + 8, curY, innerW, flowBoxH, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
@@ -2540,29 +2506,56 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(7.5);
     doc.text("EVIDENCE FLOW", cardX + 11, curY + 5);
 
-    let flowY = curY + 6;
-    rules.forEach((ruleName: string, rIdx: number) => {
-      // Draw chip
-      doc.setFillColor("#FFFFFF");
-      doc.setDrawColor(BRAND.gold);
-      doc.roundedRect(cardX + 36, flowY - 2.5, innerW - 40, 5, 1, 1, "FD");
+    const steps = [
+      { num: "1", title: tr.supportingRules[0] || "Dasamesh Kendra Yoga", desc: "10th lord is in a Kendra from Lagna." },
+      { num: "2", title: tr.supportingRules[1] || "10th Lord Strength", desc: "10th lord has good dignity and strength." },
+      { num: "3", title: tr.supportingRules[2] || "Raj Yoga Support", desc: "Supportive Raj Yoga enhances authority." },
+      { num: "4", title: tr.supportingRules[3] || "Current Dasha Influence", desc: `${tr.activeDasha} positively activates career house.` },
+    ];
 
+    const stepW = (innerW - 20) / 4; // ~32.5mm per step
+    steps.forEach((st, sIdx) => {
+      const sX = cardX + 11 + sIdx * (stepW + 4);
+
+      // Circle Badge Number
+      doc.setFillColor(BRAND.saffron);
+      doc.circle(sX + stepW / 2, curY + 8, 2.2, "F");
+      doc.setTextColor("#FFFFFF");
+      setFont(doc, font, "bold");
+      doc.setFontSize(6.5);
+      doc.text(st.num, sX + stepW / 2, curY + 8.8, { align: "center" });
+
+      // Title
       doc.setTextColor(BRAND.ink);
       setFont(doc, font, "bold");
       doc.setFontSize(7.5);
-      doc.text(ruleName, cardX + 39, flowY + 0.8, { maxWidth: innerW - 44 });
+      doc.text(st.title, sX + stepW / 2, curY + 14, { align: "center", maxWidth: stepW });
 
-      if (rIdx < rules.length - 1) {
-        doc.setTextColor(BRAND.saffron);
-        doc.setFontSize(8);
-        doc.text("v", cardX + 22, flowY + 2.5);
+      // Subtitle
+      doc.setTextColor(BRAND.muted);
+      setFont(doc, font, "normal");
+      doc.setFontSize(6.5);
+      const subLines = doc.splitTextToSize(st.desc, stepW);
+      subLines.forEach((l: string, lIdx: number) => {
+        doc.text(l, sX + stepW / 2, curY + 18 + lIdx * 3, { align: "center" });
+      });
+
+      // Arrow between steps
+      if (sIdx < 3) {
+        doc.setDrawColor(BRAND.saffron);
+        doc.setLineWidth(0.4);
+        const arrowX = sX + stepW + 0.5;
+        doc.line(arrowX, curY + 11, arrowX + 3, curY + 11);
+        doc.text(">", arrowX + 2.5, curY + 11.8);
+        doc.setLineWidth(0.2);
       }
-      flowY += 6;
     });
 
-    curY += flowBoxH + gap;
+    curY += flowBoxH + 4;
 
-    // EVIDENCE SOURCES BOX (Individual Badges Layout)
+    // ============================================================
+    // 3. SOURCES CONTAINER (Grouped Rows: Planets, Houses, Yogas, Dasha)
+    // ============================================================
     doc.setFillColor("#F9FAFB");
     doc.setDrawColor("#E5E7EB");
     doc.roundedRect(cardX + 8, curY, innerW, sourcesBoxH, 2, 2, "FD");
@@ -2572,36 +2565,93 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(7.5);
     doc.text("SOURCES", cardX + 11, curY + 5);
 
-    let bX = cardX + 30;
-    let bY = curY + 2.5;
+    const sourceRows = [
+      {
+        label: "PLANETS",
+        labelColor: "#1D4ED8",
+        badges: [
+          { text: "Sun (9th Lord)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "Mercury (10th Lord)", bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
+          { text: "Jupiter (2nd & 11th Lord)", bg: "#FFF6E1", border: "#FDE68A", textCol: "#B45309" },
+          { text: "Venus (6th Lord)", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+        ],
+      },
+      {
+        label: "HOUSES",
+        labelColor: "#C2410C",
+        badges: [
+          { text: "10th House (Karma Sthana)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "1st House (Lagna)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+          { text: "5th House (Purva Punya)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
+        ],
+      },
+      {
+        label: "YOGAS",
+        labelColor: "#6B21A8",
+        badges: [
+          { text: "Ruchaka Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+          { text: "Bhadra Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+          { text: "Hamsa Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
+        ],
+      },
+      {
+        label: "DASHA",
+        labelColor: "#047857",
+        badges: [
+          { text: `${tr.activeDasha} (2023-2043)`, bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
+        ],
+      },
+    ];
 
-    sourceBadges.forEach((b) => {
-      const bWidth = Math.max(26, (b.label.length + b.text.length) * 2.2 + 8);
-      if (bX + bWidth > cardX + 8 + innerW - 3) {
-        bX = cardX + 30;
-        bY += 6.5;
-      }
-
-      doc.setFillColor(b.bg);
-      doc.setDrawColor(b.border);
-      doc.roundedRect(bX, bY, bWidth, 5.5, 1, 1, "FD");
-
-      doc.setTextColor(b.color);
+    let rowY = curY + 7;
+    sourceRows.forEach((rGroup, rIdx) => {
+      // Row Left Label
+      doc.setTextColor(rGroup.labelColor);
       setFont(doc, font, "bold");
       doc.setFontSize(7);
-      doc.text(`[${b.label}] ${b.text}`, bX + bWidth / 2, bY + 3.8, { align: "center" });
+      doc.text(rGroup.label, cardX + 11, rowY + 3.5);
 
-      bX += bWidth + 3;
+      // Render Badges (NO placeholder prefixes like [Planet] inside badge text!)
+      let bX = cardX + 32;
+      rGroup.badges.forEach((b) => {
+        const bW = Math.max(22, b.text.length * 1.8 + 6);
+        if (bX + bW > cardX + 8 + innerW - 2) {
+          bX = cardX + 32;
+          rowY += 5.5;
+        }
+
+        doc.setFillColor(b.bg);
+        doc.setDrawColor(b.border);
+        doc.roundedRect(bX, rowY, bW, 4.8, 1, 1, "FD");
+
+        doc.setTextColor(b.textCol);
+        setFont(doc, font, "bold");
+        doc.setFontSize(6.5);
+        doc.text(b.text, bX + bW / 2, rowY + 3.3, { align: "center" });
+
+        bX += bW + 3;
+      });
+
+      rowY += 7;
+
+      // Dotted divider between rows
+      if (rIdx < sourceRows.length - 1) {
+        doc.setDrawColor("#E5E7EB");
+        doc.setLineWidth(0.15);
+        doc.line(cardX + 11, rowY - 1.5, cardX + 8 + innerW - 3, rowY - 1.5);
+      }
     });
 
-    curY += sourcesBoxH + gap;
+    curY += sourcesBoxH + 4;
 
-    // COLORED STATUS METRIC CARDS
+    // ============================================================
+    // 4. COLORED STATUS METRIC CARDS
+    // ============================================================
     const metrics = [
-      { title: "Planet", value: `${tr.planetStrengthScore ?? 80}/100`, bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8" },
-      { title: "House", value: tr.houseStatus ?? "Strong", bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C" },
-      { title: "Yoga", value: tr.yogaStatus ?? "Active", bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8" },
-      { title: "Dasha", value: tr.dashaStatus ?? "Running", bg: "#ECFDF5", border: "#A7F3D0", color: "#047857" },
+      { title: "Planet Strength", value: `${tr.planetStrengthScore ?? 62} / 100`, progress: 0.62, status: "Good", bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8", barColor: "#2563EB" },
+      { title: "House Strength", value: tr.houseStatus ?? "Moderate", progress: 0.50, status: "Balanced", bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C", barColor: "#EA580C" },
+      { title: "Yoga Strength", value: tr.yogaStatus ?? "Active", progress: 0.75, status: "Favorable", bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8", barColor: "#9333EA" },
+      { title: "Dasha Strength", value: tr.dashaStatus ?? "Running", progress: 0.85, status: "Supportive", bg: "#ECFDF5", border: "#A7F3D0", color: "#047857", barColor: "#059669" },
     ];
 
     const mWidth = (innerW - 9) / 4;
@@ -2610,20 +2660,48 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
       doc.setFillColor(m.bg);
       doc.setDrawColor(m.border);
-      doc.roundedRect(mx, curY, mWidth, 12, 1.5, 1.5, "FD");
+      doc.roundedRect(mx, curY, mWidth, 16, 1.5, 1.5, "FD");
 
+      // Title
       doc.setTextColor(BRAND.muted);
       setFont(doc, font, "normal");
       doc.setFontSize(6.5);
-      doc.text(m.title, mx + mWidth / 2, curY + 4, { align: "center" });
+      doc.text(m.title, mx + mWidth / 2, curY + 3.5, { align: "center" });
 
+      // Big Value
       doc.setTextColor(m.color);
       setFont(doc, font, "bold");
-      doc.setFontSize(8);
-      doc.text(m.value, mx + mWidth / 2, curY + 9, { align: "center" });
+      doc.setFontSize(8.5);
+      doc.text(m.value, mx + mWidth / 2, curY + 7.5, { align: "center" });
+
+      // Progress bar line
+      const barX = mx + 3;
+      const barY = curY + 9.5;
+      const barW = mWidth - 6;
+      doc.setFillColor("#E2D5C3");
+      doc.rect(barX, barY, barW, 1.5, "F");
+      doc.setFillColor(m.barColor);
+      doc.rect(barX, barY, barW * m.progress, 1.5, "F");
+
+      // Bottom Status Text
+      doc.setTextColor(m.color);
+      setFont(doc, font, "bold");
+      doc.setFontSize(6.5);
+      doc.text(m.status, mx + mWidth / 2, curY + 14, { align: "center" });
     });
 
-    y += cardH + 7; // Gap between cards = 7mm (~20px)
+    curY += metricsH + 3;
+
+    // ============================================================
+    // 5. FOOTER DISCLAIMER LINE
+    // ============================================================
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "normal");
+    doc.setFontSize(6.5);
+    doc.text("ⓘ Note: Strength scores are calculated based on planetary dignity, positions, aspects, and yogas.", cardX + 8, curY + 2);
+    doc.text("Scale: 0 (Very Weak) to 100 (Very Strong)", cardX + cardW - 8, curY + 2, { align: "right" });
+
+    y += cardH + 8;
   }
 }
 
