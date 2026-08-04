@@ -472,7 +472,7 @@ export function SubscriptionPlansManager({
                 <div className="grid sm:grid-cols-2 gap-4 items-center">
                   <div className="flex items-center gap-3">
                     <Switch
-                      checked={editingPlan.gstEnabled !== false}
+                      checked={editingPlan.gstEnabled === true}
                       onCheckedChange={(checked) =>
                         setEditingPlan({ ...editingPlan, gstEnabled: checked })
                       }
@@ -480,12 +480,12 @@ export function SubscriptionPlansManager({
                     <div>
                       <label className="text-xs font-semibold block">Enable GST Tax on Checkout</label>
                       <span className="text-[11px] text-muted-foreground">
-                        {editingPlan.gstEnabled !== false ? "GST applied at checkout" : "GST Exempt (0% Tax)"}
+                        {editingPlan.gstEnabled === true ? "GST applied at checkout" : "GST Exempt (0% Tax)"}
                       </span>
                     </div>
                   </div>
 
-                  {editingPlan.gstEnabled !== false && (
+                  {editingPlan.gstEnabled === true && (
                     <div>
                       <label className="text-xs font-semibold block mb-1">GST Tax Rate (%)</label>
                       <Input

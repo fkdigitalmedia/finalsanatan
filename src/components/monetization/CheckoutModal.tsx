@@ -15,7 +15,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { GatewayProvider, SubscriptionPlan } from "@/lib/monetization/monetization-types";
-import { calculateTaxes } from "@/lib/monetization/gateway-manager";
 import { validateCoupon } from "@/lib/monetization/monetization-api";
 
 interface CheckoutModalProps {
@@ -37,8 +36,10 @@ export function CheckoutModal({ plan, isOpen, onClose, onSuccess }: CheckoutModa
 
   const originalPriceCents = plan.yearlyPriceCents > 0 ? plan.yearlyPriceCents : plan.monthlyPriceCents;
   const subtotalCents = Math.max(0, originalPriceCents - discountCents);
-  const isGstActive = plan.gstEnabled !== false;
-  const gstRate = plan.gstPercentage ?? 18;
+  
+  // Strictly check if GST is enabled for this plan
+  const isGstActive = plan.gstEnabled === true;
+  const gstRate = isGstActive ? (plan.gstPercentage ?? 18) : 0;
   const taxCents = isGstActive ? Math.round((subtotalCents * gstRate) / 100) : 0;
   const totalCents = subtotalCents + taxCents;
 
@@ -160,12 +161,12 @@ export function CheckoutModal({ plan, isOpen, onClose, onSuccess }: CheckoutModa
                 <span>-₹{(discountCents / 100).toLocaleString()}</span>
               </div>
             )}
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                GST Tax ({isGstActive ? `${gstRate}%` : "Exempt / 0%"}):
-              </span>
-              <span>{isGstActive ? `₹${(taxCents / 100).toLocaleString()}` : "₹0 (Exempt)"}</span>
-            </div>
+            {isGstActive && taxCents > 0 && (
+              <div className="flex justify-between text-amber-600 font-medium">
+                <span>GST Tax ({gstRate}%):</span>
+                <span>+₹{(taxCents / 100).toLocaleString()}</span>
+              </div>
+            )}
             <div className="flex justify-between pt-2 border-t border-border font-bold text-base">
               <span>Final Total:</span>
               <span className="text-accent">₹{(totalCents / 100).toLocaleString()}</span>
