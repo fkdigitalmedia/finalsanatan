@@ -6,14 +6,8 @@ import {
   FileText,
   Download,
   Crown,
-  Globe,
-  Zap,
-  PlusCircle,
-  BarChart2,
-  ChevronRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import type { AdminCRMUser, SupportedLanguage } from "@/lib/astrology-crm/crm-types";
@@ -43,16 +37,6 @@ export function AdminCrmView({ language }: AdminCrmViewProps) {
   const totalReports = users.reduce((acc, u) => acc + u.totalReports, 0);
   const totalDownloads = users.reduce((acc, u) => acc + u.totalDownloads, 0);
 
-  const handleGrantCredits = (userId: string) => {
-    const amountStr = prompt("Enter credits amount to grant:", "10");
-    const amount = parseInt(amountStr || "0");
-    if (amount > 0) {
-      setUsers((prev) =>
-        prev.map((u) => (u.id === userId ? { ...u, credits: u.credits + amount } : u)),
-      );
-    }
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -61,7 +45,7 @@ export function AdminCrmView({ language }: AdminCrmViewProps) {
           <Users className="size-6 text-accent" /> {t.adminPanel}
         </h2>
         <p className="text-sm text-muted-foreground">
-          Manage astrology client accounts, revenue, credits, report downloads, and popular remedy usage.
+          Manage astrology client accounts, revenue, report downloads, and popular remedy usage.
         </p>
       </div>
 
@@ -127,11 +111,9 @@ export function AdminCrmView({ language }: AdminCrmViewProps) {
               <tr className="border-b border-border bg-secondary/40 text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="p-3">User Client</th>
                 <th className="p-3">Plan</th>
-                <th className="p-3">Credits</th>
                 <th className="p-3">Reports / Downloads</th>
                 <th className="p-3">Language</th>
                 <th className="p-3">Revenue</th>
-                <th className="p-3">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -156,8 +138,6 @@ export function AdminCrmView({ language }: AdminCrmViewProps) {
                     </Badge>
                   </td>
 
-                  <td className="p-3 font-semibold text-accent">{user.credits}</td>
-
                   <td className="p-3 text-xs">
                     {user.totalReports} Rep / {user.totalDownloads} DL
                   </td>
@@ -166,17 +146,6 @@ export function AdminCrmView({ language }: AdminCrmViewProps) {
 
                   <td className="p-3 font-semibold text-emerald-600">
                     ₹{user.revenueGenerated}
-                  </td>
-
-                  <td className="p-3">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-xs gap-1 h-8"
-                      onClick={() => handleGrantCredits(user.id)}
-                    >
-                      <PlusCircle className="size-3.5" /> + Credits
-                    </Button>
                   </td>
                 </tr>
               ))}

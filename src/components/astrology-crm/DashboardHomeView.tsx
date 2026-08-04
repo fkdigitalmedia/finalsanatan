@@ -105,14 +105,14 @@ export function DashboardHomeView({ profile, language, onNavigateTab }: Dashboar
             <Card className="bg-card/80 p-4 border border-border shadow-sm flex items-center justify-between md:justify-start gap-4">
               <div>
                 <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                  {t.creditsBalance}
+                  Active Subscription
                 </p>
-                <p className="font-display text-2xl font-bold text-accent">
-                  {profile.creditsRemaining} Credits
+                <p className="font-display text-lg font-bold text-accent">
+                  {profile.currentSubscription}
                 </p>
               </div>
               <Button size="sm" className="gap-1 shadow-sm" onClick={() => onNavigateTab("billing")}>
-                <PlusCircle className="size-4" /> Top Up
+                <Crown className="size-4" /> Manage Plan
               </Button>
             </Card>
           </div>
