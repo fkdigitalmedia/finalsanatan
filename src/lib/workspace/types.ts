@@ -38,17 +38,12 @@ export type ReportKind =
 export const REPORT_KINDS: { value: ReportKind; label: string }[] = [
   { value: "janam-kundli", label: "Janam Kundli" },
   { value: "kundli-matching", label: "Kundli Matching" },
-  { value: "career", label: "Career" },
-  { value: "business", label: "Business" },
-  { value: "marriage", label: "Marriage" },
-  { value: "muhurat", label: "Muhurat" },
+  { value: "varshphal", label: "Varshphal Annual" },
   { value: "numerology", label: "Numerology" },
-  { value: "vastu", label: "Vastu" },
-  { value: "varshphal", label: "Varshphal" },
+  { value: "vastu", label: "Vastu Shastra" },
+  { value: "career", label: "Career Astrology" },
+  { value: "muhurat", label: "Muhurat Finder" },
   { value: "horoscope", label: "Horoscope" },
-  { value: "gochar", label: "Gochar" },
-  { value: "dasha", label: "Dasha" },
-  { value: "festival", label: "Festival" },
 ];
 
 export type HoroscopePeriod =
