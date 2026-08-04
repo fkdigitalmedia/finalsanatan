@@ -144,7 +144,7 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
       "Perpetual Unlimited VIP Access",
       "Unlimited PDF Downloads",
       "Full Admin & Agency Tools",
-      "Custom Branding & Watermarks",
+      "Custom Branding & Watermarks (Coming Soon)",
       "Dedicated Account Specialist",
     ],
     pdfLimits: -1,

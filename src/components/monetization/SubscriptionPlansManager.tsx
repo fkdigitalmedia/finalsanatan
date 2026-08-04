@@ -251,12 +251,23 @@ export function SubscriptionPlansManager({
 
                 {/* Features List */}
                 <ul className="space-y-2 text-xs mb-6">
-                  {plan.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="size-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
+                  {plan.features.map((feat, idx) => {
+                    const isComingSoon = feat.includes("(Coming Soon)") || feat.includes("Coming Soon");
+                    const cleanText = feat.replace("(Coming Soon)", "").replace("Coming Soon", "").trim();
+                    return (
+                      <li key={idx} className={`flex items-start gap-2 ${isComingSoon ? "opacity-60" : ""}`}>
+                        <Check className={`size-3.5 ${isComingSoon ? "text-amber-500" : "text-emerald-500"} shrink-0 mt-0.5`} />
+                        <span className="flex-1">
+                          {cleanText}
+                          {isComingSoon && (
+                            <Badge variant="outline" className="ml-1.5 text-[9px] border-amber-500/40 text-amber-600 bg-amber-500/10 py-0">
+                              Coming Soon
+                            </Badge>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 
