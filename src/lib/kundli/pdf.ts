@@ -2407,48 +2407,72 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   let y = renderPageTitle(doc, "Prediction Evidence & Rule Flow Traces", "Transparent Astrological Reasoning", ctx);
 
+  // 1. Reset character spacing to strictly 0 (normal, natural word spacing)
+  try {
+    doc.setCharSpace(0);
+  } catch {
+    // ignore
+  }
+
   const traces = generateEvidenceTraces(r);
 
   for (const tr of traces) {
-    const innerW = PAGE.w - 2 * PAGE.m - 12; // 154mm inner printable width
+    const cardX = PAGE.m;
+    const cardW = PAGE.w - 2 * PAGE.m;
+    const innerW = cardW - 16; // 8mm left & right padding (16mm total)
 
     // 1. Summary text lines
     const summaryLines = doc.splitTextToSize(tr.predictionText, innerW);
 
-    // 2. Evidence Flow chain text
-    const flowText = tr.supportingRules.join("  →  ");
-    const flowLines = doc.splitTextToSize(flowText, innerW - 24);
+    // 2. Flow rules list (Vertical flow chips)
+    const rules = tr.supportingRules || ["Rule Alignment"];
+    const flowBoxH = 8 + rules.length * 6;
 
-    // 3. Dynamic Source Badges list
-    const sourceBadges: string[] = [];
+    // 3. Source badges list (100% UTF-8 / ASCII safe badges without broken emojis)
+    const sourceBadges: Array<{ label: string; text: string; bg: string; border: string; color: string }> = [];
     if (tr.supportingPlanets && tr.supportingPlanets.length > 0) {
-      sourceBadges.push(`🪐 Planets: ${tr.supportingPlanets.join(", ")}`);
+      tr.supportingPlanets.forEach((p) => {
+        sourceBadges.push({ label: "Planet", text: p, bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8" });
+      });
     }
     if (tr.supportingHouses && tr.supportingHouses.length > 0) {
-      sourceBadges.push(`🏠 Houses: ${tr.supportingHouses.map((h) => `${h}th`).join(", ")}`);
+      tr.supportingHouses.forEach((h) => {
+        sourceBadges.push({ label: "House", text: `${h}th House`, bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C" });
+      });
     }
     if (tr.supportingYogas && tr.supportingYogas.length > 0) {
-      sourceBadges.push(`⭐ Yogas: ${tr.supportingYogas.join(", ")}`);
+      tr.supportingYogas.forEach((y) => {
+        sourceBadges.push({ label: "Yoga", text: y, bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8" });
+      });
     }
     if (tr.activeDasha) {
-      sourceBadges.push(`🕉 Dasha: ${tr.activeDasha}`);
-    }
-    if (tr.supportingDoshas && tr.supportingDoshas.length > 0) {
-      sourceBadges.push(`⚠ Doshas: ${tr.supportingDoshas.join(", ")}`);
+      sourceBadges.push({ label: "Dasha", text: tr.activeDasha, bg: "#ECFDF5", border: "#A7F3D0", color: "#047857" });
     }
 
-    const sourceText = sourceBadges.join("   |   ");
-    const sourceLines = doc.splitTextToSize(sourceText, innerW - 28);
+    // Calculate source badges rows height
+    let sourceRows = 1;
+    let currentRowW = 0;
+    sourceBadges.forEach((b) => {
+      const bWidth = Math.max(26, (b.label.length + b.text.length) * 2.2 + 8);
+      if (currentRowW + bWidth > innerW - 30) {
+        sourceRows++;
+        currentRowW = bWidth + 3;
+      } else {
+        currentRowW += bWidth + 3;
+      }
+    });
+    const sourcesBoxH = Math.max(10, 7 + sourceRows * 7);
 
-    // Height calculations
-    const headerH = 10;
+    // 4. Metrics cards row height
+    const metricsH = 13;
+
+    // Calculate total Card Height
+    const headerH = 12;
     const summaryH = summaryLines.length * 4.5;
-    const flowH = 6 + flowLines.length * 4.2;
-    const sourceH = 6 + sourceLines.length * 4.2;
-    const badgesH = 9;
-    const padding = 12;
+    const padding = 16; // 8mm top + 8mm bottom
+    const gap = 4; // gap between internal sections
 
-    const cardH = headerH + summaryH + flowH + sourceH + badgesH + padding;
+    const cardH = headerH + summaryH + gap + flowBoxH + gap + sourcesBoxH + gap + metricsH + padding;
 
     // Check page overflow
     if (y + cardH > PAGE.h - 22) {
@@ -2457,126 +2481,149 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
       y = 28;
     }
 
-    const cardX = PAGE.m;
-    const cardW = PAGE.w - 2 * PAGE.m;
-
-    // Card Outer Box (Soft border, warm paper bg)
+    // Card Outer Box (Rounded corners 3.5mm, soft border, warm paper bg)
     doc.setFillColor("#FFFBF4");
     doc.setDrawColor(BRAND.cardBorder);
-    doc.roundedRect(cardX, y, cardW, cardH, 3, 3, "FD");
+    doc.roundedRect(cardX, y, cardW, cardH, 3.5, 3.5, "FD");
 
     // Left accent strip
     doc.setFillColor(BRAND.saffron);
-    doc.rect(cardX, y + 3, 2, cardH - 6, "F");
+    doc.rect(cardX, y + 4, 2.5, cardH - 8, "F");
 
-    let curY = y + 6;
+    let curY = y + 8; // Top padding 8mm
 
-    // HEADER: Domain Title + Confidence Badge
+    // HEADER: Domain Title + Premium Confidence Badge
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
-    doc.setFontSize(10.5);
-    doc.text(tr.domain, cardX + 6, curY + 2);
+    doc.setFontSize(11);
+    doc.text(tr.domain, cardX + 8, curY + 2);
 
-    // Confidence Badge on Right
-    const confScore = `${tr.confidenceScore}% ${tr.confidenceRating}`;
-    const badgeBg = tr.confidenceRating === "Very High" ? "#F0FDF4" : "#FFF7ED";
-    const badgeBorder = tr.confidenceRating === "Very High" ? "#BBF7D0" : "#FED7AA";
-    const badgeTextColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.moderate;
+    // Premium Confidence Badge on Right (2 lines: CONFIDENCE / 92% · Very High)
+    const confBg = tr.confidenceRating === "Very High" ? "#F0FDF4" : "#FFF7ED";
+    const confBorder = tr.confidenceRating === "Very High" ? "#BBF7D0" : "#FED7AA";
+    const confText = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.moderate;
 
-    doc.setFillColor(badgeBg);
-    doc.setDrawColor(badgeBorder);
-    doc.roundedRect(cardX + cardW - 42, curY - 2, 36, 7, 1.5, 1.5, "FD");
+    doc.setFillColor(confBg);
+    doc.setDrawColor(confBorder);
+    doc.roundedRect(cardX + cardW - 46, curY - 2, 38, 10, 2, 2, "FD");
 
-    doc.setTextColor(badgeTextColor);
+    doc.setTextColor(BRAND.muted);
+    setFont(doc, font, "bold");
+    doc.setFontSize(6.5);
+    doc.text("CONFIDENCE", cardX + cardW - 27, curY + 1, { align: "center" });
+
+    doc.setTextColor(confText);
     setFont(doc, font, "bold");
     doc.setFontSize(8);
-    doc.text(confScore, cardX + cardW - 24, curY + 2.5, { align: "center" });
+    doc.text(`${tr.confidenceScore}% · ${tr.confidenceRating}`, cardX + cardW - 27, curY + 6, { align: "center" });
 
-    curY += 9;
+    curY += 12;
 
-    // SUMMARY: Short human-readable text
+    // SUMMARY: Short human-readable explanation
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
     summaryLines.forEach((line: string) => {
-      doc.text(line, cardX + 6, curY);
+      doc.text(line, cardX + 8, curY);
       curY += 4.5;
     });
 
-    curY += 2;
+    curY += gap;
 
-    // EVIDENCE FLOW BOX
+    // EVIDENCE FLOW BOX (Vertical Flow Chips with arrows)
     doc.setFillColor("#FFF6E1");
     doc.setDrawColor(BRAND.gold);
-    doc.roundedRect(cardX + 6, curY, innerW, flowH, 1.5, 1.5, "FD");
+    doc.roundedRect(cardX + 8, curY, innerW, flowBoxH, 2, 2, "FD");
 
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("EVIDENCE FLOW:", cardX + 9, curY + 4);
+    doc.text("EVIDENCE FLOW", cardX + 11, curY + 5);
 
-    doc.setTextColor(BRAND.ink);
-    setFont(doc, font, "normal");
-    doc.setFontSize(7.5);
-    let flowY = curY + 4;
-    flowLines.forEach((line: string, idx: number) => {
-      if (idx === 0) {
-        doc.text(line, cardX + 32, flowY);
-      } else {
-        doc.text(line, cardX + 9, flowY);
-      }
-      flowY += 4.2;
-    });
-
-    curY += flowH + 3;
-
-    // EVIDENCE SOURCES BOX
-    doc.setFillColor("#F9FAFB");
-    doc.setDrawColor("#E5E7EB");
-    doc.roundedRect(cardX + 6, curY, innerW, sourceH, 1.5, 1.5, "FD");
-
-    doc.setTextColor(BRAND.maroon);
-    setFont(doc, font, "bold");
-    doc.setFontSize(7.5);
-    doc.text("SOURCES:", cardX + 9, curY + 4);
-
-    doc.setTextColor(BRAND.muted);
-    setFont(doc, font, "normal");
-    doc.setFontSize(7.5);
-    let sourceY = curY + 4;
-    sourceLines.forEach((line: string, idx: number) => {
-      if (idx === 0) {
-        doc.text(line, cardX + 24, sourceY);
-      } else {
-        doc.text(line, cardX + 9, sourceY);
-      }
-      sourceY += 4.2;
-    });
-
-    curY += sourceH + 3;
-
-    // OPTIONAL DETAILS / STATUS BADGES ROW
-    const badges = [
-      `Planet Strength: ${tr.planetStrengthScore ?? 80}/100`,
-      `House: ${tr.houseStatus ?? "Strong"}`,
-      `Yoga: ${tr.yogaStatus ?? "Active"}`,
-      `Dasha: ${tr.dashaStatus ?? "Running"}`,
-    ];
-
-    const badgeW = (innerW - 9) / 4;
-    badges.forEach((bgText, bIdx) => {
-      const bx = cardX + 6 + bIdx * (badgeW + 3);
+    let flowY = curY + 6;
+    rules.forEach((ruleName: string, rIdx: number) => {
+      // Draw chip
       doc.setFillColor("#FFFFFF");
-      doc.setDrawColor(BRAND.cardBorder);
-      doc.roundedRect(bx, curY, badgeW, 6, 1, 1, "FD");
+      doc.setDrawColor(BRAND.gold);
+      doc.roundedRect(cardX + 36, flowY - 2.5, innerW - 40, 5, 1, 1, "FD");
 
       doc.setTextColor(BRAND.ink);
       setFont(doc, font, "bold");
-      doc.setFontSize(7);
-      doc.text(bgText, bx + badgeW / 2, curY + 4, { align: "center" });
+      doc.setFontSize(7.5);
+      doc.text(ruleName, cardX + 39, flowY + 0.8, { maxWidth: innerW - 44 });
+
+      if (rIdx < rules.length - 1) {
+        doc.setTextColor(BRAND.saffron);
+        doc.setFontSize(8);
+        doc.text("v", cardX + 22, flowY + 2.5);
+      }
+      flowY += 6;
     });
 
-    y += cardH + 7;
+    curY += flowBoxH + gap;
+
+    // EVIDENCE SOURCES BOX (Individual Badges Layout)
+    doc.setFillColor("#F9FAFB");
+    doc.setDrawColor("#E5E7EB");
+    doc.roundedRect(cardX + 8, curY, innerW, sourcesBoxH, 2, 2, "FD");
+
+    doc.setTextColor(BRAND.maroon);
+    setFont(doc, font, "bold");
+    doc.setFontSize(7.5);
+    doc.text("SOURCES", cardX + 11, curY + 5);
+
+    let bX = cardX + 30;
+    let bY = curY + 2.5;
+
+    sourceBadges.forEach((b) => {
+      const bWidth = Math.max(26, (b.label.length + b.text.length) * 2.2 + 8);
+      if (bX + bWidth > cardX + 8 + innerW - 3) {
+        bX = cardX + 30;
+        bY += 6.5;
+      }
+
+      doc.setFillColor(b.bg);
+      doc.setDrawColor(b.border);
+      doc.roundedRect(bX, bY, bWidth, 5.5, 1, 1, "FD");
+
+      doc.setTextColor(b.color);
+      setFont(doc, font, "bold");
+      doc.setFontSize(7);
+      doc.text(`[${b.label}] ${b.text}`, bX + bWidth / 2, bY + 3.8, { align: "center" });
+
+      bX += bWidth + 3;
+    });
+
+    curY += sourcesBoxH + gap;
+
+    // COLORED STATUS METRIC CARDS
+    const metrics = [
+      { title: "Planet", value: `${tr.planetStrengthScore ?? 80}/100`, bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8" },
+      { title: "House", value: tr.houseStatus ?? "Strong", bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C" },
+      { title: "Yoga", value: tr.yogaStatus ?? "Active", bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8" },
+      { title: "Dasha", value: tr.dashaStatus ?? "Running", bg: "#ECFDF5", border: "#A7F3D0", color: "#047857" },
+    ];
+
+    const mWidth = (innerW - 9) / 4;
+    metrics.forEach((m, mIdx) => {
+      const mx = cardX + 8 + mIdx * (mWidth + 3);
+
+      doc.setFillColor(m.bg);
+      doc.setDrawColor(m.border);
+      doc.roundedRect(mx, curY, mWidth, 12, 1.5, 1.5, "FD");
+
+      doc.setTextColor(BRAND.muted);
+      setFont(doc, font, "normal");
+      doc.setFontSize(6.5);
+      doc.text(m.title, mx + mWidth / 2, curY + 4, { align: "center" });
+
+      doc.setTextColor(m.color);
+      setFont(doc, font, "bold");
+      doc.setFontSize(8);
+      doc.text(m.value, mx + mWidth / 2, curY + 9, { align: "center" });
+    });
+
+    y += cardH + 7; // Gap between cards = 7mm (~20px)
   }
 }
 
