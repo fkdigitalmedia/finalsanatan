@@ -135,9 +135,10 @@ function ReportsPage() {
       ) : (
         <div className="space-y-3">
           {data.rows.map((r) => {
+            const reportData = (r.data as Record<string, unknown>) || {};
             const status = (r as Record<string, unknown>).status as string || "Completed";
-            const pdfVer = (r as Record<string, unknown>).pdf_version as string || "v40.0";
-            const engineVer = (r as Record<string, unknown>).engine_version as string || "Vedic Engine v4.0";
+            const pdfVer = (reportData.pdf_version as string) || (r as Record<string, unknown>).pdf_version as string || "v40.0";
+            const engineVer = (reportData.engine_version as string) || (r as Record<string, unknown>).engine_version as string || "Vedic Engine v4.0";
 
             return (
               <Card key={r.id} className="p-5">

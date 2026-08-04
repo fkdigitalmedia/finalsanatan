@@ -5,8 +5,10 @@
 // ============================================================
 
 import { supabase } from "@/integrations/supabase/client";
+export type { DownloadQuery, ReportQuery } from "./types";
 import type {
   ActivityLogRow,
+  DownloadQuery,
   FamilyMember,
   FamilyMemberInsert,
   GlobalSearchHit,
@@ -14,6 +16,7 @@ import type {
   ListQuery,
   Page,
   ReportDownload,
+  ReportQuery,
   UserDevice,
   UserKundli,
   UserKundliInsert,
@@ -182,11 +185,6 @@ export async function deleteHoroscopeEntry(id: string): Promise<void> {
 }
 
 // ---------------------------------------------------------------- reports
-
-export interface ReportQuery extends ListQuery {
-  kind?: string;
-  favoritesOnly?: boolean;
-}
 
 export async function listReports(userId: string, q: ReportQuery = {}): Promise<Page<UserReport>> {
   const { page = 1, pageSize = DEFAULT_PAGE_SIZE } = q;
