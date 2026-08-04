@@ -5,14 +5,11 @@ import {
   Check,
   Users,
   Award,
-  Zap,
   IndianRupee,
-  Share2,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import type { ReferralAccount } from "@/lib/monetization/monetization-types";
 import { fetchUserReferral } from "@/lib/monetization/monetization-api";
 
@@ -41,10 +38,10 @@ export function ReferralSystemView({ userId = "user-1" }: ReferralSystemViewProp
       {/* Header */}
       <div>
         <h2 className="font-display text-2xl font-bold flex items-center gap-2">
-          <Gift className="size-6 text-purple-500" /> 24.8 Referral System & Rewards
+          <Gift className="size-6 text-purple-500" /> Referral System & Rewards
         </h2>
         <p className="text-sm text-muted-foreground">
-          Invite friends to SanatanTools. Earn 25 credits & cash rewards for every successful signup.
+          Invite friends to SanatanTools. Earn cash rewards for every successful signup.
         </p>
       </div>
 
@@ -72,7 +69,7 @@ export function ReferralSystemView({ userId = "user-1" }: ReferralSystemViewProp
       </Card>
 
       {/* Metrics Counter */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid sm:grid-cols-3 gap-4">
         <Card className="p-4">
           <div className="flex items-center justify-between text-muted-foreground mb-2">
             <span className="text-xs uppercase tracking-wider">Friends Invited</span>
@@ -87,16 +84,6 @@ export function ReferralSystemView({ userId = "user-1" }: ReferralSystemViewProp
             <Award className="size-4 text-emerald-500" />
           </div>
           <p className="font-display text-2xl font-bold">{referral.successfulReferralsCount}</p>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-muted-foreground mb-2">
-            <span className="text-xs uppercase tracking-wider">Credits Earned</span>
-            <Zap className="size-4 text-amber-500" />
-          </div>
-          <p className="font-display text-2xl font-bold text-amber-500">
-            +{referral.totalCreditsEarned}
-          </p>
         </Card>
 
         <Card className="p-4">

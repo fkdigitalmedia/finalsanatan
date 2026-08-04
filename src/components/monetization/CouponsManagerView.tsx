@@ -100,7 +100,7 @@ export function CouponsManagerView() {
                   ? `${coupon.discountValue}% OFF`
                   : coupon.discountType === "fixed_amount"
                   ? `₹${coupon.discountValue / 100} OFF`
-                  : `${coupon.freeCreditsAmount} Free Credits`}
+                  : "Free Report"}
               </strong>
             </p>
 
