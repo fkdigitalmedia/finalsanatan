@@ -339,7 +339,7 @@ function AstrologyHub() {
         {/* CTA */}
         <section className="mt-16 rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 to-rose-500/5 p-8 text-center">
           <Flame className="size-6 text-primary mx-auto mb-2" />
-          <h2 className="text-2xl font-bold">Want the complete 22-page Premium Kundli?</h2>
+          <h2 className="text-2xl font-bold">Want the complete 40+ page Premium Kundli?</h2>
           <p className="mt-2 text-sm text-muted-foreground max-w-xl mx-auto">
             Divisional charts, Shadbala, Ashtakvarga, Yogas, Doshas, remedies and AI-guided life
             analysis in a single PDF.

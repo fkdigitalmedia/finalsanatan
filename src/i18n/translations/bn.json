@@ -669,7 +669,7 @@
     },
     "chart": {
       "download_pdf": "Download Standard PDF",
-      "download_premium_pdf": "Download 22-Page Premium PDF",
+      "download_premium_pdf": "Download 40+ Page Premium PDF",
       "building_pdf": "Generating PDF...",
       "print": "Print Chart",
       "share": "Share Kundli",
@@ -788,7 +788,7 @@
         "body": "Planetary positions, house cusps, Ashtakvarga & Shadbala."
       },
       "premiumPdf": {
-        "title": "22-Page Designer PDF",
+        "title": "40+ Page Designer PDF",
         "body": "Print-ready high resolution PDF report with AI guidance."
       }
     },
@@ -929,7 +929,7 @@
     },
     "premium": {
       "badge": "Premium Report Available",
-      "title": "Get Your Complete 22-Page Kundli Report",
+      "title": "Get Your Complete 40+ Page Kundli Report",
       "subtitle": "Detailed Yogas, Dosha remedies, Ashtakvarga analysis, Shadbala, D3/D7/D10/D12 charts and AI-guided life interpretation in a single print PDF.",
       "cta_get": "Upgrade to Premium PDF",
       "cta_donate": "Support SanatanTools",
@@ -1078,7 +1078,7 @@
       "share_text": "Check out my Vedic birth chart and Kundli on SanatanTools!",
       "link_copied": "Kundli link copied to clipboard!",
       "could_not_share": "Could not share link.",
-      "premium_pdf_downloaded": "Premium 22-page Kundli PDF downloaded!",
+      "premium_pdf_downloaded": "Premium 40+ page Kundli PDF downloaded!",
       "free_pdf_downloaded": "Standard Kundli PDF downloaded!",
       "could_not_build_pdf": "Could not build PDF report."
     },

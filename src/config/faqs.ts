@@ -25,7 +25,7 @@ export const SITE_FAQ_GROUPS: SiteFaqGroup[] = [
       {
         question: "What is the difference between the free and premium Kundli report?",
         answer:
-          "The free report covers the core 6 pages — charts, planetary positions, basic dasha and a summary. The premium report expands this to 22 pages with Mahadasha timelines, yogas and doshas, remedies, Sade Sati and year-ahead predictions.",
+          "The free report covers the core 6 pages — charts, planetary positions, basic dasha and a summary. The premium report expands this to 40+ pages with Mahadasha timelines, yogas and doshas, remedies, Sade Sati and year-ahead predictions.",
       },
       {
         question: "In which languages can I download my report?",
