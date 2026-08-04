@@ -1625,110 +1625,158 @@ function fmtDate(iso: string): string {
 }
 
 // ============================================================
+// Shared Reusable PDF Report Section Renderer
+// ------------------------------------------------------------
+// Unified typography, spacing system, header bar, subtitle positioning,
+// bullet list formatting, reflection box, and page break engine.
+// ============================================================
+export interface PDFReportSectionData {
+  title: string;
+  subtitle?: string;
+  bullets?: string[];
+  guidance?: string;
+}
+
+export function renderPDFReportSection(
+  doc: jsPDF,
+  s: PDFReportSectionData,
+  startY: number,
+  pageTitle: string,
+  pageSubtitle: string | undefined,
+  ctx: Ctx,
+): number {
+  const { font } = ctx;
+  const colW = PAGE.w - 2 * PAGE.m; // 166mm printable width
+  const MAX_SAFE_Y = PAGE.h - 25; // 272mm (Strict footer safe boundary)
+
+  // 1. Text wrapping calculations
+  const heading = s.title;
+  const subtitleLines = s.subtitle
+    ? (doc.splitTextToSize(s.subtitle, colW - 8) as string[])
+    : [];
+
+  const bulletBlocks = (s.bullets || []).map((b) => {
+    const clean = b.replace(/\*\*/g, "");
+    return doc.splitTextToSize(clean, colW - 14) as string[];
+  });
+
+  const guidanceLines = s.guidance
+    ? (doc.splitTextToSize(`Reflection: ${s.guidance}`, colW - 10) as string[])
+    : [];
+
+  // 2. Exact Spacing Calculations (Strict adherence to Spacing System)
+  const barH = 8.5; // Dark colored header bar height = 8.5mm (~24px)
+  const subtitleH = subtitleLines.length > 0 ? 4.0 + subtitleLines.length * 4.2 + 3.5 : 0; // Header->Subtitle = 4mm, Subtitle->Bullets = 3.5mm
+
+  let bulletsH = 0;
+  bulletBlocks.forEach((lines) => {
+    bulletsH += lines.length * 4.2 + 2.5; // Paragraph gap between bullets = 2.5mm
+  });
+
+  const guidanceBoxH = guidanceLines.length > 0 ? guidanceLines.length * 4.2 + 7.0 : 0;
+  const guidanceH = guidanceLines.length > 0 ? 3.0 + guidanceBoxH + 4.0 : 0; // Bullet->Reflection = 3mm
+
+  const totalSectionH = barH + subtitleH + bulletsH + guidanceH;
+
+  // 3. Strict Pagination Check: Move ENTIRE section to next page if remaining height is insufficient
+  let y = startY;
+  if (y + totalSectionH > MAX_SAFE_Y) {
+    doc.addPage();
+    pageHeader(doc, pageTitle, pageSubtitle, ctx);
+    y = 44; // Top safe margin below pageHeader
+  }
+
+  // 4. Render SECTION HEADER BAR (Dark maroon header bar)
+  doc.setFillColor(BRAND.maroon);
+  doc.roundedRect(PAGE.m, y, colW, barH, 1.5, 1.5, "FD");
+
+  doc.setTextColor(BRAND.gold);
+  setFont(doc, font, "bold");
+  doc.setFontSize(10);
+  doc.text(heading, PAGE.m + 4, y + 5.8, { maxWidth: colW - 8 });
+
+  y += barH; // Bottom of header bar (y_header + 8.5mm)
+
+  // 5. Render SECTION SUBTITLE (Headline) — GUARANTEED NO OVERLAP (4.0mm Margin Top below header bar)
+  if (subtitleLines.length > 0) {
+    y += 4.0; // Margin Top: 4mm below header bar bottom!
+    setFont(doc, font, "italic");
+    doc.setFontSize(9);
+    doc.setTextColor(BRAND.saffron);
+    for (const line of subtitleLines) {
+      doc.text(line, PAGE.m + 4, y);
+      y += 4.2;
+    }
+    y += 3.5; // Margin Bottom: 3.5mm below subtitle
+  } else {
+    y += 3.0; // Margin top to bullets if no subtitle
+  }
+
+  // 6. Render BULLET ITEMS
+  if (bulletBlocks.length > 0) {
+    setFont(doc, font, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(BRAND.ink);
+
+    for (const block of bulletBlocks) {
+      // Draw bullet marker
+      doc.text("•", PAGE.m + 4, y);
+      for (let i = 0; i < block.length; i++) {
+        doc.text(block[i], PAGE.m + 9, y);
+        y += 4.2;
+      }
+      y += 2.5; // Gap between bullet paragraphs
+    }
+  }
+
+  // 7. Render INFO / REFLECTION BOX
+  if (guidanceLines.length > 0) {
+    y += 3.0; // Margin top above reflection box
+    doc.setFillColor("#FFF9F0");
+    doc.setDrawColor(BRAND.gold);
+    doc.roundedRect(PAGE.m, y, colW, guidanceBoxH, 1.5, 1.5, "FD");
+
+    setFont(doc, font, "italic");
+    doc.setFontSize(8);
+    doc.setTextColor(BRAND.muted);
+    let gy = y + 4.5;
+    for (const line of guidanceLines) {
+      doc.text(line, PAGE.m + 5, gy);
+      gy += 4.2;
+    }
+    y += guidanceBoxH + 4.0;
+  }
+
+  return y + 6.0; // Gap before next section = 6mm (~24-32px)
+}
+
+// ============================================================
 // PAGE — Life Analysis (Batch 3): Career, Wealth, Marriage,
 // Health, Education, Family, Spirituality, Travel
 // ============================================================
 function lifeAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
   const sections = generateLifeAnalysis(r);
   const title = "Life Analysis";
   const subtitle = "Bhava-wise interpretive themes drawn from lords, occupants & significators";
   pageHeader(doc, title, subtitle, ctx);
 
-  let y = 48;
-  const maxY = PAGE.h - 22;
-  const colW = PAGE.w - 2 * PAGE.m;
-  const bodyLineH = 5.6;
-  const headlineLineH = 5.8;
-  const guidanceLineH = 5.3;
+  let y = 44;
 
-  const ensureRoom = (need: number) => {
-    if (y + need > maxY) {
-      doc.addPage();
-      pageHeader(doc, title, subtitle, ctx);
-      y = 48;
-    }
-  };
-
-  const textHeight = (lines: string[], lineH: number) => Math.max(lineH, lines.length * lineH);
-
-  const writeLines = (
-    lines: string[],
-    x: number,
-    lineH: number,
-    options?: { maxWidth?: number },
-  ) => {
-    for (const line of lines) {
-      ensureRoom(lineH + 1);
-      doc.text(line, x, y, options);
-      y += lineH;
-    }
-  };
-
-  const renderSection = (s: LifeSection) => {
-    const heading = `H${s.house} · ${s.title}`;
-    const headlineLines = doc.splitTextToSize(s.headline, colW - 6) as string[];
-    const bulletBlocks = s.bullets.map((b) => {
-      const clean = b.replace(/\*\*/g, "");
-      return doc.splitTextToSize(clean, colW - 12) as string[];
-    });
-    const guidanceLines = doc.splitTextToSize(`Reflection: ${s.guidance}`, colW - 10) as string[];
-    const firstBlockHeight =
-      10 +
-      textHeight(headlineLines, headlineLineH) +
-      3 +
-      Math.min(18, bulletBlocks[0]?.length ? textHeight(bulletBlocks[0], bodyLineH) + 2 : 0);
-
-    // Card header
-    ensureRoom(firstBlockHeight);
-    doc.setFillColor(BRAND.maroon);
-    doc.rect(PAGE.m, y, colW, 8, "F");
-    setFont(doc, font, "bold");
-    doc.setFontSize(10.5);
-    doc.setTextColor(BRAND.gold);
-    doc.text(heading, PAGE.m + 3, y + 5.6, { maxWidth: colW - 6 });
-    y += 10;
-
-    // Headline
-    setFont(doc, font, "italic");
-    doc.setFontSize(9.5);
-    doc.setTextColor(BRAND.saffron);
-    writeLines(headlineLines, PAGE.m + 2, headlineLineH, { maxWidth: colW - 6 });
-    y += 2;
-
-    // Bullets
-    setFont(doc, font, "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(BRAND.ink);
-    for (const wrapped of bulletBlocks) {
-      ensureRoom(textHeight(wrapped, bodyLineH) + 2);
-      doc.text("•", PAGE.m + 2, y);
-      for (let i = 0; i < wrapped.length; i++) {
-        if (i > 0) ensureRoom(bodyLineH + 1);
-        doc.text(wrapped[i], PAGE.m + 7, y, { maxWidth: colW - 12 });
-        y += bodyLineH;
-      }
-      y += 1.5;
-    }
-
-    // Guidance
-    y += 1.5;
-    const boxH = guidanceLines.length * guidanceLineH + 7;
-    ensureRoom(boxH + 4);
-    doc.setFillColor("#FBF3E2");
-    doc.roundedRect(PAGE.m, y, colW, boxH, 1.5, 1.5, "F");
-    setFont(doc, font, "italic");
-    doc.setFontSize(8.5);
-    doc.setTextColor(BRAND.muted);
-    let gy = y + 5;
-    for (const line of guidanceLines) {
-      doc.text(line, PAGE.m + 4, gy, { maxWidth: colW - 10 });
-      gy += guidanceLineH;
-    }
-    y += boxH + 5;
-  };
-
-  sections.forEach(renderSection);
+  for (const s of sections) {
+    y = renderPDFReportSection(
+      doc,
+      {
+        title: `H${s.house} · ${s.title}`,
+        subtitle: s.headline,
+        bullets: s.bullets,
+        guidance: s.guidance,
+      },
+      y,
+      title,
+      subtitle,
+      ctx,
+    );
+  }
 }
 
 // ============================================================
