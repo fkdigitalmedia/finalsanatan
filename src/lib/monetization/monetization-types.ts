@@ -26,6 +26,8 @@ export interface SubscriptionPlan {
   sortOrder: number;
   visibility: "public" | "private" | "custom";
   active: boolean;
+  gstEnabled?: boolean; // Dynamic GST Toggle per Plan (default true)
+  gstPercentage?: number; // Dynamic GST Tax % per Plan (default 18)
 }
 
 export type GatewayProvider = "razorpay" | "lemonsqueezy" | "stripe" | "paypal" | "wise";

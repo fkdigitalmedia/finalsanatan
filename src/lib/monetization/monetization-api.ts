@@ -69,6 +69,8 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     sortOrder: 1,
     visibility: "public",
     active: true,
+    gstEnabled: true,
+    gstPercentage: 18,
   },
   {
     id: "plan-basic",
@@ -95,6 +97,8 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     sortOrder: 2,
     visibility: "public",
     active: true,
+    gstEnabled: true,
+    gstPercentage: 18,
   },
   {
     id: "plan-premium",
@@ -123,6 +127,8 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     sortOrder: 3,
     visibility: "public",
     active: true,
+    gstEnabled: true,
+    gstPercentage: 18,
   },
   {
     id: "plan-lifetime",
@@ -149,6 +155,8 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     sortOrder: 4,
     visibility: "public",
     active: true,
+    gstEnabled: true,
+    gstPercentage: 18,
   },
 ];
 

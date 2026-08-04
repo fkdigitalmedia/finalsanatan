@@ -37,7 +37,9 @@ export function CheckoutModal({ plan, isOpen, onClose, onSuccess }: CheckoutModa
 
   const originalPriceCents = plan.yearlyPriceCents > 0 ? plan.yearlyPriceCents : plan.monthlyPriceCents;
   const subtotalCents = Math.max(0, originalPriceCents - discountCents);
-  const { taxCents } = calculateTaxes(subtotalCents, selectedGateway === "razorpay");
+  const isGstActive = plan.gstEnabled !== false;
+  const gstRate = plan.gstPercentage ?? 18;
+  const taxCents = isGstActive ? Math.round((subtotalCents * gstRate) / 100) : 0;
   const totalCents = subtotalCents + taxCents;
 
   const handleApplyCoupon = async () => {
@@ -159,8 +161,10 @@ export function CheckoutModal({ plan, isOpen, onClose, onSuccess }: CheckoutModa
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-muted-foreground">GST Tax (18%):</span>
-              <span>₹{(taxCents / 100).toLocaleString()}</span>
+              <span className="text-muted-foreground">
+                GST Tax ({isGstActive ? `${gstRate}%` : "Exempt / 0%"}):
+              </span>
+              <span>{isGstActive ? `₹${(taxCents / 100).toLocaleString()}` : "₹0 (Exempt)"}</span>
             </div>
             <div className="flex justify-between pt-2 border-t border-border font-bold text-base">
               <span>Final Total:</span>

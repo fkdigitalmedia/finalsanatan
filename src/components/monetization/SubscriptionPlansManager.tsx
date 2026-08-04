@@ -463,6 +463,47 @@ export function SubscriptionPlansManager({
                 </div>
               </div>
 
+              {/* GST Tax Configuration */}
+              <div className="border-t pt-3 space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-accent">
+                  GST Tax Settings (Dynamic)
+                </h4>
+
+                <div className="grid sm:grid-cols-2 gap-4 items-center">
+                  <div className="flex items-center gap-3">
+                    <Switch
+                      checked={editingPlan.gstEnabled !== false}
+                      onCheckedChange={(checked) =>
+                        setEditingPlan({ ...editingPlan, gstEnabled: checked })
+                      }
+                    />
+                    <div>
+                      <label className="text-xs font-semibold block">Enable GST Tax on Checkout</label>
+                      <span className="text-[11px] text-muted-foreground">
+                        {editingPlan.gstEnabled !== false ? "GST applied at checkout" : "GST Exempt (0% Tax)"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {editingPlan.gstEnabled !== false && (
+                    <div>
+                      <label className="text-xs font-semibold block mb-1">GST Tax Rate (%)</label>
+                      <Input
+                        type="number"
+                        value={editingPlan.gstPercentage ?? 18}
+                        onChange={(e) =>
+                          setEditingPlan({
+                            ...editingPlan,
+                            gstPercentage: parseFloat(e.target.value) || 0,
+                          })
+                        }
+                        placeholder="18"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Badges & Toggles */}
               <div className="border-t pt-3 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
