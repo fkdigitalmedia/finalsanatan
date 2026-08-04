@@ -2403,139 +2403,66 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
 function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   const { font } = ctx;
-  pageHeader(doc, "EVIDENCE AUDIT", "Astrological Reasoning Verification", ctx);
+  pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
 
-  let y = renderPageTitle(
-    doc,
-    "Prediction Evidence & Reasoning Audit",
-    "Multi-Factor Astrological Evidence Verification",
-    ctx
-  );
+  let y = renderPageTitle(doc, "Prediction Evidence & Rule Flow Traces", "Transparent Astrological Reasoning", ctx);
 
   const traces = generateEvidenceTraces(r);
 
   for (const tr of traces) {
-    const summary = tr.evidenceSummary;
-    const predLines = doc.splitTextToSize(tr.predictionText, PAGE.w - 2 * PAGE.m - 12);
+    const predLines = doc.splitTextToSize(tr.predictionText, PAGE.w - 2 * PAGE.m - 8);
+    const flowText = `Evidence Flow: ${tr.supportingRules.join(" -> ")} | Sources: [${tr.sources.join(", ")}]`;
+    const flowLines = doc.splitTextToSize(flowText, PAGE.w - 2 * PAGE.m - 14);
 
-    // Build clean user-facing evidence rows
-    const auditRows: { title: string; value: string }[] = [];
-
-    // 1. Planet Evidence
-    if (summary.planets.length > 0) {
-      const pStr = summary.planets
-        .map((p) => `${p.name} (${p.role} · ${p.position} · ${p.status})`)
-        .join("  |  ");
-      auditRows.push({ title: "Planet", value: pStr });
-    }
-
-    // 2. House Evidence
-    if (summary.houses.length > 0) {
-      const hStr = summary.houses
-        .map((h) => `${h.name} (Lord: ${h.lord} · ${h.status})`)
-        .join("  |  ");
-      auditRows.push({ title: "House", value: hStr });
-    }
-
-    // 3. Yoga Evidence (Only if present)
-    if (summary.yogas.length > 0) {
-      auditRows.push({ title: "Yoga", value: summary.yogas.join(", ") });
-    }
-
-    // 4. Dasha Period
-    const dashaParts = [summary.dasha.mahadasha, summary.dasha.antardasha, summary.dasha.pratyantar].filter(Boolean);
-    if (dashaParts.length > 0) {
-      auditRows.push({ title: "Dasha", value: dashaParts.join(" → ") });
-    }
-
-    // 5. Dosha Influence (Only if present)
-    if (summary.doshas.length > 0) {
-      auditRows.push({ title: "Dosha", value: summary.doshas.join(", ") });
-    }
-
-    // Format text wrapping per row
-    const preparedRows = auditRows.map((row) => {
-      const titlePrefix = `${row.title}: `;
-      const titleWidth = 14; // approx indent mm
-      const maxValW = PAGE.w - 2 * PAGE.m - 16 - titleWidth;
-      const lines = doc.splitTextToSize(row.value, maxValW);
-      return { title: row.title, lines };
-    });
-
-    const rowsTotalLines = preparedRows.reduce((sum, r) => sum + r.lines.length, 0);
-    const boxHeaderH = 6;
-    const boxH = boxHeaderH + rowsTotalLines * 4.2 + 3;
-    const cardH = 15 + predLines.length * 4 + boxH + 4;
+    const badgeH = 6 + flowLines.length * 4;
+    const cardH = 16 + predLines.length * 4 + badgeH;
 
     if (y + cardH > PAGE.h - 20) {
       doc.addPage();
-      pageHeader(doc, "EVIDENCE AUDIT", "Astrological Reasoning Verification", ctx);
+      pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
       y = 28;
     }
 
-    // Trace Card Container
+    // Trace Card
     doc.setFillColor(BRAND.cardBg);
     doc.setDrawColor(BRAND.cardBorder);
     doc.roundedRect(PAGE.m, y, PAGE.w - 2 * PAGE.m, cardH, 2, 2, "FD");
 
-    // Header Row: Domain & Confidence
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(10);
-    doc.text(tr.domain, PAGE.m + 5, y + 6);
+    doc.text(`Rule Trace: ${tr.domain}`, PAGE.m + 4, y + 6);
 
     const confColor = tr.confidenceRating === "Very High" ? BRAND.excellent : BRAND.good;
     doc.setTextColor(confColor);
     doc.setFontSize(8.5);
-    doc.text(
-      `Confidence: ${tr.confidenceScore}% (${tr.confidenceRating})`,
-      PAGE.w - PAGE.m - 5,
-      y + 6,
-      { align: "right" }
-    );
+    doc.text(`Confidence: ${tr.confidenceScore}% [${tr.confidenceRating}]`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
 
-    // Prediction Statement
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
     let curY = y + 12;
     predLines.forEach((line: string) => {
-      doc.text(line, PAGE.m + 5, curY);
+      doc.text(line, PAGE.m + 4, curY);
       curY += 4;
     });
 
-    // Evidence Audit Inner Box
+    // Evidence Chain Badge
     curY += 2;
-    doc.setFillColor("#FFFBF2");
+    doc.setFillColor("#FFF6E1");
     doc.setDrawColor(BRAND.gold);
-    doc.roundedRect(PAGE.m + 4, curY, PAGE.w - 2 * PAGE.m - 8, boxH, 1.5, 1.5, "FD");
+    doc.roundedRect(PAGE.m + 4, curY, PAGE.w - 2 * PAGE.m - 8, badgeH, 1, 1, "FD");
 
-    // Inner Box Title
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("EVIDENCE USED", PAGE.m + 7, curY + 4.5);
+    let badgeY = curY + 4;
+    flowLines.forEach((line: string) => {
+      doc.text(line, PAGE.m + 7, badgeY);
+      badgeY += 4;
+    });
 
-    let rowY = curY + 8.5;
-
-    for (const row of preparedRows) {
-      doc.setTextColor(BRAND.maroon);
-      setFont(doc, font, "bold");
-      doc.setFontSize(7.5);
-      doc.text(`${row.title}:`, PAGE.m + 7, rowY);
-
-      doc.setTextColor(BRAND.ink);
-      setFont(doc, font, "normal");
-      doc.setFontSize(7.5);
-
-      row.lines.forEach((line: string, idx: number) => {
-        const xPos = idx === 0 ? PAGE.m + 22 : PAGE.m + 22;
-        doc.text(line, xPos, rowY);
-        rowY += 4.2;
-      });
-    }
-
-    y += cardH + 5;
+    y += cardH + 6;
   }
 }
 

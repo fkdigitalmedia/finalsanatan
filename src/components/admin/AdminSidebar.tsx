@@ -88,6 +88,7 @@ const groups: NavGroup[] = [
     label: "Users",
     items: [
       { title: "Users", to: "/admin/users", icon: Users },
+      { title: "Monetization", to: "/admin/monetization", icon: Coins },
       { title: "Payment Gateways", to: "/admin/payment-gateways", icon: CreditCard },
       { title: "Notifications", to: "/admin/notifications", icon: Bell },
     ],

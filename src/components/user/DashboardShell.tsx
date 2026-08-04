@@ -29,6 +29,7 @@ const groups = [
     items: [
       { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
       { to: "/my-kundlis", label: "My Kundlis", icon: Star },
+      { to: "/family", label: "Family", icon: Users },
       { to: "/reports", label: "Reports", icon: FileText },
       { to: "/downloads", label: "Downloads", icon: Download },
       { to: "/horoscope-history", label: "Horoscope", icon: Sparkles },
@@ -47,6 +48,7 @@ const groups = [
     label: "Account",
     items: [
       { to: "/profile", label: "Profile", icon: User },
+      { to: "/billing", label: "Billing", icon: CreditCard },
       { to: "/notifications", label: "Notifications", icon: Bell },
       { to: "/settings", label: "Settings", icon: Settings },
     ],

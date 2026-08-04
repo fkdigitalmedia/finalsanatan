@@ -40,7 +40,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "@/i18n/I18nProvider";
-import { supabase } from "@/integrations/supabase/client";
 
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
@@ -329,32 +328,6 @@ function Hero({
           timezone: loc.tz,
         });
         setResult(r);
-
-        // Auto-save generated Kundli to user dashboard if user is authenticated
-        if (user?.id) {
-          void supabase
-            .from("user_kundlis")
-            .insert({
-              user_id: user.id,
-              name: name.trim() || "Janam Kundli",
-              gender: gender || "male",
-              birth_date: date,
-              birth_time: time,
-              place_name: loc.label,
-              latitude: loc.lat,
-              longitude: loc.lon,
-              timezone: loc.tz,
-              language: pdfLang,
-            })
-            .then(({ error }) => {
-              if (error) {
-                console.error("Auto-save Kundli error:", error);
-              } else {
-                toast.success("Kundli auto-saved to your Dashboard & Reports!");
-              }
-            });
-        }
-
         setTimeout(onScrollToChart, 60);
       } catch (e) {
         toast.error(e instanceof Error ? e.message : t("kundli.errors.could_not_compute"));
