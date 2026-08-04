@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import {
   ShieldCheck,
-  Tag,
-  CreditCard,
-  CheckCircle2,
-  Lock,
-  Zap,
+  Badge,
+  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -93,7 +89,7 @@ export function CheckoutModal({ plan, isOpen, onClose, onSuccess }: CheckoutModa
 
             <div className="mt-3 pt-2 border-t border-border flex items-center gap-3 text-xs text-muted-foreground">
               <span className="flex items-center gap-1 font-semibold text-foreground">
-                <Zap className="size-3.5 text-amber-500" /> {plan.creditsIncluded} Credits
+                <Sparkles className="size-3.5 text-amber-500" /> Full Access
               </span>
               <span>•</span>
               <span className="flex items-center gap-1 font-semibold text-foreground">

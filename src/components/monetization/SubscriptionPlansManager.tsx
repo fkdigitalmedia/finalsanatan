@@ -2,15 +2,9 @@ import React, { useState, useEffect } from "react";
 import {
   Crown,
   Check,
-  Plus,
   Edit,
-  Trash2,
-  Sparkles,
-  Zap,
   HardDrive,
   FileText,
-  Clock,
-  ShieldCheck,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -60,10 +54,10 @@ export function SubscriptionPlansManager({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="font-display text-2xl font-bold flex items-center gap-2">
-            <Crown className="size-6 text-accent" /> 24.1 Subscription Plans
+            <Crown className="size-6 text-accent" /> Subscription Plans
           </h2>
           <p className="text-sm text-muted-foreground">
-            Configure dynamic plans with credits, PDF limits, AI allocations, and multi-currency pricing.
+            Configure dynamic plans with PDF limits, AI allocations, and multi-currency pricing.
           </p>
         </div>
 
@@ -152,13 +146,6 @@ export function SubscriptionPlansManager({
                 <div className="p-3 rounded-lg bg-secondary/50 space-y-1.5 text-xs mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground flex items-center gap-1">
-                      <Zap className="size-3.5 text-amber-500" /> Credits:
-                    </span>
-                    <span className="font-semibold">{plan.creditsIncluded} /mo</span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground flex items-center gap-1">
                       <FileText className="size-3.5 text-blue-500" /> PDF Limit:
                     </span>
                     <span className="font-semibold">
@@ -222,20 +209,6 @@ export function SubscriptionPlansManager({
                     setEditingPlan({
                       ...editingPlan,
                       monthlyPriceCents: parseInt(e.target.value) || 0,
-                    })
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold block mb-1">Credits Included</label>
-                <Input
-                  type="number"
-                  value={editingPlan.creditsIncluded}
-                  onChange={(e) =>
-                    setEditingPlan({
-                      ...editingPlan,
-                      creditsIncluded: parseInt(e.target.value) || 0,
                     })
                   }
                 />

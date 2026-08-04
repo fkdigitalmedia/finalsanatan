@@ -1,11 +1,11 @@
 // ============================================================
-// Phase 24 — Premium Subscription, Credits & Billing Models
+// Phase 24 — Premium Subscription & Billing Models
 // Comprehensive TypeScript interfaces for Enterprise Billing
 // ============================================================
 
 export type PlanBillingCycle = "monthly" | "yearly" | "lifetime";
 
-export type ProductType = "subscription" | "one_time" | "credit_pack";
+export type ProductType = "subscription" | "one_time";
 
 export interface SubscriptionPlan {
   id: string;
@@ -18,7 +18,6 @@ export interface SubscriptionPlan {
   currency: string; // e.g. "INR" | "USD"
   productType: ProductType;
   features: string[];
-  creditsIncluded: number; // e.g. 100 credits/mo
   pdfLimits: number; // e.g. 50 PDFs/mo (-1 for unlimited)
   aiLimits: number;  // e.g. 500 AI requests/mo (-1 for unlimited)
   storageLimitsMB: number; // e.g. 5120 MB
@@ -27,15 +26,6 @@ export interface SubscriptionPlan {
   sortOrder: number;
   visibility: "public" | "private" | "custom";
   active: boolean;
-}
-
-export interface CreditCostRule {
-  featureKey: string; // e.g. "kundli_pdf", "matching_report", "ai_chat"
-  featureName: string;
-  creditsRequired: number;
-  dailyLimit: number; // -1 for unlimited
-  monthlyLimit: number;
-  unlimitedInPlans: string[]; // plan slugs
 }
 
 export type GatewayProvider = "razorpay" | "lemonsqueezy" | "stripe" | "paypal" | "wise";
@@ -55,7 +45,7 @@ export interface GatewayConfig {
   taxPercentage: number; // e.g. 18 for GST
 }
 
-export type CouponDiscountType = "percentage" | "fixed_amount" | "free_credits" | "free_report";
+export type CouponDiscountType = "percentage" | "fixed_amount" | "free_report";
 
 export interface Coupon {
   id: string;
@@ -63,7 +53,6 @@ export interface Coupon {
   description: string;
   discountType: CouponDiscountType;
   discountValue: number; // 20 for 20%, 50000 for ₹500
-  freeCreditsAmount?: number;
   expiryDate?: string;
   maxUsageTotal: number; // e.g. 500 total uses
   currentUsageCount: number;
@@ -91,7 +80,6 @@ export interface ReferralAccount {
   referralLink: string;
   totalInvitedCount: number;
   successfulReferralsCount: number;
-  totalCreditsEarned: number;
   totalCashRewardsEarnedCents: number;
   leaderboardRank?: number;
   createdAt: string;
@@ -99,41 +87,9 @@ export interface ReferralAccount {
 
 export interface ReferralRewardRule {
   id: string;
-  referrerRewardCredits: number; // e.g. 25 credits for inviting
-  refereeRewardCredits: number;  // e.g. 15 signup bonus credits
   referrerCashBonusCents: number; // e.g. ₹100
   minPurchaseRequired: boolean;
   active: boolean;
-}
-
-export type CreditTransactionType =
-  | "purchase"
-  | "subscription_grant"
-  | "usage_deduction"
-  | "referral_bonus"
-  | "admin_grant"
-  | "refund_reversal"
-  | "expired";
-
-export interface CreditTransaction {
-  id: string;
-  userId: string;
-  type: CreditTransactionType;
-  amount: number; // +25 or -5
-  balanceAfter: number;
-  description: string;
-  referenceId?: string;
-  createdAt: string;
-}
-
-export interface UserWallet {
-  userId: string;
-  creditBalance: number;
-  purchasedCredits: number;
-  referralCredits: number;
-  bonusCredits: number;
-  expiredCredits: number;
-  lastUpdated: string;
 }
 
 export type SubscriptionStatus =

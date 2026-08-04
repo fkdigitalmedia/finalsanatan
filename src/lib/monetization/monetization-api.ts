@@ -5,28 +5,20 @@
 
 import type {
   Coupon,
-  CreditCostRule,
-  CreditTransaction,
   GatewayConfig,
   Invoice,
   ReferralAccount,
   RevenueAnalyticsMetrics,
   SubscriptionPlan,
   UserSubscription,
-  UserWallet,
-  WebhookAuditLog,
 } from "./monetization-types";
-import { calculateTaxes } from "./gateway-manager";
 import { supabase } from "@/integrations/supabase/client";
 
 const PLANS_KEY = "sanatan_monetization_plans_v1";
-const WALLETS_KEY = "sanatan_monetization_wallets_v1";
-const TRANSACTIONS_KEY = "sanatan_monetization_transactions_v1";
 const COUPONS_KEY = "sanatan_monetization_coupons_v1";
 const REFERRALS_KEY = "sanatan_monetization_referrals_v1";
 const INVOICES_KEY = "sanatan_monetization_invoices_v1";
 const SUBSCRIPTIONS_KEY = "sanatan_monetization_subscriptions_v1";
-const GATEWAYS_KEY = "sanatan_monetization_gateways_v1";
 
 function loadStorage<T>(key: string, defaultValue: T): T {
   if (typeof window === "undefined") return defaultValue;
@@ -69,7 +61,6 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
       "Standard PDF Download",
       "Community Support",
     ],
-    creditsIncluded: 15,
     pdfLimits: 3,
     aiLimits: 10,
     storageLimitsMB: 100,
@@ -93,11 +84,9 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
       "Full Janam Kundli 30+ Pages",
       "Ashtakoot Kundli Matching",
       "Vimshottari Dasha Analysis",
-      "100 Credits Monthly",
       "15 High-Def PDF Downloads",
       "5 Saved Birth Charts",
     ],
-    creditsIncluded: 100,
     pdfLimits: 15,
     aiLimits: 100,
     storageLimitsMB: 500,
@@ -121,13 +110,11 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
       "All Premium Astrology Engines",
       "Varshphal & Annual Predictions",
       "Custom Remedy Manager & Mantras",
-      "500 Credits Monthly",
       "50 High-Def PDF Downloads",
       "Unlimited Saved Charts",
       "Multi-Language PDF Generation (10 Langs)",
       "Priority WhatsApp & Email Support",
     ],
-    creditsIncluded: 500,
     pdfLimits: 50,
     aiLimits: 500,
     storageLimitsMB: 2048,
@@ -149,13 +136,11 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     productType: "subscription",
     features: [
       "Perpetual Unlimited VIP Access",
-      "1,000 Bonus Credits Monthly",
       "Unlimited PDF Downloads",
       "Full Admin & Agency Tools",
       "Custom Branding & Watermarks",
       "Dedicated Account Specialist",
     ],
-    creditsIncluded: 1000,
     pdfLimits: -1,
     aiLimits: -1,
     storageLimitsMB: 10240,
@@ -179,231 +164,6 @@ export async function saveSubscriptionPlan(plan: SubscriptionPlan): Promise<Subs
     : [...current, plan];
   saveStorage(PLANS_KEY, updated);
   return plan;
-}
-
-// ------------------------------------------------------------
-// 24.2 Credit Engine & Usage Rules API
-// ------------------------------------------------------------
-
-export const DEFAULT_CREDIT_RULES: CreditCostRule[] = [
-  {
-    featureKey: "kundli_pdf",
-    featureName: "Janam Kundli Full PDF Report",
-    creditsRequired: 10,
-    dailyLimit: 20,
-    monthlyLimit: 100,
-    unlimitedInPlans: ["lifetime", "agency", "enterprise"],
-  },
-  {
-    featureKey: "matching_report",
-    featureName: "Ashtakoot Kundli Matching Report",
-    creditsRequired: 8,
-    dailyLimit: 15,
-    monthlyLimit: 50,
-    unlimitedInPlans: ["lifetime", "agency"],
-  },
-  {
-    featureKey: "career_report",
-    featureName: "Career & Money Astrological Report",
-    creditsRequired: 5,
-    dailyLimit: 10,
-    monthlyLimit: 30,
-    unlimitedInPlans: ["lifetime"],
-  },
-  {
-    featureKey: "marriage_report",
-    featureName: "Marriage & Compatibility Guide",
-    creditsRequired: 5,
-    dailyLimit: 10,
-    monthlyLimit: 30,
-    unlimitedInPlans: ["lifetime"],
-  },
-  {
-    featureKey: "annual_varshphal",
-    featureName: "Varshphal Annual Progress Report",
-    creditsRequired: 12,
-    dailyLimit: 5,
-    monthlyLimit: 20,
-    unlimitedInPlans: ["lifetime"],
-  },
-  {
-    featureKey: "ai_chat",
-    featureName: "AI Jyotish Chat Assistant",
-    creditsRequired: 1,
-    dailyLimit: 50,
-    monthlyLimit: 500,
-    unlimitedInPlans: ["premium", "pro", "lifetime"],
-  },
-];
-
-// ------------------------------------------------------------
-// 24.9 User Wallet API
-// ------------------------------------------------------------
-
-const OVERRIDES_KEY = "sanatan_credit_overrides_v2";
-
-export async function fetchUserWallet(userId: string): Promise<UserWallet> {
-  const wallets = loadStorage<Record<string, UserWallet>>(WALLETS_KEY, {});
-  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
-  const override = overrides[userId];
-
-  let wallet = wallets[userId];
-
-  if (!wallet) {
-    wallet = {
-      userId,
-      creditBalance: 100,
-      purchasedCredits: 0,
-      referralCredits: 0,
-      bonusCredits: 100,
-      expiredCredits: 0,
-      lastUpdated: new Date().toISOString(),
-    };
-  }
-
-  // If admin has topped up or overridden balance for this user, apply it
-  if (override && typeof override.currentBalance === "number") {
-    wallet = {
-      ...wallet,
-      creditBalance: override.currentBalance,
-      bonusCredits: override.bonusCredits ?? wallet.bonusCredits,
-      lastUpdated: new Date().toISOString(),
-    };
-  }
-
-  wallets[userId] = wallet;
-  saveStorage(WALLETS_KEY, wallets);
-  return wallet;
-}
-
-export async function fetchCreditTransactions(userId: string): Promise<CreditTransaction[]> {
-  const all = loadStorage<CreditTransaction[]>(TRANSACTIONS_KEY, [
-    {
-      id: "tx-1",
-      userId,
-      type: "purchase",
-      amount: 50,
-      balanceAfter: 50,
-      description: "Purchased Pro Credit Pack (50 Credits)",
-      createdAt: new Date(Date.now() - 5 * 86400000).toISOString(),
-    },
-    {
-      id: "tx-2",
-      userId,
-      type: "usage_deduction",
-      amount: -10,
-      balanceAfter: 40,
-      description: "Generated Janam Kundli Full PDF Report",
-      createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
-    },
-    {
-      id: "tx-3",
-      userId,
-      type: "referral_bonus",
-      amount: 15,
-      balanceAfter: 55,
-      description: "Referral Reward: Friend signed up with your code",
-      createdAt: new Date(Date.now() - 1 * 86400000).toISOString(),
-    },
-    {
-      id: "tx-4",
-      userId,
-      type: "usage_deduction",
-      amount: -10,
-      balanceAfter: 45,
-      description: "Generated Ashtakoot Matching PDF",
-      createdAt: new Date().toISOString(),
-    },
-  ]);
-
-  return all.filter((tx) => tx.userId === userId || userId === "demo");
-}
-
-export async function consumeCredits(
-  userId: string,
-  amount: number,
-  description: string,
-): Promise<UserWallet> {
-  const wallet = await fetchUserWallet(userId);
-  if (wallet.creditBalance < amount) {
-    throw new Error("Insufficient credit balance. Please top up your wallet.");
-  }
-
-  const updatedWallet: UserWallet = {
-    ...wallet,
-    creditBalance: wallet.creditBalance - amount,
-    lastUpdated: new Date().toISOString(),
-  };
-
-  const wallets = loadStorage<Record<string, UserWallet>>(WALLETS_KEY, {});
-  wallets[userId] = updatedWallet;
-  saveStorage(WALLETS_KEY, wallets);
-
-  // Sync admin overrides
-  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
-  if (overrides[userId]) {
-    overrides[userId].currentBalance = updatedWallet.creditBalance;
-    saveStorage(OVERRIDES_KEY, overrides);
-  }
-
-  const transactions = loadStorage<CreditTransaction[]>(TRANSACTIONS_KEY, []);
-  const newTx: CreditTransaction = {
-    id: `tx-${Date.now()}`,
-    userId,
-    type: "usage_deduction",
-    amount: -amount,
-    balanceAfter: updatedWallet.creditBalance,
-    description,
-    createdAt: new Date().toISOString(),
-  };
-  saveStorage(TRANSACTIONS_KEY, [newTx, ...transactions]);
-
-  return updatedWallet;
-}
-
-export async function grantCredits(
-  userId: string,
-  amount: number,
-  type: CreditTransaction["type"],
-  description: string,
-): Promise<UserWallet> {
-  const wallet = await fetchUserWallet(userId);
-  const updatedWallet: UserWallet = {
-    ...wallet,
-    creditBalance: wallet.creditBalance + amount,
-    purchasedCredits: type === "purchase" ? wallet.purchasedCredits + amount : wallet.purchasedCredits,
-    referralCredits: type === "referral_bonus" ? wallet.referralCredits + amount : wallet.referralCredits,
-    bonusCredits: type === "admin_grant" ? wallet.bonusCredits + amount : wallet.bonusCredits,
-    lastUpdated: new Date().toISOString(),
-  };
-
-  const wallets = loadStorage<Record<string, UserWallet>>(WALLETS_KEY, {});
-  wallets[userId] = updatedWallet;
-  saveStorage(WALLETS_KEY, wallets);
-
-  // Sync admin overrides
-  const overrides = loadStorage<Record<string, Partial<any>>>(OVERRIDES_KEY, {});
-  if (overrides[userId]) {
-    overrides[userId].currentBalance = updatedWallet.creditBalance;
-    if (type === "admin_grant") {
-      overrides[userId].bonusCredits = (overrides[userId].bonusCredits ?? 0) + amount;
-    }
-    saveStorage(OVERRIDES_KEY, overrides);
-  }
-
-  const transactions = loadStorage<CreditTransaction[]>(TRANSACTIONS_KEY, []);
-  const newTx: CreditTransaction = {
-    id: `tx-${Date.now()}`,
-    userId,
-    type,
-    amount,
-    balanceAfter: updatedWallet.creditBalance,
-    description,
-    createdAt: new Date().toISOString(),
-  };
-  saveStorage(TRANSACTIONS_KEY, [newTx, ...transactions]);
-
-  return updatedWallet;
 }
 
 // ------------------------------------------------------------
@@ -438,21 +198,6 @@ export const DEFAULT_COUPONS: Coupon[] = [
     applicablePlanSlugs: ["premium"],
     active: true,
     createdAt: "2026-02-15",
-  },
-  {
-    id: "coup-3",
-    code: "FREE50CREDITS",
-    description: "50 Free Bonus Credits for new members",
-    discountType: "free_credits",
-    discountValue: 0,
-    freeCreditsAmount: 50,
-    maxUsageTotal: 1000,
-    currentUsageCount: 120,
-    maxUsagePerUser: 1,
-    minPurchaseCents: 0,
-    applicablePlanSlugs: [],
-    active: true,
-    createdAt: "2026-03-01",
   },
 ];
 
@@ -499,7 +244,6 @@ export async function fetchUserReferral(userId: string): Promise<ReferralAccount
     referralLink: `https://sanatantools.com/pricing?ref=SANATAN-${userId.slice(0, 6).toUpperCase()}`,
     totalInvitedCount: 12,
     successfulReferralsCount: 4,
-    totalCreditsEarned: 60,
     totalCashRewardsEarnedCents: 40000, // ₹400
     leaderboardRank: 8,
     createdAt: new Date().toISOString(),
@@ -529,7 +273,7 @@ export async function fetchUserInvoices(userId: string): Promise<Invoice[]> {
       userId,
       userName: o.customer_name || "User",
       userEmail: "",
-      planName: o.product_type || "Credit Pack",
+      planName: o.product_type || "Subscription",
       lineItems: [
         {
           id: `li-${o.id}`,

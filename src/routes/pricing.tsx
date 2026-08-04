@@ -7,10 +7,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { Check, ShieldCheck, Crown, Zap, Sparkles } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ShieldCheck, Crown, Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/ui-kit/SectionHeading";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { SubscriptionPlansManager } from "@/components/monetization/SubscriptionPlansManager";
 import { CheckoutModal } from "@/components/monetization/CheckoutModal";
@@ -79,10 +77,10 @@ function PricingPage() {
           </div>
 
           <div className="p-6 rounded-2xl bg-card border border-border text-center">
-            <Zap className="size-8 text-purple-500 mx-auto mb-2" />
-            <h3 className="font-display font-bold text-lg">Instant Credit Grants</h3>
+            <Sparkles className="size-8 text-purple-500 mx-auto mb-2" />
+            <h3 className="font-display font-bold text-lg">Instant Unlimited Access</h3>
             <p className="text-xs text-muted-foreground mt-1">
-              Credits credited immediately to your user wallet upon checkout.
+              Full premium access to all Kundli PDF exports and AI predictions.
             </p>
           </div>
         </div>
