@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   FileText,
   Search,
@@ -17,6 +18,8 @@ import {
   AlertCircle,
   Plus,
   RefreshCw,
+  Loader2,
+  ExternalLink,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,6 +41,10 @@ import {
 } from "@/components/ui/dialog";
 import type { SupportedLanguage } from "@/lib/astrology-crm/crm-types";
 import { getTranslation } from "@/lib/astrology-crm/i18n-astrology";
+import { generateKundli } from "@/lib/kundli";
+import type { KundliResult } from "@/lib/kundli/types";
+import type { PdfLang } from "@/lib/kundli/pdf-i18n";
+import { KundliChartView } from "@/components/kundli/KundliChartView";
 
 export interface KundliReportItem {
   id: string;
@@ -48,6 +55,9 @@ export interface KundliReportItem {
   birthDob: string;
   birthTime: string;
   birthPlace: string;
+  latitude: number;
+  longitude: number;
+  timezone: string;
   language: SupportedLanguage;
   version: string;
   pdfSizeFormatted: string;
@@ -69,48 +79,136 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
   const [filterLanguage, setFilterLanguage] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [selectedReport, setSelectedReport] = useState<KundliReportItem | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  const loadRealReports = async () => {
+    setLoading(true);
+    const { data: authData } = await supabase.auth.getUser();
+    const userId = authData?.user?.id;
+
+    if (!userId) {
+      setReports([]);
+      setLoading(false);
+      return;
+    }
+
+    const { data: kundlis } = await supabase
+      .from("user_kundlis")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (kundlis && kundlis.length > 0) {
+      const mapped: KundliReportItem[] = kundlis.map((k: any) => ({
+        id: k.id,
+        name: `${k.name} - Janam Kundli Report`,
+        kind: "Janam Kundli",
+        generationDate: k.created_at ? new Date(k.created_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+        birthName: k.name,
+        birthDob: k.birth_date || "N/A",
+        birthTime: k.birth_time ? String(k.birth_time).slice(0, 5) : "12:00",
+        birthPlace: k.place_name || "N/A",
+        latitude: k.latitude ?? 28.6139,
+        longitude: k.longitude ?? 77.209,
+        timezone: k.timezone || "Asia/Kolkata",
+        language: (k.language as SupportedLanguage) || "en",
+        version: "v2.1",
+        pdfSizeFormatted: "2.4 MB",
+        status: k.is_archived ? "Archived" : "Completed",
+      }));
+      setReports(mapped);
+    } else {
+      setReports([]);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    async function loadRealReports() {
-      setLoading(true);
-      const { data: authData } = await supabase.auth.getUser();
-      const userId = authData?.user?.id;
-
-      if (!userId) {
-        setReports([]);
-        setLoading(false);
-        return;
-      }
-
-      const { data: kundlis } = await supabase
-        .from("user_kundlis")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: false });
-
-      if (kundlis && kundlis.length > 0) {
-        const mapped: KundliReportItem[] = kundlis.map((k: any) => ({
-          id: k.id,
-          name: `${k.name} - Janam Kundli Report`,
-          kind: "Janam Kundli",
-          generationDate: k.created_at ? new Date(k.created_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
-          birthName: k.name,
-          birthDob: k.birth_date || "N/A",
-          birthTime: k.birth_time ? String(k.birth_time).slice(0, 5) : "12:00",
-          birthPlace: k.place_name || "N/A",
-          language: (k.language as SupportedLanguage) || "en",
-          version: "v2.1",
-          pdfSizeFormatted: "2.4 MB",
-          status: k.is_archived ? "Archived" : "Completed",
-        }));
-        setReports(mapped);
-      } else {
-        setReports([]);
-      }
-      setLoading(false);
-    }
     void loadRealReports();
   }, []);
+
+  const handleDownloadPdf = async (report: KundliReportItem) => {
+    if (!report.birthDob || report.birthDob === "N/A") {
+      toast.error("Birth details are missing for this report.");
+      return;
+    }
+    setDownloadingId(report.id);
+    try {
+      const result = generateKundli({
+        date: report.birthDob,
+        time: report.birthTime,
+        place: `${report.birthName} · ${report.birthPlace}`,
+        latitude: report.latitude,
+        longitude: report.longitude,
+        timezone: report.timezone,
+      });
+      const { downloadKundliPdf } = await import("@/lib/kundli/pdf");
+      await downloadKundliPdf(result, {
+        language: (report.language as PdfLang) || "en",
+        premium: true,
+      });
+      toast.success(`PDF downloaded for ${report.birthName}`);
+    } catch (e) {
+      console.error(e);
+      toast.error(e instanceof Error ? e.message : "Could not generate PDF");
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      const { error } = await supabase.from("user_kundlis").delete().eq("id", id);
+      if (error) throw error;
+      setReports((prev) => prev.filter((r) => r.id !== id));
+      toast.success("Kundli report deleted");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to delete report");
+    }
+  };
+
+  const handleDuplicate = async (report: KundliReportItem) => {
+    const { data: authData } = await supabase.auth.getUser();
+    const userId = authData?.user?.id;
+    if (!userId) return;
+
+    try {
+      const { error } = await supabase.from("user_kundlis").insert({
+        user_id: userId,
+        name: `${report.birthName} (Copy)`,
+        gender: "male",
+        birth_date: report.birthDob,
+        birth_time: report.birthTime,
+        place_name: report.birthPlace,
+        latitude: report.latitude,
+        longitude: report.longitude,
+        timezone: report.timezone,
+        language: report.language,
+      });
+
+      if (error) throw error;
+      toast.success("Kundli duplicated!");
+      void loadRealReports();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to duplicate");
+    }
+  };
+
+  const selectedKundliResult: KundliResult | null = useMemo(() => {
+    if (!selectedReport || !selectedReport.birthDob || selectedReport.birthDob === "N/A") return null;
+    try {
+      return generateKundli({
+        date: selectedReport.birthDob,
+        time: selectedReport.birthTime,
+        place: `${selectedReport.birthName} · ${selectedReport.birthPlace}`,
+        latitude: selectedReport.latitude,
+        longitude: selectedReport.longitude,
+        timezone: selectedReport.timezone,
+      });
+    } catch {
+      return null;
+    }
+  }, [selectedReport]);
 
   const filteredReports = useMemo(() => {
     return reports
@@ -137,38 +235,24 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
       });
   }, [reports, searchTerm, sortBy, filterLanguage, filterStatus]);
 
-  const handleDelete = (id: string) => {
-    setReports((prev) => prev.filter((r) => r.id !== id));
-  };
-
-  const handleDuplicate = (report: KundliReportItem) => {
-    const cloned: KundliReportItem = {
-      ...report,
-      id: `rep-${Date.now()}`,
-      name: `${report.name} (Copy)`,
-      generationDate: new Date().toISOString().split("T")[0],
-      version: `${report.version} Clone`,
-      status: "Completed",
-    };
-    setReports((prev) => [cloned, ...prev]);
-  };
-
   return (
     <div className="space-y-6">
-      {/* Header & Stats */}
+      {/* Header & Actions */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="font-display text-2xl font-bold flex items-center gap-2">
             <FileText className="size-6 text-accent" /> {t.previousReports}
           </h2>
           <p className="text-sm text-muted-foreground">
-            Manage, download, duplicate, or compare all your generated Kundli reports.
+            Manage, download, view, or compare all your generated Kundli reports.
           </p>
         </div>
 
-        <Button className="gap-2 shadow-sm">
-          <Plus className="size-4" /> {t.generateKundli}
-        </Button>
+        <Link to="/kundli">
+          <Button className="gap-2 shadow-sm">
+            <Plus className="size-4" /> {t.generateKundli}
+          </Button>
+        </Link>
       </div>
 
       {/* Filter & Search Bar */}
@@ -247,7 +331,7 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
           <FileText className="size-12 text-muted-foreground mx-auto mb-3 opacity-50" />
           <h3 className="font-display text-lg font-semibold">No Kundli Reports Found</h3>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
-            You haven't saved any Kundli reports yet. Create your first birth chart report to view and manage it here.
+            You haven't saved any Kundli reports yet. Generate your first birth chart report to view and manage it here.
           </p>
           <div className="flex items-center justify-center gap-3">
             <Link to="/kundli">
@@ -320,11 +404,15 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
                   <Button
                     size="sm"
                     className="gap-1 text-xs"
-                    onClick={() => {
-                      alert(`Downloading ${report.name} PDF (${report.pdfSizeFormatted})...`);
-                    }}
+                    disabled={downloadingId === report.id}
+                    onClick={() => handleDownloadPdf(report)}
                   >
-                    <Download className="size-3.5" /> {t.downloadPdf}
+                    {downloadingId === report.id ? (
+                      <Loader2 className="size-3.5 animate-spin" />
+                    ) : (
+                      <Download className="size-3.5" />
+                    )}
+                    {downloadingId === report.id ? "Generating PDF..." : t.downloadPdf}
                   </Button>
 
                   <Button
@@ -356,60 +444,73 @@ export function PreviousReportsView({ language, onSelectCompare }: PreviousRepor
       {/* View Details Dialog */}
       {selectedReport && (
         <Dialog open={!!selectedReport} onOpenChange={() => setSelectedReport(null)}>
-          <DialogContent className="max-w-xl">
+          <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="font-display text-xl">{selectedReport.name}</DialogTitle>
               <DialogDescription>
-                Report generated on {selectedReport.generationDate} using {selectedReport.version}
+                Report generated on {selectedReport.generationDate} • Language: {selectedReport.language.toUpperCase()}
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-4 text-sm py-2">
-              <div className="rounded-lg bg-secondary p-4 space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subject Name:</span>
-                  <span className="font-semibold">{selectedReport.birthName}</span>
+            <div className="space-y-6 text-sm py-2">
+              <div className="rounded-lg bg-secondary/50 p-4 grid sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                <div>
+                  <span className="text-muted-foreground block">Subject Name:</span>
+                  <span className="font-semibold text-foreground text-sm">{selectedReport.birthName}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Date of Birth:</span>
-                  <span className="font-semibold">{selectedReport.birthDob}</span>
+                <div>
+                  <span className="text-muted-foreground block">Date of Birth:</span>
+                  <span className="font-semibold text-foreground text-sm">{selectedReport.birthDob}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Time of Birth:</span>
-                  <span className="font-semibold">{selectedReport.birthTime}</span>
+                <div>
+                  <span className="text-muted-foreground block">Time of Birth:</span>
+                  <span className="font-semibold text-foreground text-sm">{selectedReport.birthTime}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Place of Birth:</span>
-                  <span className="font-semibold">{selectedReport.birthPlace}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Language:</span>
-                  <span className="font-semibold">{selectedReport.language.toUpperCase()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">PDF Size:</span>
-                  <span className="font-semibold">{selectedReport.pdfSizeFormatted}</span>
+                <div>
+                  <span className="text-muted-foreground block">Place of Birth:</span>
+                  <span className="font-semibold text-foreground text-sm">{selectedReport.birthPlace}</span>
                 </div>
               </div>
 
-              <p className="text-xs text-muted-foreground">
-                This report features complete high-precision Vimshottari Dasha calculations,
-                Ashtakoot Guna points, Planetary positions, Sade Sati timeline, and custom remedies.
-              </p>
+              {selectedKundliResult ? (
+                <div className="space-y-4 pt-2">
+                  <h4 className="font-semibold text-base flex items-center gap-2">
+                    <FileText className="size-4 text-accent" /> Live Natal Chart & Calculations
+                  </h4>
+                  <KundliChartView chart={selectedKundliResult.d1} />
+                </div>
+              ) : (
+                <div className="p-6 text-center text-muted-foreground border rounded-lg">
+                  <AlertCircle className="size-8 mx-auto mb-2 opacity-50" />
+                  <p>Kundli calculations could not be computed for the given birth parameters.</p>
+                </div>
+              )}
             </div>
 
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setSelectedReport(null)}>
-                Close
-              </Button>
-              <Button
-                onClick={() => {
-                  alert(`Downloading ${selectedReport.name} PDF...`);
-                  setSelectedReport(null);
-                }}
-              >
-                <Download className="size-4 mr-1.5" /> Download Full PDF
-              </Button>
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t">
+              <Link to="/kundli">
+                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+                  <ExternalLink className="size-3.5" /> Open in Kundli Generator
+                </Button>
+              </Link>
+
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => setSelectedReport(null)}>
+                  Close
+                </Button>
+                <Button
+                  size="sm"
+                  disabled={downloadingId === selectedReport.id}
+                  onClick={() => handleDownloadPdf(selectedReport)}
+                >
+                  {downloadingId === selectedReport.id ? (
+                    <Loader2 className="size-4 animate-spin mr-1.5" />
+                  ) : (
+                    <Download className="size-4 mr-1.5" />
+                  )}
+                  Download Full PDF
+                </Button>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
