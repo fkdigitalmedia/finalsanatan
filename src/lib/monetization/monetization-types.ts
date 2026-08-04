@@ -1,10 +1,12 @@
 // ============================================================
-// Monetization & Billing Module Types
-// Pure billing, subscription plans, GST invoices & payment gateways.
-// No credit rules, no wallets, no CRM, no family workspace.
+// Phase 24.2 Enterprise Subscription & Billing Module Types
+// Pure subscription management: Plans, Gateways, Invoices, Webhooks.
+// Strictly no credits, no wallets, no CRM, no family workspace.
 // ============================================================
 
 export type PaymentGatewayProvider = "razorpay" | "lemonsqueezy" | "stripe";
+export type PaymentStatus = "paid" | "pending" | "failed" | "refunded" | "cancelled";
+export type SubscriptionStatus = "active" | "canceled" | "expired" | "past_due" | "pending_downgrade";
 
 export interface SubscriptionPlan {
   id: string;
@@ -34,7 +36,7 @@ export interface UserSubscription {
   userId: string;
   planId: string;
   planName: string;
-  status: "active" | "canceled" | "expired" | "past_due";
+  status: SubscriptionStatus;
   billingCycle: "monthly" | "yearly" | "lifetime";
   amountPaidCents: number;
   currency: string;
@@ -44,6 +46,7 @@ export interface UserSubscription {
   gatewaySubscriptionId?: string;
   autoRenew: boolean;
   createdAt: string;
+  cancelAtPeriodEnd?: boolean;
 }
 
 export interface Invoice {
@@ -58,7 +61,7 @@ export interface Invoice {
   gstTaxCents: number;
   totalCents: number;
   currency: string;
-  status: "paid" | "pending" | "refunded";
+  status: PaymentStatus;
   gateway: PaymentGatewayProvider;
   transactionId: string;
   createdAt: string;
@@ -85,4 +88,14 @@ export interface GatewayConfig {
   keySecret?: string;
   webhookSecret?: string;
   storeId?: string;
+}
+
+export interface WebhookLog {
+  id: string;
+  provider: PaymentGatewayProvider;
+  event: string;
+  status: "success" | "failed" | "ignored";
+  signatureVerified: boolean;
+  payloadSummary: string;
+  createdAt: string;
 }
