@@ -166,6 +166,13 @@ export async function saveSubscriptionPlan(plan: SubscriptionPlan): Promise<Subs
   return plan;
 }
 
+export async function deleteSubscriptionPlan(planId: string): Promise<void> {
+  const current = await fetchSubscriptionPlans();
+  const updated = current.filter((p) => p.id !== planId);
+  saveStorage(PLANS_KEY, updated);
+}
+
+
 // ------------------------------------------------------------
 // 24.7 Coupons API
 // ------------------------------------------------------------
