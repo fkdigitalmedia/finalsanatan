@@ -15,6 +15,7 @@ const SLATE         = "#64748b";
 const SLATE_DARK    = "#1e293b";
 const WHITE         = "#ffffff";
 const SURFACE       = "#f0fdf4";
+const INDIGO        = "#4f46e5";
 
 function clampColor(risk: number): string {
   if (risk <= 20) return "#059669";
@@ -599,8 +600,6 @@ export function buildHealthAnalysisPdfHtml(result: HealthAnalysisResult): string
       </div>`).join("")}
     ${footer(22)}
   </div>`;
-
-  const INDIGO = "#4f46e5";
 
   // 90-Day + 1-Year Roadmap
   const timelinePage = `
