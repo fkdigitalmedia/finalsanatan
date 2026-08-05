@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import type { HealthAnalysisResult, OrganDashboardCard, RiskDashboardCard } from "@/lib/health-analysis/types";
+import { toast } from "sonner";
 import { buildHealthAnalysisPdfHtml } from "@/lib/health-analysis/pdf-builder";
 import { printHtmlReport } from "@/lib/pdf/print-html-report";
 
@@ -75,8 +76,15 @@ export function HealthAnalysisDashboard({
   } = result;
 
   const downloadPdf = () => {
-    const htmlContent = buildHealthAnalysisPdfHtml(result);
-    printHtmlReport(htmlContent, `Health_Analysis_Report_${input.name}`);
+    try {
+      toast.loading("Preparing 35-Page Health PDF...", { id: "health-pdf" });
+      const htmlContent = buildHealthAnalysisPdfHtml(result);
+      printHtmlReport(htmlContent, `Health_Analysis_Report_${input?.name || "User"}`);
+      toast.success("PDF ready! Opening print dialog / download...", { id: "health-pdf" });
+    } catch (err) {
+      console.error("Health PDF download error:", err);
+      toast.error(`PDF error: ${(err as Error).message || "Could not generate PDF"}`, { id: "health-pdf" });
+    }
   };
 
   return (
