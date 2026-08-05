@@ -13,8 +13,10 @@ import { toolSchema } from "@/components/tools/PremiumToolShell";
 import { computeHealthAnalysis } from "@/lib/health-analysis/health-engine";
 import type { HealthAnalysisResult, HealthAnalysisInput } from "@/lib/health-analysis/types";
 import { HealthAnalysisDashboard } from "@/components/health-analysis/HealthAnalysisDashboard";
+import { buildHealthAnalysisPdfHtml } from "@/lib/health-analysis/pdf-builder";
 import { useAuth } from "@/hooks/useAuth";
 import { pdfSaveReport, pdfDeleteReport } from "@/lib/pdf.functions";
+import { uploadReportBlobFn } from "@/lib/blob.functions";
 
 const FAQS = [
   {
@@ -116,23 +118,42 @@ function HealthAnalysisPage() {
     }
     try {
       setIsSaving(true);
+
+      let blobUrl: string | undefined;
+      try {
+        const htmlContent = buildHealthAnalysisPdfHtml(result);
+        const blobRes = await uploadReportBlobFn({
+          data: {
+            filename: `health-analysis-${result.input.name.toLowerCase().replace(/\s+/g, "-")}.html`,
+            content: htmlContent,
+            contentType: "text/html;charset=utf-8",
+            folder: "reports/health",
+          },
+        });
+        blobUrl = blobRes.url;
+      } catch (blobErr) {
+        console.warn("Vercel Blob upload skipped or unconfigured:", blobErr);
+      }
+
       const savedRow = await pdfSaveReport({
         data: {
           report: "health-analysis",
           title: `Health Analysis Report Pro - ${result.input.name}`,
           filename: `health-analysis-${result.input.name.toLowerCase().replace(/\s+/g, "-")}.pdf`,
           language: formData.language,
-          pages: 34,
+          pages: 35,
           bytes: 2450000,
+          storage_path: blobUrl,
           meta: {
             scores: result.scores,
             input: result.input,
             result: result,
+            blobUrl: blobUrl,
           },
         },
       });
       setSavedReportId(savedRow.id);
-      toast.success("Report saved to your User Dashboard (/reports)!");
+      toast.success("Report saved to your User Dashboard (/reports) & Cloud Storage!");
     } catch (err) {
       toast.error((err as Error).message || "Failed to save report to dashboard.");
     } finally {

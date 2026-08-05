@@ -55,9 +55,17 @@ export async function downloadReportPdf(
   report: UserReport,
   opts: { userId: string; userName: string },
 ): Promise<{ filename: string; pages: number }> {
-  const filename = safeName(report.title, report.kind);
-  const extra = (report.data ?? {}) as Record<string, any>;
   const kind = report.kind;
+  const extra = (report.data ?? {}) as Record<string, any>;
+  const filename = safeName(report.title, report.kind);
+
+  // ── 0. Check for stored Vercel Blob URL ──────────────────────────────────
+  const blobUrl = (report as any).storage_path || extra.storage_path || extra.meta?.blobUrl;
+  if (blobUrl && typeof blobUrl === "string" && blobUrl.startsWith("http")) {
+    window.open(blobUrl, "_blank");
+    await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
+    return { filename, pages: extra.pages || 35 };
+  }
 
   // ── 1. Career Analysis ────────────────────────────────────────────────────
   const isCareer = kind === "career-analysis" || kind === "career-report" ||
