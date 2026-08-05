@@ -40,6 +40,10 @@ function rashiName(idx: number): string {
   return RASHI_NAMES[((idx % 12) + 12) % 12];
 }
 
+function getHouseLord(h: HouseCusp): GrahaName {
+  return RASHI_LORDS[h.rashiIndex % 12];
+}
+
 const ALL_GRAHAS: GrahaName[] = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
 
 export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysisResultV2 {
@@ -68,8 +72,15 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   const house5 = getHouse(5);
   const house9 = getHouse(9);
 
+  const house10Lord = getHouseLord(house10);
+  const house2Lord = getHouseLord(house2);
+  const house6Lord = getHouseLord(house6);
+  const house11Lord = getHouseLord(house11);
+  const house5Lord = getHouseLord(house5);
+  const house9Lord = getHouseLord(house9);
+
   // 1. D10 Dashamsa Calculation
-  const lagnaRashiIdx = RASHI_NAMES.indexOf(houses[0].rashi);
+  const lagnaRashiIdx = houses[0].rashiIndex;
   const d10LagnaIdx = (lagnaRashiIdx * 10) % 12;
   const d10AscendantSign = rashiName(d10LagnaIdx);
   const d10House10Idx = (d10LagnaIdx + 9) % 12;
@@ -88,7 +99,7 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   // 2. Jaimini Karakas (Atmakaraka & Amatyakaraka)
   const sortedPlanets = [...planets]
     .filter((p) => p.graha !== "Rahu" && p.graha !== "Ketu")
-    .sort((a, b) => b.degreeInSign - a.degreeInSign);
+    .sort((a, b) => b.degreesInRashi - a.degreesInRashi);
 
   const atmakarakaPlanet = sortedPlanets[0] || sun;
   const amatyakarakaPlanet = sortedPlanets[1] || mercury;
@@ -108,7 +119,6 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   // 3. Compute Executive Scores
   const sunBonus = sun.house === 10 || sun.house === 1 || sun.house === 9 ? 15 : 5;
   const saturnBonus = saturn.house === 10 || saturn.house === 6 ? 12 : 4;
-  const mercuryBonus = mercury.house === 10 || mercury.house === 1 || mercury.house === 5 ? 12 : 4;
 
   const overallCareerScore = Math.min(98, Math.max(60, 72 + sunBonus + saturnBonus));
   const promotionScore = Math.min(96, Math.max(55, 68 + (sun.house === 10 ? 15 : 8) + (mars.house === 10 ? 10 : 5)));
@@ -143,10 +153,10 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   };
 
   // 4. Executive AI Summary & Career DNA
-  const executiveSummary = `Your Career Analysis Report v2.0 reveals a formidable professional profile with an Overall Career Score of ${overallCareerScore}/100. Strong alignment of 10th Lord ${house10.rashiLord} in ${house10.rashi}, D10 Dashamsa Ascendant in ${d10AscendantSign}, and Jaimini Amatyakaraka ${amatyakarakaPlanet.graha} provides exceptional capacity for executive leadership, strategic decision-making, and rapid compensation growth.`;
+  const executiveSummary = `Your Career Analysis Report v2.0 reveals a formidable professional profile with an Overall Career Score of ${overallCareerScore}/100. Strong alignment of 10th Lord ${house10Lord} in ${house10.rashi}, D10 Dashamsa Ascendant in ${d10AscendantSign}, and Jaimini Amatyakaraka ${amatyakarakaPlanet.graha} provides exceptional capacity for executive leadership, strategic decision-making, and rapid compensation growth.`;
 
   const dna: CareerDNA = {
-    workingStyle: `Strategic, result-driven, and highly organized under the influence of ${house10.rashiLord} and Saturn in House ${saturn.house}.`,
+    workingStyle: `Strategic, result-driven, and highly organized under the influence of ${house10Lord} and Saturn in House ${saturn.house}.`,
     leadershipStyle: `Authoritative yet mentorship-focused, driven by Sun in House ${sun.house} and Jupiter's aspect on key angles.`,
     communicationStyle: `Direct, persuasive, and data-backed under Mercury in ${mercury.rashi}.`,
     decisionMakingStyle: `Analytical and calculated, balancing risk with long-term ROI.`,
@@ -161,8 +171,8 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
     { category: "Entrepreneurship", suitabilityScore: businessSuitabilityScore, rank: 3, astrologicalBasis: `Jaimini Amatyakaraka ${amatyakarakaPlanet.graha} & Mercury` },
     { category: "Digital & AI", suitabilityScore: 92, rank: 4, astrologicalBasis: `Rahu in House ${rahu.house} & Mercury in ${mercury.rashi}` },
     { category: "Consulting", suitabilityScore: 90, rank: 5, astrologicalBasis: `Jupiter in House ${jupiter.house} & 9th House wisdom` },
-    { category: "Finance & Wealth", suitabilityScore: salaryGrowthScore, rank: 6, astrologicalBasis: `2nd Lord ${house2.rashiLord} & 11th House gains` },
-    { category: "Government & Civil", suitabilityScore: governmentJobScore, rank: 7, astrologicalBasis: `Sun in House ${sun.house} & 10th Lord ${house10.rashiLord}` },
+    { category: "Finance & Wealth", suitabilityScore: salaryGrowthScore, rank: 6, astrologicalBasis: `2nd Lord ${house2Lord} & 11th House gains` },
+    { category: "Government & Civil", suitabilityScore: governmentJobScore, rank: 7, astrologicalBasis: `Sun in House ${sun.house} & 10th Lord ${house10Lord}` },
     { category: "Business & Trade", suitabilityScore: businessSuitabilityScore, rank: 8, astrologicalBasis: `7th House trade & Mercury aspect` },
     { category: "Startup Founding", suitabilityScore: 86, rank: 9, astrologicalBasis: `Mars in House ${mars.house} initiative` },
     { category: "Creative Media", suitabilityScore: 84, rank: 10, astrologicalBasis: `Venus in House ${venus.house} artistic design` },
@@ -176,7 +186,7 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   const topIndustries: TopIndustryRanking[] = [
     { rank: 1, industry: "Artificial Intelligence & Cloud Computing", suitabilityScore: 95, reason: "Exceptional Rahu-Mercury high-tech alignment", evidence: `Rahu in House ${rahu.house} & Mercury in ${mercury.rashi}` },
     { rank: 2, industry: "Enterprise Software & SaaS", suitabilityScore: 94, reason: "D10 10th Lord Tech synergy", evidence: `D10 10th Lord ${d10House10Lord}` },
-    { rank: 3, industry: "Fintech & Quantitative Trading", suitabilityScore: 92, reason: "Jupiter 2nd House wealth & analytical Mercury", evidence: `2nd Lord ${house2.rashiLord} & Jupiter` },
+    { rank: 3, industry: "Fintech & Quantitative Trading", suitabilityScore: 92, reason: "Jupiter 2nd House wealth & analytical Mercury", evidence: `2nd Lord ${house2Lord} & Jupiter` },
     { rank: 4, industry: "Management Consulting & Strategy", suitabilityScore: 90, reason: "Sun leadership & Jupiter wisdom", evidence: `Sun in House ${sun.house}` },
     { rank: 5, industry: "Global E-Commerce & Supply Chain", suitabilityScore: 88, reason: "Rahu 12th House & 7th House trade", evidence: `Rahu in House ${rahu.house}` },
     { rank: 6, industry: "Cyber Security & IT Audit", suitabilityScore: 87, reason: "Mars-Saturn defense & investigation", evidence: `Mars in House ${mars.house}` },
@@ -284,8 +294,8 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
 
   // 11. Yogas
   const yogas: CareerYogaItem[] = [
-    { yogaName: "Raj Yoga", meaning: "Kendra and Kona Lord mutual connection producing executive authority.", evidence: `10th Lord ${house10.rashiLord} & 9th Lord ${house9.rashiLord} alignment.`, confidencePercent: 96 },
-    { yogaName: "Dhana Yoga", meaning: "2nd and 11th House connection ensuring continuous wealth accumulation.", evidence: `2nd Lord ${house2.rashiLord} & 11th Lord ${house11.rashiLord} aspect.`, confidencePercent: 95 },
+    { yogaName: "Raj Yoga", meaning: "Kendra and Kona Lord mutual connection producing executive authority.", evidence: `10th Lord ${house10Lord} & 9th Lord ${house9Lord} alignment.`, confidencePercent: 96 },
+    { yogaName: "Dhana Yoga", meaning: "2nd and 11th House connection ensuring continuous wealth accumulation.", evidence: `2nd Lord ${house2Lord} & 11th Lord ${house11Lord} aspect.`, confidencePercent: 95 },
     { yogaName: "Bhadra Yoga", meaning: "Mercury exalted in Kendra conferring sharp analytical and tech genius.", evidence: `Mercury in ${mercury.rashi} (House ${mercury.house}).`, confidencePercent: 94 },
     { yogaName: "Vipreet Raj Yoga", meaning: "Trika lords neutralizing obstacles into sudden professional breakthroughs.", evidence: "6th Lord in 8th/12th House combination.", confidencePercent: 92 },
   ];
@@ -301,12 +311,12 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
   });
 
   const housesImpact: HouseCareerImpact[] = [
-    { houseNumber: 2, houseName: "Dhana (Salary)", rashi: house2.rashi, rashiLord: house2.rashiLord, careerSignificance: "Governs fixed salary income and liquid wealth accumulation." },
-    { houseNumber: 6, houseName: "Shatru & Seva (Service)", rashi: house6.rashi, rashiLord: house6.rashiLord, careerSignificance: "Governs competitive exam success, daily work environment, and overcoming obstacles." },
-    { houseNumber: 10, houseName: "Karma (Career)", rashi: house10.rashi, rashiLord: house10.rashiLord, careerSignificance: "Governs executive authority, public reputation, and major career achievements." },
-    { houseNumber: 11, houseName: "Labha (Gains)", rashi: house11.rashi, rashiLord: house11.rashiLord, careerSignificance: "Governs corporate bonuses, variable incentives, and professional networks." },
-    { houseNumber: 5, houseName: "Buddhi (Intellect)", rashi: house5.rashi, rashiLord: house5.rashiLord, careerSignificance: "Governs technical innovation, strategic foresight, and certifications." },
-    { houseNumber: 9, houseName: "Bhagya (Fortune)", rashi: house9.rashi, rashiLord: house9.rashiLord, careerSignificance: "Governs higher mentorship, global travel, and executive fortune." },
+    { houseNumber: 2, houseName: "Dhana (Salary)", rashi: house2.rashi, rashiLord: house2Lord, careerSignificance: "Governs fixed salary income and liquid wealth accumulation." },
+    { houseNumber: 6, houseName: "Shatru & Seva (Service)", rashi: house6.rashi, rashiLord: house6Lord, careerSignificance: "Governs competitive exam success, daily work environment, and overcoming obstacles." },
+    { houseNumber: 10, houseName: "Karma (Career)", rashi: house10.rashi, rashiLord: house10Lord, careerSignificance: "Governs executive authority, public reputation, and major career achievements." },
+    { houseNumber: 11, houseName: "Labha (Gains)", rashi: house11.rashi, rashiLord: house11Lord, careerSignificance: "Governs corporate bonuses, variable incentives, and professional networks." },
+    { houseNumber: 5, houseName: "Buddhi (Intellect)", rashi: house5.rashi, rashiLord: house5Lord, careerSignificance: "Governs technical innovation, strategic foresight, and certifications." },
+    { houseNumber: 9, houseName: "Bhagya (Fortune)", rashi: house9.rashi, rashiLord: house9Lord, careerSignificance: "Governs higher mentorship, global travel, and executive fortune." },
   ];
 
   // 13. Promotion, Salary & Foreign Details
@@ -427,8 +437,8 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
     dna,
     suitabilityDomains,
     d10Dashamsa,
-    house10DeepAnalysis: `Your 10th House is situated in ${house10.rashi} (ruled by ${house10.rashiLord}). This placement bestows exceptional administrative command, professional resilience, and strong public recognition.`,
-    house10LordAnalysis: `10th Lord ${house10.rashiLord} placed in House ${getPlanet(house10.rashiLord).house} creates a powerful career engine, driving steady rank elevation and financial success.`,
+    house10DeepAnalysis: `Your 10th House is situated in ${house10.rashi} (ruled by ${house10Lord}). This placement bestows exceptional administrative command, professional resilience, and strong public recognition.`,
+    house10LordAnalysis: `10th Lord ${house10Lord} placed in House ${getPlanet(house10Lord).house} creates a powerful career engine, driving steady rank elevation and financial success.`,
     atmakaraka,
     amatyakaraka,
     yogas,

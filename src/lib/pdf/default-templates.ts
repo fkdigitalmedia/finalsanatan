@@ -534,7 +534,6 @@ const SECTION_PRESETS: Record<string, TemplateSection[]> = {
   "festival-report": FESTIVAL_SECTIONS,
   "numerology-report": GENERIC_SECTIONS,
   "muhurat-report": GENERIC_SECTIONS,
-  "career-report": GENERIC_SECTIONS,
   "marriage-report": MATCHING_SECTIONS,
   "business-report": GENERIC_SECTIONS,
   "health-report": GENERIC_SECTIONS,
@@ -548,7 +547,6 @@ const THEME_PRESETS: Record<string, string> = {
   "festival-report": "temple",
   "numerology-report": "modern",
   "vastu-report": "modern",
-  "career-report": "luxury",
   "business-report": "luxury",
 };
 

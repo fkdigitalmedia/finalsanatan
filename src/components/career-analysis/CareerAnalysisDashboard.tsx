@@ -24,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import type { CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
-import { buildCareerAnalysisPdfHtml } from "@/lib/career-analysis/pdf-builder";
+import { downloadCareerPdf } from "@/lib/career-analysis/pdf/career-pdf-export";
 
 interface CareerAnalysisDashboardProps {
   result: CareerAnalysisResultV2;
@@ -46,17 +46,8 @@ export function CareerAnalysisDashboard({
   const [activeTab, setActiveTab] = useState("dashboard");
   const { input, scores, executiveSummary, dna, suitabilityDomains, d10Dashamsa, atmakaraka, amatyakaraka, yogas, topIndustries, topCareerRoles, monthlyTimeline, annualTimeline, riskAnalysis, remedies, luckyElements, evidenceChain, aiCoach, finalVerdict } = result;
 
-  const downloadPdf = () => {
-    const htmlContent = buildCareerAnalysisPdfHtml(result);
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-      }, 500);
-    }
+  const handleDownloadPdf = () => {
+    downloadCareerPdf(result);
   };
 
   return (
@@ -81,7 +72,7 @@ export function CareerAnalysisDashboard({
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-3">
-          <Button onClick={downloadPdf} size="sm" className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold shadow-md">
+          <Button onClick={handleDownloadPdf} size="sm" className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold shadow-md">
             <Download className="w-4 h-4 mr-2" /> Download PDF (40 Pages)
           </Button>
           {onSave && (
