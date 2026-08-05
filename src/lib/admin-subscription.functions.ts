@@ -102,9 +102,12 @@ export function calculateExpiry(
 
 export async function executeGetUserSubscriptionDetails(
   ctx: { supabase: any; userId: string },
-  targetUserId: string,
+  rawTargetUserId: any,
 ) {
   await assertStaff(ctx);
+
+  const targetUserId = typeof rawTargetUserId === "object" ? rawTargetUserId?.userId : rawTargetUserId;
+  if (!targetUserId) throw new Error("Missing targetUserId");
 
   const [entRes, profileRes, auditRes] = await Promise.all([
     ctx.supabase
@@ -176,14 +179,24 @@ export async function executeGetUserSubscriptionDetails(
 
 export async function executeAssignUserSubscription(
   ctx: { supabase: any; userId: string },
-  input: AdminSubscriptionAssignInput,
+  rawInput: AdminSubscriptionAssignInput,
 ) {
   await assertStaff(ctx);
 
+  const input: AdminSubscriptionAssignInput = (rawInput as any)?.data ?? rawInput ?? {};
+
+  if (!input || !input.userId) {
+    throw new Error("Missing required field: userId");
+  }
+
+  const planKey = input.planKey || "free";
+  const durationPreset = input.durationPreset || "30d";
+  const status = input.status || "active";
+  const reasonCode = input.reasonCode || "manual_upgrade";
   const superAdmin = await isSuperAdmin(ctx);
 
   // SECURITY CHECK: Super Admin required for Lifetime VIP or Custom Expiry override
-  if ((input.planKey === "lifetime_vip" || input.durationPreset === "lifetime" || input.isLifetime) && !superAdmin) {
+  if ((planKey === "lifetime_vip" || durationPreset === "lifetime" || input.isLifetime) && !superAdmin) {
     throw new Error("Forbidden: Super Admin role required to assign Lifetime VIP plan.");
   }
   if (input.actionType === "cancel" && !superAdmin) {
@@ -192,15 +205,15 @@ export async function executeAssignUserSubscription(
 
   const startDate = input.customStartDate || new Date().toISOString();
   const { expiryIso, durationDays, isLifetime } = calculateExpiry(
-    input.durationPreset,
+    durationPreset,
     startDate,
     input.customExpiryDate,
   );
 
-  const isActive = input.status === "active" || input.status === "trial";
+  const isActive = status === "active" || status === "trial";
   const reasonText = input.reasonNotes
-    ? `${REASON_LABELS[input.reasonCode] || input.reasonCode}: ${input.reasonNotes}`
-    : REASON_LABELS[input.reasonCode] || input.reasonCode;
+    ? `${REASON_LABELS[reasonCode] || reasonCode}: ${input.reasonNotes}`
+    : REASON_LABELS[reasonCode] || reasonCode;
 
   // 1. Fetch Admin Name
   const { data: adminProfile } = await ctx.supabase
@@ -223,7 +236,7 @@ export async function executeAssignUserSubscription(
   // 3. Upsert user_entitlements
   const payload = {
     user_id: input.userId,
-    entitlement_key: input.planKey === "free" ? "basic_access" : "premium_access",
+    entitlement_key: planKey === "free" ? "basic_access" : "premium_access",
     active: isActive,
     expires_at: isLifetime ? null : expiryIso,
     updated_at: new Date().toISOString(),
@@ -253,15 +266,15 @@ export async function executeAssignUserSubscription(
     meta: {
       targetUserId: input.userId,
       targetUserName: userName,
-      planKey: input.planKey,
-      planLabel: PLAN_LABELS[input.planKey],
-      status: input.status,
-      durationPreset: input.durationPreset,
+      planKey,
+      planLabel: PLAN_LABELS[planKey],
+      status,
+      durationPreset,
       durationDays,
       isLifetime,
       startDate,
       expiryDate: expiryIso,
-      reasonCode: input.reasonCode,
+      reasonCode,
       reasonText,
       adminUserId: ctx.userId,
       adminName,
@@ -271,15 +284,15 @@ export async function executeAssignUserSubscription(
 
   // 5. In-App User Notification
   let notifTitle = "Subscription Updated";
-  let notifMsg = `Your ${PLAN_LABELS[input.planKey]} has been activated by our team.`;
+  let notifMsg = `Your ${PLAN_LABELS[planKey]} has been activated by our team.`;
 
   if (input.actionType === "extend") {
     notifTitle = "Subscription Extended";
     notifMsg = `Your subscription has been extended by ${durationDays || "additional"} days.`;
-  } else if (input.planKey === "lifetime_vip" || isLifetime) {
+  } else if (planKey === "lifetime_vip" || isLifetime) {
     notifTitle = "Lifetime VIP Activated";
     notifMsg = "Congratulations! Your account has been upgraded to Lifetime VIP access.";
-  } else if (input.status === "suspended") {
+  } else if (status === "suspended") {
     notifTitle = "Subscription Suspended";
     notifMsg = "Your subscription status has been changed to suspended. Contact support for assistance.";
   }
@@ -296,20 +309,22 @@ export async function executeAssignUserSubscription(
   return {
     success: true,
     userId: input.userId,
-    planKey: input.planKey,
-    planLabel: PLAN_LABELS[input.planKey],
-    status: input.status,
+    planKey,
+    planLabel: PLAN_LABELS[planKey],
+    status,
     expiryDate: expiryIso,
     isLifetime,
-    message: `Subscription successfully updated to ${PLAN_LABELS[input.planKey]}.`,
+    message: `Subscription successfully updated to ${PLAN_LABELS[planKey]}.`,
   };
 }
 
 export async function executeBulkManageSubscriptions(
   ctx: { supabase: any; userId: string },
-  input: BulkSubscriptionInput,
+  rawInput: BulkSubscriptionInput,
 ) {
   await assertStaff(ctx);
+
+  const input: BulkSubscriptionInput = (rawInput as any)?.data ?? rawInput ?? {};
 
   if (!input.userIds || input.userIds.length === 0) {
     throw new Error("No users selected for bulk action");
@@ -401,9 +416,10 @@ export async function executeGetSubscriptionAuditLogs(ctx: { supabase: any; user
 export const getUserSubscriptionDetails = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) => {
-    const v = raw as { userId?: string };
-    if (!v?.userId) throw new Error("Missing userId");
-    return { userId: v.userId };
+    const data = (raw as any)?.data ?? raw;
+    const userId = typeof data === "string" ? data : data?.userId;
+    if (!userId) throw new Error("Missing userId");
+    return { userId };
   })
   .handler(async ({ input, context }) => {
     return executeGetUserSubscriptionDetails(context as any, input.userId);
@@ -412,7 +428,11 @@ export const getUserSubscriptionDetails = createServerFn({ method: "GET" })
 /** Assign, extend, upgrade, downgrade, suspend, or cancel a user's subscription. */
 export const assignUserSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => raw as AdminSubscriptionAssignInput)
+  .inputValidator((raw: unknown) => {
+    const data = (raw as any)?.data ?? raw;
+    if (!data?.userId) throw new Error("Missing userId");
+    return data as AdminSubscriptionAssignInput;
+  })
   .handler(async ({ input, context }) => {
     return executeAssignUserSubscription(context as any, input);
   });
@@ -420,7 +440,11 @@ export const assignUserSubscription = createServerFn({ method: "POST" })
 /** Perform bulk subscription operations across multiple users. */
 export const bulkManageSubscriptions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((raw: unknown) => raw as BulkSubscriptionInput)
+  .inputValidator((raw: unknown) => {
+    const data = (raw as any)?.data ?? raw;
+    if (!data?.userIds) throw new Error("Missing userIds");
+    return data as BulkSubscriptionInput;
+  })
   .handler(async ({ input, context }) => {
     return executeBulkManageSubscriptions(context as any, input);
   });
@@ -431,3 +455,4 @@ export const getSubscriptionAuditLogs = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     return executeGetSubscriptionAuditLogs(context as any);
   });
+
