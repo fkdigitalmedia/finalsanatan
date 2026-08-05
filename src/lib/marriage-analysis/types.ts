@@ -1,133 +1,221 @@
-import type { BirthInput, KundliResult, GrahaName } from "@/lib/kundli/types";
+import type { KundliResult, GrahaName, Rashi } from "@/lib/kundli/types";
 
-export interface MarriageAnalysisInput extends BirthInput {
+export interface MarriageAnalysisInput {
   name: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  place: string;
+  gender?: "male" | "female" | "other";
+  language?: string;
+}
+
+export interface MarriageScoreDetail {
+  score: number;
+  label: string;
+  strength: string;
+  weakness: string;
+  reason: string;
+  evidence: string;
+  recommendation: string;
 }
 
 export interface MarriageScores {
-  marriageScore: number; // 0 - 100 overall marriage quality
-  relationshipScore: number; // 0 - 100 emotional & romantic bonding
-  loveMarriageScore: number; // 0 - 100 feasibility of love marriage
-  arrangedMarriageScore: number; // 0 - 100 feasibility of arranged marriage
-  marriageDelayScore: number; // 0 - 100 risk/probability of delay (higher = more delay)
-  spouseCompatibilityScore: number; // 0 - 100 alignment with ideal partner
-  communicationScore: number; // 0 - 100 intellectual & dialogue harmony
-  familyHarmonyScore: number; // 0 - 100 in-laws & family acceptance
-  longTermStabilityScore: number; // 0 - 100 marital longevity & endurance
+  overallScore: number;
+  marriageScore: number;
+  spouseCompatibilityScore: number;
+  manglikDoshaScore: number; // 0 = No dosha, 100 = Severe
+  timingScore: number;
+  remedyScore: number;
+
+  details: {
+    overall: MarriageScoreDetail;
+    marriage: MarriageScoreDetail;
+    compatibility: MarriageScoreDetail;
+    manglik: MarriageScoreDetail;
+    timing: MarriageScoreDetail;
+    remedy: MarriageScoreDetail;
+  };
 }
 
-export interface House7Analysis {
-  rashi: string;
-  rashiLord: GrahaName;
-  planetsInHouse: GrahaName[];
-  aspectingPlanets: GrahaName[];
-  strengthScore: number; // 0 - 100
+export interface ExpandedHouse7Analysis {
+  houseStrengthScore: number;
+  lordDignity: string;
+  lordPlacement: string;
+  beneficAspects: string[];
+  maleficAspects: string[];
+  conjunctions: string[];
+  navamsaSupport: string;
+  longTermMarriageEffects: string;
+  evidenceChain: string[];
+  confidencePercent: number;
+}
+
+export interface ExpandedVenusAnalysis {
+  loveLanguage: string;
+  romanticExpression: string;
+  emotionalBondingStyle: string;
+  physicalAttractionIndex: number;
+  marriageHappinessPotential: string;
+  luxuryPreferences: string;
+  relationshipExpectations: string;
+  affectionStyle: string;
+  compatibilityInfluence: string;
+}
+
+export interface ExpandedJupiterAnalysis {
+  blessingsSummary: string;
+  spouseWisdomLevel: string;
+  marriageStabilityImpact: string;
+  familyValuesAlignment: string;
+  childrenProspects: string;
+  ethicsAndMorality: string;
+  supportiveRoleInCareer: string;
+}
+
+export interface ExpandedManglikAnalysis {
+  hasManglikDosha: boolean;
+  doshaSeverity: "None" | "Mild" | "Moderate" | "Severe";
+  marsHouse: number;
+  marsRashi: Rashi;
+  cancellationRulesApplied: string[];
+  isCancelled: boolean;
+  realLifeImpact: string;
+  conflictResolutionStyle: string;
+  temperamentAnalysis: string;
+  recommendedRemedies: string[];
+  lifestyleAdvice: string;
+}
+
+export interface DetailedSpouseProfile {
+  appearance: string;
+  heightEstimate: string;
+  bodyType: string;
+  faceStructure: string;
+  voiceAndTone: string;
+  nature: string;
+  temperament: string;
+  educationBackground: string;
+  likelyProfession: string;
+  estimatedIncomeLevel: string;
+  lifestylePreferences: string;
+  habitsAndInterests: string;
+  romanticNature: string;
+  financialAttitude: string;
+  communicationStyle: string;
+  childrenPreference: string;
+  familyBackground: string;
   summary: string;
 }
 
-export interface PlanetMarriageRole {
-  planet: GrahaName;
-  house: number;
-  rashi: string;
-  isRetrograde: boolean;
-  isCombust: boolean;
-  dignity: 'exalted' | 'own' | 'friendly' | 'neutral' | 'enemy' | 'debilitated';
-  impactOnMarriage: string;
-  score: number; // 0 - 100
-}
-
-export interface DarakarakaAnalysis {
-  planet: GrahaName;
-  degree: number;
-  sign: string;
-  house: number;
-  significance: string;
-  spouseTraits: string[];
-}
-
-export interface UpapadaLagnaAnalysis {
-  sign: string;
-  houseInD1: number;
-  lord: GrahaName;
-  lordPlacement: number;
-  sustenanceHouseSign: string; // 2nd house from UL
-  marriageStabilityStatus: string;
-}
-
-export interface MarriageYogaItem {
-  name: string;
-  type: 'auspicious' | 'challenging';
-  description: string;
-  influencingPlanets: GrahaName[];
-  strength: number; // 0 - 100
-  evidence: string;
-}
-
-export interface MarriageDoshaItem {
-  name: string;
-  severity: 'mild' | 'moderate' | 'severe';
-  description: string;
-  afflictedHouses: number[];
-  afflictedPlanets: GrahaName[];
-  cancellationFactors: string[];
-  remedyRecommendation: string;
-}
-
-export interface SpouseProfile {
-  physicalAppearance: string;
-  natureAndTemperament: string;
-  probableProfessions: string[];
-  financialStanding: string;
-  directionOfOrigin: string; // e.g. North-East from birthplace
-  distanceOfOrigin: string; // e.g. Nearby city or Same state
-  communicationStyle: string;
-}
-
-export interface MonthlyRelationshipForecastItem {
-  month: string;
-  monthName: string;
-  focusArea: string;
-  relationshipRating: number;
-  careerImpact: string;
-  relationshipInsight: string;
-  familyHarmony: string;
-  communicationTip: string;
-  travelProbability: string;
-  financeAdvice: string;
-  keyAstrologicalDriver: string;
-}
-
-export interface AnnualTimelineEvent {
-  year: number;
-  phaseTitle: string;
-  planetaryTransits: string;
-  keyTheme: string;
-  opportunities: string;
-  precautions: string;
-}
-
-export interface RemedyItem {
-  category: 'temple' | 'donation' | 'mantra' | 'gemstone' | 'charity' | 'lifestyle' | 'meditation' | 'rudraksha';
+export interface RemedyCardItem {
   title: string;
-  description: string;
-  instructions: string;
+  purpose: string;
+  whyRecommended: string;
+  procedure: string;
+  bestDay: string;
   bestTime: string;
+  duration: string;
+  expectedBenefit: string;
 }
 
-export interface EvidenceChainItem {
+export interface LuckyMarriageElements {
+  colours: string[];
+  numbers: number[];
+  gemstones: string[];
+  direction: string[];
+  metal: string;
+  mantra: string;
+  fastingDay: string;
+  luckyDates: string[];
+  luckyMonths: string[];
+  luckyNakshatra: string[];
+}
+
+export interface EnterpriseNewChapters {
+  relationshipRedFlags: string[];
+  relationshipGreenFlags: string[];
+  loveLanguageDetails: string;
+  conflictResolutionStyle: string;
+  emotionalNeeds: string;
+  trustIndexScore: number;
+  financialCompatibilityScore: number;
+  familyCompatibilityScore: number;
+  inLawCompatibilityScore: number;
+  intimacyCompatibilityScore: number;
+  childBirthTimingWindow: string;
+  foreignSpousePossibility: string;
+  loveMarriageProbabilityPercent: number;
+  arrangedMarriageProbabilityPercent: number;
+  secondMarriagePossibility: string;
+  marriageDelayCauses: string[];
+  planetWiseMarriageStrength: { planet: GrahaName; score: number; impact: string }[];
+  navamsaHeatmapSummary: string;
+  top10Strengths: string[];
+  top10Risks: string[];
+  fiveYearMarriageRoadmap: { year: number; focus: string; forecast: string }[];
+}
+
+export interface MarriageTimingInfo {
+  bestMarriageWindows: string[];
+  moderateMarriageWindows: string[];
+  avoidPeriods: string[];
+  planetaryReasons: string;
+  dashaSupport: string;
+  transitSupport: string;
+  probableMarriagePeriod: string;
+  confidenceScore: number;
+}
+
+export interface MonthlyMarriageItem {
+  monthName: string;
+  loveOutlook: string;
+  communicationOutlook: string;
+  financeOutlook: string;
+  familyOutlook: string;
+  romanceRating: number; // 1..5
+  travelOutlook: string;
+  healthOutlook: string;
+  conflictCaution: string;
+  remedyAction: string;
+  opportunityWindow: string;
+}
+
+export interface AnnualMarriageItem {
+  year: number;
+  yearAge: number;
+  relationshipOutlook: string;
+  familyGrowthOutlook: string;
+  financialHarmonization: string;
+  keyMilestone: string;
+}
+
+export interface EvidenceItem {
   claim: string;
-  astrologicalBasis: string;
-  factors: {
-    planet?: GrahaName;
-    house?: number;
-    rashi?: string;
-    yoga?: string;
-    dosha?: string;
-    dasha?: string;
-    transit?: string;
-  };
+  planet: GrahaName;
+  house: number;
+  yoga: string;
+  dasha: string;
+  evidence: string;
   confidencePercent: number;
-  actionableInsight: string;
+  conclusion: string;
+}
+
+export interface FinalVerdict {
+  overallScore: number;
+  topStrengths: string[];
+  topRisks: string[];
+  marriageTypeProbability: string;
+  finalRecommendation: string;
+}
+
+export interface ChartVisuals {
+  marriageRadarSvg: string;
+  housePowerBarSvg: string;
+  compatibilityWheelSvg: string;
+  fiveYearRoadmapSvg: string;
 }
 
 export interface MarriageAnalysisResult {
@@ -135,62 +223,19 @@ export interface MarriageAnalysisResult {
   calculatedAt: string;
   kundli: KundliResult;
   scores: MarriageScores;
-  house7: House7Analysis;
-  house7Lord: PlanetMarriageRole;
-  venus: PlanetMarriageRole;
-  jupiter: PlanetMarriageRole;
-  moon: PlanetMarriageRole;
-  mars: PlanetMarriageRole;
-  navamsaD9: {
-    ascendantSign: string;
-    house7Sign: string;
-    house7Lord: GrahaName;
-    venusPosition: string;
-    jupiterPosition: string;
-    d9Summary: string;
-  };
-  darakaraka: DarakarakaAnalysis;
-  upapadaLagna: UpapadaLagnaAnalysis;
-  yogas: MarriageYogaItem[];
-  doshas: MarriageDoshaItem[];
-  loveVsArranged: {
-    loveScore: number;
-    arrangedScore: number;
-    verdict: 'Strong Love Marriage' | 'Inclined to Love Marriage' | 'Balanced Love & Arranged' | 'Inclined to Arranged Marriage' | 'Strong Arranged Marriage';
-    keyFactors: string[];
-  };
-  timing: {
-    favorableAgeWindows: string[];
-    currentDashaAnalysis: string;
-    nextFavorableTransits: string[];
-    probableMarriagePeriod: string;
-  };
-  spouseProfile: SpouseProfile;
-  behaviorAndCommunication: {
-    postMarriageBehavior: string;
-    conflictResolutionStyle: string;
-    familyAndInLawsHarmony: string;
-    childrenAndLineage: string;
-  };
-  strengthsAndChallenges: {
-    strengths: string[];
-    challenges: string[];
-  };
-  monthlyForecast: MonthlyRelationshipForecastItem[];
-  annualTimeline: AnnualTimelineEvent[];
-  remedies: RemedyItem[];
-  luckyElements: {
-    colors: string[];
-    days: string[];
-    numbers: number[];
-    directions: string[];
-    gemstones: string[];
-  };
-  aiCoachVerdict: {
-    executiveSummary: string;
-    readinessLevel: 'High Readiness' | 'Moderate Readiness' | 'Remedial Action Needed';
-    actionPlan: string[];
-    finalVerdict: string;
-  };
-  evidenceChain: EvidenceChainItem[];
+  executiveSummary: string;
+  house7: ExpandedHouse7Analysis;
+  venus: ExpandedVenusAnalysis;
+  jupiter: ExpandedJupiterAnalysis;
+  manglik: ExpandedManglikAnalysis;
+  spouseProfile: DetailedSpouseProfile;
+  timing: MarriageTimingInfo;
+  monthlyForecast: MonthlyMarriageItem[];
+  annualTimeline: AnnualMarriageItem[];
+  remedies: RemedyCardItem[];
+  luckyElements: LuckyMarriageElements;
+  evidenceChain: EvidenceItem[];
+  newChapters: EnterpriseNewChapters;
+  finalVerdict: FinalVerdict;
+  chartVisuals: ChartVisuals;
 }

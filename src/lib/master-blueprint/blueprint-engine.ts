@@ -21,7 +21,7 @@ export function computeMasterLifeBlueprint(input: MasterBlueprintInput): MasterB
   // 1. Invoke all core calculation engines
   const kundli = generateKundli(input);
   const careerRes = computeCareerAnalysis({ ...input, timezone: String(input.timezone) });
-  const marriageRes = computeMarriageAnalysis(input);
+  const marriageRes = computeMarriageAnalysis({ ...input, timezone: String(input.timezone) });
   const healthRes = computeHealthAnalysis(input);
   const foreignRes = computeForeignSettlementAnalysis(input);
   
@@ -73,8 +73,8 @@ export function computeMasterLifeBlueprint(input: MasterBlueprintInput): MasterB
     {
       domainName: "Marriage & Relocation Harmonization",
       headline: `Relationship Alignment (${marriageScore}%) & Shared Global Relocation`,
-      synthesisDetails: `Jaimini Darakaraka (${marriageRes.darakaraka.planet}) in ${marriageRes.darakaraka.sign} aligns with Rahu foreign transits. Partnership stability supports shared international relocation post-marriage.`,
-      astrologicalRationale: `Darakaraka planet + Upapada Lagna in ${marriageRes.upapadaLagna.sign} 2nd house sustenance.`,
+      synthesisDetails: `7th House Lord alignment in House 7 aligns with Rahu foreign transits. Partnership stability supports shared international relocation post-marriage.`,
+      astrologicalRationale: `Venus & Jupiter benefic aspects + 7th House Lord dignity.`,
     },
     {
       domainName: "Financial Growth & Health Preservation",
@@ -144,8 +144,8 @@ export function computeMasterLifeBlueprint(input: MasterBlueprintInput): MasterB
       questionId: "marriage",
       questionText: "Should I get married or finalize life partnership?",
       decision: marriageScore >= 70 ? "YES" : "CONDITIONAL",
-      verdictSummary: `7th House (${marriageRes.house7.rashi}) and Venus placement bestow high relationship stability (${marriageRes.scores.spouseCompatibilityScore}% compatibility).`,
-      astrologicalEvidence: `Venus in ${marriageRes.venus.rashi} (House ${marriageRes.venus.house}) & 7th Lord ${marriageRes.house7.rashiLord}.`,
+      verdictSummary: `7th House Lord alignment and Venus placement bestow high relationship stability (${marriageRes.scores.spouseCompatibilityScore}% compatibility).`,
+      astrologicalEvidence: `Venus love language (${marriageRes.venus.loveLanguage}) & 7th Lord dignity (${marriageRes.house7.lordDignity}).`,
       confidencePercent: 94,
       recommendedTiming: `Probable marriage window: ${marriageRes.timing.probableMarriagePeriod}`,
     },
