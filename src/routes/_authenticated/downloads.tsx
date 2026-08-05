@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useDownloads, useWorkspaceMutation } from "@/lib/workspace/hooks";
 import { supabase } from "@/integrations/supabase/client";
+import { getLanguageLabel } from "@/i18n/config";
 
 export const Route = createFileRoute("/_authenticated/downloads")({
   ssr: false,
@@ -147,8 +148,8 @@ function DownloadsPage() {
                         {fileType}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 uppercase text-muted-foreground text-xs font-semibold">
-                      {d.language || "EN"}
+                    <td className="px-4 py-3 text-muted-foreground text-xs font-semibold">
+                      {getLanguageLabel(d.language)}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap">
                       {fileSize}

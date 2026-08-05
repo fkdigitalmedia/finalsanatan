@@ -35,10 +35,6 @@ export function stripLangPrefix(pathname: string): string {
 export function withLangPrefix(pathname: string, lang: string): string {
   const bare = stripLangPrefix(pathname);
   const code = isSupportedLanguage(lang) ? lang : DEFAULT_LANGUAGE;
-  if (code === DEFAULT_LANGUAGE) {
-    // Keep English URLs un-prefixed so existing routes and SEO stay stable.
-    return bare;
-  }
   return `/${code}${bare === "/" ? "" : bare}`;
 }
 

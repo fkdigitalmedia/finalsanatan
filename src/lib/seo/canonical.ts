@@ -20,17 +20,17 @@ export function normalizePath(path: string): string {
 export function splitLangPath(path: string): { lang: string; path: string } {
   const norm = normalizePath(path);
   const [, first, ...rest] = norm.split("/");
-  if (LANG_CODES.has(first) && first !== DEFAULT_LANG) {
+  if (LANG_CODES.has(first)) {
     return { lang: first, path: normalizePath(`/${rest.join("/")}`) };
   }
   return { lang: DEFAULT_LANG, path: norm };
 }
 
-/** Inverse of splitLangPath — default language stays un-prefixed. */
+/** Inverse of splitLangPath — format localized path with language prefix. */
 export function withLang(path: string, lang: string): string {
   const { path: bare } = splitLangPath(path);
-  if (!lang || lang === DEFAULT_LANG) return bare;
-  return normalizePath(`/${lang}${bare === "/" ? "" : bare}`);
+  const code = lang || DEFAULT_LANG;
+  return normalizePath(`/${code}${bare === "/" ? "" : bare}`);
 }
 
 export interface CanonicalOptions {

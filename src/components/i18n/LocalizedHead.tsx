@@ -51,7 +51,6 @@ function setMeta(selector: string, value: string) {
 
 function pathFor(lang: string, path: string): string {
   const bare = stripLangPrefix(path) || "/";
-  if (lang === DEFAULT_LANGUAGE) return bare;
   return `/${lang}${bare === "/" ? "" : bare}`;
 }
 
@@ -82,7 +81,7 @@ function syncLinkAlternates(currentPath: string, currentLang: string, origin: st
   for (const lang of LANGUAGES.filter((l) => l.enabled)) {
     const link = document.createElement("link");
     link.setAttribute("rel", "alternate");
-    link.setAttribute("hreflang", lang.htmlLang);
+    link.setAttribute("hreflang", lang.code);
     link.setAttribute("href", origin + pathFor(lang.code, bare));
     link.setAttribute("data-i18n-managed", "true");
     document.head.appendChild(link);
@@ -108,6 +107,10 @@ function applyLocalizedHead(
   const origin = window.location.origin;
   const path = window.location.pathname;
 
+  // Update HTML lang attribute dynamically
+  document.documentElement.lang = language.code;
+  document.documentElement.dir = language.dir;
+
   if (title) {
     document.title = title;
     setMeta('meta[property="og:title"]', title);
@@ -118,7 +121,7 @@ function applyLocalizedHead(
     setMeta('meta[property="og:description"]', description);
     setMeta('meta[name="twitter:description"]', description);
   }
-  setMeta('meta[property="og:locale"]', language.htmlLang.replace("-", "_"));
+  setMeta('meta[property="og:locale"]', language.code);
   setMeta('meta[property="og:url"]', origin + pathFor(lang, path));
   setMeta('meta[property="og:type"]', ogType);
   setMeta('meta[name="twitter:card"]', "summary_large_image");
@@ -131,7 +134,7 @@ function applyLocalizedHead(
   for (const l of LANGUAGES.filter((l) => l.enabled && l.code !== lang)) {
     const m = document.createElement("meta");
     m.setAttribute("property", "og:locale:alternate");
-    m.setAttribute("content", l.htmlLang.replace("-", "_"));
+    m.setAttribute("content", l.code);
     m.setAttribute("data-i18n-managed", "true");
     document.head.appendChild(m);
   }
@@ -148,7 +151,7 @@ function applyLocalizedHead(
       document.head.appendChild(script);
     }
     script.textContent = JSON.stringify({
-      inLanguage: language.htmlLang,
+      inLanguage: language.code,
       ...structuredData.data,
     });
   }

@@ -19,13 +19,13 @@ export interface KundliFormValue {
   loc: LatLon;
 }
 
-export function emptyKundliForm(): KundliFormValue {
+export function emptyKundliForm(lang = "en"): KundliFormValue {
   return {
     name: "",
     gender: "male",
     birth_date: "",
     birth_time: "12:00",
-    language: "en",
+    language: lang,
     notes: "",
     loc: { lat: 28.6139, lon: 77.209, label: "New Delhi, India", tz: "Asia/Kolkata" },
   };

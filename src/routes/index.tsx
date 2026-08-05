@@ -127,7 +127,7 @@ const upcomingFestivals = [
   { name: "Holi", devanagari: "होली", date: "3 Mar 2026", daysAway: 60, region: "North" },
 ];
 
-function HomePage() {
+export function HomePage() {
   const { t, raw, lang } = useTranslation();
   const catLabel = useCategoryLabel();
   const navigate = useNavigate();

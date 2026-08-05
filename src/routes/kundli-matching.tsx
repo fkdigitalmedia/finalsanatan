@@ -83,7 +83,7 @@ const emptyPerson = (): PersonForm => ({
   loc: { ...DEFAULT_LOCATION },
 });
 
-function MatchingPage() {
+export function MatchingPage() {
   const { t } = useTranslation();
   const [boy, setBoy] = useState<PersonForm>(emptyPerson());
   const [girl, setGirl] = useState<PersonForm>(emptyPerson());

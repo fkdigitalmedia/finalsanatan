@@ -5,6 +5,7 @@
 
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LANGUAGE_COOKIE_NAME, isSupportedLanguage } from "@/i18n/config";
+import { HomePage } from "./index";
 
 export const Route = createFileRoute("/$lang/")({
   beforeLoad: ({ params }) => {
@@ -15,7 +16,6 @@ export const Route = createFileRoute("/$lang/")({
     if (typeof document !== "undefined") {
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     }
-    throw redirect({ href: "/", replace: true });
   },
-  component: () => null,
+  component: HomePage,
 });

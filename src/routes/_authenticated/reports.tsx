@@ -15,6 +15,7 @@ import * as api from "@/lib/workspace/api";
 import { trackPdfDownload } from "@/lib/workspace/tracker";
 import { downloadReportPdf } from "@/lib/workspace/download";
 import { type UserReport } from "@/lib/workspace/types";
+import { getLanguageLabel } from "@/i18n/config";
 
 export const Route = createFileRoute("/_authenticated/reports")({
   ssr: false,
@@ -170,7 +171,7 @@ function ReportsPage() {
                     </div>
 
                     <p className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
-                      <span>Language: {r.language.toUpperCase()}</span>
+                      <span>Language: {getLanguageLabel(r.language)}</span>
                       <span>•</span>
                       <span>PDF: {pdfVer}</span>
                       <span>•</span>

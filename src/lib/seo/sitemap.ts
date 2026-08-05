@@ -50,7 +50,7 @@ export function originFromRequest(request: Request): string {
 function alternateLinks(path: string, origin: string): string[] {
   const rows = ENABLED_LANGUAGES.map(
     (l) =>
-      `    <xhtml:link rel="alternate" hreflang="${l.htmlLang}" href="${xmlEscape(origin + withLang(path, l.code))}"/>`,
+      `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${xmlEscape(origin + withLang(path, l.code))}"/>`,
   );
   rows.push(
     `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(origin + withLang(path, DEFAULT_LANG))}"/>`,

@@ -18,7 +18,7 @@ export function alternates(path: string, origin = SITE_URL): Alternate[] {
   const { path: bare } = splitLangPath(path);
   const base = origin.replace(/\/+$/, "");
   const list: Alternate[] = ENABLED_LANGUAGES.map((l) => ({
-    hrefLang: l.htmlLang,
+    hrefLang: l.code,
     lang: l.code,
     href: `${base}${withLang(bare, l.code)}`,
   }));
@@ -46,12 +46,12 @@ export function sitemapAlternates(path: string, origin = SITE_URL): string[] {
   );
 }
 
-/** BCP-47 tag for a language code (falls back to the code itself). */
+/** ISO language code tag for a language code (falls back to the code itself). */
 export function htmlLangOf(code: string): string {
-  return ENABLED_LANGUAGES.find((l) => l.code === code)?.htmlLang ?? code;
+  return ENABLED_LANGUAGES.find((l) => l.code === code)?.code ?? code;
 }
 
-/** OpenGraph locale (`hi_IN`) for a language code. */
+/** OpenGraph locale (`hi` or `en`) for a language code. */
 export function ogLocaleOf(code: string): string {
-  return htmlLangOf(code).replace("-", "_");
+  return htmlLangOf(code);
 }

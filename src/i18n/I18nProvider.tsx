@@ -98,7 +98,7 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
   useEffect(() => {
     if (typeof document === "undefined") return;
     const meta = getLanguage(lang);
-    document.documentElement.lang = meta.htmlLang;
+    document.documentElement.lang = meta.code;
     document.documentElement.dir = meta.dir;
   }, [lang]);
 

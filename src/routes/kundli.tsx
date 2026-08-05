@@ -215,7 +215,7 @@ export const Route = createFileRoute("/kundli")({
 // ============================================================
 // PAGE
 // ============================================================
-function KundliLandingPage() {
+export function KundliLandingPage() {
   const { t: t0 } = useTranslation();
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -265,7 +265,7 @@ function Hero({
   onScrollToChart: () => void;
   chartRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [name, setName] = useState("");
   const [gender, setGender] = useState<"male" | "female" | "other" | "">("");
   const [date, setDate] = useState("1995-08-15");
@@ -274,7 +274,7 @@ function Hero({
   // Two-step place-of-birth picker: State → City (all-India). Defaults align with DEFAULT_LOCATION (New Delhi).
   const [stateName, setStateName] = useState<string>("Delhi");
   const [cityName, setCityName] = useState<string>("New Delhi");
-  const [pdfLang, setPdfLang] = useState<PdfLang>("en");
+  const [pdfLang, setPdfLang] = useState<PdfLang>(() => (lang as PdfLang) || "en");
   const [result, setResult] = useState<KundliResult | null>(null);
   const [building, setBuilding] = useState(false);
   const [generating, setGenerating] = useState(false);

@@ -11,21 +11,32 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LANGUAGE_COOKIE_NAME, isSupportedLanguage } from "@/i18n/config";
 import { stripLangPrefix } from "@/i18n/detect";
+import { HomePage } from "./index";
+import { KundliLandingPage } from "./kundli";
+import { MatchingPage } from "./kundli-matching";
 
 export const Route = createFileRoute("/$lang/$")({
-  beforeLoad: ({ params, location }) => {
+  beforeLoad: ({ params }) => {
     const lang = params.lang;
     if (!isSupportedLanguage(lang)) {
       throw redirect({ href: "/", replace: true });
     }
-    const stripped = stripLangPrefix(location.pathname) || "/";
     if (typeof document !== "undefined") {
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     }
-    throw redirect({
-      href: stripped + (location.searchStr ?? ""),
-      replace: true,
-    });
   },
-  component: () => null,
+  component: LanguageRouteComponent,
 });
+
+function LanguageRouteComponent() {
+  const { _splat } = Route.useParams();
+  const cleanPath = (_splat ?? "").toLowerCase().replace(/^\/+|\/+$/g, "");
+
+  if (cleanPath === "kundli") {
+    return <KundliLandingPage />;
+  }
+  if (cleanPath === "kundli-matching") {
+    return <MatchingPage />;
+  }
+  return <HomePage />;
+}
