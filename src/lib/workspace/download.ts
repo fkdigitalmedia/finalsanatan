@@ -1,13 +1,28 @@
 // ============================================================
-// Workspace download helper — reuses Dedicated PDF Engines & Universal Engine.
+// Workspace download helper — dedicated PDF engines for all report types.
+// Each report kind uses its own dedicated PDF builder — NEVER the generic fallback.
 // ============================================================
 
 import { generatePdf } from "@/lib/pdf";
 import { logDownload } from "./api";
 import type { UserReport } from "./types";
+
+// Career Analysis
 import { computeCareerAnalysis } from "@/lib/career-analysis/career-engine";
 import { buildCareerAnalysisPdfHtml } from "@/lib/career-analysis/pdf/career-pdf-builder";
-import type { CareerAnalysisInput, CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
+import type { CareerAnalysisInput } from "@/lib/career-analysis/types";
+
+// Health Analysis
+import { computeHealthAnalysis } from "@/lib/health-analysis/health-engine";
+import { buildHealthAnalysisPdfHtml } from "@/lib/health-analysis/pdf-builder";
+import type { HealthAnalysisInput } from "@/lib/health-analysis/types";
+
+// Marriage Analysis
+import { computeMarriageAnalysis } from "@/lib/marriage-analysis/marriage-engine";
+import { buildMarriageAnalysisPdfHtml } from "@/lib/marriage-analysis/pdf-builder";
+import type { MarriageAnalysisInput } from "@/lib/marriage-analysis/types";
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
 
 export function buildPdfData(
   report: Pick<UserReport, "title" | "kind" | "content_md" | "data" | "language">,
@@ -32,56 +47,100 @@ export function safeName(title: string, kind: string): string {
   return base.slice(0, 60) || "report";
 }
 
+/** Open an HTML string in a new window and trigger the print-to-PDF dialog */
+function openPrintWindow(htmlContent: string): void {
+  if (typeof window === "undefined") return;
+  const win = window.open("", "_blank");
+  if (!win) {
+    throw new Error("Pop-up blocked. Please allow pop-ups for this site and try again.");
+  }
+  win.document.write(htmlContent);
+  win.document.close();
+  win.focus();
+  setTimeout(() => { win.print(); }, 600);
+}
+
+// ── Main Download Function ─────────────────────────────────────────────────────
+
 export async function downloadReportPdf(
   report: UserReport,
   opts: { userId: string; userName: string },
 ): Promise<{ filename: string; pages: number }> {
   const filename = safeName(report.title, report.kind);
   const extra = (report.data ?? {}) as Record<string, any>;
-  const isCareerReport = report.kind === "career-analysis" || report.kind === "career-report" || extra.report === "career-analysis" || extra.report === "career-report";
+  const kind = report.kind;
 
-  if (isCareerReport) {
-    let careerResult: CareerAnalysisResultV2 | null = extra.meta?.result || extra.result || null;
+  // ── 1. Career Analysis ────────────────────────────────────────────────────
+  const isCareer = kind === "career-analysis" || kind === "career-report" ||
+    extra.report === "career-analysis" || extra.report === "career-report";
 
-    if (!careerResult) {
-      const rawInput: Partial<CareerAnalysisInput> = extra.meta?.input || extra.input || {};
-      const birthInput: CareerAnalysisInput = {
-        name: rawInput.name || report.title || "User",
-        date: rawInput.date || "1995-08-15",
-        time: rawInput.time || "10:30",
-        latitude: Number(rawInput.latitude) || 28.6139,
-        longitude: Number(rawInput.longitude) || 77.209,
-        timezone: rawInput.timezone || "Asia/Kolkata",
-        place: rawInput.place || "New Delhi, India",
-        language: report.language || "en",
-      };
-      careerResult = computeCareerAnalysis(birthInput);
+  if (isCareer) {
+    let result = extra.meta?.result || extra.result || null;
+    if (!result) {
+      const raw: Partial<CareerAnalysisInput> = extra.meta?.input || extra.input || {};
+      result = computeCareerAnalysis({
+        name:      raw.name      || report.title || "User",
+        date:      raw.date      || "1995-08-15",
+        time:      raw.time      || "10:30",
+        latitude:  Number(raw.latitude)  || 28.6139,
+        longitude: Number(raw.longitude) || 77.209,
+        timezone:  raw.timezone  || "Asia/Kolkata",
+        place:     raw.place     || "New Delhi, India",
+        language:  report.language || "en",
+      });
     }
-
-    const htmlContent = buildCareerAnalysisPdfHtml(careerResult!);
-    if (typeof window !== "undefined") {
-      const printWindow = window.open("", "_blank");
-      if (printWindow) {
-        printWindow.document.write(htmlContent);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => {
-          printWindow.print();
-        }, 500);
-      }
-    }
-
-    await logDownload({
-      user_id: opts.userId,
-      filename: `${filename}.pdf`,
-      language: report.language,
-      report_id: report.id,
-    });
-
+    openPrintWindow(buildCareerAnalysisPdfHtml(result));
+    await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
     return { filename, pages: 40 };
   }
 
-  // Fallback to Universal PDF Engine for other generic reports
+  // ── 2. Health Analysis ────────────────────────────────────────────────────
+  const isHealth = kind === "health-analysis" || kind === "health-report" ||
+    extra.report === "health-analysis" || extra.report === "health-report";
+
+  if (isHealth) {
+    let result = extra.meta?.result || extra.result || null;
+    if (!result) {
+      const raw: Partial<HealthAnalysisInput> = extra.meta?.input || extra.input || {};
+      result = computeHealthAnalysis({
+        name:      raw.name      || report.title || "User",
+        date:      raw.date      || "1990-01-01",
+        time:      raw.time      || "08:00",
+        latitude:  Number(raw.latitude)  || 28.6139,
+        longitude: Number(raw.longitude) || 77.209,
+        timezone:  String(raw.timezone  || "5.5"),
+        place:     raw.place     || "New Delhi, India",
+      });
+    }
+    openPrintWindow(buildHealthAnalysisPdfHtml(result));
+    await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
+    return { filename, pages: 35 };
+  }
+
+  // ── 3. Marriage Analysis ──────────────────────────────────────────────────
+  const isMarriage = kind === "marriage-analysis" || kind === "marriage-report" ||
+    extra.report === "marriage-analysis" || extra.report === "marriage-report";
+
+  if (isMarriage) {
+    let result = extra.meta?.result || extra.result || null;
+    if (!result) {
+      const raw: Partial<MarriageAnalysisInput> = extra.meta?.input || extra.input || {};
+      result = computeMarriageAnalysis({
+        name:      raw.name      || report.title || "User",
+        date:      raw.date      || "1990-01-01",
+        time:      raw.time      || "08:00",
+        latitude:  Number(raw.latitude)  || 28.6139,
+        longitude: Number(raw.longitude) || 77.209,
+        timezone:  raw.timezone  || "5.5",
+        place:     raw.place     || "New Delhi, India",
+      });
+    }
+    openPrintWindow(buildMarriageAnalysisPdfHtml(result));
+    await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
+    return { filename, pages: 34 };
+  }
+
+  // ── 4. Universal PDF Engine (Kundli, Varshphal, Panchang, Numerology, etc.) ──
   const result = await generatePdf({
     report: report.kind,
     language: report.language,
