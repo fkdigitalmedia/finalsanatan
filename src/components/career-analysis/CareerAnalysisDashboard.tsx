@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 import type { CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
 import { downloadCareerPdf } from "@/lib/career-analysis/pdf/career-pdf-export";
 
@@ -48,7 +49,14 @@ export function CareerAnalysisDashboard({
   const { input, scores, executiveSummary, dna, suitabilityDomains, d10Dashamsa, atmakaraka, amatyakaraka, yogas, topIndustries, topCareerRoles, monthlyTimeline, annualTimeline, riskAnalysis, remedies, luckyElements, evidenceChain, aiCoach, finalVerdict, chartVisuals } = result;
 
   const handleDownloadPdf = () => {
-    downloadCareerPdf(result);
+    try {
+      toast.loading("Preparing 38-Page Executive Career PDF...", { id: "career-pdf" });
+      downloadCareerPdf(result);
+      toast.success("Career PDF ready! Opening print dialog / download...", { id: "career-pdf" });
+    } catch (err) {
+      console.error("Career PDF download error:", err);
+      toast.error(`PDF error: ${(err as Error).message || "Could not generate PDF"}`, { id: "career-pdf" });
+    }
   };
 
   return (

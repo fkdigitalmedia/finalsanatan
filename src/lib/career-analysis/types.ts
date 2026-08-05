@@ -266,6 +266,8 @@ export interface ChartVisuals {
   houseStrengthBarSvg: string;
   careerWheelSvg: string;
   salaryGrowthGraphSvg: string;
+  careerDNARadarSvg: string;
+  opportunityMapSvg: string;
 }
 
 export interface CareerAnalysisResultV2 {
