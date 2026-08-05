@@ -15,7 +15,7 @@ import { PhotonPlacePicker } from "@/components/tools/PhotonPlacePicker";
 import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
 import { PremiumToolShell, toolSchema } from "@/components/tools/PremiumToolShell";
 
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { getMyEntitlements } from "@/lib/payments.functions";
 import { generateKundli } from "@/lib/kundli";
 import type { KundliResult } from "@/lib/kundli/types";
