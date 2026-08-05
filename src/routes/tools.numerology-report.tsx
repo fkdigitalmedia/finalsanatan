@@ -227,7 +227,7 @@ function NumTool() {
                 <Award className="size-5 text-amber-500" /> Numerology Commercial Profile V2: {report.name}
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Date of Birth: {report.dob} | Overall Score: {report.overallScore}/100 | Expression: {report.nameAnalysis.expression}
+                Date of Birth: {report.dob} | Overall Score: {report.overallScore}/100 | Expression: {report.nameOptimization?.currentExpression ?? report.nameAnalysis?.expression ?? ""}
               </p>
             </div>
             {isPremium && (

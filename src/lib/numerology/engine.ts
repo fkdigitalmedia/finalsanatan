@@ -146,6 +146,12 @@ export interface NumerologyReportResultV3 {
     bestSpellingRecommendation: string;
   };
 
+  nameAnalysis: {
+    currentVibration: number;
+    expression: string;
+    correctionAdvice: string;
+  };
+
   // 10 Core Numbers (14 Structured Items Each)
   coreNumbers: {
     lifePath: CoreNumberDetailV3;
@@ -632,6 +638,11 @@ export function calculateNumerology(
 
     multiNumberReasoning,
     nameOptimization,
+    nameAnalysis: {
+      currentVibration: destinyVal,
+      expression: `Destiny Number ${destinyVal} (${PLANETS[destinyVal]})`,
+      correctionAdvice: "Name vibration is highly balanced. No spelling alteration needed.",
+    },
     coreNumbers,
     pinnacles,
     challenges,
