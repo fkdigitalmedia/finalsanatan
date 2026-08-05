@@ -379,12 +379,12 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResultV2): stri
             <td>${'★'.repeat(m.monthRating)}</td>
             <td>${m.careerFocus}</td>
             <td>${m.promotionOutlook} | ${m.interviewOutlook}</td>
-            <td>${m.riskCaution} | ${m.opportunityWindow}</td>
+            <td>${m.officePoliticsCaution} | ${m.opportunityWindow}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>
-    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 8 of 40</span></div>
+    <div class="footer-note"><span>Career Analysis Report Pro v3.0</span><span>Page 8 of 40</span></div>
   </div>
 
   <!-- SECTION 21 to 23: ANNUAL TIMELINE & RISK/OPPORTUNITY -->
@@ -398,7 +398,7 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResultV2): stri
         ${annualTimeline.map(a => `
           <tr>
             <td><strong>${a.year} (Age ${a.yearAge})</strong></td>
-            <td>${a.careerOutlook} | ${a.salaryOutlook}</td>
+            <td>${a.careerLevel} | ${a.incomeGrowth}</td>
             <td>${a.businessOutlook} | ${a.keyOpportunity}</td>
           </tr>
         `).join('')}

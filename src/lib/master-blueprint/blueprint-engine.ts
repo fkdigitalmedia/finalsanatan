@@ -20,7 +20,7 @@ import { calculateVarshphal } from "@/lib/kundli/varshphal";
 export function computeMasterLifeBlueprint(input: MasterBlueprintInput): MasterBlueprintResult {
   // 1. Invoke all core calculation engines
   const kundli = generateKundli(input);
-  const careerRes = computeCareerAnalysis(input);
+  const careerRes = computeCareerAnalysis({ ...input, timezone: String(input.timezone) });
   const marriageRes = computeMarriageAnalysis(input);
   const healthRes = computeHealthAnalysis(input);
   const foreignRes = computeForeignSettlementAnalysis(input);

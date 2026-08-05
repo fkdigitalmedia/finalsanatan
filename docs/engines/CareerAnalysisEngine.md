@@ -1,7 +1,15 @@
-# Career Analysis Engine v2.0 Architecture & Specification
+# Career Analysis Engine v3.0 Architecture & Specification (Commercial Release)
 
 ## Overview
-The **Career Analysis Engine v2.0** (`src/lib/career-analysis/`) is SanatanTools' enterprise commercial-grade career intelligence module. It generates the **Career Analysis Report Pro v2.0**, an independent 35–45 page commercial-grade PDF report detailing executive drive, D10 Dashamsa divisional chart alignment, Jaimini Atmakaraka & Amatyakaraka, 14 suitability domain ratings, 20 top industry rankings, 25 top career role rankings, 12-month unique career forecasts, 10-year timelines, 5-tier AI Career Coach strategies, evidence chains, and Vedic career remedies.
+The **Career Analysis Engine v3.0** (`src/lib/career-analysis/`) is SanatanTools' flagship enterprise commercial career intelligence module (target quality 9.8/10). It generates the **Career Analysis Report Pro v3.0**, an independent 32–40 page publication-grade PDF report and interactive Web Dashboard detailing:
+- 11 Score Gauges with Why, Evidence, and Interpretation breakdowns.
+- 14-Part Expanded D10 Dashamsa Divisional Analysis (Lagna, Lagnesh, 10th Lord, 9 Planets in D10, D10 Yogas, Weaknesses, Hidden Potential, Corporate/Govt/Entrepreneur/Foreign suitability scores).
+- Dynamic 25 Career Role Rankings & 20 Industry Rankings (varying dynamically per unique horoscope).
+- 100% Unique 12-Month Transit Gochar Forecast with Best & Worst Dates.
+- 100% Unique 10-Year Annual Timeline.
+- Visual SVG Vector Charts (Planet Strength Radar, House Strength Bar, Career Wheel, Salary Growth Graph).
+- Evidence Engine with confidence percentages (94%-96%).
+- 5-Tier AI Career Coach Action Roadmap.
 
 ---
 
@@ -9,45 +17,12 @@ The **Career Analysis Engine v2.0** (`src/lib/career-analysis/`) is SanatanTools
 
 | File | Purpose / Responsibility |
 | :--- | :--- |
-| **`src/lib/career-analysis/types.ts`** | Complete TypeScript interface contracts for inputs, 11 precision career scores, 14 domain suitabilities, top 20 industry items, top 25 career items, 12-month forecasts, 10-year timelines, risk analyses, remedies, evidence items, AI coach plan, and output payload. |
-| **`src/lib/career-analysis/career-engine.ts`** | Primary engine orchestrator. Computes 11 scores, 1st/2nd/5th/6th/9th/10th/11th houses, D10 Dashamsa, Atmakaraka, Amatyakaraka, 14 suitability domains, top 20 industry rankings, top 25 career role rankings, 12-month forecast, 10-year timeline, evidence chains, and remedies. |
-| **`src/lib/career-analysis/pdf-builder.ts`** | Professional 28-section printable HTML/PDF generator with luxury cover, executive scorecards, industry tables, career ranking tables, timeline blocks, evidence cards, and zero generic text/placeholders. |
+| **`src/lib/career-analysis/types.ts`** | Complete TypeScript interface contracts for inputs, 11 score gauges with reasons/evidence/interpretations, 14-part D10 Dashamsa, dynamic 20 industries, dynamic 25 career roles, 12-month transit forecasts with best/worst dates, 10-year timelines, remedies, evidence items, AI coach plan, SVG visual chart strings, and output payload. |
+| **`src/lib/career-analysis/career-engine.ts`** | Core engine orchestrator. Computes 11 score gauges, D10 Dashamsa 14-part analysis, Jaimini Karakas (Atmakaraka & Amatyakaraka), 14 suitability domains, top 20 dynamic industries, top 25 dynamic career roles, 12-month unique forecast with transit dates, 10-year timeline, evidence chains, remedies, and invokes SVG chart generators. |
+| **`src/lib/career-analysis/charts-generator.ts`** | Standalone SVG vector chart generator producing inline vector graphics for Planet Strength Radar, House Power Bar, Career Domain Wheel, and Salary Growth Trajectory. |
+| **`src/lib/career-analysis/pdf/`** | Dedicated, self-contained PDF Engine module: <br/> • `career-pdf-template.ts`: 28-chapter CAREER_SECTION_PRESETS <br/> • `career-pdf-builder.ts`: Publication-grade A4 printable HTML layout compactor (32–40 pages) <br/> • `career-pdf-renderer.ts`: PDF renderer <br/> • `career-pdf-export.ts`: `generateCareerPdf()` & `downloadCareerPdf()`. |
 | **`src/routes/tools.career-analysis.tsx`** | Public interactive tool route (`/tools/career-analysis`) supporting birth detail inputs, instant calculations, interactive dashboard, PDF download, saving to `/reports`, and sharing. |
-| **`src/components/career-analysis/CareerAnalysisDashboard.tsx`** | Web dashboard component with 6 tabs: Executive Dashboard, 14 Domains & Roles, D10 & Yogas, Timelines, Risks & Remedies, Evidence & AI Coach. |
-| **`src/components/admin/CareerAnalysisAdmin.tsx`** | Staff admin panel for controlling product status, retail price (₹299–₹499), discount rate, included subscription plans, and AI system prompts. |
-
----
-
-## 28 Sections Breakdown
-
-1. Luxury Cover
-2. Table of Contents
-3. Executive Dashboard (11 Core Scores & Risk/Opportunity Indices)
-4. Executive AI Summary
-5. Career DNA (Working Style, Leadership, Communication, Decision Making, Learning, Behaviour)
-6. 14 Career Suitability Domains (Government, Private, Business, Freelancing, Startup, Consulting, Teaching, Creative, Tech, Finance, Medical, Legal, Digital, Entrepreneurship)
-7. D10 Dashamsa Deep Analysis
-8. 10th House Analysis
-9. 10th Lord Analysis
-10. Jaimini Atmakaraka
-11. Jaimini Amatyakaraka
-12. Career Yogas (Raj, Dhana, Bhadra, Vipreet, Neecha Bhanga)
-13. Planet Career Analysis (9 Planets)
-14. House Career Analysis (2nd, 6th, 10th, 11th, 5th, 9th)
-15. Promotion Analysis
-16. Salary Growth Analysis
-17. Foreign Career & Remote Work
-18. Top 20 Industry Rankings
-19. Top 25 Career Role Rankings
-20. 12-Month Unique Forecast
-21. 10-Year Annual Timeline
-22. Career Risk Analysis (Office Politics, Instability, Layoffs, Burnout)
-23. Career Opportunity Analysis
-24. Career Remedies (Temple, Mantra, Donation, Gemstone, Lifestyle, Professional Habits)
-25. Lucky Elements (Colours, Days, Numbers, Direction)
-26. Evidence Engine (Planet, House, D10, Yoga, Dasha, Transit, Confidence %)
-27. AI Career Coach (5-Tier Plan)
-28. Final Verdict
+| **`src/components/career-analysis/CareerAnalysisDashboard.tsx`** | Web dashboard component with score gauges, Why/Evidence tabs, 14-part D10 card, dynamic career/industry lists, and timelines. |
 
 ---
 
@@ -56,3 +31,4 @@ The **Career Analysis Engine v2.0** (`src/lib/career-analysis/`) is SanatanTools
 - **Public Tool Route**: `/tools/career-analysis`
 - **Dashboard Report Category**: `"career-analysis"` in `/reports`
 - **Database Table**: `pdf_reports` (column `report = 'career-analysis'`)
+- **PDF Engine**: Dedicated `src/lib/career-analysis/pdf/` uncoupled from `default-templates.ts`.

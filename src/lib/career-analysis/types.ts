@@ -1,24 +1,55 @@
-import type { BirthInput, KundliResult, GrahaName } from "@/lib/kundli/types";
+import type { KundliResult, GrahaName, Rashi } from "@/lib/kundli/types";
 
-export interface CareerAnalysisInput extends BirthInput {
+export interface CareerAnalysisInput {
   name: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  latitude: number;
+  longitude: number;
+  timezone: string;
+  place: string;
+  gender?: "male" | "female" | "other";
+  language?: string;
+}
+
+export interface CareerScoreDetail {
+  score: number;
+  label: string;
+  reason: string;
+  evidence: string;
+  interpretation: string;
 }
 
 export interface CareerV2Scores {
-  overallCareerScore: number; // 0 - 100
-  promotionScore: number; // 0 - 100
-  leadershipScore: number; // 0 - 100
-  managementScore: number; // 0 - 100
-  businessSuitabilityScore: number; // 0 - 100
-  governmentJobScore: number; // 0 - 100
-  privateJobScore: number; // 0 - 100
-  salaryGrowthScore: number; // 0 - 100
-  foreignCareerScore: number; // 0 - 100
-  riskIndex: number; // 0 - 100 (lower is safer)
-  opportunityIndex: number; // 0 - 100
+  overallCareerScore: number;
+  promotionScore: number;
+  leadershipScore: number;
+  managementScore: number;
+  businessSuitabilityScore: number;
+  governmentJobScore: number;
+  privateJobScore: number;
+  salaryGrowthScore: number;
+  foreignCareerScore: number;
+  riskIndex: number;
+  opportunityIndex: number;
   currentDasha: string;
   currentTransit: string;
-  confidencePercent: number; // e.g. 95%
+  confidencePercent: number;
+
+  // Breakdown details for Executive Dashboard Gauges
+  details: {
+    overall: CareerScoreDetail;
+    promotion: CareerScoreDetail;
+    leadership: CareerScoreDetail;
+    management: CareerScoreDetail;
+    business: CareerScoreDetail;
+    government: CareerScoreDetail;
+    privateJob: CareerScoreDetail;
+    salary: CareerScoreDetail;
+    foreign: CareerScoreDetail;
+    risk: CareerScoreDetail;
+    opportunity: CareerScoreDetail;
+  };
 }
 
 export interface CareerDNA {
@@ -31,23 +62,51 @@ export interface CareerDNA {
 }
 
 export interface CareerSuitabilityDomain {
-  category: string; // e.g., "Government", "Private", "Business", "Freelancing", "Startup", "Consulting", "Teaching", "Creative", "Technology", "Finance", "Medical", "Legal", "Digital", "Entrepreneurship"
-  suitabilityScore: number; // 0 - 100
-  rank: number; // 1 to 14
+  category: string;
+  suitabilityScore: number;
+  rank: number;
   astrologicalBasis: string;
 }
 
-export interface D10DashamsaDetails {
-  ascendantSign: string;
+export interface D10PlanetPlacement {
+  planet: GrahaName;
+  sign: Rashi;
+  house: number;
+  dignity: string;
+  careerImpact: string;
+}
+
+export interface D10DashamsaDetailsV3 {
+  ascendantSign: Rashi;
+  ascendantLord: GrahaName;
+  house10Sign: Rashi;
   house10Lord: GrahaName;
-  house10Sign: string;
+  house10LordPlacement: string;
   planetStrengthSummary: string;
   careerPotential: string;
   professionalGrowth: string;
+  planetPlacements: D10PlanetPlacement[];
+  d10Yogas: string[];
+  hiddenPotential: string;
+  weaknesses: string;
+  corporateSuitability: number;
+  governmentSuitability: number;
+  entrepreneurSuitability: number;
+  foreignCareerSuitability: number;
+  promotionPotentialScore: number;
+  executiveSummary: string;
+}
+
+export interface JaiminiKarakaDetail {
+  planet: GrahaName;
+  sign: Rashi;
+  degreeInSign: number;
+  careerSignificance: string;
+  evidence: string;
 }
 
 export interface CareerYogaItem {
-  yogaName: string; // e.g. "Raj Yoga", "Dhana Yoga", "Bhadra Yoga", "Vipreet Raj Yoga", "Neecha Bhanga Raj Yoga"
+  yogaName: string;
   meaning: string;
   evidence: string;
   confidencePercent: number;
@@ -60,9 +119,9 @@ export interface PlanetCareerImpact {
 }
 
 export interface HouseCareerImpact {
-  houseNumber: number; // 2, 6, 10, 11, 5, 9
+  houseNumber: number;
   houseName: string;
-  rashi: string;
+  rashi: Rashi;
   rashiLord: GrahaName;
   careerSignificance: string;
 }
@@ -86,43 +145,59 @@ export interface ForeignCareerAnalysis {
 }
 
 export interface TopIndustryRanking {
-  rank: number; // 1 to 20
+  rank: number;
   industry: string;
-  suitabilityScore: number; // 0 - 100
+  suitabilityScore: number;
+  confidencePercent: number;
   reason: string;
   evidence: string;
+  supportingYoga: string;
+  supportingHouse: string;
+  supportingPlanet: string;
+  businessSuitability: string;
+  jobSuitability: string;
 }
 
 export interface TopCareerRoleRanking {
-  rank: number; // 1 to 25
+  rank: number;
   role: string;
   category: string;
-  suitabilityScore: number; // 0 - 100
+  suitabilityScore: number;
   astrologicalWhy: string;
   keySkills: string[];
 }
 
 export interface MonthlyTimelineItem {
   monthName: string;
-  monthRating: number; // 1 to 5
+  monthRating: number; // 1..5
   careerFocus: string;
   promotionOutlook: string;
-  learningFocus: string;
+  salaryOutlook: string;
   interviewOutlook: string;
-  networkingFocus: string;
+  businessOutlook: string;
+  investmentOutlook: string;
+  officePoliticsCaution: string;
   travelOutlook: string;
-  riskCaution: string;
+  warningAlert: string;
   opportunityWindow: string;
+  bestDates: string;
+  worstDates: string;
 }
 
 export interface AnnualTimelineItem {
   year: number;
   yearAge: number;
-  careerOutlook: string;
-  salaryOutlook: string;
+  careerLevel: string;
+  promotionOutlook: string;
+  incomeGrowth: string;
+  roleChangeOutlook: string;
   businessOutlook: string;
+  foreignOutlook: string;
+  educationOutlook: string;
+  leadershipOutlook: string;
+  investmentOutlook: string;
+  riskCaution: string;
   keyOpportunity: string;
-  majorCaution: string;
 }
 
 export interface CareerRiskAnalysis {
@@ -130,7 +205,7 @@ export interface CareerRiskAnalysis {
   jobInstabilityRisk: string;
   careerChangeProbability: string;
   layoffProbabilityPercent: number;
-  burnoutRiskLevel: 'Low' | 'Moderate' | 'High';
+  burnoutRiskLevel: string;
 }
 
 export interface CareerOpportunityAnalysis {
@@ -148,6 +223,13 @@ export interface CareerRemedies {
   gemstones: string[];
   lifestyle: string[];
   professionalHabits: string[];
+}
+
+export interface LuckyCareerElements {
+  colours: string[];
+  days: string[];
+  numbers: number[];
+  direction: string[];
 }
 
 export interface EvidenceItem {
@@ -169,6 +251,23 @@ export interface AICareerCoachPlan {
   year5Plan: string[];
 }
 
+export interface FinalVerdict {
+  overallScore: number;
+  topStrengths: string[];
+  topWeaknesses: string[];
+  bestCareer: string;
+  bestIndustry: string;
+  bestTime: string;
+  finalRecommendation: string;
+}
+
+export interface ChartVisuals {
+  planetStrengthRadarSvg: string;
+  houseStrengthBarSvg: string;
+  careerWheelSvg: string;
+  salaryGrowthGraphSvg: string;
+}
+
 export interface CareerAnalysisResultV2 {
   input: CareerAnalysisInput;
   calculatedAt: string;
@@ -177,11 +276,11 @@ export interface CareerAnalysisResultV2 {
   executiveSummary: string;
   dna: CareerDNA;
   suitabilityDomains: CareerSuitabilityDomain[];
-  d10Dashamsa: D10DashamsaDetails;
+  d10Dashamsa: D10DashamsaDetailsV3;
   house10DeepAnalysis: string;
   house10LordAnalysis: string;
-  atmakaraka: { planet: GrahaName; sign: string; careerSignificance: string };
-  amatyakaraka: { planet: GrahaName; sign: string; careerSignificance: string };
+  atmakaraka: JaiminiKarakaDetail;
+  amatyakaraka: JaiminiKarakaDetail;
   yogas: CareerYogaItem[];
   planetsImpact: PlanetCareerImpact[];
   housesImpact: HouseCareerImpact[];
@@ -195,21 +294,9 @@ export interface CareerAnalysisResultV2 {
   riskAnalysis: CareerRiskAnalysis;
   opportunityAnalysis: CareerOpportunityAnalysis;
   remedies: CareerRemedies;
-  luckyElements: {
-    colours: string[];
-    days: string[];
-    numbers: number[];
-    direction: string[];
-  };
+  luckyElements: LuckyCareerElements;
   evidenceChain: EvidenceItem[];
   aiCoach: AICareerCoachPlan;
-  finalVerdict: {
-    overallScore: number;
-    topStrengths: string[];
-    topWeaknesses: string[];
-    bestCareer: string;
-    bestIndustry: string;
-    bestTime: string;
-    finalRecommendation: string;
-  };
+  finalVerdict: FinalVerdict;
+  chartVisuals: ChartVisuals;
 }
