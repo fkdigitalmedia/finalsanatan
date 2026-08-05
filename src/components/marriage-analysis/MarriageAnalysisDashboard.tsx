@@ -26,6 +26,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import type { MarriageAnalysisResult } from "@/lib/marriage-analysis/types";
 import { buildMarriageAnalysisPdfHtml } from "@/lib/marriage-analysis/pdf-builder";
+import { printHtmlReport } from "@/lib/pdf/print-html-report";
 
 interface MarriageAnalysisDashboardProps {
   result: MarriageAnalysisResult;
@@ -49,15 +50,7 @@ export function MarriageAnalysisDashboard({
 
   const downloadPdf = () => {
     const htmlContent = buildMarriageAnalysisPdfHtml(result);
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-      }, 500);
-    }
+    printHtmlReport(htmlContent, `Marriage_Analysis_Report_${input.name}`);
   };
 
   return (

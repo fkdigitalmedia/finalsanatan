@@ -47,18 +47,7 @@ export function safeName(title: string, kind: string): string {
   return base.slice(0, 60) || "report";
 }
 
-/** Open an HTML string in a new window and trigger the print-to-PDF dialog */
-function openPrintWindow(htmlContent: string): void {
-  if (typeof window === "undefined") return;
-  const win = window.open("", "_blank");
-  if (!win) {
-    throw new Error("Pop-up blocked. Please allow pop-ups for this site and try again.");
-  }
-  win.document.write(htmlContent);
-  win.document.close();
-  win.focus();
-  setTimeout(() => { win.print(); }, 600);
-}
+import { printHtmlReport } from "@/lib/pdf/print-html-report";
 
 // ── Main Download Function ─────────────────────────────────────────────────────
 
@@ -89,7 +78,7 @@ export async function downloadReportPdf(
         language:  report.language || "en",
       });
     }
-    openPrintWindow(buildCareerAnalysisPdfHtml(result));
+    printHtmlReport(buildCareerAnalysisPdfHtml(result), filename);
     await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
     return { filename, pages: 40 };
   }
@@ -112,7 +101,7 @@ export async function downloadReportPdf(
         place:     raw.place     || "New Delhi, India",
       });
     }
-    openPrintWindow(buildHealthAnalysisPdfHtml(result));
+    printHtmlReport(buildHealthAnalysisPdfHtml(result), filename);
     await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
     return { filename, pages: 35 };
   }
@@ -135,7 +124,7 @@ export async function downloadReportPdf(
         place:     raw.place     || "New Delhi, India",
       });
     }
-    openPrintWindow(buildMarriageAnalysisPdfHtml(result));
+    printHtmlReport(buildMarriageAnalysisPdfHtml(result), filename);
     await logDownload({ user_id: opts.userId, filename: `${filename}.pdf`, language: report.language, report_id: report.id });
     return { filename, pages: 34 };
   }

@@ -127,6 +127,7 @@ function HealthAnalysisPage() {
           meta: {
             scores: result.scores,
             input: result.input,
+            result: result,
           },
         },
       });

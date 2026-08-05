@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import type { HealthAnalysisResult, OrganDashboardCard, RiskDashboardCard } from "@/lib/health-analysis/types";
 import { buildHealthAnalysisPdfHtml } from "@/lib/health-analysis/pdf-builder";
+import { printHtmlReport } from "@/lib/pdf/print-html-report";
 
 interface HealthAnalysisDashboardProps {
   result: HealthAnalysisResult;
@@ -75,13 +76,7 @@ export function HealthAnalysisDashboard({
 
   const downloadPdf = () => {
     const htmlContent = buildHealthAnalysisPdfHtml(result);
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.write(htmlContent);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => { printWindow.print(); }, 600);
-    }
+    printHtmlReport(htmlContent, `Health_Analysis_Report_${input.name}`);
   };
 
   return (
