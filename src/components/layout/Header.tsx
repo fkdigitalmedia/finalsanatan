@@ -107,9 +107,11 @@ export function Header() {
           <LanguageSwitcher />
           <ThemeToggle />
           <AccountMenu />
-          <Button size="sm" className="hidden sm:inline-flex ml-1 shadow-glow">
-            {t("common.get_premium")}
-          </Button>
+          <Link to="/pricing" className="hidden sm:inline-flex ml-1">
+            <Button size="sm" className="h-7.5 px-3 text-xs rounded-full shadow-glow font-medium">
+              {t("common.get_premium")}
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             size="icon"
@@ -213,8 +215,8 @@ function BackToWorkspace() {
   if (!user || inWorkspace) return null;
   return (
     <Link to="/dashboard" className="hidden sm:inline-flex">
-      <Button variant="outline" size="sm" className="rounded-full gap-2">
-        <LayoutDashboard className="size-4" />
+      <Button variant="outline" size="sm" className="h-7.5 px-2.5 text-xs rounded-full gap-1.5">
+        <LayoutDashboard className="size-3.5" />
         <span className="hidden md:inline">Back to Dashboard</span>
       </Button>
     </Link>
