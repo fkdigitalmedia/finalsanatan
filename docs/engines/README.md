@@ -18,6 +18,8 @@ This folder contains detailed technical specification and design documentation f
 | **Health Analysis Engine** | `src/lib/health-analysis/` | [HealthAnalysisEngine.md](file:///g:/Sanatan%20Tools%20new/Sanatan%20Dharma%20Suite%20%281%29/docs/engines/HealthAnalysisEngine.md) | Active |
 | **Foreign Settlement Engine** | `src/lib/foreign-settlement/` | [ForeignSettlementEngine.md](file:///g:/Sanatan%20Tools%20new/Sanatan%20Dharma%20Suite%20%281%29/docs/engines/ForeignSettlementEngine.md) | Active |
 | **Career Analysis Engine** | `src/lib/career-analysis/` | [CareerAnalysisEngine.md](file:///g:/Sanatan%20Tools%20new/Sanatan%20Dharma%20Suite%20%281%29/docs/engines/CareerAnalysisEngine.md) | Active |
+| **Master Life Blueprint Engine** | `src/lib/master-blueprint/` | [MasterLifeBlueprintEngine.md](file:///g:/Sanatan%20Tools%20new/Sanatan%20Dharma%20Suite%20%281%29/docs/engines/MasterLifeBlueprintEngine.md) | Active |
+
 
 
 

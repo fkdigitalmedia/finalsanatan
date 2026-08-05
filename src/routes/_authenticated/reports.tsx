@@ -27,6 +27,7 @@ export const Route = createFileRoute("/_authenticated/reports")({
 
 const REPORT_FILTER_CATEGORIES = [
   { value: "all", label: "All Reports" },
+  { value: "master-life-blueprint", label: "Master Life Blueprint" },
   { value: "janam-kundli", label: "Janam Kundli" },
   { value: "marriage-analysis", label: "Marriage Analysis" },
   { value: "health-analysis", label: "Health Analysis" },

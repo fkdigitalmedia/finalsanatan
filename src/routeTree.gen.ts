@@ -68,6 +68,7 @@ import { Route as ToolsVastuReportRouteImport } from './routes/tools.vastu-repor
 import { Route as ToolsVarshphalRouteImport } from './routes/tools.varshphal'
 import { Route as ToolsNumerologyReportRouteImport } from './routes/tools.numerology-report'
 import { Route as ToolsMuhuratFinderRouteImport } from './routes/tools.muhurat-finder'
+import { Route as ToolsMasterLifeBlueprintRouteImport } from './routes/tools.master-life-blueprint'
 import { Route as ToolsMarriageAnalysisRouteImport } from './routes/tools.marriage-analysis'
 import { Route as ToolsLoveCompatibilityRouteImport } from './routes/tools.love-compatibility'
 import { Route as ToolsKundliMatchingRouteImport } from './routes/tools.kundli-matching'
@@ -452,6 +453,12 @@ const ToolsMuhuratFinderRoute = ToolsMuhuratFinderRouteImport.update({
   path: '/muhurat-finder',
   getParentRoute: () => ToolsRoute,
 } as any)
+const ToolsMasterLifeBlueprintRoute =
+  ToolsMasterLifeBlueprintRouteImport.update({
+    id: '/master-life-blueprint',
+    path: '/master-life-blueprint',
+    getParentRoute: () => ToolsRoute,
+  } as any)
 const ToolsMarriageAnalysisRoute = ToolsMarriageAnalysisRouteImport.update({
   id: '/marriage-analysis',
   path: '/marriage-analysis',
@@ -1013,6 +1020,7 @@ export interface FileRoutesByFullPath {
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
   '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
+  '/tools/master-life-blueprint': typeof ToolsMasterLifeBlueprintRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1160,6 +1168,7 @@ export interface FileRoutesByTo {
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
   '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
+  '/tools/master-life-blueprint': typeof ToolsMasterLifeBlueprintRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1311,6 +1320,7 @@ export interface FileRoutesById {
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
   '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
+  '/tools/master-life-blueprint': typeof ToolsMasterLifeBlueprintRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1461,6 +1471,7 @@ export interface FileRouteTypes {
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
     | '/tools/marriage-analysis'
+    | '/tools/master-life-blueprint'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -1608,6 +1619,7 @@ export interface FileRouteTypes {
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
     | '/tools/marriage-analysis'
+    | '/tools/master-life-blueprint'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -1758,6 +1770,7 @@ export interface FileRouteTypes {
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
     | '/tools/marriage-analysis'
+    | '/tools/master-life-blueprint'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -2336,6 +2349,13 @@ declare module '@tanstack/react-router' {
       path: '/muhurat-finder'
       fullPath: '/tools/muhurat-finder'
       preLoaderRoute: typeof ToolsMuhuratFinderRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/master-life-blueprint': {
+      id: '/tools/master-life-blueprint'
+      path: '/master-life-blueprint'
+      fullPath: '/tools/master-life-blueprint'
+      preLoaderRoute: typeof ToolsMasterLifeBlueprintRouteImport
       parentRoute: typeof ToolsRoute
     }
     '/tools/marriage-analysis': {
@@ -3103,6 +3123,7 @@ interface ToolsRouteChildren {
   ToolsKundliMatchingRoute: typeof ToolsKundliMatchingRoute
   ToolsLoveCompatibilityRoute: typeof ToolsLoveCompatibilityRoute
   ToolsMarriageAnalysisRoute: typeof ToolsMarriageAnalysisRoute
+  ToolsMasterLifeBlueprintRoute: typeof ToolsMasterLifeBlueprintRoute
   ToolsMuhuratFinderRoute: typeof ToolsMuhuratFinderRoute
   ToolsNumerologyReportRoute: typeof ToolsNumerologyReportRoute
   ToolsVarshphalRoute: typeof ToolsVarshphalRoute
@@ -3120,6 +3141,7 @@ const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsKundliMatchingRoute: ToolsKundliMatchingRoute,
   ToolsLoveCompatibilityRoute: ToolsLoveCompatibilityRoute,
   ToolsMarriageAnalysisRoute: ToolsMarriageAnalysisRoute,
+  ToolsMasterLifeBlueprintRoute: ToolsMasterLifeBlueprintRoute,
   ToolsMuhuratFinderRoute: ToolsMuhuratFinderRoute,
   ToolsNumerologyReportRoute: ToolsNumerologyReportRoute,
   ToolsVarshphalRoute: ToolsVarshphalRoute,
