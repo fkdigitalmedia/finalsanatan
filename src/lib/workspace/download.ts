@@ -1,12 +1,13 @@
 // ============================================================
-// Workspace download helper — reuses the Universal PDF Engine.
-// No layout logic here: the engine resolves the admin-managed
-// template for the report kind.
+// Workspace download helper — reuses Dedicated PDF Engines & Universal Engine.
 // ============================================================
 
 import { generatePdf } from "@/lib/pdf";
 import { logDownload } from "./api";
 import type { UserReport } from "./types";
+import { computeCareerAnalysis } from "@/lib/career-analysis/career-engine";
+import { buildCareerAnalysisPdfHtml } from "@/lib/career-analysis/pdf/career-pdf-builder";
+import type { CareerAnalysisInput, CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
 
 export function buildPdfData(
   report: Pick<UserReport, "title" | "kind" | "content_md" | "data" | "language">,
@@ -36,6 +37,51 @@ export async function downloadReportPdf(
   opts: { userId: string; userName: string },
 ): Promise<{ filename: string; pages: number }> {
   const filename = safeName(report.title, report.kind);
+  const extra = (report.data ?? {}) as Record<string, any>;
+  const isCareerReport = report.kind === "career-analysis" || report.kind === "career-report" || extra.report === "career-analysis" || extra.report === "career-report";
+
+  if (isCareerReport) {
+    let careerResult: CareerAnalysisResultV2 | null = extra.meta?.result || extra.result || null;
+
+    if (!careerResult) {
+      const rawInput: Partial<CareerAnalysisInput> = extra.meta?.input || extra.input || {};
+      const birthInput: CareerAnalysisInput = {
+        name: rawInput.name || report.title || "User",
+        date: rawInput.date || "1995-08-15",
+        time: rawInput.time || "10:30",
+        latitude: Number(rawInput.latitude) || 28.6139,
+        longitude: Number(rawInput.longitude) || 77.209,
+        timezone: rawInput.timezone || "Asia/Kolkata",
+        place: rawInput.place || "New Delhi, India",
+        language: report.language || "en",
+      };
+      careerResult = computeCareerAnalysis(birthInput);
+    }
+
+    const htmlContent = buildCareerAnalysisPdfHtml(careerResult!);
+    if (typeof window !== "undefined") {
+      const printWindow = window.open("", "_blank");
+      if (printWindow) {
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+          printWindow.print();
+        }, 500);
+      }
+    }
+
+    await logDownload({
+      user_id: opts.userId,
+      filename: `${filename}.pdf`,
+      language: report.language,
+      report_id: report.id,
+    });
+
+    return { filename, pages: 40 };
+  }
+
+  // Fallback to Universal PDF Engine for other generic reports
   const result = await generatePdf({
     report: report.kind,
     language: report.language,

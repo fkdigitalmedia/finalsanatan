@@ -127,6 +127,7 @@ function CareerAnalysisPage() {
           meta: {
             scores: result.scores,
             input: result.input,
+            result: result,
           },
         },
       });

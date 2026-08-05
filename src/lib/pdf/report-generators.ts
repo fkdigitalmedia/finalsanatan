@@ -71,22 +71,43 @@ export async function downloadMuhuratPdf(data: Record<string, unknown>, filename
   }
 }
 
+import { computeCareerAnalysis } from "@/lib/career-analysis/career-engine";
+import { buildCareerAnalysisPdfHtml } from "@/lib/career-analysis/pdf/career-pdf-builder";
+import type { CareerAnalysisInput, CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
+
 /** Dedicated PDF Generator for Career Analysis Report */
 export async function generateCareerPDF(data: Record<string, unknown>, opts: { language?: string } = {}) {
-  return engine.generate({
-    report: "career-report",
-    data,
-    language: opts.language || "en",
-  });
+  let result: CareerAnalysisResultV2 | null = (data.result as CareerAnalysisResultV2) || null;
+  if (!result) {
+    const rawInput = (data.input as Partial<CareerAnalysisInput>) || {};
+    const birthInput: CareerAnalysisInput = {
+      name: rawInput.name || (data.name as string) || "User",
+      date: rawInput.date || (data.date as string) || "1995-08-15",
+      time: rawInput.time || (data.time as string) || "10:30",
+      latitude: Number(rawInput.latitude || data.latitude) || 28.6139,
+      longitude: Number(rawInput.longitude || data.longitude) || 77.209,
+      timezone: rawInput.timezone || (data.timezone as string) || "Asia/Kolkata",
+      place: rawInput.place || (data.place as string) || "New Delhi, India",
+      language: opts.language || "en",
+    };
+    result = computeCareerAnalysis(birthInput);
+  }
+  const html = buildCareerAnalysisPdfHtml(result);
+  return { html, pages: 40 };
 }
 
-export async function downloadCareerPdf(data: Record<string, unknown>, filename = "Career_Analysis_Report.pdf") {
+export async function downloadCareerPdf(data: Record<string, unknown>, filename = "Career_Analysis_Report_Pro.pdf") {
   const result = await generateCareerPDF(data);
-  if (typeof window !== "undefined" && result.dataUrl) {
-    const link = document.createElement("a");
-    link.href = result.dataUrl;
-    link.download = filename;
-    link.click();
+  if (typeof window !== "undefined") {
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(result.html);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+      }, 500);
+    }
   }
   const userId = await getUserIdSafely();
   if (userId) {
