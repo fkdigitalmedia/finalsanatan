@@ -82,7 +82,12 @@ export async function generateCareerPDF(data: Record<string, unknown>, opts: { l
 
 export async function downloadCareerPdf(data: Record<string, unknown>, filename = "Career_Analysis_Report.pdf") {
   const result = await generateCareerPDF(data);
-  result.doc.save(filename);
+  if (typeof window !== "undefined" && result.dataUrl) {
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = filename;
+    link.click();
+  }
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "career-report", title: "Career Analysis Report", data }).catch(console.error);
@@ -101,7 +106,12 @@ export async function generateMarriagePDF(data: Record<string, unknown>, opts: {
 
 export async function downloadMarriagePdf(data: Record<string, unknown>, filename = "Marriage_Analysis_Report.pdf") {
   const result = await generateMarriagePDF(data);
-  result.doc.save(filename);
+  if (typeof window !== "undefined" && result.dataUrl) {
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = filename;
+    link.click();
+  }
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "marriage-report", title: "Marriage Analysis Report", data }).catch(console.error);
@@ -120,7 +130,12 @@ export async function generateBusinessPDF(data: Record<string, unknown>, opts: {
 
 export async function downloadBusinessPdf(data: Record<string, unknown>, filename = "Business_Analysis_Report.pdf") {
   const result = await generateBusinessPDF(data);
-  result.doc.save(filename);
+  if (typeof window !== "undefined" && result.dataUrl) {
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = filename;
+    link.click();
+  }
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "business-report", title: "Business Analysis Report", data }).catch(console.error);
@@ -139,7 +154,12 @@ export async function generateHealthPDF(data: Record<string, unknown>, opts: { l
 
 export async function downloadHealthPdf(data: Record<string, unknown>, filename = "Health_Analysis_Report.pdf") {
   const result = await generateHealthPDF(data);
-  result.doc.save(filename);
+  if (typeof window !== "undefined" && result.dataUrl) {
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = filename;
+    link.click();
+  }
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "health-report", title: "Health Analysis Report", data }).catch(console.error);
@@ -158,7 +178,12 @@ export async function generateForeignPDF(data: Record<string, unknown>, opts: { 
 
 export async function downloadForeignPdf(data: Record<string, unknown>, filename = "Foreign_Settlement_Report.pdf") {
   const result = await generateForeignPDF(data);
-  result.doc.save(filename);
+  if (typeof window !== "undefined" && result.dataUrl) {
+    const link = document.createElement("a");
+    link.href = result.dataUrl;
+    link.download = filename;
+    link.click();
+  }
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "foreign-settlement", title: "Foreign Settlement Report", data }).catch(console.error);
