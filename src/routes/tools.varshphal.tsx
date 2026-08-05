@@ -456,31 +456,60 @@ function VarshTool() {
             </div>
           </div>
 
-          {/* 12-Month Timeline (Pro Only) */}
+          {/* 12-Month Timeline (Structured Cards V2) */}
           {isPremium && (
             <div>
               <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
-                <Calendar className="size-4 text-primary" /> 12-Month Month-by-Month Forecast ({varshResult.targetYear})
+                <Calendar className="size-4 text-primary" /> Redesigned 12-Month Structured Timeline Cards ({varshResult.targetYear})
               </h3>
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {varshResult.monthlyTimeline.map((month) => (
-                  <Card key={month.monthNumber} className="p-4 hover:border-primary/50 transition-colors">
+                  <Card key={month.monthNumber} className="p-4 hover:border-amber-500/50 transition-colors border space-y-2">
                     <div className="flex items-center justify-between">
                       <Badge variant="outline" className="text-[10px] font-mono">
                         Month {month.monthNumber}
                       </Badge>
                       <span className="text-xs font-semibold text-primary">{month.rulingPlanet}</span>
                     </div>
-                    <div className="font-bold text-sm mt-2">{month.monthName}</div>
+                    <div className="font-bold text-sm">{month.monthName}</div>
                     <div className="text-[11px] text-amber-600 font-medium">{month.startDate} – {month.endDate}</div>
-                    <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                      {month.career}
-                    </p>
+
+                    <div className="text-xs space-y-1 pt-1 border-t">
+                      <div className="font-semibold text-foreground">Career Bullets:</div>
+                      {month.careerBullets.map((b, i) => (
+                        <div key={i} className="text-[11px] text-muted-foreground">• {b}</div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] pt-1 font-semibold border-t">
+                      <span className="text-emerald-600">Opp Score: {month.opportunityScore}%</span>
+                      <span className="text-rose-600">Risk Score: {month.riskScore}%</span>
+                    </div>
+
+                    <div className="text-[11px] text-amber-700 bg-amber-500/10 p-2 rounded">
+                      💡 Remedy: {month.suggestedRemedy}
+                    </div>
                   </Card>
                 ))}
               </div>
             </div>
           )}
+
+          {/* 11-Category Important Dates Matrix */}
+          <div>
+            <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
+              <Calendar className="size-4 text-amber-500" /> 11-Category Important Annual Dates Matrix
+            </h3>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {varshResult.importantDateMatrix.map((dt) => (
+                <Card key={dt.category} className="p-3.5 border bg-card/60">
+                  <div className="text-xs font-bold text-amber-600">{dt.category}</div>
+                  <div className="font-mono text-xs text-foreground font-semibold mt-1">{dt.dates.join(", ")}</div>
+                  <p className="text-[11px] text-muted-foreground mt-1.5 leading-snug">{dt.recommendation}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
 
           {/* Vimshottari Maha Dasha Reference */}
           <Card className="p-6 text-center bg-gradient-to-br from-primary/5 to-amber-500/5">

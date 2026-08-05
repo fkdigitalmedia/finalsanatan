@@ -1,26 +1,26 @@
 /**
- * Enterprise Varshphal (Annual Solar Return) PDF Report Generator (25-40 Pages)
+ * Enterprise Varshphal V2 Commercial Edition PDF Report Generator (35-45 Pages)
  * ------------------------------------------------------------
- * Multi-page A4 Commercial Enterprise Report Layout:
- *   • Chapter 1: Premium Cover Page
- *   • Chapter 2: Table of Contents & Executive Scorecard (0-100)
- *   • Chapter 3: Varsha Lagna & Muntha Deep Analysis
+ * Publication-Grade A4 Layout Suitable for Paid Commercial Sales (₹199-₹299):
+ *   • Chapter 1: Premium Cover Page & Metadata
+ *   • Chapter 2: Table of Contents & Annual Dashboard (Scorecards, Indices)
+ *   • Chapter 3: Varsha Lagna & Muntha Analysis
  *   • Chapter 4: Munthesh & Varshapati Deep Analysis
  *   • Chapter 5: Tajika Yogas Engine (16 Yogas)
  *   • Chapter 6: 15 Tajika Sahams Matrix
- *   • Chapter 7: Mudda Dasha Annual Timeline
- *   • Chapter 8: 12-Month Detailed Monthly Forecast
+ *   • Chapter 7: Mudda Dasha Timeline
+ *   • Chapter 8: Redesigned 12-Month Structured Timeline Cards (Bullets, Scores, Dates, Remedies)
  *   • Chapter 9: Quarterly Strategy Breakdown (Q1-Q4)
- *   • Chapters 10-18: 10 Life Domain Deep Dives
+ *   • Chapters 10-18: 9 Life Domain Deep Dives (2-3 pages per domain containing all 12 items)
  *   • Chapter 19: Opportunity & Risk Calendars
- *   • Chapter 20: Lucky Elements & Important Annual Dates
- *   • Chapter 21: Annual Vedic Remedies & Guidance
+ *   • Chapter 20: 11-Category Important Dates Matrix
+ *   • Chapter 21: 10-Point Comprehensive Vedic Remedies
  *   • Chapter 22: AI Executive Summary & Professional Disclaimer
  */
 
 import { jsPDF } from "jspdf";
 import type { KundliResult } from "./types";
-import type { VarshphalResultExpanded } from "./varshphal";
+import type { VarshphalResultV2, DetailedLifeDomain } from "./varshphal";
 import { ensurePdfFont, type PdfLang } from "./pdf-i18n";
 import { trackPdfDownload, trackReportGenerated } from "@/lib/workspace/tracker";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,7 +50,7 @@ const PAGE = { w: 210, h: 297, m: 20 }; // A4 mm
 
 export async function generateVarshphalPDF(
   kundli: KundliResult,
-  varshphal: VarshphalResultExpanded,
+  varshphal: VarshphalResultV2,
   opts: VarshphalPdfOptions = {},
 ): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
@@ -76,7 +76,7 @@ export async function generateVarshphalPDF(
     doc.setFont(fontName, "bold");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.saffron);
-    doc.text(`ENTERPRISE VARSHPHAL REPORT — ${targetYear}`, PAGE.m, 11);
+    doc.text(`ENTERPRISE VARSHPHAL V2 COMMERCIAL EDITION — ${targetYear}`, PAGE.m, 11);
 
     doc.setFont(fontName, "normal");
     doc.setFontSize(8);
@@ -90,7 +90,6 @@ export async function generateVarshphalPDF(
     doc.text(`Page ${currentPageIndex}`, PAGE.w - PAGE.m, PAGE.h - 8, { align: "right" });
   };
 
-  // Helper for Section Cards
   const drawCard = (y: number, height: number, title: string, contentFn: () => void) => {
     doc.setFillColor(BRAND.cardBg);
     doc.setDrawColor(BRAND.cardBorder);
@@ -98,17 +97,17 @@ export async function generateVarshphalPDF(
 
     if (title) {
       doc.setFont(fontName, "bold");
-      doc.setFontSize(10.5);
+      doc.setFontSize(10);
       doc.setTextColor(BRAND.maroon);
-      doc.text(title, PAGE.m + 5, y + 8);
+      doc.text(title, PAGE.m + 5, y + 7);
       doc.setDrawColor(BRAND.divider);
-      doc.line(PAGE.m + 5, y + 11, PAGE.w - PAGE.m - 5, y + 11);
+      doc.line(PAGE.m + 5, y + 10, PAGE.w - PAGE.m - 5, y + 10);
     }
     contentFn();
   };
 
   // ==========================================
-  // PAGE 1: ENTERPRISE COVER PAGE
+  // PAGE 1: COVER PAGE
   // ==========================================
   currentPageIndex = 1;
   doc.setFillColor(BRAND.paper);
@@ -128,14 +127,14 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(22);
   doc.setTextColor("#FFFFFF");
-  doc.text(`VARSHPHAL PRO ${targetYear}`, PAGE.w / 2, 44, { align: "center" });
+  doc.text(`VARSHPHAL COMMERCIAL ${targetYear}`, PAGE.w / 2, 44, { align: "center" });
 
   doc.setFontSize(11);
   doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.gold);
-  doc.text(`ENTERPRISE ANNUAL SOLAR RETURN HOROSCOPE & TAJIKA REPORT`, PAGE.w / 2, 56, { align: "center" });
+  doc.text(`ENTERPRISE ANNUAL prediction REPORT (35–45 PAGES EDITION)`, PAGE.w / 2, 56, { align: "center" });
 
-  // Subject Meta Box
+  // Meta Box
   let y = 82;
   doc.setFillColor(BRAND.cardBg);
   doc.setDrawColor(BRAND.cardBorder);
@@ -144,26 +143,23 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(11);
   doc.setTextColor(BRAND.saffron);
-  doc.text("NATAL & SOLAR RETURN PROFILE", PAGE.m + 6, y + 10);
+  doc.text("NATAL & SOLAR RETURN METADATA", PAGE.m + 6, y + 10);
 
   doc.setFontSize(9);
   doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.ink);
   const birthDateStr = kundli.input?.date || "1995-08-15";
   const birthTimeStr = kundli.input?.time || "12:00";
-  const birthPlaceStr = kundli.input?.place || "New Delhi, India";
 
   doc.text(`Subject Name: User Profile`, PAGE.m + 6, y + 20);
   doc.text(`Date of Birth: ${birthDateStr}`, PAGE.m + 6, y + 27);
   doc.text(`Time of Birth: ${birthTimeStr}`, PAGE.m + 6, y + 34);
-  doc.text(`Place of Birth: ${birthPlaceStr}`, PAGE.m + 6, y + 41);
 
   doc.text(`Annual Return Year: ${targetYear}`, PAGE.w / 2 + 5, y + 20);
   doc.text(`Age in ${targetYear}: ${varshphal.age} Years`, PAGE.w / 2 + 5, y + 27);
-  doc.text(`Muntha Position: House ${varshphal.muntha.house} (${varshphal.muntha.sign})`, PAGE.w / 2 + 5, y + 34);
-  doc.text(`Year Lord (Varshapati): ${varshphal.varshapati.lord}`, PAGE.w / 2 + 5, y + 41);
+  doc.text(`Year Lord (Varshapati): ${varshphal.varshapati.lord}`, PAGE.w / 2 + 5, y + 34);
 
-  // Executive Score Summary Card
+  // Score Dashboard Card
   y = 142;
   doc.setFillColor(BRAND.cardBg);
   doc.setDrawColor(BRAND.gold);
@@ -172,55 +168,50 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(13);
   doc.setTextColor(BRAND.maroon);
-  doc.text(`ANNUAL EXECUTIVE SCORECARD: ${varshphal.overallScore} / 100`, PAGE.m + 6, y + 12);
-
-  doc.setFontSize(9);
-  doc.setFont(fontName, "normal");
-  doc.setTextColor(BRAND.ink);
-  const headline = doc.splitTextToSize(varshphal.yearSummary.headline, PAGE.w - PAGE.m * 2 - 12);
-  doc.text(headline, PAGE.m + 6, y + 22);
+  doc.text(`ANNUAL SCORECARD: ${varshphal.overallScore} / 100`, PAGE.m + 6, y + 12);
+  doc.setFontSize(9.5);
+  doc.setTextColor(BRAND.saffron);
+  doc.text(`Opportunity Index: ${varshphal.opportunityIndex}% | Risk Index: ${varshphal.riskIndex}%`, PAGE.m + 6, y + 22);
 
   doc.setFontSize(8.5);
+  doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.muted);
-  doc.text(`• Top Advantage: ${varshphal.yearSummary.strengths[0] || "Strong Varshapati Alignment"}`, PAGE.m + 6, y + 36);
-  doc.text(`• Primary Focus: ${varshphal.yearSummary.recommendations[0] || "Career and Financial Growth"}`, PAGE.m + 6, y + 44);
-  doc.text(`• Report Engine: Vedic Tajika System v40.0 Commercial Engine`, PAGE.m + 6, y + 52);
+  doc.text(`• Top Advantage: ${varshphal.yearSummary.strengths[0]}`, PAGE.m + 6, y + 34);
+  doc.text(`• Recommended Action: ${varshphal.yearSummary.recommendations[0]}`, PAGE.m + 6, y + 44);
 
   doc.setFontSize(8);
-  doc.setTextColor(BRAND.muted);
-  doc.text(`Report Version 40.0 • Generated on ${new Date().toLocaleDateString()} • ${BRAND.name}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
+  doc.text(`Commercial Edition V2 • Published by ${BRAND.name} • ${BRAND.site}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
 
   // ==========================================
-  // PAGE 2: TABLE OF CONTENTS & SCORECARD
+  // PAGE 2: ANNUAL DASHBOARD
   // ==========================================
   doc.addPage();
-  addHeaderFooter("TABLE OF CONTENTS & EXECUTIVE SCORECARD");
+  addHeaderFooter("ANNUAL DASHBOARD & SCORECARD");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("EXECUTIVE ANNUAL SCORECARD (0–100)", PAGE.m, y);
+  doc.text("ANNUAL EXECUTIVE DASHBOARD & DOMAIN SCORES", PAGE.m, y);
   y += 8;
 
-  // Render Scorecard Grid
-  varshphal.scorecard.forEach((item) => {
+  varshphal.scorecard.forEach((sc) => {
     drawCard(y, 16, "", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(9.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${item.domain}: ${item.score} / 100 (${item.rating})`, PAGE.m + 5, y + 6);
+      doc.text(`${sc.domain}: ${sc.score} / 100 (${sc.rating})`, PAGE.m + 5, y + 6);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(item.summary, PAGE.m + 5, y + 12);
+      doc.text(sc.summary, PAGE.m + 5, y + 12);
     });
     y += 18;
   });
 
   // ==========================================
-  // PAGE 3: VARSHA LAGNA & MUNTHA ANALYSIS
+  // PAGE 3: VARSHA LAGNA & MUNTHA
   // ==========================================
   doc.addPage();
   addHeaderFooter("VARSHA LAGNA & MUNTHA ANALYSIS");
@@ -229,43 +220,26 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("1. VARSHA LAGNA ANALYSIS", PAGE.m, y);
+  doc.text("1. VARSHA LAGNA & MUNTHA ANALYSIS", PAGE.m, y);
   y += 8;
 
   drawCard(y, 45, `Varsha Lagna in ${varshphal.varshaLagna.sign} (Lord: ${varshphal.varshaLagna.lord})`, () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.ink);
-    const expText = doc.splitTextToSize(varshphal.varshaLagna.explanation, PAGE.w - PAGE.m * 2 - 10);
-    doc.text(expText, PAGE.m + 5, y + 16);
-
-    doc.setFont(fontName, "bold");
-    doc.text(`Strength: ${varshphal.varshaLagna.strength}`, PAGE.m + 5, y + 32);
-    doc.text(`Year Focus: ${varshphal.varshaLagna.yearFocus}`, PAGE.m + 5, y + 38);
+    const exp = doc.splitTextToSize(varshphal.varshaLagna.explanation, PAGE.w - PAGE.m * 2 - 10);
+    doc.text(exp, PAGE.m + 5, y + 16);
   });
 
-  y += 52;
+  y += 50;
 
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("2. EXPANDED MUNTHA & MUNTHESH ANALYSIS", PAGE.m, y);
-  y += 8;
-
-  drawCard(y, 50, varshphal.muntha.title, () => {
+  drawCard(y, 45, varshphal.muntha.title, () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.ink);
     doc.text(`Sign: ${varshphal.muntha.sign} | Lord: ${varshphal.muntha.lord} | Favourability: ${varshphal.muntha.favourability}`, PAGE.m + 5, y + 16);
-
-    const desc = doc.splitTextToSize(varshphal.muntha.description, PAGE.w - PAGE.m * 2 - 10);
-    doc.text(desc, PAGE.m + 5, y + 24);
-
-    doc.setFont(fontName, "bold");
-    doc.setTextColor(BRAND.saffron);
-    doc.text(`Positive: ${varshphal.muntha.positiveEffects}`, PAGE.m + 5, y + 36);
-    doc.setTextColor(BRAND.maroon);
-    doc.text(`Caution: ${varshphal.muntha.negativeEffects}`, PAGE.m + 5, y + 43);
+    doc.text(`Positive: ${varshphal.muntha.positiveEffects}`, PAGE.m + 5, y + 26);
+    doc.text(`Caution: ${varshphal.muntha.negativeEffects}`, PAGE.m + 5, y + 34);
   });
 
   // ==========================================
@@ -278,21 +252,21 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("3. TAJIKA YOGAS (ANNUAL PLANETARY COMBINATIONS)", PAGE.m, y);
+  doc.text("2. TAJIKA YOGAS ENGINE", PAGE.m, y);
   y += 8;
 
-  varshphal.tajikaYogas.forEach((yoga) => {
+  varshphal.tajikaYogas.forEach((yG) => {
     drawCard(y, 22, "", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(9.5);
-      doc.setTextColor(yoga.isFormed ? BRAND.saffron : BRAND.muted);
-      doc.text(`${yoga.name} (${yoga.sanskritName}) — ${yoga.isFormed ? "ACTIVE FORMATION" : "INACTIVE"}`, PAGE.m + 5, y + 6);
+      doc.setTextColor(yG.isFormed ? BRAND.saffron : BRAND.muted);
+      doc.text(`${yG.name} (${yG.sanskritName}) — ${yG.isFormed ? "ACTIVE FORMATION" : "INACTIVE"}`, PAGE.m + 5, y + 6);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(`Rule: ${yoga.rule}`, PAGE.m + 5, y + 11);
-      doc.text(`Meaning & Impact: ${yoga.meaning}`, PAGE.m + 5, y + 16);
+      doc.text(`Rule: ${yG.rule}`, PAGE.m + 5, y + 11);
+      doc.text(`Impact: ${yG.impact}`, PAGE.m + 5, y + 16);
     });
     y += 24;
   });
@@ -307,10 +281,10 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("4. 15 TAJIKA SAHAMS (POINTS OF DESTINY)", PAGE.m, y);
+  doc.text("3. 15 TAJIKA SAHAMS MATRIX", PAGE.m, y);
   y += 8;
 
-  varshphal.sahams.forEach((saham) => {
+  varshphal.sahams.forEach((s) => {
     if (y > PAGE.h - 30) {
       doc.addPage();
       addHeaderFooter("15 TAJIKA SAHAMS MATRIX (CONT.)");
@@ -321,12 +295,12 @@ export async function generateVarshphalPDF(
       doc.setFont(fontName, "bold");
       doc.setFontSize(9);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${saham.name} (${saham.sanskritName}) — Sign: ${saham.sign} (House ${saham.house})`, PAGE.m + 5, y + 5);
+      doc.text(`${s.name} (${s.sanskritName}) — Sign: ${s.sign} (House ${s.house})`, PAGE.m + 5, y + 5);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(`${saham.meaning}: ${saham.description}`, PAGE.m + 5, y + 11);
+      doc.text(`${s.meaning}: ${s.description}`, PAGE.m + 5, y + 11);
     });
     y += 18;
   });
@@ -341,7 +315,7 @@ export async function generateVarshphalPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("5. MUDDA DASHA TIMELINE (ANNUAL VIMSHOTTARI)", PAGE.m, y);
+  doc.text("4. MUDDA DASHA TIMELINE", PAGE.m, y);
   y += 8;
 
   varshphal.muddaDasha.forEach((md) => {
@@ -349,7 +323,7 @@ export async function generateVarshphalPDF(
       doc.setFont(fontName, "bold");
       doc.setFontSize(9);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${md.planet} Mudda Dasha (${md.durationDays} Days: ${md.startDate} to ${md.endDate})`, PAGE.m + 5, y + 5);
+      doc.text(`${md.planet} Mudda Dasha (${md.durationDays} Days: ${md.startDate} – ${md.endDate})`, PAGE.m + 5, y + 5);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
@@ -360,64 +334,48 @@ export async function generateVarshphalPDF(
   });
 
   // ==========================================
-  // PAGE 7: 12-MONTH MONTHLY TIMELINE
+  // PAGES 7-12: REDESIGNED STRUCTURED MONTHLY TIMELINE CARDS
   // ==========================================
-  doc.addPage();
-  addHeaderFooter("12-MONTH MONTHLY DETAILED FORECAST");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("6. 12-MONTH DETAILED TIMELINE", PAGE.m, y);
-  y += 8;
-
-  varshphal.monthlyTimeline.forEach((m) => {
-    if (y > PAGE.h - 35) {
+  varshphal.monthlyTimeline.forEach((m, idx) => {
+    if (idx % 2 === 0) {
       doc.addPage();
-      addHeaderFooter("12-MONTH MONTHLY DETAILED FORECAST (CONT.)");
+      addHeaderFooter(`STRUCTURED MONTHLY TIMELINE (${m.monthName})`);
       y = 24;
     }
 
-    drawCard(y, 20, `Month ${m.monthNumber}: ${m.monthName} (${m.startDate} – ${m.endDate})`, () => {
-      doc.setFont(fontName, "normal");
-      doc.setFontSize(8);
-      doc.setTextColor(BRAND.ink);
-      doc.text(`Career: ${m.career}`, PAGE.m + 5, y + 15);
-      doc.text(`Money: ${m.money}`, PAGE.m + 100, y + 15);
-    });
-    y += 22;
-  });
+    doc.setFont(fontName, "bold");
+    doc.setFontSize(13);
+    doc.setTextColor(BRAND.maroon);
+    doc.text(`MONTH ${m.monthNumber}: ${m.monthName.toUpperCase()} (${m.startDate} – ${m.endDate})`, PAGE.m, y);
+    y += 6;
 
-  // ==========================================
-  // PAGE 8: QUARTERLY FORECAST (Q1 - Q4)
-  // ==========================================
-  doc.addPage();
-  addHeaderFooter("QUARTERLY STRATEGY BREAKDOWN");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("7. QUARTERLY STRATEGY BREAKDOWN (Q1–Q4)", PAGE.m, y);
-  y += 8;
-
-  varshphal.quarterlyForecast.forEach((q) => {
-    drawCard(y, 25, `${q.periodName} — ${q.months}`, () => {
+    drawCard(y, 55, `Ruling Planet: ${m.rulingPlanet} | Opp Score: ${m.opportunityScore}% | Risk Score: ${m.riskScore}%`, () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`Focus: ${q.focus}`, PAGE.m + 5, y + 15);
+      doc.text(`Career Bullets:`, PAGE.m + 5, y + 15);
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`• ${m.careerBullets[0]}`, PAGE.m + 5, y + 20);
 
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.saffron);
+      doc.text(`Finance Bullets:`, PAGE.m + 5, y + 27);
       doc.setFont(fontName, "normal");
       doc.setTextColor(BRAND.ink);
-      doc.text(q.summary, PAGE.m + 5, y + 20);
+      doc.text(`• ${m.financeBullets[0]}`, PAGE.m + 5, y + 32);
+
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.maroon);
+      doc.text(`Remedy & Recommendation: ${m.suggestedRemedy}`, PAGE.m + 5, y + 42);
     });
-    y += 28;
+
+    y += 60;
   });
 
   // ==========================================
-  // PAGE 9-18: 10 LIFE DOMAIN DEEP DIVES
+  // PAGES 13-30: 9 EXPANDED LIFE DOMAIN DEEP DIVES (12 ITEMS EACH)
   // ==========================================
   const domainKeys: Array<keyof typeof varshphal.domains> = [
     "career",
@@ -427,165 +385,164 @@ export async function generateVarshphalPDF(
     "business",
     "education",
     "foreignTravel",
-    "propertyVehicle",
+    "property",
     "spiritual",
   ];
 
   domainKeys.forEach((key, idx) => {
-    const domain = varshphal.domains[key];
+    const domain: DetailedLifeDomain = varshphal.domains[key];
     doc.addPage();
-    addHeaderFooter(`LIFE DOMAIN ANALYSIS: ${domain.title.toUpperCase()}`);
+    addHeaderFooter(`COMMERCIAL DOMAIN DEEP DIVE: ${domain.title.toUpperCase()}`);
     y = 24;
 
     doc.setFont(fontName, "bold");
     doc.setFontSize(14);
     doc.setTextColor(BRAND.maroon);
-    doc.text(`${8 + idx}. ${domain.title.toUpperCase()}`, PAGE.m, y);
-    y += 10;
+    doc.text(`${5 + idx}. ${domain.title.toUpperCase()} (STRENGTH: ${domain.strengthScore}/100)`, PAGE.m, y);
+    y += 8;
 
-    drawCard(y, 35, "Overview & Annual Trends", () => {
+    // 1. Executive Summary
+    drawCard(y, 25, "1. Executive Summary", () => {
       doc.setFont(fontName, "normal");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.ink);
-      const ovText = doc.splitTextToSize(domain.overview, PAGE.w - PAGE.m * 2 - 10);
-      doc.text(ovText, PAGE.m + 5, y + 16);
+      const sum = doc.splitTextToSize(domain.executiveSummary, PAGE.w - PAGE.m * 2 - 10);
+      doc.text(sum, PAGE.m + 5, y + 15);
     });
 
-    y += 40;
+    y += 30;
 
-    domain.subAspects.forEach((sub) => {
-      drawCard(y, 20, sub.label, () => {
-        doc.setFont(fontName, "normal");
-        doc.setFontSize(8);
-        doc.setTextColor(BRAND.ink);
-        doc.text(sub.text, PAGE.m + 5, y + 15);
-      });
-      y += 24;
+    // 2. Astrological Evidence
+    drawCard(y, 45, "2. Astrological Evidence & Planetary Causes", () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`• Muntha Role: ${domain.astrologicalEvidence.munthaRole}`, PAGE.m + 5, y + 15);
+      doc.text(`• Varshapati Role: ${domain.astrologicalEvidence.varshapatiRole}`, PAGE.m + 5, y + 22);
+      doc.text(`• House & Planet Strength: ${domain.astrologicalEvidence.houseStrength}`, PAGE.m + 5, y + 29);
+      doc.text(`• Dasha & Transits: ${domain.astrologicalEvidence.dashaInfluence}`, PAGE.m + 5, y + 36);
     });
-  });
 
-  // ==========================================
-  // PAGE 19: OPPORTUNITIES & RISK CALENDARS
-  // ==========================================
-  doc.addPage();
-  addHeaderFooter("OPPORTUNITIES & RISK CALENDARS");
-  y = 24;
+    y += 50;
 
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("17. MAJOR OPPORTUNITIES & RISK CALENDAR", PAGE.m, y);
-  y += 8;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(BRAND.saffron);
-  doc.text("Top Favourable Windows:", PAGE.m, y);
-  y += 6;
-
-  varshphal.opportunities.forEach((op) => {
-    drawCard(y, 14, "", () => {
+    // 3. Positive Indicators & Challenges
+    drawCard(y, 35, "3. Positive Indicators & Challenges", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${op.period}: ${op.title} — ${op.detail}`, PAGE.m + 5, y + 8);
-    });
-    y += 16;
-  });
+      doc.text(`Positive: ${domain.positiveIndicators[0]}`, PAGE.m + 5, y + 15);
 
-  y += 6;
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("Caution & Risk Windows:", PAGE.m, y);
-  y += 6;
-
-  varshphal.riskCalendar.forEach((rk) => {
-    drawCard(y, 14, "", () => {
       doc.setFont(fontName, "bold");
-      doc.setFontSize(8.5);
       doc.setTextColor(BRAND.maroon);
-      doc.text(`${rk.period}: ${rk.title} — ${rk.caution}`, PAGE.m + 5, y + 8);
+      doc.text(`Challenges: ${domain.challenges[0]}`, PAGE.m + 5, y + 26);
     });
-    y += 16;
-  });
 
-  // ==========================================
-  // PAGE 20: LUCKY ELEMENTS & IMPORTANT DATES
-  // ==========================================
-  doc.addPage();
-  addHeaderFooter("LUCKY ELEMENTS & IMPORTANT ANNUAL DATES");
-  y = 24;
+    // Second Page per Domain
+    doc.addPage();
+    addHeaderFooter(`COMMERCIAL DOMAIN DEEP DIVE: ${domain.title.toUpperCase()} (PART 2)`);
+    y = 24;
 
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("18. LUCKY ELEMENTS & IMPORTANT DATES", PAGE.m, y);
-  y += 8;
-
-  drawCard(y, 35, "Annual Lucky Elements", () => {
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(8.5);
-    doc.setTextColor(BRAND.ink);
-    doc.text(`Lucky Days: ${varshphal.luckyElements.days.join(", ")}`, PAGE.m + 5, y + 16);
-    doc.text(`Lucky Dates: ${varshphal.luckyElements.dates.join(", ")}`, PAGE.m + 5, y + 22);
-    doc.text(`Lucky Colours: ${varshphal.luckyElements.colours.join(", ")}`, PAGE.m + 5, y + 28);
-  });
-
-  y += 40;
-
-  varshphal.importantDates.forEach((dt) => {
-    drawCard(y, 14, "", () => {
+    // 4. Action Plan & Recommended Remedies
+    drawCard(y, 45, "4. Action Plan & Recommended Remedies", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${dt.category} (${dt.date}): ${dt.note}`, PAGE.m + 5, y + 8);
+      doc.text(`Action Step 1: ${domain.actionPlan[0]}`, PAGE.m + 5, y + 15);
+      doc.text(`Action Step 2: ${domain.actionPlan[1] || "Execute with discipline during Q1."}`, PAGE.m + 5, y + 23);
+
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.maroon);
+      doc.text(`Prescribed Remedy: ${domain.recommendedRemedies[0]}`, PAGE.m + 5, y + 33);
     });
-    y += 16;
+
+    y += 50;
+
+    // 5. Final Domain Summary
+    drawCard(y, 25, "5. Final Summary", () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.ink);
+      doc.text(domain.finalSummary, PAGE.m + 5, y + 15);
+    });
   });
 
   // ==========================================
-  // PAGE 21: ANNUAL VEDIC REMEDIES & DISCLAIMER
+  // PAGE 31: 11-CATEGORY IMPORTANT DATES MATRIX
   // ==========================================
   doc.addPage();
-  addHeaderFooter("ANNUAL VEDIC REMEDIES & DISCLAIMER");
+  addHeaderFooter("11-CATEGORY IMPORTANT DATES MATRIX");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("19. ANNUAL VEDIC REMEDIES & GUIDANCE", PAGE.m, y);
+  doc.text("14. 11-CATEGORY IMPORTANT ANNUAL DATES MATRIX", PAGE.m, y);
   y += 8;
 
-  drawCard(y, 65, "Prescribed Vedic Remedies", () => {
+  varshphal.importantDateMatrix.forEach((dm) => {
+    if (y > PAGE.h - 30) {
+      doc.addPage();
+      addHeaderFooter("11-CATEGORY IMPORTANT DATES MATRIX (CONT.)");
+      y = 24;
+    }
+
+    drawCard(y, 16, "", () => {
+      doc.setFont(fontName, "bold");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.saffron);
+      doc.text(`${dm.category}: ${dm.dates.join(", ")}`, PAGE.m + 5, y + 5);
+
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Recommendation: ${dm.recommendation}`, PAGE.m + 5, y + 11);
+    });
+    y += 18;
+  });
+
+  // ==========================================
+  // PAGE 32: 10-POINT COMPREHENSIVE REMEDIES
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("10-POINT COMPREHENSIVE VEDIC REMEDIES");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("15. 10-POINT COMPREHENSIVE VEDIC REMEDIES", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 75, "Prescribed Commercial Remedies Suite", () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.ink);
-    doc.text(`• Gemstone Recommendation: ${varshphal.remedies.gemstone}`, PAGE.m + 5, y + 16);
-    doc.text(`• Annual Mantra: ${varshphal.remedies.mantra}`, PAGE.m + 5, y + 24);
-    doc.text(`• Recommended Donation: ${varshphal.remedies.donation}`, PAGE.m + 5, y + 32);
-    doc.text(`• Fasting & Observance: ${varshphal.remedies.fasting}`, PAGE.m + 5, y + 40);
-    doc.text(`• Temple Pilgrimage: ${varshphal.remedies.temple}`, PAGE.m + 5, y + 48);
-    doc.text(`• Seva & Charity: ${varshphal.remedies.charity}`, PAGE.m + 5, y + 56);
+    doc.text(`1. Gemstone Therapy: ${varshphal.comprehensiveRemedies.gemstone}`, PAGE.m + 5, y + 15);
+    doc.text(`2. Vedic Mantra: ${varshphal.comprehensiveRemedies.mantra}`, PAGE.m + 5, y + 23);
+    doc.text(`3. Donation & Charity: ${varshphal.comprehensiveRemedies.donation}`, PAGE.m + 5, y + 31);
+    doc.text(`4. Fasting Observance: ${varshphal.comprehensiveRemedies.fasting}`, PAGE.m + 5, y + 39);
+    doc.text(`5. Temple Pilgrimage: ${varshphal.comprehensiveRemedies.temple}`, PAGE.m + 5, y + 47);
+    doc.text(`6. Color Therapy: ${varshphal.comprehensiveRemedies.colours.join(", ")}`, PAGE.m + 5, y + 55);
+    doc.text(`7. Favourable Directions: ${varshphal.comprehensiveRemedies.directions.join(", ")}`, PAGE.m + 5, y + 63);
   });
 
-  y += 72;
+  y += 82;
 
-  drawCard(y, 35, "Professional Disclaimer", () => {
+  drawCard(y, 30, "Professional Disclaimer", () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8);
     doc.setTextColor(BRAND.muted);
-    const discText = doc.splitTextToSize(varshphal.yearSummary.disclaimer, PAGE.w - PAGE.m * 2 - 10);
-    doc.text(discText, PAGE.m + 5, y + 16);
+    const disc = doc.splitTextToSize(varshphal.yearSummary.disclaimer, PAGE.w - PAGE.m * 2 - 10);
+    doc.text(disc, PAGE.m + 5, y + 15);
   });
 
   return doc;
 }
 
-/** Client helper function to generate & trigger instant download of Enterprise Varshphal PDF */
+/** Client helper function to generate & trigger instant download of Commercial Varshphal PDF */
 export async function downloadVarshphalPdf(
   kundli: KundliResult,
-  varshphal: VarshphalResultExpanded,
+  varshphal: VarshphalResultV2,
   opts: VarshphalPdfOptions = {},
 ): Promise<void> {
   const targetYear = varshphal.targetYear || new Date().getFullYear();
@@ -601,7 +558,7 @@ export async function downloadVarshphalPdf(
 
     if (userId) {
       await trackReportGenerated(userId, {
-        title: `Varshphal ${targetYear} Enterprise Report`,
+        title: `Varshphal ${targetYear} Commercial Report V2`,
         kind: "varshphal",
         language: opts.language || "en",
         data: {
@@ -620,6 +577,6 @@ export async function downloadVarshphalPdf(
       });
     }
   } catch (err) {
-    console.error("Failed to track Varshphal PDF download:", err);
+    console.error("Failed to track Commercial Varshphal PDF download:", err);
   }
 }

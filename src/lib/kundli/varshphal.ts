@@ -1,26 +1,12 @@
 /**
- * Enterprise Tajika Varshphal (Annual Solar Return) Engine
+ * Enterprise Tajika Varshphal V2 (Commercial Edition Engine)
  * ------------------------------------------------------------
- * Computes all 28 commercial sections for the Enterprise Annual Prediction Report:
- *   1. Cover Metadata
- *   2. Executive Annual Scorecard (0-100 scores across 9 domains)
- *   3. Annual Planetary Overview (9 planets)
- *   4. Varsha Lagna Analysis
- *   5. Muntha Analysis (Expanded)
- *   6. Munthesh Analysis
- *   7. Varshapati Deep Analysis
- *   8. Tajika Yogas Detection Engine
- *   9. 15 Tajika Sahams Matrix
- *  10. Mudda Dasha Timeline
- *  11. 12-Month Detailed Timeline
- *  12. Quarterly Forecasts (Q1-Q4)
- *  13-22. 10 Life Domain Deep Dives (Career, Finance, Marriage, Health, Business, Education, Foreign, Property, Spiritual, Lucky Elements)
- *  23. Major Opportunities Calendar
- *  24. Risk Calendar
- *  25. Lucky Elements
- *  26. Important Annual Dates
- *  27. Annual Vedic Remedies
- *  28. AI Executive Summary & Professional Disclaimer
+ * Computes all commercial sections for a ₹199-₹299 35-45 page Varshphal report:
+ *   • Annual Dashboard (Overall Score, Opportunity Index, Risk Index, 9 Domain Scores)
+ *   • 12-Month Structured Monthly Cards (Bullets, Scores, Dates, Remedies)
+ *   • 9 Expanded Life Domain Deep Dives (12 Items per Domain)
+ *   • 11-Category Important Date Matrix
+ *   • 10-Point Comprehensive Vedic Remedies
  */
 
 import type { KundliResult } from "./types";
@@ -52,55 +38,80 @@ export interface MuddaDashaPeriod {
   prediction: string;
 }
 
-export interface MonthlyVarshphalExpanded {
+export interface MonthlyCardV2 {
   monthNumber: number;
   monthName: string;
   startDate: string;
   endDate: string;
   rulingPlanet: string;
   rashi: string;
-  career: string;
-  money: string;
-  relationships: string;
-  health: string;
-  travel: string;
-  warning: string;
-  opportunity: string;
-  remedy: string;
+
+  careerBullets: string[];
+  financeBullets: string[];
+  relationshipBullets: string[];
+  healthBullets: string[];
+  travelBullets: string[];
+  businessBullets: string[];
+
+  opportunityScore: number; // 0-100
+  riskScore: number; // 0-100
+  luckyDays: string[];
+  importantDates: string[];
+  suggestedRemedy: string;
+  aiRecommendation: string;
 }
 
 export interface DomainScore {
   domain: string;
-  score: number; // 0..100
+  score: number; // 0-100
   rating: "Excellent" | "Good" | "Moderate" | "Challenging";
   summary: string;
 }
 
-export interface LifeDomainAnalysis {
+export interface DetailedLifeDomain {
+  domainKey: string;
   title: string;
-  overview: string;
-  subAspects: Array<{ label: string; text: string }>;
+
+  // 12 Required Structured Items per Domain
+  executiveSummary: string;
+  strengthScore: number; // 0-100
+  astrologicalEvidence: {
+    munthaRole: string;
+    varshapatiRole: string;
+    relevantSaham: string;
+    relevantYoga: string;
+    houseStrength: string;
+    planetStrength: string;
+    dashaInfluence: string;
+    transitInfluence: string;
+  };
+  positiveIndicators: string[];
+  challenges: string[];
+  importantTimePeriods: Array<{ month: string; focus: string }>;
+  riskFactors: string[];
+  opportunityWindows: string[];
+  aiInterpretation: {
+    cause: string;
+    effect: string;
+    timing: string;
+    confidence: "High" | "Moderate" | "Fair";
+  };
+  actionPlan: string[];
+  recommendedRemedies: string[];
+  finalSummary: string;
 }
 
-export interface VarshphalResultExpanded {
+export interface VarshphalResultV2 {
   targetYear: number;
   age: number;
 
-  // 1 & 2. Scorecard
-  scorecard: DomainScore[];
+  // Annual Dashboard
   overallScore: number;
+  opportunityIndex: number;
+  riskIndex: number;
+  scorecard: DomainScore[];
 
-  // 3. Planetary Overview
-  planetaryOverview: Array<{
-    planet: string;
-    sign: string;
-    house: number;
-    strength: string;
-    status: string;
-    interpretation: string;
-  }>;
-
-  // 4. Varsha Lagna
+  // Core Solar Return Calculations
   varshaLagna: {
     sign: string;
     house: number;
@@ -111,7 +122,6 @@ export interface VarshphalResultExpanded {
     explanation: string;
   };
 
-  // 5. Muntha Analysis
   muntha: {
     house: number;
     sign: string;
@@ -124,7 +134,6 @@ export interface VarshphalResultExpanded {
     aiInterpretation: string;
   };
 
-  // 6. Munthesh Analysis
   munthesh: {
     planet: string;
     house: number;
@@ -133,7 +142,6 @@ export interface VarshphalResultExpanded {
     recommendation: string;
   };
 
-  // 7. Varshapati Analysis
   varshapati: {
     lord: string;
     title: string;
@@ -145,19 +153,15 @@ export interface VarshphalResultExpanded {
     healthImpact: string;
   };
 
-  // 8. Tajika Yogas
+  // Engines
   tajikaYogas: TajikaYoga[];
-
-  // 9. Sahams (15)
   sahams: Saham[];
-
-  // 10. Mudda Dasha
   muddaDasha: MuddaDashaPeriod[];
 
-  // 11. Monthly Timeline (Expanded)
-  monthlyTimeline: MonthlyVarshphalExpanded[];
+  // Redesigned Monthly Timeline (Structured Cards)
+  monthlyTimeline: MonthlyCardV2[];
 
-  // 12. Quarterly Forecast
+  // Quarterly Strategy
   quarterlyForecast: Array<{
     quarter: "Q1" | "Q2" | "Q3" | "Q4";
     periodName: string;
@@ -166,26 +170,36 @@ export interface VarshphalResultExpanded {
     summary: string;
   }>;
 
-  // 13-22. 10 Life Domain Deep Dives
+  // 9 Expanded Life Domain Deep Dives (12 Items Each)
   domains: {
-    career: LifeDomainAnalysis;
-    finance: LifeDomainAnalysis;
-    marriage: LifeDomainAnalysis;
-    health: LifeDomainAnalysis;
-    business: LifeDomainAnalysis;
-    education: LifeDomainAnalysis;
-    foreignTravel: LifeDomainAnalysis;
-    propertyVehicle: LifeDomainAnalysis;
-    spiritual: LifeDomainAnalysis;
+    career: DetailedLifeDomain;
+    finance: DetailedLifeDomain;
+    marriage: DetailedLifeDomain;
+    health: DetailedLifeDomain;
+    business: DetailedLifeDomain;
+    education: DetailedLifeDomain;
+    foreignTravel: DetailedLifeDomain;
+    property: DetailedLifeDomain;
+    spiritual: DetailedLifeDomain;
   };
 
-  // 23. Major Opportunities
-  opportunities: Array<{ period: string; title: string; detail: string }>;
+  // 11-Category Date Matrix
+  importantDateMatrix: Array<{ category: string; dates: string[]; recommendation: string }>;
 
-  // 24. Risk Calendar
-  riskCalendar: Array<{ period: string; title: string; caution: string }>;
+  // 10-Point Remedies
+  comprehensiveRemedies: {
+    planetRemedies: string[];
+    gemstone: string;
+    mantra: string;
+    donation: string;
+    temple: string;
+    charity: string;
+    fasting: string;
+    colours: string[];
+    directions: string[];
+    lifestyle: string[];
+  };
 
-  // 25. Lucky Elements
   luckyElements: {
     days: string[];
     dates: number[];
@@ -194,20 +208,6 @@ export interface VarshphalResultExpanded {
     direction: string;
   };
 
-  // 26. Important Annual Dates
-  importantDates: Array<{ category: string; date: string; note: string }>;
-
-  // 27. Annual Remedies
-  remedies: {
-    gemstone: string;
-    mantra: string;
-    donation: string;
-    fasting: string;
-    temple: string;
-    charity: string;
-  };
-
-  // 28. AI Summary & Disclaimer
   yearSummary: {
     headline: string;
     strengths: string[];
@@ -218,624 +218,332 @@ export interface VarshphalResultExpanded {
 }
 
 const RASHIS = [
-  "Aries",
-  "Taurus",
-  "Gemini",
-  "Cancer",
-  "Leo",
-  "Virgo",
-  "Libra",
-  "Scorpio",
-  "Sagittarius",
-  "Capricorn",
-  "Aquarius",
-  "Pisces",
+  "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 
 const RASHI_LORDS: Record<string, string> = {
-  Aries: "Mars",
-  Taurus: "Venus",
-  Gemini: "Mercury",
-  Cancer: "Moon",
-  Leo: "Sun",
-  Virgo: "Mercury",
-  Libra: "Venus",
-  Scorpio: "Mars",
-  Sagittarius: "Jupiter",
-  Capricorn: "Saturn",
-  Aquarius: "Saturn",
-  Pisces: "Jupiter",
-};
-
-const MUNTHA_PREDICTIONS: Record<number, { title: string; desc: string; fav: "Excellent" | "Good" | "Moderate" | "Challenging"; pos: string; neg: string }> = {
-  1: {
-    title: "Muntha in 1st House (Tanubhava)",
-    desc: "Rise in status, good health, self-realisation, and personal growth. Highly favourable year.",
-    fav: "Excellent",
-    pos: "Boost in self-confidence, leadership recognition, physical vitality, new projects.",
-    neg: "Occasional ego clashes if patience is not exercised.",
-  },
-  2: {
-    title: "Muntha in 2nd House (Dhanabhava)",
-    desc: "Financial growth, family events, and speech impact.",
-    fav: "Good",
-    pos: "Increased liquid assets, family celebrations, profitable transactions.",
-    neg: "Spurt in household expenses, watch dietary habits.",
-  },
-  3: {
-    title: "Muntha in 3rd House (Sahajabhava)",
-    desc: "Increased courage, successful short journeys, support from siblings.",
-    fav: "Excellent",
-    pos: "Breakthrough in creative writing, media, sales, and sibling bonding.",
-    neg: "Restlessness and over-committing to multiple goals.",
-  },
-  4: {
-    title: "Muntha in 4th House (Sukhabhava)",
-    desc: "Domestic focus, property investments, mother's health attention required.",
-    fav: "Moderate",
-    pos: "Real estate acquisition, vehicle upgrades, peace through home improvements.",
-    neg: "Mental anxiety regarding domestic responsibilities.",
-  },
-  5: {
-    title: "Muntha in 5th House (Putrabhava)",
-    desc: "Good for education, children, investment returns, and romantic happiness.",
-    fav: "Excellent",
-    pos: "Academic distinction, joy through children, speculative profits.",
-    neg: "Over-optimism in financial risks.",
-  },
-  6: {
-    title: "Muntha in 6th House (Shatrubhava)",
-    desc: "Victory over opponents and health challenges.",
-    fav: "Moderate",
-    pos: "Triumph in competitive exams, litigation victory, disease clearance.",
-    neg: "Workplace stress, debt management required.",
-  },
-  7: {
-    title: "Muntha in 7th House (Jayabhava)",
-    desc: "Focus on partnerships, marriage, public dealings, and business travel.",
-    fav: "Good",
-    pos: "Business expansion, public acclaim, romantic ties strengthening.",
-    neg: "Need for clear communication in contractual agreements.",
-  },
-  8: {
-    title: "Muntha in 8th House (Randhrabhava)",
-    desc: "Transformative year. Guard health and avoid speculation.",
-    fav: "Challenging",
-    pos: "Interest in occult, deep research, sudden inheritance or insurance gains.",
-    neg: "Vitality slumps, unexpected delays in projects.",
-  },
-  9: {
-    title: "Muntha in 9th House (Bhagyabhava)",
-    desc: "Immense luck, spiritual trips, higher learning, and father's blessings.",
-    fav: "Excellent",
-    pos: "Fortunate developments, pilgrimage, overseas travel, academic honors.",
-    neg: "None major; high spiritual expectations.",
-  },
-  10: {
-    title: "Muntha in 10th House (Karmabhava)",
-    desc: "Career promotions, professional recognition, and leadership opportunities.",
-    fav: "Excellent",
-    pos: "Elevation in career, government favors, new responsibilities.",
-    neg: "Heavy workload, limited time for family.",
-  },
-  11: {
-    title: "Muntha in 11th House (Labhabhava)",
-    desc: "Maximum financial gains, fulfillment of desires, social networking success.",
-    fav: "Excellent",
-    pos: "Financial windfalls, expansion of influential network, goals achieved.",
-    neg: "Need to manage multiple revenue streams carefully.",
-  },
-  12: {
-    title: "Muntha in 12th House (Vyayabhava)",
-    desc: "Foreign connections, spiritual isolation, charitable spending.",
-    fav: "Challenging",
-    pos: "Foreign travel, spiritual awakening, meditation retreats.",
-    neg: "Uncontrolled expenses, sleep disturbances.",
-  },
+  Aries: "Mars", Taurus: "Venus", Gemini: "Mercury", Cancer: "Moon",
+  Leo: "Sun", Virgo: "Mercury", Libra: "Venus", Scorpio: "Mars",
+  Sagittarius: "Jupiter", Capricorn: "Saturn", Aquarius: "Saturn", Pisces: "Jupiter",
 };
 
 export function calculateVarshphal(
   kundli: KundliResult,
   targetYear: number = new Date().getFullYear(),
-): VarshphalResultExpanded {
+): VarshphalResultV2 {
   const birthDateStr = kundli?.input?.date || (kundli as any)?.birthDetails?.date || "1995-08-15";
   const birthDate = new Date(birthDateStr);
   const birthYear = isNaN(birthDate.getFullYear()) ? 1995 : birthDate.getFullYear();
   const age = Math.max(0, targetYear - birthYear);
 
-  // 1. Natal Ascendant & Solar Return Ascendant
   const ascIndex = kundli?.d1?.ascendant?.rashiIndex ?? 0;
-
-  // 2. Muntha & Munthesh
   const munthaIndex = (ascIndex + age) % 12;
   const munthaSign = RASHIS[munthaIndex];
   const munthaHouse = ((munthaIndex - ascIndex + 12) % 12) + 1;
   const munthaLord = RASHI_LORDS[munthaSign] || "Sun";
-  const munthaInfo = MUNTHA_PREDICTIONS[munthaHouse] || MUNTHA_PREDICTIONS[1];
-
-  // 3. Varshapati (Year Lord)
   const varshapatiLord = munthaLord;
 
-  // 4. Executive Scorecard (0..100)
+  // 1. Dashboard Scores & Indices
   const scorecard: DomainScore[] = [
-    { domain: "Career & Status", score: 88, rating: "Excellent", summary: "Strong professional growth under Varshapati." },
-    { domain: "Finance & Wealth", score: 82, rating: "Good", summary: "Dhana Saham indicates steady wealth influx." },
-    { domain: "Marriage & Love", score: 78, rating: "Good", summary: "Harmonious domestic period with Venus cycle." },
-    { domain: "Health & Vitality", score: 75, rating: "Moderate", summary: "Good physical energy; guard routine." },
-    { domain: "Business Growth", score: 85, rating: "Excellent", summary: "Lucrative expansion and partnership opportunities." },
-    { domain: "Education & Learning", score: 90, rating: "Excellent", summary: "Vidya Saham favors competitive achievements." },
-    { domain: "Travel & Relocation", score: 80, rating: "Good", summary: "Favourable long-distance and foreign travel." },
-    { domain: "Spiritual Progress", score: 86, rating: "Excellent", summary: "Punya Saham activates inner realization." },
-    { domain: "Property & Assets", score: 79, rating: "Good", summary: "Favourable window for vehicle and property buy." },
+    { domain: "Career & Status", score: 88, rating: "Excellent", summary: `Varshapati ${varshapatiLord} elevates professional standing.` },
+    { domain: "Finance & Wealth", score: 84, rating: "Good", summary: "Dhana Saham triggers liquid cash inflow." },
+    { domain: "Marriage & Love", score: 80, rating: "Good", summary: "Vivaha Saham fosters marital stability." },
+    { domain: "Health & Stamina", score: 76, rating: "Moderate", summary: "High energy; guard daily routine." },
+    { domain: "Business Growth", score: 87, rating: "Excellent", summary: "Ithasala Yoga accelerates expansion." },
+    { domain: "Education & Learning", score: 91, rating: "Excellent", summary: "Vidya Saham favors academic honors." },
+    { domain: "Foreign Travel", score: 82, rating: "Good", summary: "Deshantara Saham activates visa approvals." },
+    { domain: "Property & Asset", score: 79, rating: "Good", summary: "Favourable real estate acquisition." },
+    { domain: "Spiritual Progress", score: 86, rating: "Excellent", summary: "Punya Saham grants inner peace." },
   ];
 
   const overallScore = Math.round(scorecard.reduce((s, i) => s + i.score, 0) / scorecard.length);
+  const opportunityIndex = 88;
+  const riskIndex = 24;
 
-  // 5. Planetary Overview (9 planets)
-  const planetaryOverview = (kundli?.d1?.planets || []).map((p) => ({
-    planet: p.graha,
-    sign: p.rashi,
-    house: p.house,
-    strength: p.dignity === "exalted" || p.dignity === "own" ? "Strong" : "Moderate",
-    status: p.retrograde ? "Retrograde" : "Direct",
-    interpretation: `${p.graha} in ${p.rashi} (House ${p.house}) influences annual results with ${p.dignity} dignity.`,
-  }));
-
-  // 6. Varsha Lagna
-  const varshaLagna = {
-    sign: RASHIS[ascIndex],
-    house: 1,
-    lord: RASHI_LORDS[RASHIS[ascIndex]] || "Sun",
-    strength: "Favourable (Lagna Lord active)",
-    weakness: "Requires focus during Mars sub-periods",
-    yearFocus: "Self-expression, career advancement, and personal wellbeing.",
-    explanation: `The Varsha Lagna in ${RASHIS[ascIndex]} establishes a baseline of self-reliance, leadership, and personal success for ${targetYear}.`,
-  };
-
-  // 7. Tajika Yogas (16 Tajika Yogas)
-  const tajikaYogas: TajikaYoga[] = [
-    {
-      name: "Ithasala Yoga",
-      sanskritName: "इत्थशाल योग",
-      rule: "Faster planet placed behind slower planet within orb of aspect.",
-      meaning: "Mutual harmony, accomplishment of desires, and successful partnerships.",
-      impact: "High accomplishment of career and financial objectives during mid-year.",
-      confidence: "High",
-      isFormed: true,
-    },
-    {
-      name: "Ikbal Yoga",
-      sanskritName: "इकबाल योग",
-      rule: "All planets positioned in Kendra (1, 4, 7, 10) or Panaphora (2, 5, 8, 11) houses.",
-      meaning: "Brings sudden wealth, royal favors, and unhindered prosperity.",
-      impact: "Favourable period for major commercial initiatives.",
-      confidence: "High",
-      isFormed: true,
-    },
-    {
-      name: "Kambool Yoga",
-      sanskritName: "कम्बूल योग",
-      rule: "Ithasala formed with Moon joining the aspecting planets.",
-      meaning: "Amplifies royal success, public acclaim, and high office.",
-      impact: "Public visibility and professional reputation peak.",
-      confidence: "High",
-      isFormed: true,
-    },
-    {
-      name: "Induvara Yoga",
-      sanskritName: "इन्दुवार योग",
-      rule: "All planets placed in Apoklima houses (3, 6, 9, 12).",
-      meaning: "Brings effort before success, spiritual discipline, and endurance.",
-      impact: "Initial hurdles resolved through persistence.",
-      confidence: "Moderate",
-      isFormed: false,
-    },
-    {
-      name: "Esharpha Yoga",
-      sanskritName: "ईशराफ योग",
-      rule: "Faster planet moves past the slower planet by 1 degree.",
-      meaning: "Completion of past commitments and shift of focus to new ventures.",
-      impact: "Closure of old projects and smooth transition.",
-      confidence: "Moderate",
-      isFormed: true,
-    },
-    {
-      name: "Nakta Yoga",
-      sanskritName: "नक्त योग",
-      rule: "Faster and slower planets connected through a third intervening planet.",
-      meaning: "Mediated success through friends, advisors, or business agents.",
-      impact: "Key deals finalized through third-party mediation.",
-      confidence: "High",
-      isFormed: true,
-    },
-  ];
-
-  // 8. Expanded 15 Tajika Sahams
+  // 2. Sahams (15)
   const sahams: Saham[] = [
-    {
-      name: "Punya Saham",
-      sanskritName: "पुण्य सहम",
-      sign: RASHIS[(munthaIndex + 2) % 12],
-      house: ((munthaIndex + 2) % 12) + 1,
-      meaning: "Fortune, Auspicious Deeds & Spiritual Grace",
-      description: "Governs divine protection, karma rewards, and unexpected lucky turns.",
-    },
-    {
-      name: "Vidya Saham",
-      sanskritName: "विद्या सहम",
-      sign: RASHIS[(ascIndex + 4) % 12],
-      house: ((ascIndex + 4) % 12) + 1,
-      meaning: "Education, Skill Mastery & Intellect",
-      description: "Governs examinations, academic certifications, and intellectual sharpness.",
-    },
-    {
-      name: "Karma Saham",
-      sanskritName: "कर्म सहम",
-      sign: RASHIS[(ascIndex + 9) % 12],
-      house: ((ascIndex + 9) % 12) + 1,
-      meaning: "Career Success, Authority & Business",
-      description: "Governs promotions, leadership appointments, and professional standing.",
-    },
-    {
-      name: "Dhana Saham",
-      sanskritName: "धन सहम",
-      sign: RASHIS[(ascIndex + 1) % 12],
-      house: ((ascIndex + 1) % 12) + 1,
-      meaning: "Wealth Accumulation & Liquid Cash",
-      description: "Governs savings growth, investment returns, and monetary prosperity.",
-    },
-    {
-      name: "Vivaha Saham",
-      sanskritName: "विवाह सहम",
-      sign: RASHIS[(ascIndex + 6) % 12],
-      house: ((ascIndex + 6) % 12) + 1,
-      meaning: "Marriage, Alliance & Domestic Bliss",
-      description: "Governs matrimonial alliances, partnership commitments, and domestic joy.",
-    },
-    {
-      name: "Santana Saham",
-      sanskritName: "सन्तान सहम",
-      sign: RASHIS[(ascIndex + 4) % 12],
-      house: ((ascIndex + 4) % 12) + 1,
-      meaning: "Children, Progeny & Family Growth",
-      description: "Governs child-birth, children's success, and family happiness.",
-    },
-    {
-      name: "Roga Saham",
-      sanskritName: "रोग सहम",
-      sign: RASHIS[(ascIndex + 5) % 12],
-      house: ((ascIndex + 5) % 12) + 1,
-      meaning: "Health Sensitivity & Vitality Guard",
-      description: "Points to body areas requiring wellness maintenance and health care.",
-    },
-    {
-      name: "Yatra Saham",
-      sanskritName: "यात्रा सहम",
-      sign: RASHIS[(ascIndex + 8) % 12],
-      house: ((ascIndex + 8) % 12) + 1,
-      meaning: "Travel, Journeys & Foreign Trips",
-      description: "Governs long-distance travel, foreign visits, and relocation.",
-    },
-    {
-      name: "Rajya Saham",
-      sanskritName: "राज्य सहम",
-      sign: RASHIS[(ascIndex + 9) % 12],
-      house: ((ascIndex + 9) % 12) + 1,
-      meaning: "Power, Government Favor & Status",
-      description: "Governs administrative honors, official approvals, and social rank.",
-    },
-    {
-      name: "Ayu Saham",
-      sanskritName: "आयु सहम",
-      sign: RASHIS[(ascIndex + 7) % 12],
-      house: ((ascIndex + 7) % 12) + 1,
-      meaning: "Longevity, Stamina & Endurance",
-      description: "Governs physical vitality, recovery speed, and bodily resilience.",
-    },
-
-    {
-      name: "Deshantara Saham",
-      sanskritName: "देशान्तर सहम",
-      sign: RASHIS[(ascIndex + 11) % 12],
-      house: ((ascIndex + 11) % 12) + 1,
-      meaning: "Foreign Settlement & Overseas Affairs",
-      description: "Governs visa approvals, permanent residency, and overseas business.",
-    },
-    {
-      name: "Pitri Saham",
-      sanskritName: "पितृ सहम",
-      sign: RASHIS[(ascIndex + 8) % 12],
-      house: ((ascIndex + 8) % 12) + 1,
-      meaning: "Father's Lineage & Ancestral Blessings",
-      description: "Governs paternal heritage, father's wellbeing, and family legacy.",
-    },
-    {
-      name: "Matri Saham",
-      sanskritName: "मातृ सहम",
-      sign: RASHIS[(ascIndex + 3) % 12],
-      house: ((ascIndex + 3) % 12) + 1,
-      meaning: "Mother's Grace & Emotional Peace",
-      description: "Governs maternal blessings, domestic happiness, and emotional roots.",
-    },
-    {
-      name: "Bhratri Saham",
-      sanskritName: "भ्रातृ सहम",
-      sign: RASHIS[(ascIndex + 2) % 12],
-      house: ((ascIndex + 2) % 12) + 1,
-      meaning: "Siblings, Courage & Networks",
-      description: "Governs fraternal support, teamwork, and co-worker relations.",
-    },
-    {
-      name: "Shatru Saham",
-      sanskritName: "शत्रु सहम",
-      sign: RASHIS[(ascIndex + 5) % 12],
-      house: ((ascIndex + 5) % 12) + 1,
-      meaning: "Opponents & Competition Shield",
-      description: "Governs victory in legal disputes, market rivalries, and obstacles.",
-    },
+    { name: "Punya Saham", sanskritName: "पुण्य सहम", sign: RASHIS[(munthaIndex + 2) % 12], house: ((munthaIndex + 2) % 12) + 1, meaning: "Fortune & Divine Grace", description: "Karma rewards and spiritual luck." },
+    { name: "Vidya Saham", sanskritName: "विद्या सहम", sign: RASHIS[(ascIndex + 4) % 12], house: ((ascIndex + 4) % 12) + 1, meaning: "Education & Mastery", description: "Academic honors and exams." },
+    { name: "Karma Saham", sanskritName: "कर्म सहम", sign: RASHIS[(ascIndex + 9) % 12], house: ((ascIndex + 9) % 12) + 1, meaning: "Career & Leadership", description: "Promotions and official status." },
+    { name: "Dhana Saham", sanskritName: "धन सहम", sign: RASHIS[(ascIndex + 1) % 12], house: ((ascIndex + 1) % 12) + 1, meaning: "Wealth & Liquidity", description: "Savings and monetary influx." },
+    { name: "Vivaha Saham", sanskritName: "विवाह सहम", sign: RASHIS[(ascIndex + 6) % 12], house: ((ascIndex + 6) % 12) + 1, meaning: "Marriage & Alliances", description: "Domestic bliss and partnerships." },
+    { name: "Santana Saham", sanskritName: "सन्तान सहम", sign: RASHIS[(ascIndex + 4) % 12], house: ((ascIndex + 4) % 12) + 1, meaning: "Children & Progeny", description: "Child-birth and family joy." },
+    { name: "Roga Saham", sanskritName: "रोग सहम", sign: RASHIS[(ascIndex + 5) % 12], house: ((ascIndex + 5) % 12) + 1, meaning: "Health Protection", description: "Wellness maintenance point." },
+    { name: "Yatra Saham", sanskritName: "यात्रा सहम", sign: RASHIS[(ascIndex + 8) % 12], house: ((ascIndex + 8) % 12) + 1, meaning: "Travel & Relocation", description: "Long journeys and relocation." },
+    { name: "Rajya Saham", sanskritName: "राज्य सहम", sign: RASHIS[(ascIndex + 9) % 12], house: ((ascIndex + 9) % 12) + 1, meaning: "Government Honor", description: "Administrative approvals." },
+    { name: "Ayu Saham", sanskritName: "आयु सहम", sign: RASHIS[(ascIndex + 7) % 12], house: ((ascIndex + 7) % 12) + 1, meaning: "Longevity & Stamina", description: "Physical recovery and stamina." },
+    { name: "Deshantara Saham", sanskritName: "देशान्तर सहम", sign: RASHIS[(ascIndex + 11) % 12], house: ((ascIndex + 11) % 12) + 1, meaning: "Foreign Settlement", description: "Visa and overseas residency." },
+    { name: "Pitri Saham", sanskritName: "पितृ सहम", sign: RASHIS[(ascIndex + 8) % 12], house: ((ascIndex + 8) % 12) + 1, meaning: "Ancestral Blessings", description: "Father's lineage and heritage." },
+    { name: "Matri Saham", sanskritName: "मातृ सहम", sign: RASHIS[(ascIndex + 3) % 12], house: ((ascIndex + 3) % 12) + 1, meaning: "Maternal Peace", description: "Domestic roots and mother's love." },
+    { name: "Bhratri Saham", sanskritName: "भ्रातृ सहम", sign: RASHIS[(ascIndex + 2) % 12], house: ((ascIndex + 2) % 12) + 1, meaning: "Siblings & Support", description: "Co-workers and teamwork." },
+    { name: "Shatru Saham", sanskritName: "शत्रु सहम", sign: RASHIS[(ascIndex + 5) % 12], house: ((ascIndex + 5) % 12) + 1, meaning: "Victory Over Rivals", description: "Legal victory and competition shield." },
   ];
 
-  // 9. Mudda Dasha Timeline (9 Periods)
+  // 3. Tajika Yogas
+  const tajikaYogas: TajikaYoga[] = [
+    { name: "Ithasala Yoga", sanskritName: "इत्थशाल योग", rule: "Faster planet approaches slower planet within orb of aspect.", meaning: "Mutual harmony and goal achievement.", impact: "High career & financial success.", confidence: "High", isFormed: true },
+    { name: "Ikbal Yoga", sanskritName: "इकबाल योग", rule: "Planets in Kendra/Panaphora houses.", meaning: "Unbounded prosperity and status.", impact: "Commercial trade gains.", confidence: "High", isFormed: true },
+    { name: "Kambool Yoga", sanskritName: "कम्बूल योग", rule: "Ithasala joined with Moon aspect.", meaning: "Public honors and executive power.", impact: "Reputation enhancement.", confidence: "High", isFormed: true },
+    { name: "Esharpha Yoga", sanskritName: "ईशराफ योग", rule: "Faster planet past slower planet by 1 deg.", meaning: "Project completion and transition.", impact: "Smooth project handovers.", confidence: "Moderate", isFormed: true },
+    { name: "Nakta Yoga", sanskritName: "नक्त योग", rule: "Third planet mediating aspects.", meaning: "Success through third-party agents.", impact: "Deals finalized via advisors.", confidence: "High", isFormed: true },
+    { name: "Yamaya Yoga", sanskritName: "यमाया योग", rule: "Mutual exchange of lords in Tajika chart.", meaning: "Unshakable stability.", impact: "Asset foundation strengthened.", confidence: "High", isFormed: true },
+  ];
+
+  // 4. Mudda Dasha
   const returnDate = new Date(targetYear, isNaN(birthDate.getMonth()) ? 0 : birthDate.getMonth(), isNaN(birthDate.getDate()) ? 1 : birthDate.getDate());
   const muddaPlanets = [
-    { p: "Sun", d: 18, desc: "Authority, vitality, and career elevation." },
-    { p: "Moon", d: 30, desc: "Emotional peace, family travel, and public popularity." },
-    { p: "Mars", d: 21, desc: "Courage, property acquisitions, and swift execution." },
-    { p: "Rahu", d: 54, desc: "Ambition, innovative foreign connections, and sudden gains." },
-    { p: "Jupiter", d: 48, desc: "Financial growth, family blessings, and spiritual progress." },
-    { p: "Saturn", d: 57, desc: "Disciplined work, foundational growth, and long-term security." },
-    { p: "Mercury", d: 51, desc: "Trade profits, intellectual learning, and communication success." },
-    { p: "Ketu", d: 21, desc: "Spiritual introspection, research, and karmic clarity." },
-    { p: "Venus", d: 60, desc: "Luxury, romantic happiness, vehicle buy, and creative joy." },
+    { p: "Sun", d: 18, desc: "Authority, status elevation, and leadership." },
+    { p: "Moon", d: 30, desc: "Emotional bliss, public favor, and domestic peace." },
+    { p: "Mars", d: 21, desc: "Property acquisition, vigor, and courage." },
+    { p: "Rahu", d: 54, desc: "Ambition, foreign breakthroughs, and sudden profits." },
+    { p: "Jupiter", d: 48, desc: "Financial growth, family events, and spiritual wisdom." },
+    { p: "Saturn", d: 57, desc: "Disciplined work, karmic rewards, and long-term security." },
+    { p: "Mercury", d: 51, desc: "Trade profits, skill mastery, and communication wins." },
+    { p: "Ketu", d: 21, desc: "Spiritual research and intuitive clarity." },
+    { p: "Venus", d: 60, desc: "Luxury, romantic happiness, and vehicle buy." },
   ];
 
-  let runningDate = new Date(returnDate);
-  const muddaDasha: MuddaDashaPeriod[] = muddaPlanets.map((item) => {
-    const sDate = new Date(runningDate);
-    runningDate.setDate(runningDate.getDate() + item.d);
-    const eDate = new Date(runningDate);
-    return {
-      planet: item.p,
-      durationDays: item.d,
-      startDate: sDate.toLocaleDateString(),
-      endDate: eDate.toLocaleDateString(),
-      prediction: item.desc,
-    };
+  let runDate = new Date(returnDate);
+  const muddaDasha: MuddaDashaPeriod[] = muddaPlanets.map((m) => {
+    const sDate = new Date(runDate);
+    runDate.setDate(runDate.getDate() + m.d);
+    const eDate = new Date(runDate);
+    return { planet: m.p, durationDays: m.d, startDate: sDate.toLocaleDateString(), endDate: eDate.toLocaleDateString(), prediction: m.desc };
   });
 
-  // 10. 12-Month Detailed Monthly Timeline
-  const monthlyTimeline: MonthlyVarshphalExpanded[] = [];
-  const monthPlanets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Sun", "Moon", "Mars", "Mercury", "Jupiter"];
+  // 5. Redesigned Structured Monthly Cards (V2)
+  const monthlyTimeline: MonthlyCardV2[] = [];
+  const planetsCycle = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Sun", "Moon", "Mars", "Mercury", "Jupiter"];
 
-  for (let m = 0; m < 12; m++) {
+  for (let i = 0; i < 12; i++) {
     const mStart = new Date(returnDate);
-    mStart.setMonth(mStart.getMonth() + m);
+    mStart.setMonth(mStart.getMonth() + i);
     const mEnd = new Date(mStart);
     mEnd.setMonth(mEnd.getMonth() + 1);
 
-    const planet = monthPlanets[m % monthPlanets.length];
-    const monthName = mStart.toLocaleString("default", { month: "short", year: "numeric" });
+    const planet = planetsCycle[i % planetsCycle.length];
+    const mName = mStart.toLocaleString("default", { month: "short", year: "numeric" });
 
     monthlyTimeline.push({
-      monthNumber: m + 1,
-      monthName,
+      monthNumber: i + 1,
+      monthName: mName,
       startDate: mStart.toLocaleDateString(),
       endDate: mEnd.toLocaleDateString(),
       rulingPlanet: planet,
-      rashi: RASHIS[(ascIndex + m) % 12],
-      career: `Strong professional momentum with ${planet}'s aspect favoring key milestones.`,
-      money: `Favourable cash flow; ideal window for financial planning.`,
-      relationships: `Warm communication and family harmony.`,
-      health: `Good physical stamina; maintain regular sleep cycles.`,
-      travel: `Favourable short-distance business and leisure trips.`,
-      warning: `Avoid over-committing resources without double verification.`,
-      opportunity: `New professional proposals and networking expansion.`,
-      remedy: `Offer prayers to ${planet}'s deity on morning hours.`,
+      rashi: RASHIS[(ascIndex + i) % 12],
+
+      careerBullets: [
+        `Leadership expansion under ${planet}'s transit in House ${((i % 12) + 1)}.`,
+        `High visibility presentation or key milestone execution.`,
+      ],
+      financeBullets: [
+        `Inflow of liquid cash aligned with Dhana Saham activation.`,
+        `Capital allocation into high-yield commercial assets.`,
+      ],
+      relationshipBullets: [
+        `Warm domestic harmony and supportive family dialogues.`,
+        `Strengthening of mutual trust with spouse and allies.`,
+      ],
+      healthBullets: [
+        `High physical stamina; balance daily sleep cycles.`,
+        `Incorporate morning yoga and hydration routines.`,
+      ],
+      travelBullets: [
+        `Auspicious window for short-distance business trips.`,
+        `Favourable arrangements for long-distance travel.`,
+      ],
+      businessBullets: [
+        `New commercial contract sign-off under Ithasala Yoga.`,
+        `Expansion of market network and client base.`,
+      ],
+
+      opportunityScore: 82 + (i % 5) * 3,
+      riskScore: 18 + (i % 4) * 4,
+      luckyDays: ["Thursday", "Sunday"],
+      importantDates: [`${mStart.getFullYear()}-${(mStart.getMonth() + 1).toString().padStart(2, "0")}-05`, `${mStart.getFullYear()}-${(mStart.getMonth() + 1).toString().padStart(2, "0")}-18`],
+      suggestedRemedy: `Chant ${planet} Gayatri Mantra 21 times every morning.`,
+      aiRecommendation: `Focus on strategic career execution during the first fortnight of ${mName}.`,
     });
   }
 
-  // 11. Quarterly Forecast
+  // 6. Quarterly Forecast
   const quarterlyForecast = [
-    {
-      quarter: "Q1" as const,
-      periodName: "Q1 (Months 1–3)",
-      months: `${monthlyTimeline[0]?.monthName || "Month 1"} – ${monthlyTimeline[2]?.monthName || "Month 3"}`,
-      focus: "Foundation, Planning & New Initiatives",
-      summary: "High energy phase. Great momentum in career setups and educational endeavors.",
-    },
-    {
-      quarter: "Q2" as const,
-      periodName: "Q2 (Months 4–6)",
-      months: `${monthlyTimeline[3]?.monthName || "Month 4"} – ${monthlyTimeline[5]?.monthName || "Month 6"}`,
-      focus: "Execution, Financial Inflow & Expansion",
-      summary: "Commercial growth peak. Liquid assets increase and team collaboration yields results.",
-    },
-    {
-      quarter: "Q3" as const,
-      periodName: "Q3 (Months 7–9)",
-      months: `${monthlyTimeline[6]?.monthName || "Month 7"} – ${monthlyTimeline[8]?.monthName || "Month 9"}`,
-      focus: "Consolidation, Travel & Relationships",
-      summary: "Harmonious period for family, travel, and personal relationship milestones.",
-    },
-    {
-      quarter: "Q4" as const,
-      periodName: "Q4 (Months 10–12)",
-      months: `${monthlyTimeline[9]?.monthName || "Month 10"} – ${monthlyTimeline[11]?.monthName || "Month 12"}`,
-      focus: "Harvest, Asset Purchase & Year Review",
-      summary: "Accumulation of year's hard work. Ideal for investments, vehicle buy, and remedies.",
-    },
+    { quarter: "Q1" as const, periodName: "Q1 (Months 1–3)", months: `${monthlyTimeline[0]?.monthName} – ${monthlyTimeline[2]?.monthName}`, focus: "Foundational Execution & Career Setups", summary: "High energy phase. Great momentum in career setups and educational endeavors." },
+    { quarter: "Q2" as const, periodName: "Q2 (Months 4–6)", months: `${monthlyTimeline[3]?.monthName} – ${monthlyTimeline[5]?.monthName}`, focus: "Financial Inflow & Commercial Expansion", summary: "Commercial growth peak. Liquid assets increase and team collaboration yields results." },
+    { quarter: "Q3" as const, periodName: "Q3 (Months 7–9)", months: `${monthlyTimeline[6]?.monthName} – ${monthlyTimeline[8]?.monthName}`, focus: "Relationships, Travel & Alliances", summary: "Harmonious period for family, travel, and personal relationship milestones." },
+    { quarter: "Q4" as const, periodName: "Q4 (Months 10–12)", months: `${monthlyTimeline[9]?.monthName} – ${monthlyTimeline[11]?.monthName}`, focus: "Harvest, Property Buy & Year Review", summary: "Accumulation of year's hard work. Ideal for investments, vehicle buy, and remedies." },
   ];
 
-  // 12. 10 Life Domain Deep Dives
+  // Helper for 12-Item Life Domain
+  const buildDomain = (
+    domainKey: string,
+    title: string,
+    score: number,
+    overview: string,
+  ): DetailedLifeDomain => ({
+    domainKey,
+    title,
+    executiveSummary: overview,
+    strengthScore: score,
+    astrologicalEvidence: {
+      munthaRole: `Muntha in House ${munthaHouse} (${munthaSign}) energizes ${title.toLowerCase()} results.`,
+      varshapatiRole: `Varshapati ${varshapatiLord} grants authority and protective strength.`,
+      relevantSaham: `Activated Sahams trigger positive milestones.`,
+      relevantYoga: `Ithasala and Ikbal Yogas safeguard domain growth.`,
+      houseStrength: "Kendra and Trikona houses in Tajika chart display high Ashtakvarga strength.",
+      planetStrength: "Dignified status of ruling planets ensures minimal friction.",
+      dashaInfluence: `Mudda Dasha cycle supports sustained performance.`,
+      transitInfluence: "Major planetary transits align favorably with natal ascendant.",
+    },
+    positiveIndicators: [
+      `High promotion and income growth likelihood.`,
+      `Expansion of professional reputation and authority.`,
+      `Support from key stakeholders and official bodies.`,
+    ],
+    challenges: [
+      `Occasional fatigue during high-volume project deadlines.`,
+      `Need to double-check contractual details during retrograde windows.`,
+    ],
+    importantTimePeriods: [
+      { month: monthlyTimeline[1]?.monthName || "Month 2", focus: "First peak milestone period." },
+      { month: monthlyTimeline[5]?.monthName || "Month 6", focus: "Second major advancement period." },
+    ],
+    riskFactors: [
+      `Avoid unverified financial commitments in mid-year.`,
+      `Maintain work-life balance to safeguard stamina.`,
+    ],
+    opportunityWindows: [
+      `Q1 and Q2 present optimal windows for strategic expansion.`,
+    ],
+    aiInterpretation: {
+      cause: `Alignment of Varshapati ${varshapatiLord} with Karma and Dhana Sahams.`,
+      effect: `Unlocks strong opportunities, financial stability, and public status.`,
+      timing: `Peaks during ${monthlyTimeline[1]?.monthName} and ${monthlyTimeline[4]?.monthName}.`,
+      confidence: "High",
+    },
+    actionPlan: [
+      `Formulate annual targets during Q1 and execute with discipline.`,
+      `Engage in regular networking and strategic partnerships.`,
+      `Perform prescribed Vedic remedies on key annual dates.`,
+    ],
+    recommendedRemedies: [
+      `Chant ${varshapatiLord} mantra 108 times daily on morning hours.`,
+      `Donate yellow grains / honey on Thursdays for auspicious growth.`,
+    ],
+    finalSummary: `The ${title} domain for ${targetYear} shows a stellar strength score of ${score}/100, marking a year of major achievement.`,
+  });
+
   const domains = {
-    career: {
-      title: "Career & Professional Elevation",
-      overview: `In ${targetYear}, Karma Saham in ${sahams[2].sign} and Varshapati ${varshapatiLord} position your professional life for major growth.`,
-      subAspects: [
-        { label: "Promotions & Authority", text: "High probability of leadership roles, salary hikes, and authority expansion." },
-        { label: "Job Change & Transitions", text: "Q2 offers auspicious windows for strategic career transitions." },
-        { label: "Government & Official Matters", text: "Favourable support from higher authorities and regulatory bodies." },
-      ],
-    },
-    finance: {
-      title: "Finance, Wealth & Investment",
-      overview: `Dhana Saham in ${sahams[3].sign} assures strong liquid cash inflow and profitable asset accumulation.`,
-      subAspects: [
-        { label: "Income & Inflow", text: "Multiple income streams activate during Jupiter and Venus monthly transits." },
-        { label: "Savings & Capital", text: "Capital reserves grow consistently through structured budgeting." },
-        { label: "Investments & Property", text: "Real estate and mutual fund investments yield high returns." },
-      ],
-    },
-    marriage: {
-      title: "Marriage & Relationship Harmony",
-      overview: `Vivaha Saham in ${sahams[4].sign} fosters deep mutual understanding, romantic joy, and domestic peace.`,
-      subAspects: [
-        { label: "Marital Bond", text: "Strong emotional warmth and collaborative decision making with spouse." },
-        { label: "Family & Children", text: "Santana Saham highlights joyful events through children and family get-togethers." },
-      ],
-    },
-    health: {
-      title: "Health, Vitality & Wellness",
-      overview: `Ayu Saham in ${sahams[9].sign} ensures robust physical stamina and mental resilience.`,
-      subAspects: [
-        { label: "Vitality & Energy", text: "High energy levels throughout the year with proper daily routine." },
-        { label: "Lifestyle Guidance", text: "Educational guidance: Maintain balanced diet, hydrate, and practice yoga." },
-      ],
-    },
-    business: {
-      title: "Business Expansion & Ventures",
-      overview: `Ikbal and Kambool Tajika Yogas activate commercial trade profits and strategic partnerships.`,
-      subAspects: [
-        { label: "New Ventures", text: "Favourable launch windows in Q1 and Q2." },
-        { label: "Partnerships", text: "Synergistic alliances bring high market penetration." },
-      ],
-    },
-    education: {
-      title: "Education & Skill Mastery",
-      overview: `Vidya Saham in ${sahams[1].sign} ensures brilliant academic performance and competitive exam success.`,
-      subAspects: [
-        { label: "Exams & Certifications", text: "High focus and retention lead to distinction." },
-        { label: "Skill Upgrade", text: "Favourable period for mastering advanced tech and management tools." },
-      ],
-    },
-    foreignTravel: {
-      title: "Foreign Travel & Relocation",
-      overview: `Yatra and Deshantara Sahams activate foreign visa approvals, long journeys, and overseas success.`,
-      subAspects: [
-        { label: "Visas & Immigration", text: "Smooth documentation and quick visa clearance." },
-        { label: "Travel & Pilgrimage", text: "Enriching international travel and sacred pilgrimages." },
-      ],
-    },
-    propertyVehicle: {
-      title: "Property, Real Estate & Vehicles",
-      overview: `4th House activation during Mars and Venus cycles favors property purchase and luxury vehicle buy.`,
-      subAspects: [
-        { label: "Property Acquisition", text: "Secure land or apartment deals with high equity upside." },
-        { label: "Vehicle Purchase", text: "Auspicious window for purchasing a modern vehicle." },
-      ],
-    },
-    spiritual: {
-      title: "Spiritual Growth & Dharma",
-      overview: `Punya Saham in ${sahams[0].sign} grants spiritual awakening, guru grace, and inner peace.`,
-      subAspects: [
-        { label: "Meditation & Sadhana", text: "Deep meditative experiences and mental serenity." },
-        { label: "Charity & Seva", text: "Involvement in community service brings karmic merit." },
-      ],
-    },
+    career: buildDomain("career", "Career & Professional Elevation", 88, "High promotion and authority growth under Varshapati alignment."),
+    finance: buildDomain("finance", "Finance, Wealth & Investment", 84, "Dhana Saham triggers liquid cash inflow and asset expansion."),
+    marriage: buildDomain("marriage", "Marriage & Relationship Harmony", 80, "Vivaha Saham fosters deep mutual respect and domestic joy."),
+    health: buildDomain("health", "Health, Vitality & Wellness", 76, "Robust physical stamina; maintain satvik diet and regular sleep."),
+    business: buildDomain("business", "Business Expansion & Ventures", 87, "Ikbal Yoga activates lucrative trade deals and brand authority."),
+    education: buildDomain("education", "Education & Skill Mastery", 91, "Vidya Saham favors academic distinction and exam success."),
+    foreignTravel: buildDomain("foreignTravel", "Foreign Travel & Relocation", 82, "Deshantara Saham activates visa approvals and long journeys."),
+    property: buildDomain("property", "Property, Real Estate & Vehicles", 79, "Favourable window for property investment and vehicle buy."),
+    spiritual: buildDomain("spiritual", "Spiritual Growth & Dharma", 86, "Punya Saham grants inner realization, meditation, and peace."),
   };
 
-  // 13. Major Opportunities
-  const opportunities = [
-    { period: `${monthlyTimeline[1]?.monthName || "Month 2"}`, title: "Career Elevation", detail: "Leadership proposal and high visibility project assignment." },
-    { period: `${monthlyTimeline[4]?.monthName || "Month 5"}`, title: "Financial Inflow", detail: "Bonus payout or profitable investment realization." },
-    { period: `${monthlyTimeline[7]?.monthName || "Month 8"}`, title: "Travel & Relocation", detail: "Auspicious foreign trip or business delegation visit." },
-    { period: `${monthlyTimeline[10]?.monthName || "Month 11"}`, title: "Property Deal", detail: "Auspicious buy agreement for real estate or asset." },
+  // 7. 11-Category Date Matrix
+  const importantDateMatrix = [
+    { category: "Best Favourable Dates", dates: [`${targetYear}-08-18`, `${targetYear}-10-12`], recommendation: "Ideal for new project launches and major announcements." },
+    { category: "Caution & Avoid Dates", dates: [`${targetYear + 1}-02-22`], recommendation: "Avoid high-risk arguments or impulsive contracts." },
+    { category: "Investment & Wealth Dates", dates: [`${targetYear}-09-05`, `${targetYear}-11-14`], recommendation: "Optimal day for asset purchase and equity investments." },
+    { category: "Marriage & Alliance Dates", dates: [`${targetYear}-10-24`, `${targetYear}-12-08`], recommendation: "Harmonious dates for matrimony and romantic commitments." },
+    { category: "Travel & Visa Dates", dates: [`${targetYear}-08-28`, `${targetYear}-12-19`], recommendation: "Auspicious window for visa applications and foreign travel." },
+    { category: "Interview & Career Dates", dates: [`${targetYear}-09-12`, `${targetYear}-10-04`], recommendation: "High confidence days for job interviews and presentations." },
+    { category: "Business Launch Dates", dates: [`${targetYear}-08-22`, `${targetYear}-11-02`], recommendation: "Favourable alignment for opening new offices or ventures." },
+    { category: "Property Purchase Dates", dates: [`${targetYear}-09-28`, `${targetYear + 1}-01-15`], recommendation: "Auspicious alignment for signing property deeds." },
+    { category: "Vehicle Purchase Dates", dates: [`${targetYear}-10-10`, `${targetYear}-11-25`], recommendation: "Ideal day to buy and register new vehicles." },
+    { category: "Donation & Seva Dates", dates: [`${targetYear}-08-15`, `${targetYear}-11-20`], recommendation: "Multiply karmic merit through charitable acts." },
+    { category: "Temple Visit Dates", dates: [`${targetYear}-09-01`, `${targetYear}-10-15`], recommendation: "Visit Sun or Vishnu temple for divine blessings." },
   ];
 
-  // 14. Risk Calendar
-  const riskCalendar = [
-    { period: `Mid-${monthlyTimeline[3]?.monthName || "Month 4"}`, title: "Expense Spurt", caution: "Avoid impulsive speculation or high-risk lending." },
-    { period: `Late-${monthlyTimeline[8]?.monthName || "Month 9"}`, title: "Workplace Fatigue", caution: "Balance heavy workload with rest to prevent fatigue." },
-  ];
+  // 8. 10-Point Comprehensive Remedies
+  const comprehensiveRemedies = {
+    planetRemedies: [
+      `Sun: Offer Arghya (water) to the rising Sun daily in copper vessel.`,
+      `Jupiter: Recite Vishnu Sahasranama or Guru Mantra on Thursdays.`,
+    ],
+    gemstone: `Natural Yellow Sapphire (Pukhraj) or Ruby set in Gold ring on index/ring finger.`,
+    mantra: `Recite "Om Suryaya Namah" or "Om Gram Greem Grom Sah Gurave Namah" 108 times daily.`,
+    donation: `Donate yellow lentils, honey, or books to students on Thursdays.`,
+    temple: `Visit Sun Temple or Lord Vishnu Shrine on birth return dates.`,
+    charity: `Sponsor educational scholarships for underprivileged children.`,
+    fasting: `Observe fasting or light satvik fruit diet on Thursdays and Sundays.`,
+    colours: ["Golden Yellow", "Deep Saffron", "Warm Royal Blue"],
+    directions: ["East", "North-East"],
+    lifestyle: ["Practice morning Surya Namaskar", "Maintain disciplined daily sleep cycles"],
+  };
 
-  // 15. Lucky Elements
   const luckyElements = {
     days: ["Sunday", "Thursday", "Tuesday"],
     dates: [1, 3, 5, 9, 12, 14, 21, 27],
-    colours: ["Deep saffron", "Golden yellow", "Warm royal blue"],
+    colours: ["Golden Yellow", "Deep Saffron", "Warm Royal Blue"],
     numbers: [1, 3, 9],
     direction: "East & North-East",
   };
 
-  // 16. Important Annual Dates
-  const importantDates = [
-    { category: "Best Favourable Day", date: `${returnDate.getFullYear()}-08-18`, note: "Punya Saham peak alignment for new starts." },
-    { category: "Marriage / Alliance Window", date: `${returnDate.getFullYear()}-10-12`, note: "Vivaha Saham trigger for harmonious events." },
-    { category: "Investment / Wealth Day", date: `${returnDate.getFullYear()}-11-05`, note: "Dhana Saham maximum financial inflow day." },
-    { category: "Travel / Visa Day", date: `${returnDate.getFullYear()}-12-14`, note: "Yatra Saham alignment for international trips." },
-    { category: "Caution & Rest Day", date: `${returnDate.getFullYear() + 1}-02-22`, note: "Saturn transit caution day; avoid heavy arguments." },
-  ];
-
-  // 17. Annual Remedies
-  const remedies = {
-    gemstone: `Natural Yellow Sapphire (Pukhraj) or Ruby as per ${varshapatiLord} strength.`,
-    mantra: `Recite "Om Suryaya Namah" or "Om Gram Greem Grom Sah Gurave Namah" 108 times daily.`,
-    donation: `Donate yellow grains, honey, or books to deserving students on Thursdays.`,
-    fasting: `Observe fasting or light satvik diet on Thursdays / Sundays.`,
-    temple: `Visit Sun or Vishnu Temple on auspicious annual return dates.`,
-    charity: `Support educational scholarships for underprivileged youth.`,
-  };
-
-  // 18. Year Summary & Disclaimer
   const yearSummary = {
-    headline: `Year ${targetYear} is a highly progressive solar return period (Score ${overallScore}/100) led by Varshapati ${varshapatiLord} and Muntha in House ${munthaHouse}.`,
+    headline: `Commercial Enterprise Varshphal ${targetYear} Profile (Overall Score ${overallScore}/100) — Led by Varshapati ${varshapatiLord} & Muntha in House ${munthaHouse}.`,
     strengths: [
-      `Strong Varshapati ${varshapatiLord} granting authority and status elevation.`,
-      `Formations of Ithasala and Ikbal Tajika Yogas ensuring commercial success.`,
-      `Punya and Dhana Sahams activating wealth accumulation and luck.`,
+      `Elevated status under Varshapati ${varshapatiLord}.`,
+      `Ithasala and Ikbal Tajika Yogas unlocking wealth accumulation.`,
+      `Punya and Dhana Sahams granting spiritual luck and liquid cash.`,
     ],
     weaknesses: [
-      `Occasional expense spurts during mid-year transit transitions.`,
-      `Need to manage fatigue during heavy project deadlines.`,
+      `Occasional mid-year transit friction requiring routine discipline.`,
+      `Need to manage heavy workload during project launch deadlines.`,
     ],
     recommendations: [
-      `Capitalize on Q1 and Q2 for major business and career investments.`,
-      `Perform annual Sun and Jupiter remedies on recommended dates.`,
-      `Maintain regular wellness practices for continuous peak stamina.`,
+      `Capitalize on Q1 and Q2 for major commercial and career expansions.`,
+      `Perform prescribed 10-point remedies on recommended annual dates.`,
+      `Maintain regular wellness and morning yoga for peak stamina.`,
     ],
-    disclaimer: `This Varshphal Annual Prediction Report is generated for educational, self-reflection, and cultural purposes based on classical Vedic Tajika principles. It does not replace professional legal, financial, or medical advice.`,
+    disclaimer: "This Commercial Enterprise Varshphal Report V2 is generated for educational, self-reflection, and cultural guidance based on Vedic Tajika principles. It does not constitute medical, legal, or financial advice.",
   };
 
   return {
     targetYear,
     age,
-    scorecard,
     overallScore,
-    planetaryOverview,
-    varshaLagna,
+    opportunityIndex,
+    riskIndex,
+    scorecard,
+    varshaLagna: {
+      sign: RASHIS[ascIndex],
+      house: 1,
+      lord: RASHI_LORDS[RASHIS[ascIndex]] || "Sun",
+      strength: "Favourable (Lagna Lord active)",
+      weakness: "Requires focus during Mars sub-periods",
+      yearFocus: "Self-expression, career advancement, and personal wellbeing.",
+      explanation: `The Varsha Lagna in ${RASHIS[ascIndex]} establishes a baseline of self-reliance, leadership, and personal success for ${targetYear}.`,
+    },
     muntha: {
       house: munthaHouse,
       sign: munthaSign,
       lord: munthaLord,
-      title: munthaInfo.title,
-      description: munthaInfo.desc,
-      favourability: munthaInfo.fav,
-      positiveEffects: munthaInfo.pos,
-      negativeEffects: munthaInfo.neg,
-      aiInterpretation: `Muntha in House ${munthaHouse} (${munthaSign}) focuses your annual karmic energy on ${munthaInfo.desc}`,
+      title: `Muntha in House ${munthaHouse} (${munthaSign})`,
+      description: `Muntha in House ${munthaHouse} focuses annual karmic energy on house ${munthaHouse} themes.`,
+      favourability: "Excellent",
+      positiveEffects: "Rise in status, leadership recognition, physical vitality.",
+      negativeEffects: "Occasional fatigue if pace is not regulated.",
+      aiInterpretation: `Muntha in House ${munthaHouse} energizes core annual accomplishments.`,
     },
     munthesh: {
       planet: munthaLord,
       house: munthaHouse,
-      strength: "Exalted & Strong in Solar Return",
+      strength: "Exalted & Protective",
       friendship: "Friendly with Varsha Lagna Lord",
       recommendation: `Strengthen ${munthaLord} through daily morning mantras and charity.`,
     },
     varshapati: {
       lord: varshapatiLord,
-      title: `${varshapatiLord} as Varshapati (Year Lord)`,
+      title: `${varshapatiLord} as Year Lord`,
       strength: "Strong (High Panchavargiya Bala)",
-      description: `As Year Lord, ${varshapatiLord} rules over the central theme of ${targetYear}, granting vigor, focus, and authority.`,
+      description: `As Year Lord, ${varshapatiLord} rules over the central theme of ${targetYear}.`,
       careerImpact: "Elevates professional standing and unlocks new leadership assignments.",
       financeImpact: "Ensures stable cash flow and protects liquid capital reserves.",
       relationshipImpact: "Enhances public image and fosters warm family alliances.",
@@ -847,11 +555,9 @@ export function calculateVarshphal(
     monthlyTimeline,
     quarterlyForecast,
     domains,
-    opportunities,
-    riskCalendar,
+    importantDateMatrix,
+    comprehensiveRemedies,
     luckyElements,
-    importantDates,
-    remedies,
     yearSummary,
   };
 }
