@@ -106,8 +106,8 @@ function UsersPage() {
               <th className="px-3 py-2 w-10">
                 <Checkbox
                   checked={
-                    q.data?.rows?.length > 0 &&
-                    selectedUserIds.length === q.data.rows.length
+                    Boolean(q.data?.rows?.length) &&
+                    selectedUserIds.length === q.data?.rows?.length
                   }
                   onCheckedChange={(c) => selectAllUsers(!!c)}
                   aria-label="Select all users"

@@ -266,6 +266,7 @@ function Hero({
   onScrollToChart: () => void;
   chartRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const { user } = useAuth();
   const { t, lang } = useTranslation();
   const [name, setName] = useState("");
   const [gender, setGender] = useState<"male" | "female" | "other" | "">("");

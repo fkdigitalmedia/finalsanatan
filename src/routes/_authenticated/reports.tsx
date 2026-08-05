@@ -28,11 +28,16 @@ export const Route = createFileRoute("/_authenticated/reports")({
 const REPORT_FILTER_CATEGORIES = [
   { value: "all", label: "All Reports" },
   { value: "janam-kundli", label: "Janam Kundli" },
+  { value: "marriage-analysis", label: "Marriage Analysis" },
+  { value: "health-analysis", label: "Health Analysis" },
+  { value: "foreign-settlement-analysis", label: "Foreign Settlement" },
+  { value: "career-analysis", label: "Career Analysis" },
   { value: "varshphal", label: "Varshphal" },
   { value: "kundli-matching", label: "Matching" },
   { value: "numerology", label: "Numerology" },
   { value: "muhurat", label: "Muhurat" },
 ];
+
 
 function ReportsPage() {
   const { user } = useAuth();

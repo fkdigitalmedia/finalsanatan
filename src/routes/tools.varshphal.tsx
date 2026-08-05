@@ -20,7 +20,7 @@ import { useToolAccess } from "@/lib/monetization/tool-access";
 import { getMyEntitlements } from "@/lib/payments.functions";
 import { generateKundli } from "@/lib/kundli";
 import type { KundliResult } from "@/lib/kundli/types";
-import { calculateVarshphal, type VarshphalResult } from "@/lib/kundli/varshphal";
+import { calculateVarshphal, type VarshphalResultV2 as VarshphalResult } from "@/lib/kundli/varshphal";
 import { downloadVarshphalPdf } from "@/lib/kundli/varshphal-pdf";
 import { DEFAULT_LOCATION, type LatLon } from "@/lib/panchang";
 import { useTranslation } from "@/i18n/I18nProvider";
@@ -143,7 +143,7 @@ function VarshTool() {
         setVarshResult(v);
 
         if (user) {
-          trackReportGenerated({
+          trackReportGenerated(user.id, {
             kind: "varshphal",
             title: `Varshphal ${targetYear} Report`,
             data: { birth: { date, time, place: loc.label }, targetYear, muntha: v.muntha },

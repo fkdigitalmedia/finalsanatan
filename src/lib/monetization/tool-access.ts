@@ -319,7 +319,7 @@ export function useToolAccess(toolSlug: string) {
       if (!data?.value || typeof data.value !== "object") {
         return DEFAULT_TOOL_MONETIZATION_CONFIG;
       }
-      return { ...DEFAULT_TOOL_MONETIZATION_CONFIG, ...(data.value as ToolMonetizationConfig) };
+      return { ...DEFAULT_TOOL_MONETIZATION_CONFIG, ...(data.value as unknown as ToolMonetizationConfig) };
     },
     staleTime: 15_000,
   });

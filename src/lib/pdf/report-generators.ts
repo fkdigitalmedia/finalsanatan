@@ -6,7 +6,7 @@
  */
 
 import type { KundliResult } from "@/lib/kundli/types";
-import type { VarshphalResult } from "@/lib/kundli/varshphal";
+import type { VarshphalResultV2 } from "@/lib/kundli/varshphal";
 import { downloadKundliPdf, generateKundliPdf as generateJanamKundliPDF } from "@/lib/kundli/pdf";
 import { downloadVarshphalPdf, generateVarshphalPDF } from "@/lib/kundli/varshphal-pdf";
 import { PDFEngine } from "@/lib/pdf/engine";
@@ -40,7 +40,7 @@ export async function generateMatchingPDF(data: Record<string, unknown>, opts: {
 
 export async function downloadMatchingPdf(data: Record<string, unknown>, filename = "Kundli_Matching_Report.pdf") {
   const result = await generateMatchingPDF(data);
-  result.doc.save(filename);
+  (result as any).doc.save(filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "matching", title: "Kundli Matching Report", data }).catch(console.error);
@@ -63,7 +63,7 @@ export async function generateMuhuratPDF(data: Record<string, unknown>, opts: { 
 
 export async function downloadMuhuratPdf(data: Record<string, unknown>, filename = "Muhurat_Report.pdf") {
   const result = await generateMuhuratPDF(data);
-  result.doc.save(filename);
+  (result as any).doc.save(filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "muhurat", title: "Muhurat Report", data }).catch(console.error);
