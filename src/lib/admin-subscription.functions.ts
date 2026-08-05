@@ -281,27 +281,36 @@ export async function executeAssignUserSubscription(
 
   const userName = userProfile?.display_name || userProfile?.email || input.userId;
 
-  // 3. Upsert user_entitlements
-  const payload = {
-    user_id: input.userId,
-    entitlement_key: planKey === "free" ? "basic_access" : "premium_access",
-    active: isActive,
-    expires_at: isLifetime ? null : expiryIso,
-    updated_at: new Date().toISOString(),
-  };
+  // 3. Upsert user_entitlements (grant both general premium_access and kundli_premium_report)
+  const entitlementKeys =
+    planKey === "free" || !isActive
+      ? ["basic_access", "premium_access", "kundli_premium_report"]
+      : ["premium_access", "kundli_premium_report"];
 
-  const { error: entError } = await ctx.supabase
-    .from("user_entitlements")
-    .upsert(payload, { onConflict: "user_id,entitlement_key" });
+  for (const entKey of entitlementKeys) {
+    const isThisActive = isActive && (planKey !== "free" || entKey === "basic_access");
+    const payload = {
+      user_id: input.userId,
+      entitlement_key: entKey,
+      active: isThisActive,
+      expires_at: isLifetime ? null : expiryIso,
+      updated_at: new Date().toISOString(),
+    };
 
-  if (entError) {
-    await ctx.supabase
+    const { error: entError } = await ctx.supabase
       .from("user_entitlements")
-      .update({
-        active: isActive,
-        expires_at: isLifetime ? null : expiryIso,
-      })
-      .eq("user_id", input.userId);
+      .upsert(payload, { onConflict: "user_id,entitlement_key" });
+
+    if (entError) {
+      await ctx.supabase
+        .from("user_entitlements")
+        .update({
+          active: isThisActive,
+          expires_at: isLifetime ? null : expiryIso,
+        })
+        .eq("user_id", input.userId)
+        .eq("entitlement_key", entKey);
+    }
   }
 
   // 4. Audit Log

@@ -292,7 +292,15 @@ function Hero({
     staleTime: 60_000,
   });
   const hasPaidEntitlement =
-    !!entitlementsQuery.data?.entitlements?.includes("kundli_premium_report");
+    !!entitlementsQuery.data?.entitlements?.some((e: string) =>
+      [
+        "kundli_premium_report",
+        "premium_access",
+        "premium_pro",
+        "lifetime_vip",
+        "pro_access",
+      ].includes(e),
+    );
 
   const getKundliReportSettingFn = useServerFn(getKundliReportSetting);
 
