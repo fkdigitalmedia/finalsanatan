@@ -98,6 +98,22 @@ export function calculateExpiry(
   return { expiryIso: expiry.toISOString(), durationDays: days, isLifetime: false };
 }
 
+// ---------- PAYLOAD UNWRAPPER HELPER ----------
+
+export function unwrapPayload<T = any>(raw: any): T {
+  if (!raw || typeof raw !== "object") return raw;
+  let current = raw;
+  for (let i = 0; i < 3; i++) {
+    if (current && typeof current === "object" && "data" in current && current.data && typeof current.data === "object") {
+      if (current.userId || current.userIds) break;
+      current = current.data;
+    } else {
+      break;
+    }
+  }
+  return current;
+}
+
 // ---------- CORE LOGIC EXPORTS ----------
 
 export async function executeGetUserSubscriptionDetails(
@@ -106,8 +122,9 @@ export async function executeGetUserSubscriptionDetails(
 ) {
   await assertStaff(ctx);
 
-  const targetUserId = typeof rawTargetUserId === "object" ? rawTargetUserId?.userId : rawTargetUserId;
-  if (!targetUserId) throw new Error("Missing targetUserId");
+  const payload = unwrapPayload(rawTargetUserId);
+  const targetUserId = typeof payload === "string" ? payload : payload?.userId;
+  if (!targetUserId) throw new Error("Missing required field: userId");
 
   const [entRes, profileRes, auditRes] = await Promise.all([
     ctx.supabase
@@ -183,7 +200,7 @@ export async function executeAssignUserSubscription(
 ) {
   await assertStaff(ctx);
 
-  const input: AdminSubscriptionAssignInput = (rawInput as any)?.data ?? rawInput ?? {};
+  const input: AdminSubscriptionAssignInput = unwrapPayload(rawInput);
 
   if (!input || !input.userId) {
     throw new Error("Missing required field: userId");
@@ -324,7 +341,7 @@ export async function executeBulkManageSubscriptions(
 ) {
   await assertStaff(ctx);
 
-  const input: BulkSubscriptionInput = (rawInput as any)?.data ?? rawInput ?? {};
+  const input: BulkSubscriptionInput = unwrapPayload(rawInput);
 
   if (!input.userIds || input.userIds.length === 0) {
     throw new Error("No users selected for bulk action");
