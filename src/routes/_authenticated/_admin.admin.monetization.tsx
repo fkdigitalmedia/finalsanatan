@@ -77,9 +77,12 @@ export const Route = createFileRoute("/_authenticated/_admin/admin/monetization"
   }),
 });
 
+import { ToolMonetizationManager } from "@/components/admin/ToolMonetizationManager";
+
 function MonetizationPage() {
   return (
     <div className="space-y-10">
+      <ToolMonetizationManager />
       <KundliFreeToggle />
       <CrudTable config={plansConfig} />
       <CrudTable config={couponsConfig} />

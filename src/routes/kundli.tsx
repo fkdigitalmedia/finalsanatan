@@ -59,6 +59,7 @@ import { LANGUAGES } from "@/i18n/config";
 import { subscribeNewsletter } from "@/lib/newsletter.functions";
 import { getMyEntitlements } from "@/lib/payments.functions";
 import { getKundliReportSetting } from "@/lib/settings.functions";
+import { useToolAccess } from "@/lib/monetization/tool-access";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -282,36 +283,19 @@ function Hero({
     Array<{ section: KundliSection; title: string; text: string }>
   >([]);
 
-  // Sprint 4 — premium gating via user_entitlements
-  const { user } = useAuth();
-  const fetchEntitlements = useServerFn(getMyEntitlements);
-  const entitlementsQuery = useQuery({
-    queryKey: ["my-entitlements", user?.id ?? "anon"],
-    queryFn: () => fetchEntitlements(),
-    enabled: !!user,
-    staleTime: 60_000,
-  });
-  const hasPaidEntitlement =
-    !!entitlementsQuery.data?.entitlements?.some((e: string) =>
-      [
-        "kundli_premium_report",
-        "premium_access",
-        "premium_pro",
-        "lifetime_vip",
-        "pro_access",
-      ].includes(e),
-    );
+  // Dynamic Monetization & Entitlement Gating
+  const toolAccess = useToolAccess("kundli-pro");
 
   const getKundliReportSettingFn = useServerFn(getKundliReportSetting);
 
-  // Admin-controlled: give full report free to everyone when this flag is ON
+  // Admin-controlled legacy setting fallback: give full report free to everyone when this flag is ON
   const reportSettingQuery = useQuery({
     queryKey: ["site_settings", "kundli.report"],
     queryFn: () => getKundliReportSettingFn(),
     staleTime: 15_000,
   });
   const freeFullReport = !!reportSettingQuery.data?.free_full_report;
-  const isPremium = hasPaidEntitlement || freeFullReport;
+  const isPremium = toolAccess.isAccessible || freeFullReport;
 
   const activeState = useMemo(
     () => INDIA_STATES.find((s) => s.state === stateName) ?? INDIA_STATES[0],

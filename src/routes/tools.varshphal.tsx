@@ -16,6 +16,7 @@ import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
 import { PremiumToolShell, toolSchema } from "@/components/tools/PremiumToolShell";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useToolAccess } from "@/lib/monetization/tool-access";
 import { getMyEntitlements } from "@/lib/payments.functions";
 import { generateKundli } from "@/lib/kundli";
 import type { KundliResult } from "@/lib/kundli/types";
@@ -109,24 +110,8 @@ function Page() {
 function VarshTool() {
   const { t, raw, lang } = useTranslation();
   const { user } = useAuth();
-  const fetchEntitlements = useServerFn(getMyEntitlements);
-  const entitlementsQuery = useQuery({
-    queryKey: ["my-entitlements", user?.id ?? "anon"],
-    queryFn: () => fetchEntitlements(),
-    enabled: !!user,
-    staleTime: 60_000,
-  });
-
-  const isPremium =
-    !!entitlementsQuery.data?.entitlements?.some((e: string) =>
-      [
-        "kundli_premium_report",
-        "premium_access",
-        "premium_pro",
-        "lifetime_vip",
-        "pro_access",
-      ].includes(e),
-    );
+  const toolAccess = useToolAccess("varshphal");
+  const isPremium = toolAccess.isAccessible;
 
   const [date, setDate] = useState("1995-08-15");
   const [time, setTime] = useState("12:00");

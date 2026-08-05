@@ -37,3 +37,19 @@ export const getKundliReportSetting = createServerFn({ method: "GET" }).handler(
     return { free_full_report: false };
   }
 });
+
+export const getToolMonetizationSetting = createServerFn({ method: "GET" }).handler(async () => {
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("site_settings")
+      .select("value")
+      .eq("key", "tool_monetization_config")
+      .maybeSingle();
+
+    if (error || !data || !data.value) return { config: null };
+    return { config: data.value };
+  } catch {
+    return { config: null };
+  }
+});
