@@ -482,9 +482,48 @@ const GENERIC_SECTIONS: TemplateSection[] = [
   disclaimer,
 ];
 
+const VARSHPHAL_SECTIONS: TemplateSection[] = [
+  cover("Varshphal Annual Return Horoscope", BIRTH_DETAILS),
+  toc,
+  {
+    id: "varshphal_summary",
+    type: "introduction",
+    title: "Annual Solar Return Executive Summary",
+    inToc: true,
+    newPage: true,
+    options: { text: "{{summary}}" },
+  },
+  {
+    id: "muntha_analysis",
+    type: "markdown",
+    title: "Muntha Analysis & Tajika Predictions",
+    inToc: true,
+    newPage: false,
+    options: { text: "{{munthaAnalysis}}" },
+  },
+  {
+    id: "varshesh_analysis",
+    type: "markdown",
+    title: "Varshapati (Year Lord) & Tajika Sahams",
+    inToc: true,
+    newPage: false,
+    options: { text: "{{varsheshAnalysis}}" },
+  },
+  {
+    id: "monthly_timeline",
+    type: "timeline",
+    title: "12-Month Month-by-Month Forecast",
+    inToc: true,
+    newPage: true,
+    options: { itemsSource: "monthlyTimeline" },
+  },
+  summary("Annual Guidance & Vedic Remedies"),
+  disclaimer,
+];
+
 const SECTION_PRESETS: Record<string, TemplateSection[]> = {
   "janam-kundli": KUNDLI_SECTIONS,
-  varshphal: KUNDLI_SECTIONS,
+  varshphal: VARSHPHAL_SECTIONS,
   "personalized-horoscope": HOROSCOPE_SECTIONS,
   "daily-horoscope": HOROSCOPE_SECTIONS,
   "weekly-horoscope": HOROSCOPE_SECTIONS,
@@ -493,6 +532,13 @@ const SECTION_PRESETS: Record<string, TemplateSection[]> = {
   "kundli-matching": MATCHING_SECTIONS,
   "marriage-compatibility": MATCHING_SECTIONS,
   "festival-report": FESTIVAL_SECTIONS,
+  "numerology-report": GENERIC_SECTIONS,
+  "muhurat-report": GENERIC_SECTIONS,
+  "career-report": GENERIC_SECTIONS,
+  "marriage-report": MATCHING_SECTIONS,
+  "business-report": GENERIC_SECTIONS,
+  "health-report": GENERIC_SECTIONS,
+  "foreign-settlement": GENERIC_SECTIONS,
 };
 
 const THEME_PRESETS: Record<string, string> = {

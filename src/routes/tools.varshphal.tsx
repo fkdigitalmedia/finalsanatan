@@ -21,7 +21,7 @@ import { getMyEntitlements } from "@/lib/payments.functions";
 import { generateKundli } from "@/lib/kundli";
 import type { KundliResult } from "@/lib/kundli/types";
 import { calculateVarshphal, type VarshphalResult } from "@/lib/kundli/varshphal";
-import { downloadKundliPdf } from "@/lib/kundli/pdf";
+import { downloadVarshphalPdf } from "@/lib/kundli/varshphal-pdf";
 import { DEFAULT_LOCATION, type LatLon } from "@/lib/panchang";
 import { useTranslation } from "@/i18n/I18nProvider";
 import { trackReportGenerated } from "@/lib/workspace/tracker";
@@ -159,13 +159,13 @@ function VarshTool() {
   };
 
   const handleDownloadPdf = async () => {
-    if (!result) return;
+    if (!result || !varshResult) return;
     setDownloadingPdf(true);
     try {
-      await downloadKundliPdf(result, {
+      await downloadVarshphalPdf(result, varshResult, {
         premium: true,
         language: (lang as any) || "en",
-        filename: `Varshphal_${targetYear}_Report.pdf`,
+        filename: `Varshphal_Report_${targetYear}.pdf`,
       });
       toast.success("Varshphal PDF generated & downloaded successfully!");
     } catch (err: any) {
