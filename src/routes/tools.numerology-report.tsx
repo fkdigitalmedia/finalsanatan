@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { PremiumToolShell, toolSchema } from "@/components/tools/PremiumToolShell";
 import { useTranslation } from "@/i18n/I18nProvider";
 import { useToolAccess } from "@/lib/monetization/tool-access";
-import { calculateNumerology, type NumerologyReportResultV2 } from "@/lib/numerology/engine";
+import { calculateNumerology, type NumerologyReportResultV3 } from "@/lib/numerology/engine";
 import { downloadNumerologyPdf } from "@/lib/numerology/pdf";
 
 const FAQS = [
@@ -106,7 +106,7 @@ function NumTool() {
   const [businessName, setBusinessName] = useState("");
 
   const [downloadingPdf, setDownloadingPdf] = useState(false);
-  const [report, setReport] = useState<NumerologyReportResultV2 | null>(null);
+  const [report, setReport] = useState<NumerologyReportResultV3 | null>(null);
 
   const generate = () => {
     if (!name.trim()) {
@@ -364,8 +364,8 @@ function NumTool() {
                   {report.practicalAssets.map((pa) => (
                     <Card key={pa.assetType} className="p-3.5 border bg-card">
                       <div className="text-xs font-bold text-amber-600">{pa.assetType}</div>
-                      <div className="font-mono text-xs text-foreground font-semibold mt-1">{pa.vibration}</div>
-                      <p className="text-[11px] text-muted-foreground mt-1.5 leading-snug">{pa.suggestion}</p>
+                      <div className="font-mono text-xs text-foreground font-semibold mt-1">{pa.vibration} ({pa.compatibilityPct}% Match)</div>
+                      <p className="text-[11px] text-muted-foreground mt-1.5 leading-snug">{pa.improvementSuggestion}</p>
                     </Card>
                   ))}
                 </div>
