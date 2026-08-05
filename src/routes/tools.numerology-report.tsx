@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Hash, Sparkles, RotateCcw } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Hash, Sparkles, RotateCcw, Download, Lock, Award, ShieldCheck, Calendar, Activity, Heart, Compass, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,8 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { PremiumToolShell, toolSchema } from "@/components/tools/PremiumToolShell";
-import { nameNumerology, lifePathNumber } from "@/lib/library-data";
 import { useTranslation } from "@/i18n/I18nProvider";
+import { useToolAccess } from "@/lib/monetization/tool-access";
+import { calculateNumerology, type NumerologyReportResult } from "@/lib/numerology/engine";
+import { downloadNumerologyPdf } from "@/lib/numerology/pdf";
 
 const PLANETS: Record<number, string> = {
   1: "Surya (Sun)",
@@ -33,17 +35,6 @@ const MEANINGS: Record<number, string> = {
   8: "Powerful, karmic, transformative — Shani's vibration.",
   9: "Compassionate, universal, complete — Mangal's vibration.",
 };
-const LUCKY: Record<number, { colors: string; days: string; gem: string }> = {
-  1: { colors: "Gold, Orange", days: "Sunday", gem: "Ruby" },
-  2: { colors: "White, Silver", days: "Monday", gem: "Pearl" },
-  3: { colors: "Yellow", days: "Thursday", gem: "Yellow Sapphire" },
-  4: { colors: "Grey, Blue", days: "Saturday", gem: "Hessonite" },
-  5: { colors: "Green", days: "Wednesday", gem: "Emerald" },
-  6: { colors: "Pink, White", days: "Friday", gem: "Diamond" },
-  7: { colors: "Light Grey", days: "Tuesday", gem: "Cat's Eye" },
-  8: { colors: "Black, Dark Blue", days: "Saturday", gem: "Blue Sapphire" },
-  9: { colors: "Red, Coral", days: "Tuesday", gem: "Red Coral" },
-};
 
 const FAQS = [
   {
@@ -51,28 +42,28 @@ const FAQS = [
     a: "Your Life Path number is derived from your full date of birth. It reveals your core life purpose and natural strengths.",
   },
   {
-    q: "What is a Destiny (Name) number?",
-    a: "Also called Expression number, it comes from the Pythagorean value of the letters in your full name — it shows your outward talents and destiny.",
+    q: "What is a Destiny (Expression) number?",
+    a: "It comes from the letters in your full birth name — showing your outward talents, career trajectory, and life calling.",
   },
   {
     q: "Why do Life Path and Destiny differ?",
-    a: "Life Path is what you're born with; Destiny is what you express through your name. They together give a complete picture.",
+    a: "Life Path is what you're born with; Destiny is what you express through your name. Together they complete your blueprint.",
   },
 ];
 
 export const Route = createFileRoute("/tools/numerology-report")({
   head: () => ({
     meta: [
-      { title: "Numerology Report — Free Life Path & Destiny Number" },
+      { title: "Enterprise Numerology Pro Report — Life Path, Destiny & 30 Sections" },
       {
         name: "description",
         content:
-          "Free numerology report — get your Life Path number, Destiny number, and Vedic planetary vibration in seconds.",
+          "Enterprise commercial numerology report — calculate Life Path, Destiny, Soul Urge, Pinnacles, Personal Year, 12-Month Timeline, and download 25-35 page PDF.",
       },
-      { property: "og:title", content: "Numerology Report — Life Path & Destiny" },
+      { property: "og:title", content: "Enterprise Numerology Pro Report" },
       {
         property: "og:description",
-        content: "Free Vedic numerology with Life Path, Destiny number and planetary meaning.",
+        content: "Commercial Vedic & Pythagorean numerology with 30 detailed sections and downloadable PDF.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -81,8 +72,8 @@ export const Route = createFileRoute("/tools/numerology-report")({
       {
         type: "application/ld+json",
         children: toolSchema({
-          name: "Numerology Report",
-          description: "Life Path & Destiny numerology with Vedic planetary meaning.",
+          name: "Enterprise Numerology Report",
+          description: "Life Path, Destiny & 30 detailed commercial numerology chapters.",
           url: "https://sanatantools.com/tools/numerology-report",
           faqs: FAQS,
         }),
@@ -126,23 +117,14 @@ function Page() {
 }
 
 function NumTool() {
-  const { t, raw } = useTranslation();
-  const planets = raw<Record<number, string>>("premium_tools.numerology.planets") ?? PLANETS;
-  const meanings = raw<Record<number, string>>("premium_tools.numerology.meanings") ?? MEANINGS;
-  const lucky =
-    raw<Record<number, { colors: string; days: string; gem: string }>>(
-      "premium_tools.numerology.lucky",
-    ) ?? LUCKY;
+  const { t } = useTranslation();
+  const toolAccess = useToolAccess("numerology");
+  const isPremium = toolAccess.isAccessible;
 
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [report, setReport] = useState<null | {
-    life: number;
-    dest: { number: number; meaning: string };
-    soul: { number: number; meaning: string };
-    personality: { number: number; meaning: string };
-    birthday: number;
-  }>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [report, setReport] = useState<NumerologyReportResult | null>(null);
 
   const generate = () => {
     if (!name.trim()) {
@@ -153,17 +135,8 @@ function NumTool() {
       toast.error(t("premium_tools.numerology.error_dob"));
       return;
     }
-    const vowels = name.replace(/[^aeiouAEIOU]/g, "");
-    const consonants = name.replace(/[^a-zA-Z]/g, "").replace(/[aeiouAEIOU]/g, "");
-    const day = Number(dob.split("-")[2] ?? "0");
-    const birthday = day > 9 ? [...String(day)].reduce((s, d) => s + Number(d), 0) : day;
-    setReport({
-      life: lifePathNumber(dob),
-      dest: nameNumerology(name),
-      soul: nameNumerology(vowels),
-      personality: nameNumerology(consonants),
-      birthday: birthday || 1,
-    });
+    const res = calculateNumerology(name, dob);
+    setReport(res);
     setTimeout(
       () =>
         document
@@ -171,6 +144,20 @@ function NumTool() {
           ?.scrollIntoView({ behavior: "smooth", block: "start" }),
       80,
     );
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!report) return;
+    setDownloadingPdf(true);
+    try {
+      await downloadNumerologyPdf(report, `Enterprise_Numerology_${name.trim().replace(/\s+/g, "_")}.pdf`);
+      toast.success("Enterprise Numerology Pro PDF generated & downloaded!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.message || "Failed to download Numerology PDF");
+    } finally {
+      setDownloadingPdf(false);
+    }
   };
 
   const reset = () => {
@@ -182,9 +169,17 @@ function NumTool() {
   return (
     <>
       <Card className="p-6">
-        <div className="flex items-center gap-2 mb-4 font-semibold">
-          <Hash className="size-4" /> {t("premium_tools.numerology.enter_details")}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2 font-semibold text-lg">
+            <Hash className="size-5 text-primary" /> {t("premium_tools.numerology.enter_details")}
+          </div>
+          {isPremium && (
+            <Badge className="bg-amber-500 text-white flex items-center gap-1">
+              <ShieldCheck className="size-3.5" /> PRO ACTIVE
+            </Badge>
+          )}
         </div>
+
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <Label>{t("premium_tools.numerology.full_birth_name")}</Label>
@@ -199,9 +194,10 @@ function NumTool() {
             <Input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
           </div>
         </div>
+
         <div className="mt-5 flex flex-wrap gap-3">
-          <Button onClick={generate} size="lg" className="gap-2">
-            <Sparkles className="size-4" /> {t("premium_tools.numerology.generate_button")}
+          <Button onClick={generate} size="lg" className="gap-2 font-semibold">
+            <Sparkles className="size-4" /> Generate Enterprise Numerology Report
           </Button>
           {report && (
             <Button onClick={reset} variant="outline" size="lg" className="gap-2">
@@ -212,112 +208,176 @@ function NumTool() {
       </Card>
 
       {report && (
-        <div id="num-report" className="mt-8 space-y-6">
+        <div id="num-report" className="mt-8 space-y-8">
+          {/* Header Action Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-primary/5 to-amber-500/10 border">
+            <div>
+              <h2 className="text-xl font-bold font-serif flex items-center gap-2">
+                <Award className="size-5 text-amber-500" /> Numerology Pro Profile: {report.name}
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Date of Birth: {report.dob} | Overall Score: {report.overallScore}/100
+              </p>
+            </div>
+            {isPremium && (
+              <Button
+                onClick={handleDownloadPdf}
+                disabled={downloadingPdf}
+                className="bg-amber-500 hover:bg-amber-600 text-white font-medium"
+              >
+                {downloadingPdf ? (
+                  <>
+                    <Loader2 className="size-4 mr-2 animate-spin" /> Generating PDF…
+                  </>
+                ) : (
+                  <>
+                    <Download className="size-4 mr-2" /> Download Enterprise Pro PDF (25-35 Pages)
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
+
+          {/* FREE VERSION: Life Path & Destiny Cards */}
           <div className="grid md:grid-cols-2 gap-4">
             <NumberCard
-              label={t("premium_tools.numerology.life_path_number")}
-              number={report.life}
+              label="Life Path Number (Core Path)"
+              number={report.lifePath.number}
               accent="from-primary/10 to-orange-500/5"
-              planets={planets}
-              meanings={meanings}
+              rulingPlanet={report.lifePath.rulingPlanet}
+              meaning={report.lifePath.meaning}
             />
             <NumberCard
-              label={t("premium_tools.numerology.destiny_number")}
-              number={report.dest.number}
+              label="Destiny Number (Expression)"
+              number={report.destiny.number}
               accent="from-rose-500/10 to-amber-500/5"
-              planets={planets}
-              meanings={meanings}
-            />
-            <NumberCard
-              label={t("premium_tools.numerology.soul_urge_number")}
-              number={report.soul.number}
-              accent="from-violet-500/10 to-pink-500/5"
-              planets={planets}
-              meanings={meanings}
-            />
-            <NumberCard
-              label={t("premium_tools.numerology.personality_number")}
-              number={report.personality.number}
-              accent="from-emerald-500/10 to-teal-500/5"
-              planets={planets}
-              meanings={meanings}
+              rulingPlanet={report.destiny.rulingPlanet}
+              meaning={report.destiny.meaning}
             />
           </div>
 
-          <Card className="p-6">
-            <h3 className="text-lg font-bold mb-3">
-              {t("premium_tools.numerology.birthday_number_label")}{" "}
-              <span className="text-primary">{report.birthday}</span>
-            </h3>
-            <p className="text-sm text-muted-foreground">{meanings[report.birthday]}</p>
-          </Card>
-
-          <Card className="p-6">
-            <h3 className="text-lg font-bold mb-4">
-              {t("premium_tools.numerology.lucky_attributes_heading", { number: report.life })}
-            </h3>
-            <div className="grid sm:grid-cols-3 gap-4 text-sm">
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.ruling_planet")}
-                </div>
-                <div className="font-semibold mt-1">{planets[report.life]}</div>
-              </div>
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.lucky_colours")}
-                </div>
-                <div className="font-semibold mt-1">{lucky[report.life]?.colors}</div>
-              </div>
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.lucky_day")}
-                </div>
-                <div className="font-semibold mt-1">{lucky[report.life]?.days}</div>
-              </div>
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.recommended_gemstone")}
-                </div>
-                <div className="font-semibold mt-1">{lucky[report.life]?.gem}</div>
-              </div>
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.lucky_number")}
-                </div>
-                <div className="font-semibold mt-1">{report.life}</div>
-              </div>
-              <div>
-                <div className="text-xs uppercase text-muted-foreground">
-                  {t("premium_tools.numerology.compatible_numbers")}
-                </div>
-                <div className="font-semibold mt-1">
-                  {[1, 3, 5, 6]
-                    .filter((n) => n !== report.life)
-                    .slice(0, 3)
-                    .join(", ")}
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-gradient-to-br from-amber-500/5 to-primary/5">
+          {/* FREE VERSION SHORT EXPLANATION */}
+          <Card className="p-6 bg-gradient-to-br from-amber-500/5 to-primary/5 border">
             <Badge variant="secondary" className="mb-3">
-              {t("premium_tools.numerology.summary_badge")}
+              Free Numerology Summary
             </Badge>
-            <p className="text-sm leading-relaxed">
-              <strong>{name}</strong>
-              {t("premium_tools.numerology.summary_after_name", { dob })}{" "}
-              <strong>{report.life}</strong>{" "}
-              {t("premium_tools.numerology.summary_after_life", { planet: planets[report.life] })}{" "}
-              {t("premium_tools.numerology.summary_after_planet")}{" "}
-              <strong>{report.dest.number}</strong> — {report.dest.meaning}{" "}
-              {t("premium_tools.numerology.summary_after_dest_meaning")}{" "}
-              <strong>{report.soul.number}</strong>,{" "}
-              {t("premium_tools.numerology.summary_after_soul")}{" "}
-              <strong>{report.personality.number}</strong> — {report.personality.meaning}
+            <p className="text-sm leading-relaxed text-foreground font-medium">
+              Your Life Path Number is <strong>{report.lifePath.number}</strong> ({report.lifePath.rulingPlanet}) and your Destiny Number is <strong>{report.destiny.number}</strong> ({report.destiny.rulingPlanet}). {report.lifePath.meaning}
             </p>
           </Card>
+
+          {/* PREMIUM PRO VERSION: 30 DETAILED SECTIONS */}
+          {isPremium ? (
+            <div className="space-y-8 border-t pt-8">
+              {/* Executive Scorecard */}
+              <Card className="p-6 border-amber-500/30 bg-card">
+                <h3 className="text-xl font-bold font-serif text-primary mb-4 flex items-center gap-2">
+                  <Award className="size-5 text-amber-500" /> Executive Scorecard ({report.overallScore}/100)
+                </h3>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  {report.scorecard.map((sc) => (
+                    <div key={sc.domain} className="p-3 rounded-lg border bg-muted/20 space-y-1">
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span>{sc.domain}</span>
+                        <span className="text-amber-600">{sc.score}/100</span>
+                      </div>
+                      <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
+                        <div className="bg-amber-500 h-full rounded-full" style={{ width: `${sc.score}%` }} />
+                      </div>
+                      <p className="text-[11px] text-muted-foreground line-clamp-2">{sc.summary}</p>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Core Numbers Matrix */}
+              <div>
+                <h3 className="text-lg font-bold font-serif mb-4 flex items-center gap-2">
+                  <Sparkles className="size-4 text-amber-500" /> Complete Core Numbers Matrix
+                </h3>
+                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  <MiniNumberCard label="Soul Urge" number={report.soulUrge.number} planet={report.soulUrge.rulingPlanet} />
+                  <MiniNumberCard label="Personality" number={report.personality.number} planet={report.personality.rulingPlanet} />
+                  <MiniNumberCard label="Birthday" number={report.birthday.number} planet={report.birthday.rulingPlanet} />
+                  <MiniNumberCard label="Maturity" number={report.maturity.number} planet={report.maturity.rulingPlanet} />
+                  <MiniNumberCard label="Attitude" number={report.attitude.number} planet={report.attitude.rulingPlanet} />
+                  <MiniNumberCard label="Balance" number={report.balance.number} planet={report.balance.rulingPlanet} />
+                  <MiniNumberCard label="Hidden Passion" number={report.hiddenPassion.number} planet={report.hiddenPassion.rulingPlanet} />
+                  <MiniNumberCard label="Karmic Lessons" number={report.karmicLessons.length} planet={`${report.karmicLessons.join(", ")} missing`} />
+                </div>
+              </div>
+
+              {/* 4 Pinnacle Cycles */}
+              <div>
+                <h3 className="text-lg font-bold font-serif mb-4 flex items-center gap-2">
+                  <Calendar className="size-4 text-primary" /> 4 Pinnacle Cycles (Life Phases)
+                </h3>
+                <div className="grid md:grid-cols-4 gap-4">
+                  {report.pinnacles.map((p) => (
+                    <Card key={p.cycleName} className="p-4 border">
+                      <Badge variant="outline" className="text-[10px] mb-2">{p.ageRange}</Badge>
+                      <div className="font-bold text-sm text-primary">{p.cycleName}</div>
+                      <div className="text-2xl font-black text-amber-600 mt-1">Number {p.number}</div>
+                      <p className="text-xs text-muted-foreground mt-2">{p.meaning}</p>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {/* Personal Time Cycles */}
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="p-5 border-amber-500/20 bg-card">
+                  <div className="text-xs font-semibold text-amber-600 uppercase">Personal Year</div>
+                  <div className="text-3xl font-black text-primary mt-1">Number {report.personalYear.number}</div>
+                  <p className="text-xs text-muted-foreground mt-2">{report.personalYear.forecast}</p>
+                </Card>
+
+                <Card className="p-5 border-amber-500/20 bg-card">
+                  <div className="text-xs font-semibold text-amber-600 uppercase">Personal Month</div>
+                  <div className="text-3xl font-black text-primary mt-1">Number {report.personalMonth.number}</div>
+                  <p className="text-xs text-muted-foreground mt-2">{report.personalMonth.forecast}</p>
+                </Card>
+
+                <Card className="p-5 border-amber-500/20 bg-card">
+                  <div className="text-xs font-semibold text-amber-600 uppercase">Personal Day</div>
+                  <div className="text-3xl font-black text-primary mt-1">Number {report.personalDay.number}</div>
+                  <p className="text-xs text-muted-foreground mt-2">{report.personalDay.forecast}</p>
+                </Card>
+              </div>
+
+              {/* Lucky Elements Matrix */}
+              <Card className="p-6">
+                <h3 className="text-lg font-bold font-serif mb-4 flex items-center gap-2">
+                  <Sparkles className="size-4 text-amber-500" /> Lucky Elements & Gemstones
+                </h3>
+                <div className="grid sm:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <div className="text-xs text-muted-foreground">Lucky Numbers</div>
+                    <div className="font-bold text-primary mt-1">{report.luckyElements.numbers.join(", ")}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Lucky Colours</div>
+                    <div className="font-bold text-amber-600 mt-1">{report.luckyElements.colors.join(", ")}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Lucky Gemstones</div>
+                    <div className="font-bold text-emerald-600 mt-1">{report.luckyElements.gemstones.join(", ")}</div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ) : (
+            <Card className="p-8 text-center border-dashed border-amber-500/40 bg-amber-500/5 space-y-3">
+              <Lock className="size-10 text-amber-500 mx-auto" />
+              <h3 className="font-bold text-xl">Unlock 30-Section Enterprise Numerology Pro Report</h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                Upgrade to Pro to view Soul Urge, Personality, Pinnacle & Challenge Cycles, 12-Month Timeline, Domain Analysis, Practical Asset Numerology, and download the complete 25–35 page PDF.
+              </p>
+              <Button asChild size="lg" className="bg-amber-500 hover:bg-amber-600 text-white font-semibold">
+                <Link to="/pricing">Upgrade to Premium Pro →</Link>
+              </Button>
+            </Card>
+          )}
         </div>
       )}
     </>
@@ -328,21 +388,31 @@ function NumberCard({
   label,
   number,
   accent,
-  planets,
-  meanings,
+  rulingPlanet,
+  meaning,
 }: {
   label: string;
   number: number;
   accent: string;
-  planets: Record<number, string>;
-  meanings: Record<number, string>;
+  rulingPlanet: string;
+  meaning: string;
 }) {
   return (
     <Card className={`p-6 text-center bg-gradient-to-br ${accent}`}>
-      <div className="text-xs uppercase text-muted-foreground">{label}</div>
+      <div className="text-xs uppercase font-semibold text-muted-foreground">{label}</div>
       <div className="mt-2 text-6xl font-black text-primary">{number}</div>
-      <div className="mt-2 text-xs font-semibold text-primary/80">{planets[number]}</div>
-      <p className="mt-3 text-sm text-muted-foreground">{meanings[number]}</p>
+      <div className="mt-2 text-xs font-semibold text-primary/80">{rulingPlanet}</div>
+      <p className="mt-3 text-sm text-muted-foreground">{meaning}</p>
+    </Card>
+  );
+}
+
+function MiniNumberCard({ label, number, planet }: { label: string; number: number; planet: string }) {
+  return (
+    <Card className="p-4 text-center bg-card border">
+      <div className="text-xs text-muted-foreground font-medium">{label}</div>
+      <div className="text-2xl font-black text-primary mt-1">{number}</div>
+      <div className="text-[10px] text-amber-600 font-semibold mt-0.5">{planet}</div>
     </Card>
   );
 }

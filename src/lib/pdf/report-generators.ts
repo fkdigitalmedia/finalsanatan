@@ -48,24 +48,9 @@ export async function downloadMatchingPdf(data: Record<string, unknown>, filenam
   }
 }
 
-/** Dedicated PDF Generator for Numerology Report */
-export async function generateNumerologyPDF(data: Record<string, unknown>, opts: { language?: string } = {}) {
-  return engine.generate({
-    report: "numerology-report",
-    data,
-    language: opts.language || "en",
-  });
-}
+import { downloadNumerologyPdf, generateNumerologyPDF } from "@/lib/numerology/pdf";
 
-export async function downloadNumerologyPdf(data: Record<string, unknown>, filename = "Numerology_Report.pdf") {
-  const result = await generateNumerologyPDF(data);
-  result.doc.save(filename);
-  const userId = await getUserIdSafely();
-  if (userId) {
-    await trackReportGenerated(userId, { kind: "numerology", title: "Numerology Report", data }).catch(console.error);
-    await trackPdfDownload(userId, { filename, file_type: "PDF" }).catch(console.error);
-  }
-}
+export { generateNumerologyPDF, downloadNumerologyPdf };
 
 /** Dedicated PDF Generator for Muhurat Report */
 export async function generateMuhuratPDF(data: Record<string, unknown>, opts: { language?: string } = {}) {
