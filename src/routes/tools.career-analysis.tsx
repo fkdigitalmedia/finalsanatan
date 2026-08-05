@@ -35,7 +35,7 @@ const FAQS = [
   },
 ];
 
-export const Route = createFileRoute("/tools/career-analysis" as any)({
+export const Route = createFileRoute("/tools/career-analysis")({
   head: () => ({
     meta: [
       { title: "Career Analysis Report Pro — Flagship Vedic Career Intelligence" },

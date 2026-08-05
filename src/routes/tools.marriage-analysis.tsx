@@ -35,7 +35,7 @@ const FAQS = [
   },
 ];
 
-export const Route = createFileRoute("/tools/marriage-analysis" as any)({
+export const Route = createFileRoute("/tools/marriage-analysis")({
   head: () => ({
     meta: [
       { title: "Marriage Analysis Report Pro — Enterprise Astrological Guidance" },

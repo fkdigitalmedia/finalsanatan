@@ -35,7 +35,7 @@ const FAQS = [
   },
 ];
 
-export const Route = createFileRoute("/tools/foreign-settlement-analysis" as any)({
+export const Route = createFileRoute("/tools/foreign-settlement-analysis")({
   head: () => ({
     meta: [
       { title: "Foreign Settlement & Foreign Travel Analysis Pro — Vedic Overseas Relocation Guidance" },

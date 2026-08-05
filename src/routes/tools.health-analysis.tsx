@@ -35,7 +35,7 @@ const FAQS = [
   },
 ];
 
-export const Route = createFileRoute("/tools/health-analysis" as any)({
+export const Route = createFileRoute("/tools/health-analysis")({
   head: () => ({
     meta: [
       { title: "Health Analysis Report Pro — Enterprise Astrological Wellness Guidance" },

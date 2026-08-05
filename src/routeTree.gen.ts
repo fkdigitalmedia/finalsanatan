@@ -68,9 +68,13 @@ import { Route as ToolsVastuReportRouteImport } from './routes/tools.vastu-repor
 import { Route as ToolsVarshphalRouteImport } from './routes/tools.varshphal'
 import { Route as ToolsNumerologyReportRouteImport } from './routes/tools.numerology-report'
 import { Route as ToolsMuhuratFinderRouteImport } from './routes/tools.muhurat-finder'
+import { Route as ToolsMarriageAnalysisRouteImport } from './routes/tools.marriage-analysis'
 import { Route as ToolsLoveCompatibilityRouteImport } from './routes/tools.love-compatibility'
 import { Route as ToolsKundliMatchingRouteImport } from './routes/tools.kundli-matching'
+import { Route as ToolsHealthAnalysisRouteImport } from './routes/tools.health-analysis'
+import { Route as ToolsForeignSettlementAnalysisRouteImport } from './routes/tools.foreign-settlement-analysis'
 import { Route as ToolsCareerReportRouteImport } from './routes/tools.career-report'
+import { Route as ToolsCareerAnalysisRouteImport } from './routes/tools.career-analysis'
 import { Route as ToolsBabyNameGeneratorRouteImport } from './routes/tools.baby-name-generator'
 import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
 import { Route as RashiSlugRouteImport } from './routes/rashi.$slug'
@@ -448,6 +452,11 @@ const ToolsMuhuratFinderRoute = ToolsMuhuratFinderRouteImport.update({
   path: '/muhurat-finder',
   getParentRoute: () => ToolsRoute,
 } as any)
+const ToolsMarriageAnalysisRoute = ToolsMarriageAnalysisRouteImport.update({
+  id: '/marriage-analysis',
+  path: '/marriage-analysis',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const ToolsLoveCompatibilityRoute = ToolsLoveCompatibilityRouteImport.update({
   id: '/love-compatibility',
   path: '/love-compatibility',
@@ -458,9 +467,25 @@ const ToolsKundliMatchingRoute = ToolsKundliMatchingRouteImport.update({
   path: '/kundli-matching',
   getParentRoute: () => ToolsRoute,
 } as any)
+const ToolsHealthAnalysisRoute = ToolsHealthAnalysisRouteImport.update({
+  id: '/health-analysis',
+  path: '/health-analysis',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsForeignSettlementAnalysisRoute =
+  ToolsForeignSettlementAnalysisRouteImport.update({
+    id: '/foreign-settlement-analysis',
+    path: '/foreign-settlement-analysis',
+    getParentRoute: () => ToolsRoute,
+  } as any)
 const ToolsCareerReportRoute = ToolsCareerReportRouteImport.update({
   id: '/career-report',
   path: '/career-report',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsCareerAnalysisRoute = ToolsCareerAnalysisRouteImport.update({
+  id: '/career-analysis',
+  path: '/career-analysis',
   getParentRoute: () => ToolsRoute,
 } as any)
 const ToolsBabyNameGeneratorRoute = ToolsBabyNameGeneratorRouteImport.update({
@@ -981,9 +1006,13 @@ export interface FileRoutesByFullPath {
   '/rashi/$slug': typeof RashiSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/tools/baby-name-generator': typeof ToolsBabyNameGeneratorRoute
+  '/tools/career-analysis': typeof ToolsCareerAnalysisRoute
   '/tools/career-report': typeof ToolsCareerReportRoute
+  '/tools/foreign-settlement-analysis': typeof ToolsForeignSettlementAnalysisRoute
+  '/tools/health-analysis': typeof ToolsHealthAnalysisRoute
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
+  '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1124,9 +1153,13 @@ export interface FileRoutesByTo {
   '/rashi/$slug': typeof RashiSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/tools/baby-name-generator': typeof ToolsBabyNameGeneratorRoute
+  '/tools/career-analysis': typeof ToolsCareerAnalysisRoute
   '/tools/career-report': typeof ToolsCareerReportRoute
+  '/tools/foreign-settlement-analysis': typeof ToolsForeignSettlementAnalysisRoute
+  '/tools/health-analysis': typeof ToolsHealthAnalysisRoute
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
+  '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1271,9 +1304,13 @@ export interface FileRoutesById {
   '/rashi/$slug': typeof RashiSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/tools/baby-name-generator': typeof ToolsBabyNameGeneratorRoute
+  '/tools/career-analysis': typeof ToolsCareerAnalysisRoute
   '/tools/career-report': typeof ToolsCareerReportRoute
+  '/tools/foreign-settlement-analysis': typeof ToolsForeignSettlementAnalysisRoute
+  '/tools/health-analysis': typeof ToolsHealthAnalysisRoute
   '/tools/kundli-matching': typeof ToolsKundliMatchingRoute
   '/tools/love-compatibility': typeof ToolsLoveCompatibilityRoute
+  '/tools/marriage-analysis': typeof ToolsMarriageAnalysisRoute
   '/tools/muhurat-finder': typeof ToolsMuhuratFinderRoute
   '/tools/numerology-report': typeof ToolsNumerologyReportRoute
   '/tools/varshphal': typeof ToolsVarshphalRoute
@@ -1417,9 +1454,13 @@ export interface FileRouteTypes {
     | '/rashi/$slug'
     | '/tools/$slug'
     | '/tools/baby-name-generator'
+    | '/tools/career-analysis'
     | '/tools/career-report'
+    | '/tools/foreign-settlement-analysis'
+    | '/tools/health-analysis'
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
+    | '/tools/marriage-analysis'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -1560,9 +1601,13 @@ export interface FileRouteTypes {
     | '/rashi/$slug'
     | '/tools/$slug'
     | '/tools/baby-name-generator'
+    | '/tools/career-analysis'
     | '/tools/career-report'
+    | '/tools/foreign-settlement-analysis'
+    | '/tools/health-analysis'
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
+    | '/tools/marriage-analysis'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -1706,9 +1751,13 @@ export interface FileRouteTypes {
     | '/rashi/$slug'
     | '/tools/$slug'
     | '/tools/baby-name-generator'
+    | '/tools/career-analysis'
     | '/tools/career-report'
+    | '/tools/foreign-settlement-analysis'
+    | '/tools/health-analysis'
     | '/tools/kundli-matching'
     | '/tools/love-compatibility'
+    | '/tools/marriage-analysis'
     | '/tools/muhurat-finder'
     | '/tools/numerology-report'
     | '/tools/varshphal'
@@ -2289,6 +2338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsMuhuratFinderRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/tools/marriage-analysis': {
+      id: '/tools/marriage-analysis'
+      path: '/marriage-analysis'
+      fullPath: '/tools/marriage-analysis'
+      preLoaderRoute: typeof ToolsMarriageAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/tools/love-compatibility': {
       id: '/tools/love-compatibility'
       path: '/love-compatibility'
@@ -2303,11 +2359,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsKundliMatchingRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/tools/health-analysis': {
+      id: '/tools/health-analysis'
+      path: '/health-analysis'
+      fullPath: '/tools/health-analysis'
+      preLoaderRoute: typeof ToolsHealthAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/foreign-settlement-analysis': {
+      id: '/tools/foreign-settlement-analysis'
+      path: '/foreign-settlement-analysis'
+      fullPath: '/tools/foreign-settlement-analysis'
+      preLoaderRoute: typeof ToolsForeignSettlementAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/tools/career-report': {
       id: '/tools/career-report'
       path: '/career-report'
       fullPath: '/tools/career-report'
       preLoaderRoute: typeof ToolsCareerReportRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/career-analysis': {
+      id: '/tools/career-analysis'
+      path: '/career-analysis'
+      fullPath: '/tools/career-analysis'
+      preLoaderRoute: typeof ToolsCareerAnalysisRouteImport
       parentRoute: typeof ToolsRoute
     }
     '/tools/baby-name-generator': {
@@ -3019,9 +3096,13 @@ const FestivalsRouteWithChildren = FestivalsRoute._addFileChildren(
 interface ToolsRouteChildren {
   ToolsSlugRoute: typeof ToolsSlugRoute
   ToolsBabyNameGeneratorRoute: typeof ToolsBabyNameGeneratorRoute
+  ToolsCareerAnalysisRoute: typeof ToolsCareerAnalysisRoute
   ToolsCareerReportRoute: typeof ToolsCareerReportRoute
+  ToolsForeignSettlementAnalysisRoute: typeof ToolsForeignSettlementAnalysisRoute
+  ToolsHealthAnalysisRoute: typeof ToolsHealthAnalysisRoute
   ToolsKundliMatchingRoute: typeof ToolsKundliMatchingRoute
   ToolsLoveCompatibilityRoute: typeof ToolsLoveCompatibilityRoute
+  ToolsMarriageAnalysisRoute: typeof ToolsMarriageAnalysisRoute
   ToolsMuhuratFinderRoute: typeof ToolsMuhuratFinderRoute
   ToolsNumerologyReportRoute: typeof ToolsNumerologyReportRoute
   ToolsVarshphalRoute: typeof ToolsVarshphalRoute
@@ -3032,9 +3113,13 @@ interface ToolsRouteChildren {
 const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsSlugRoute: ToolsSlugRoute,
   ToolsBabyNameGeneratorRoute: ToolsBabyNameGeneratorRoute,
+  ToolsCareerAnalysisRoute: ToolsCareerAnalysisRoute,
   ToolsCareerReportRoute: ToolsCareerReportRoute,
+  ToolsForeignSettlementAnalysisRoute: ToolsForeignSettlementAnalysisRoute,
+  ToolsHealthAnalysisRoute: ToolsHealthAnalysisRoute,
   ToolsKundliMatchingRoute: ToolsKundliMatchingRoute,
   ToolsLoveCompatibilityRoute: ToolsLoveCompatibilityRoute,
+  ToolsMarriageAnalysisRoute: ToolsMarriageAnalysisRoute,
   ToolsMuhuratFinderRoute: ToolsMuhuratFinderRoute,
   ToolsNumerologyReportRoute: ToolsNumerologyReportRoute,
   ToolsVarshphalRoute: ToolsVarshphalRoute,
