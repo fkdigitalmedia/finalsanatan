@@ -469,19 +469,22 @@ export const getUserSubscriptionDetails = createServerFn({ method: "POST" })
     if (!userId) throw new Error("Missing required field: userId");
     return { userId };
   })
-  .handler(async ({ input, context }) => {
-    return executeGetUserSubscriptionDetails(context as any, input.userId);
+  .handler(async ({ data, context }) => {
+    const payload = unwrapPayload(data);
+    const userId = typeof payload === "string" ? payload : payload?.userId;
+    return executeGetUserSubscriptionDetails(context as any, userId);
   });
 
 /** Assign, extend, upgrade, downgrade, suspend, or cancel a user's subscription. */
 export const assignUserSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) => {
-    const data = (raw as any)?.data ?? raw;
-    if (!data?.userId) throw new Error("Missing userId");
-    return data as AdminSubscriptionAssignInput;
+    const input: AdminSubscriptionAssignInput = unwrapPayload(raw);
+    if (!input?.userId) throw new Error("Missing required field: userId");
+    return input;
   })
-  .handler(async ({ input, context }) => {
+  .handler(async ({ data, context }) => {
+    const input: AdminSubscriptionAssignInput = unwrapPayload(data);
     return executeAssignUserSubscription(context as any, input);
   });
 
@@ -489,11 +492,12 @@ export const assignUserSubscription = createServerFn({ method: "POST" })
 export const bulkManageSubscriptions = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) => {
-    const data = (raw as any)?.data ?? raw;
-    if (!data?.userIds) throw new Error("Missing userIds");
-    return data as BulkSubscriptionInput;
+    const input: BulkSubscriptionInput = unwrapPayload(raw);
+    if (!input?.userIds) throw new Error("Missing required field: userIds");
+    return input;
   })
-  .handler(async ({ input, context }) => {
+  .handler(async ({ data, context }) => {
+    const input: BulkSubscriptionInput = unwrapPayload(data);
     return executeBulkManageSubscriptions(context as any, input);
   });
 
