@@ -99,3 +99,78 @@ export interface WebhookLog {
   payloadSummary: string;
   createdAt: string;
 }
+
+export type SubscriptionPlanKey = "free" | "basic" | "premium_pro" | "lifetime_vip";
+
+export type SubscriptionDurationPreset =
+  | "7d"
+  | "15d"
+  | "30d"
+  | "60d"
+  | "90d"
+  | "180d"
+  | "365d"
+  | "custom"
+  | "lifetime";
+
+export type AdminSubscriptionStatus =
+  | "active"
+  | "expired"
+  | "cancelled"
+  | "suspended"
+  | "trial"
+  | "pending";
+
+export type SubscriptionReasonCode =
+  | "manual_upgrade"
+  | "customer_support"
+  | "promotion"
+  | "influencer"
+  | "refund_compensation"
+  | "testing"
+  | "internal_staff"
+  | "contest_winner"
+  | "custom";
+
+export interface AdminSubscriptionAssignInput {
+  userId: string;
+  planKey: SubscriptionPlanKey;
+  status: AdminSubscriptionStatus;
+  durationPreset: SubscriptionDurationPreset;
+  customStartDate?: string;
+  customExpiryDate?: string;
+  isLifetime?: boolean;
+  reasonCode: SubscriptionReasonCode;
+  reasonNotes?: string;
+  assignmentMethod?: "manual" | "payment" | "coupon" | "system";
+  actionType?: "assign" | "extend" | "reduce" | "upgrade" | "downgrade" | "convert_lifetime" | "suspend" | "cancel";
+}
+
+export interface SubscriptionAuditLog {
+  id: string;
+  userId: string;
+  userEmail?: string;
+  userName?: string;
+  oldPlan: string;
+  newPlan: string;
+  actionType: string;
+  status: string;
+  startDate: string;
+  expiryDate: string | null;
+  durationDays: number | null;
+  reason: string;
+  assignedByUserId: string;
+  assignedByName: string;
+  timestamp: string;
+  ipAddress?: string;
+}
+
+export interface BulkSubscriptionInput {
+  userIds: string[];
+  action: "assign" | "extend" | "suspend" | "expire";
+  planKey?: SubscriptionPlanKey;
+  extendDays?: number;
+  reasonCode: SubscriptionReasonCode;
+  reasonNotes?: string;
+}
+
