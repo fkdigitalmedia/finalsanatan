@@ -101,12 +101,43 @@ export function calculateExpiry(
 // ---------- PAYLOAD UNWRAPPER HELPER ----------
 
 export function unwrapPayload<T = any>(raw: any): T {
-  if (!raw || typeof raw !== "object") return raw;
+  if (!raw) return raw;
   let current = raw;
+
+  if (typeof current === "string") {
+    if (current.startsWith("{") || current.startsWith("[")) {
+      try {
+        current = JSON.parse(current);
+      } catch (e) {
+        return current as any;
+      }
+    } else {
+      return current as any;
+    }
+  }
+
   for (let i = 0; i < 3; i++) {
-    if (current && typeof current === "object" && "data" in current && current.data && typeof current.data === "object") {
+    if (!current || typeof current !== "object") break;
+
+    if (current["data[userId]"]) {
+      return { userId: current["data[userId]"] } as any;
+    }
+
+    if ("data" in current && current.data) {
       if (current.userId || current.userIds) break;
-      current = current.data;
+      let d = current.data;
+      if (typeof d === "string" && (d.startsWith("{") || d.startsWith("["))) {
+        try {
+          d = JSON.parse(d);
+        } catch (e) {
+          // ignore
+        }
+      }
+      if (d && typeof d === "object") {
+        current = d;
+      } else {
+        break;
+      }
     } else {
       break;
     }
@@ -430,12 +461,12 @@ export async function executeGetSubscriptionAuditLogs(ctx: { supabase: any; user
 // ---------- TANSTACK SERVER FUNCTIONS ----------
 
 /** Fetch a user's subscription details, current active entitlement, and audit log history. */
-export const getUserSubscriptionDetails = createServerFn({ method: "GET" })
+export const getUserSubscriptionDetails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((raw: unknown) => {
-    const data = (raw as any)?.data ?? raw;
-    const userId = typeof data === "string" ? data : data?.userId;
-    if (!userId) throw new Error("Missing userId");
+    const payload = unwrapPayload(raw);
+    const userId = typeof payload === "string" ? payload : payload?.userId;
+    if (!userId) throw new Error("Missing required field: userId");
     return { userId };
   })
   .handler(async ({ input, context }) => {
