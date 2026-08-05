@@ -161,8 +161,7 @@ function VarshTool() {
           trackReportGenerated({
             kind: "varshphal",
             title: `Varshphal ${targetYear} Report`,
-            personName: user.email?.split("@")[0] || "User",
-            payload: { birth: { date, time, place: loc.label }, targetYear, muntha: v.muntha },
+            data: { birth: { date, time, place: loc.label }, targetYear, muntha: v.muntha },
           }).catch(console.error);
         }
       } catch (e) {

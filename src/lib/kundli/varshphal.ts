@@ -180,12 +180,13 @@ const VARSHAPATI_THEMES: Record<string, { title: string; desc: string }> = {
 };
 
 export function calculateVarshphal(kundli: KundliResult, targetYear: number = new Date().getFullYear()): VarshphalResult {
-  const birthYear = new Date(kundli.birthDetails.date).getFullYear();
+  const birthDateStr = kundli?.input?.date || (kundli as any)?.birthDetails?.date || "1995-08-15";
+  const birthDate = new Date(birthDateStr);
+  const birthYear = isNaN(birthDate.getFullYear()) ? 1995 : birthDate.getFullYear();
   const age = Math.max(0, targetYear - birthYear);
 
   // 1. Natal Ascendant
-  const ascendantSign = kundli.d1.ascendant.rashi;
-  const ascIndex = Math.max(0, RASHIS.indexOf(ascendantSign));
+  const ascIndex = kundli?.d1?.ascendant?.rashiIndex ?? 0;
 
   // 2. Muntha Calculation
   const munthaIndex = (ascIndex + age) % 12;
@@ -238,7 +239,7 @@ export function calculateVarshphal(kundli: KundliResult, targetYear: number = ne
   const monthPlanets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Sun", "Moon", "Mars", "Mercury", "Jupiter"];
   const monthlyTimeline: MonthlyVarshphal[] = [];
 
-  const returnDate = new Date(targetYear, new Date(kundli.birthDetails.date).getMonth(), new Date(kundli.birthDetails.date).getDate());
+  const returnDate = new Date(targetYear, isNaN(birthDate.getMonth()) ? 0 : birthDate.getMonth(), isNaN(birthDate.getDate()) ? 1 : birthDate.getDate());
 
   for (let m = 0; m < 12; m++) {
     const mStart = new Date(returnDate);
