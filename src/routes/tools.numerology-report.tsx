@@ -280,22 +280,42 @@ function NumTool() {
           {/* PREMIUM PRO VERSION: 30 DETAILED SECTIONS */}
           {isPremium ? (
             <div className="space-y-8 border-t pt-8">
-              {/* Executive Scorecard */}
+              {/* Multi-Number AI Reasoning Engine */}
+              <Card className="p-6 border-amber-500/30 bg-gradient-to-br from-amber-500/5 via-card to-primary/5">
+                <h3 className="text-xl font-bold font-serif text-primary mb-4 flex items-center gap-2">
+                  <Sparkles className="size-5 text-amber-500" /> Multi-Number AI Reasoning Engine (WHY This Score?)
+                </h3>
+                <div className="space-y-4">
+                  {report.multiNumberReasoning.map((item) => (
+                    <div key={item.domain} className="p-4 rounded-lg border bg-card space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="font-bold text-sm text-primary">{item.domain}</div>
+                        <Badge className="bg-amber-500 text-white font-bold">{item.score}/100 ({item.confidence})</Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.whyScore}</p>
+                      <div className="text-xs text-amber-700 bg-amber-500/10 p-2.5 rounded font-medium">
+                        💡 Verdict: {item.conclusion}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Name Optimization & Spelling Comparison */}
               <Card className="p-6 border-amber-500/30 bg-card">
                 <h3 className="text-xl font-bold font-serif text-primary mb-4 flex items-center gap-2">
-                  <Award className="size-5 text-amber-500" /> Executive Scorecard & Domain Potentials ({report.overallScore}/100)
+                  <Award className="size-5 text-amber-500" /> Name Optimization & Spelling Comparison Engine
                 </h3>
-                <div className="grid sm:grid-cols-3 gap-4">
-                  {report.scorecard.map((sc) => (
-                    <div key={sc.domain} className="p-3 rounded-lg border bg-muted/20 space-y-1">
-                      <div className="flex justify-between text-xs font-semibold">
-                        <span>{sc.domain}</span>
-                        <span className="text-amber-600">{sc.score}/100</span>
-                      </div>
-                      <div className="w-full bg-muted h-1.5 rounded-full overflow-hidden">
-                        <div className="bg-amber-500 h-full rounded-full" style={{ width: `${sc.score}%` }} />
-                      </div>
-                      <p className="text-[11px] text-muted-foreground line-clamp-2">{sc.summary}</p>
+                <div className="p-3 bg-muted/30 rounded mb-4 text-xs font-semibold text-foreground">
+                  Current Name: <span className="text-amber-600">{report.nameOptimization.currentName}</span> ({report.nameOptimization.currentExpression})
+                </div>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {report.nameOptimization.alternatives.map((alt) => (
+                    <div key={alt.spellingVariant} className="p-3.5 rounded-lg border bg-card space-y-1.5">
+                      <div className="font-bold text-sm text-primary">"{alt.spellingVariant}"</div>
+                      <div className="text-[11px] text-amber-600 font-semibold">{alt.rulingPlanet} (Vibration {alt.expressionNumber})</div>
+                      <div className="text-[11px] text-emerald-600 font-bold">Money Score: {alt.moneyScore}% | Status: {alt.statusScore}%</div>
+                      <p className="text-[11px] text-muted-foreground line-clamp-2">{alt.overallSuitability}</p>
                     </div>
                   ))}
                 </div>

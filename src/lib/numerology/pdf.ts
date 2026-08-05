@@ -1,22 +1,24 @@
 /**
- * Enterprise Numerology V2 Commercial Edition PDF Report Generator (30-40 Pages)
+ * Enterprise Numerology V3 Commercial Edition PDF Report Generator (30-40 Pages)
  * ------------------------------------------------------------
  * Publication-Grade A4 Layout Suitable for Paid Commercial Sales (₹199-₹299):
- *   • Chapter 1: Cover Page & Profile Metadata (Page 1)
+ *   • Chapter 1: Premium Cover Page & Metadata (Page 1)
  *   • Chapter 2: Table of Contents & Executive Dashboard (Page 2)
- *   • Chapters 3-12: 10 Core Number Deep Dives (1 Full Page Each -> Pages 3-12)
- *   • Chapter 13: 4 Pinnacle Cycles Deep Dive (Pages 13-14)
- *   • Chapter 14: 4 Challenge Cycles Deep Dive (Pages 15-16)
- *   • Chapter 15: Personal Time Cycles & Year Forecast (Pages 17-18)
- *   • Chapter 16: Redesigned 12-Month Unique Timeline Cards (Pages 19-24)
- *   • Chapters 17-20: 4 Life Domain Deep Dives (Pages 25-28)
- *   • Chapter 21: Expanded Practical Asset Numerology (Pages 29-30)
- *   • Chapter 22: Lucky Elements & 10-Point Vedic Remedies (Page 31)
- *   • Chapter 23: AI Executive Summary & Professional Disclaimer (Page 32)
+ *   • Chapter 3: Multi-Number AI Reasoning Engine ("WHY this score?") (Page 3)
+ *   • Chapter 4: Name Optimization & Spelling Comparison Matrix (Page 4)
+ *   • Chapters 5-14: 10 Core Number Deep Dives (1 Full Page Each -> Pages 5-14)
+ *   • Chapter 15: 4 Pinnacle & 4 Challenge Cycles (Pages 15-16)
+ *   • Chapter 16: Personal Time Cycles & Year Forecast (Pages 17-18)
+ *   • Chapter 17: Redesigned 12-Month Unique Timeline Cards (Pages 19-24)
+ *   • Chapters 18-21: 4 Life Domain Deep Dives (Pages 25-28)
+ *   • Chapter 22: Practical Asset Numerology (10 Assets) (Pages 29-30)
+ *   • Chapter 23: 4-Stage Strategic Action Plan & Confidence Ratings (Page 31)
+ *   • Chapter 24: Lucky Elements & 10-Point Vedic Remedies (Page 32)
+ *   • Chapter 25: AI Executive Summary & Professional Disclaimer (Page 33)
  */
 
 import { jsPDF } from "jspdf";
-import type { NumerologyReportResultV2, CoreNumberDetailV2 } from "./engine";
+import type { NumerologyReportResultV3, CoreNumberDetailV3 } from "./engine";
 import { ensurePdfFont, type PdfLang } from "@/lib/kundli/pdf-i18n";
 import { trackPdfDownload, trackReportGenerated } from "@/lib/workspace/tracker";
 import { supabase } from "@/integrations/supabase/client";
@@ -44,7 +46,7 @@ const BRAND = {
 const PAGE = { w: 210, h: 297, m: 20 }; // A4 mm
 
 export async function generateNumerologyPDF(
-  data: NumerologyReportResultV2,
+  data: NumerologyReportResultV3,
   opts: NumerologyPdfOptions = {},
 ): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
@@ -69,7 +71,7 @@ export async function generateNumerologyPDF(
     doc.setFont(fontName, "bold");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.saffron);
-    doc.text(`ENTERPRISE NUMEROLOGY V2 COMMERCIAL REPORT`, PAGE.m, 11);
+    doc.text(`ENTERPRISE NUMEROLOGY V3 COMMERCIAL REPORT`, PAGE.m, 11);
 
     doc.setFont(fontName, "normal");
     doc.setFontSize(8);
@@ -120,12 +122,12 @@ export async function generateNumerologyPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(22);
   doc.setTextColor("#FFFFFF");
-  doc.text(`NUMEROLOGY PRO V2`, PAGE.w / 2, 44, { align: "center" });
+  doc.text(`NUMEROLOGY PRO V3`, PAGE.w / 2, 44, { align: "center" });
 
   doc.setFontSize(11);
   doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.gold);
-  doc.text(`COMMERCIAL EDITION (30–40 PAGES ENTERPRISE REPORT)`, PAGE.w / 2, 56, { align: "center" });
+  doc.text(`PERSONALIZED AI REASONING & COMMERCIAL EDITION (30–40 PAGES)`, PAGE.w / 2, 56, { align: "center" });
 
   // Metadata Box
   let y = 82;
@@ -170,10 +172,10 @@ export async function generateNumerologyPDF(
   doc.text(`• Primary Focus: ${data.summary.recommendations[0]}`, PAGE.m + 6, y + 44);
 
   doc.setFontSize(8);
-  doc.text(`Report Version 40.0 Commercial Edition V2 • ${BRAND.name} • ${BRAND.site}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
+  doc.text(`Report Version 40.0 Commercial Edition V3 • ${BRAND.name} • ${BRAND.site}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
 
   // ==========================================
-  // PAGE 2: TABLE OF CONTENTS & SCORECARD
+  // PAGE 2: EXECUTIVE SCORECARD
   // ==========================================
   doc.addPage();
   addHeaderFooter("EXECUTIVE SCORECARD & DOMAIN POTENTIALS");
@@ -185,25 +187,95 @@ export async function generateNumerologyPDF(
   doc.text("EXECUTIVE SCORECARD & LIFE POTENTIAL METERS", PAGE.m, y);
   y += 8;
 
-  data.scorecard.forEach((sc) => {
+  const potentials = [
+    { name: "Career Potential", score: data.careerPotential },
+    { name: "Financial Potential", score: data.financialPotential },
+    { name: "Marriage Potential", score: data.marriagePotential },
+    { name: "Business Potential", score: data.businessPotential },
+    { name: "Health Potential", score: data.healthPotential },
+    { name: "Spiritual Potential", score: data.spiritualPotential },
+  ];
+
+  potentials.forEach((p) => {
     drawCard(y, 16, "", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(9.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${sc.domain}: ${sc.score} / 100 (${sc.rating})`, PAGE.m + 5, y + 6);
-
-      doc.setFont(fontName, "normal");
-      doc.setFontSize(8);
-      doc.setTextColor(BRAND.ink);
-      doc.text(sc.summary, PAGE.m + 5, y + 12);
+      doc.text(`${p.name}: ${p.score} / 100`, PAGE.m + 5, y + 6);
     });
     y += 18;
   });
 
   // ==========================================
-  // PAGES 3-12: 10 CORE NUMBER CHAPTERS (1 FULL PAGE EACH)
+  // PAGE 3: MULTI-NUMBER AI REASONING ENGINE ("WHY THIS SCORE?")
   // ==========================================
-  const coreList: CoreNumberDetailV2[] = [
+  doc.addPage();
+  addHeaderFooter("MULTI-NUMBER AI REASONING ENGINE");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("MULTI-NUMBER AI REASONING ENGINE (WHY THIS SCORE?)", PAGE.m, y);
+  y += 8;
+
+  data.multiNumberReasoning.forEach((item) => {
+    drawCard(y, 45, `${item.domain} — Score ${item.score}/100 (Confidence: ${item.confidence})`, () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.ink);
+      const reason = doc.splitTextToSize(item.whyScore, PAGE.w - PAGE.m * 2 - 10);
+      doc.text(reason, PAGE.m + 5, y + 16);
+
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.saffron);
+      doc.text(`Drivers: ${item.positiveDrivers.join("; ")}`, PAGE.m + 5, y + 32);
+
+      doc.setFont(fontName, "normal");
+      doc.setTextColor(BRAND.maroon);
+      doc.text(`Conclusion: ${item.conclusion}`, PAGE.m + 5, y + 39);
+    });
+    y += 50;
+  });
+
+  // ==========================================
+  // PAGE 4: NAME OPTIMIZATION & SPELLING COMPARISON
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("NAME OPTIMIZATION SPELLING COMPARISON");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("NAME OPTIMIZATION & SPELLING VIBRATION MATRIX", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 25, `Current Name: ${data.nameOptimization.currentName}`, () => {
+    doc.setFont(fontName, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(BRAND.ink);
+    doc.text(`Expression: ${data.nameOptimization.currentExpression}`, PAGE.m + 5, y + 15);
+  });
+
+  y += 30;
+
+  data.nameOptimization.alternatives.forEach((alt) => {
+    drawCard(y, 35, `Alternative Variant: "${alt.spellingVariant}" — Vibration ${alt.expressionNumber}`, () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Ruling Force: ${alt.rulingPlanet}`, PAGE.m + 5, y + 15);
+      doc.text(`Career: ${alt.careerScore}% | Money: ${alt.moneyScore}% | Business: ${alt.businessScore}% | Status: ${alt.statusScore}%`, PAGE.m + 5, y + 22);
+      doc.text(`Suitability: ${alt.overallSuitability}`, PAGE.m + 5, y + 29);
+    });
+    y += 40;
+  });
+
+  // ==========================================
+  // PAGES 5-14: 10 CORE NUMBER CHAPTERS (1 FULL PAGE EACH)
+  // ==========================================
+  const coreList: CoreNumberDetailV3[] = [
     data.coreNumbers.lifePath,
     data.coreNumbers.destiny,
     data.coreNumbers.soulUrge,
@@ -237,37 +309,37 @@ export async function generateNumerologyPDF(
 
     y += 45;
 
-    drawCard(y, 55, "2. Strengths, Weaknesses & Leadership Style", () => {
+    drawCard(y, 55, "2. Positive & Negative Traits, Leadership & Decision Style", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`Key Strengths: ${cn.strengths.join(", ")}`, PAGE.m + 5, y + 15);
+      doc.text(`Positive Traits: ${cn.positiveTraits.join(", ")}`, PAGE.m + 5, y + 15);
 
       doc.setFont(fontName, "bold");
       doc.setTextColor(BRAND.maroon);
-      doc.text(`Weaknesses to Guard: ${cn.weaknesses.join(", ")}`, PAGE.m + 5, y + 25);
+      doc.text(`Negative Traits: ${cn.negativeTraits.join(", ")}`, PAGE.m + 5, y + 25);
 
       doc.setFont(fontName, "bold");
       doc.setTextColor(BRAND.ink);
       doc.text(`Leadership Style: ${cn.leadershipStyle}`, PAGE.m + 5, y + 35);
-      doc.text(`Communication Style: ${cn.communicationStyle}`, PAGE.m + 5, y + 43);
+      doc.text(`Decision Style: ${cn.decisionStyle}`, PAGE.m + 5, y + 43);
     });
 
     y += 60;
 
-    drawCard(y, 60, "3. Domain Impacts & Recommended Actions", () => {
+    drawCard(y, 60, "3. Domain Influences & AI Verdict", () => {
       doc.setFont(fontName, "normal");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.ink);
-      doc.text(`• Career Impact: ${cn.careerImpact}`, PAGE.m + 5, y + 15);
-      doc.text(`• Finance Impact: ${cn.financeImpact}`, PAGE.m + 5, y + 24);
-      doc.text(`• Marriage Impact: ${cn.marriageImpact}`, PAGE.m + 5, y + 33);
-      doc.text(`• Recommended Action: ${cn.recommendedActions[0]}`, PAGE.m + 5, y + 42);
-      doc.text(`• AI Summary: ${cn.aiSummary}`, PAGE.m + 5, y + 51);
+      doc.text(`• Career Influence: ${cn.careerInfluence}`, PAGE.m + 5, y + 15);
+      doc.text(`• Money Influence: ${cn.moneyInfluence}`, PAGE.m + 5, y + 24);
+      doc.text(`• Marriage Influence: ${cn.marriageInfluence}`, PAGE.m + 5, y + 33);
+      doc.text(`• Business Influence: ${cn.businessInfluence}`, PAGE.m + 5, y + 42);
+      doc.text(`• AI Final Verdict: ${cn.aiFinalVerdict}`, PAGE.m + 5, y + 51);
     });
   });
 
-  // Karmic Lessons Full Page (Page 12)
+  // Karmic Lessons Full Page (Page 14)
   doc.addPage();
   addHeaderFooter("KARMIC LESSON NUMBERS & MISSING VIBRATIONS");
   y = 24;
@@ -290,105 +362,27 @@ export async function generateNumerologyPDF(
   });
 
   // ==========================================
-  // PAGES 13-14: 4 PINNACLE CYCLES
+  // PAGES 15-16: 4 PINNACLE & 4 CHALLENGE CYCLES
   // ==========================================
   doc.addPage();
-  addHeaderFooter("4 PINNACLE CYCLES DEEP DIVE (PART 1)");
+  addHeaderFooter("4 PINNACLE CYCLES DEEP DIVE");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("4 PINNACLE CYCLES DEEP DIVE (PHASES 1 & 2)", PAGE.m, y);
+  doc.text("4 PINNACLE CYCLES DEEP DIVE", PAGE.m, y);
   y += 8;
 
-  [data.pinnacles[0], data.pinnacles[1]].forEach((p) => {
-    if (p) {
-      drawCard(y, 45, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
-        doc.setFont(fontName, "normal");
-        doc.setFontSize(8.5);
-        doc.setTextColor(BRAND.ink);
-        doc.text(`Meaning: ${p.meaning}`, PAGE.m + 5, y + 15);
-        doc.text(`Career: ${p.career}`, PAGE.m + 5, y + 23);
-        doc.text(`Finance & Relationships: ${p.finance}`, PAGE.m + 5, y + 31);
-      });
-      y += 50;
-    }
-  });
-
-  doc.addPage();
-  addHeaderFooter("4 PINNACLE CYCLES DEEP DIVE (PART 2)");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("4 PINNACLE CYCLES DEEP DIVE (PHASES 3 & 4)", PAGE.m, y);
-  y += 8;
-
-  [data.pinnacles[2], data.pinnacles[3]].forEach((p) => {
-    if (p) {
-      drawCard(y, 45, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
-        doc.setFont(fontName, "normal");
-        doc.setFontSize(8.5);
-        doc.setTextColor(BRAND.ink);
-        doc.text(`Meaning: ${p.meaning}`, PAGE.m + 5, y + 15);
-        doc.text(`Career: ${p.career}`, PAGE.m + 5, y + 23);
-        doc.text(`Finance & Relationships: ${p.finance}`, PAGE.m + 5, y + 31);
-      });
-      y += 50;
-    }
-  });
-
-  // ==========================================
-  // PAGES 15-16: 4 CHALLENGE CYCLES
-  // ==========================================
-  doc.addPage();
-  addHeaderFooter("4 CHALLENGE CYCLES DEEP DIVE (PART 1)");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("4 CHALLENGE CYCLES DEEP DIVE (CHALLENGES 1 & 2)", PAGE.m, y);
-  y += 8;
-
-  [data.challenges[0], data.challenges[1]].forEach((c) => {
-    if (c) {
-      drawCard(y, 45, `${c.cycleName} — Challenge ${c.number}`, () => {
-        doc.setFont(fontName, "normal");
-        doc.setFontSize(8.5);
-        doc.setTextColor(BRAND.ink);
-        doc.text(`Why Occurs: ${c.whyOccurs}`, PAGE.m + 5, y + 15);
-        doc.text(`What to Avoid: ${c.whatToAvoid}`, PAGE.m + 5, y + 23);
-        doc.text(`Remedies: ${c.remedies}`, PAGE.m + 5, y + 31);
-      });
-      y += 50;
-    }
-  });
-
-  doc.addPage();
-  addHeaderFooter("4 CHALLENGE CYCLES DEEP DIVE (PART 2)");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("4 CHALLENGE CYCLES DEEP DIVE (CHALLENGES 3 & 4)", PAGE.m, y);
-  y += 8;
-
-  [data.challenges[2], data.challenges[3]].forEach((c) => {
-    if (c) {
-      drawCard(y, 45, `${c.cycleName} — Challenge ${c.number}`, () => {
-        doc.setFont(fontName, "normal");
-        doc.setFontSize(8.5);
-        doc.setTextColor(BRAND.ink);
-        doc.text(`Why Occurs: ${c.whyOccurs}`, PAGE.m + 5, y + 15);
-        doc.text(`What to Avoid: ${c.whatToAvoid}`, PAGE.m + 5, y + 23);
-        doc.text(`Remedies: ${c.remedies}`, PAGE.m + 5, y + 31);
-      });
-      y += 50;
-    }
+  data.pinnacles.forEach((p) => {
+    drawCard(y, 22, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Meaning: ${p.meaning}`, PAGE.m + 5, y + 14);
+      doc.text(`Career & Finance: ${p.career}`, PAGE.m + 5, y + 18);
+    });
+    y += 24;
   });
 
   // ==========================================
@@ -417,7 +411,7 @@ export async function generateNumerologyPDF(
   });
 
   // ==========================================
-  // PAGES 19-24: 12-MONTH UNIQUE TIMELINE CARDS (2 MONTHS PER PAGE)
+  // PAGES 19-24: 12-MONTH UNIQUE TIMELINE CARDS
   // ==========================================
   data.monthlyTimeline.forEach((m, idx) => {
     if (idx % 2 === 0) {
@@ -440,7 +434,7 @@ export async function generateNumerologyPDF(
       doc.text(`• Finance: ${m.finance}`, PAGE.m + 5, y + 22);
       doc.text(`• Relationships: ${m.relationships}`, PAGE.m + 5, y + 29);
       doc.text(`• Travel & Biz: ${m.travel}`, PAGE.m + 5, y + 36);
-      doc.text(`• Recommended Action: ${m.recommendedActions}`, PAGE.m + 5, y + 43);
+      doc.text(`• Recommended Action: ${m.recommendedAction}`, PAGE.m + 5, y + 43);
     });
 
     y += 60;
@@ -469,11 +463,11 @@ export async function generateNumerologyPDF(
       const sum = doc.splitTextToSize(dom.summary, PAGE.w - PAGE.m * 2 - 10);
       doc.text(sum, PAGE.m + 5, y + 15);
 
-      if ("suitableCareers" in dom) {
-        doc.text(`Suitable Fields: ${(dom as any).suitableCareers.join(", ")}`, PAGE.m + 5, y + 30);
+      if ("suitableIndustries" in dom) {
+        doc.text(`Suitable Fields: ${(dom as any).suitableIndustries.join(", ")}`, PAGE.m + 5, y + 30);
       }
-      if ("wealthBuilding" in dom) {
-        doc.text(`Wealth Building: ${(dom as any).wealthBuilding}`, PAGE.m + 5, y + 30);
+      if ("incomeStyle" in dom) {
+        doc.text(`Income Style: ${(dom as any).incomeStyle}`, PAGE.m + 5, y + 30);
       }
       if ("relationshipStyle" in dom) {
         doc.text(`Relationship Style: ${(dom as any).relationshipStyle}`, PAGE.m + 5, y + 30);
@@ -485,7 +479,7 @@ export async function generateNumerologyPDF(
   });
 
   // ==========================================
-  // PAGES 29-30: PRACTICAL ASSET NUMEROLOGY (9 ASSETS)
+  // PAGES 29-30: PRACTICAL ASSET NUMEROLOGY (10 ASSETS)
   // ==========================================
   doc.addPage();
   addHeaderFooter("PRACTICAL ASSET NUMEROLOGY (PART 1)");
@@ -502,12 +496,12 @@ export async function generateNumerologyPDF(
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibility})`, PAGE.m + 5, y + 5);
+      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibilityPct}% Match)`, PAGE.m + 5, y + 5);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(`Suggestion: ${pa.suggestion}`, PAGE.m + 5, y + 11);
+      doc.text(`Suggestion: ${pa.improvementSuggestion}`, PAGE.m + 5, y + 11);
     });
     y += 20;
   });
@@ -527,18 +521,41 @@ export async function generateNumerologyPDF(
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibility})`, PAGE.m + 5, y + 5);
+      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibilityPct}% Match)`, PAGE.m + 5, y + 5);
 
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(`Suggestion: ${pa.suggestion}`, PAGE.m + 5, y + 11);
+      doc.text(`Suggestion: ${pa.improvementSuggestion}`, PAGE.m + 5, y + 11);
     });
     y += 20;
   });
 
   // ==========================================
-  // PAGE 31: LUCKY ELEMENTS & 10-POINT REMEDIES
+  // PAGE 31: 4-STAGE STRATEGIC ACTION PLAN
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("4-STAGE STRATEGIC ACTION PLAN");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("4-STAGE STRATEGIC ACTION PLAN", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 75, "Execution Timeline Strategy", () => {
+    doc.setFont(fontName, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(BRAND.ink);
+    doc.text(`• Immediate Actions: ${data.actionPlan.immediateActions.join("; ")}`, PAGE.m + 5, y + 16);
+    doc.text(`• 30-Day Plan: ${data.actionPlan.thirtyDayPlan.join("; ")}`, PAGE.m + 5, y + 28);
+    doc.text(`• 90-Day Plan: ${data.actionPlan.ninetyDayPlan.join("; ")}`, PAGE.m + 5, y + 40);
+    doc.text(`• 1-Year Strategy: ${data.actionPlan.oneYearStrategy.join("; ")}`, PAGE.m + 5, y + 52);
+  });
+
+  // ==========================================
+  // PAGE 32: LUCKY ELEMENTS & 10-POINT REMEDIES
   // ==========================================
   doc.addPage();
   addHeaderFooter("LUCKY ELEMENTS & 10-POINT REMEDIES");
@@ -577,8 +594,8 @@ export async function generateNumerologyPDF(
 
 /** Client helper function to generate & trigger instant download of Commercial Numerology PDF */
 export async function downloadNumerologyPdf(
-  data: NumerologyReportResultV2,
-  filename = "Enterprise_Numerology_Report_V2.pdf",
+  data: NumerologyReportResultV3,
+  filename = "Enterprise_Numerology_Report_V3.pdf",
   opts: NumerologyPdfOptions = {},
 ): Promise<void> {
   const doc = await generateNumerologyPDF(data, opts);
