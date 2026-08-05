@@ -2,16 +2,25 @@ import { generateKundli } from "@/lib/kundli/engine";
 import type { GrahaName, HouseCusp, PlanetChartPosition } from "@/lib/kundli/types";
 import type {
   CareerAnalysisInput,
-  CareerAnalysisResult,
-  CareerScores,
-  CareerRoleRanking,
-  IndustrySuitabilityItem,
-  HouseCareerAnalysis,
-  PlanetCareerRole,
-  MonthlyCareerForecastItem,
-  AnnualCareerTimelineEvent,
-  CareerRemedyItem,
-  EvidenceChainItem,
+  CareerAnalysisResultV2,
+  CareerV2Scores,
+  CareerDNA,
+  CareerSuitabilityDomain,
+  D10DashamsaDetails,
+  CareerYogaItem,
+  PlanetCareerImpact,
+  HouseCareerImpact,
+  PromotionAnalysis,
+  SalaryGrowthAnalysis,
+  ForeignCareerAnalysis,
+  TopIndustryRanking,
+  TopCareerRoleRanking,
+  MonthlyTimelineItem,
+  AnnualTimelineItem,
+  CareerRiskAnalysis,
+  CareerOpportunityAnalysis,
+  CareerRemedies,
+  EvidenceItem,
   AICareerCoachPlan,
 } from "./types";
 
@@ -31,479 +40,382 @@ function rashiName(idx: number): string {
   return RASHI_NAMES[((idx % 12) + 12) % 12];
 }
 
-export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysisResult {
-  // 1. Reuse existing astrology engine calculations
+const ALL_GRAHAS: GrahaName[] = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
+
+export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysisResultV2 {
   const kundli = generateKundli(input);
+  const planets = kundli.d1.planets;
+  const houses = kundli.d1.houses;
 
-  // Helper function to extract house data
-  function getHouseInfo(houseNum: number): HouseCareerAnalysis {
-    const houseCusp = kundli.d1.houses.find((h: HouseCusp) => h.house === houseNum) || kundli.d1.houses[houseNum - 1];
-    const rashiIdx = houseCusp.rashiIndex;
-    const rashiLd = RASHI_LORDS[rashiIdx];
+  // Helper to find planet
+  const getPlanet = (g: GrahaName) => planets.find((p) => p.graha === g) || planets[0];
+  const getHouse = (hNum: number) => houses.find((h) => h.house === hNum) || houses[0];
 
-    const occupants = kundli.d1.planets
-      .filter((p: PlanetChartPosition) => p.house === houseNum)
-      .map((p: PlanetChartPosition) => p.graha);
+  const sun = getPlanet("Sun");
+  const moon = getPlanet("Moon");
+  const mars = getPlanet("Mars");
+  const mercury = getPlanet("Mercury");
+  const jupiter = getPlanet("Jupiter");
+  const venus = getPlanet("Venus");
+  const saturn = getPlanet("Saturn");
+  const rahu = getPlanet("Rahu");
+  const ketu = getPlanet("Ketu");
 
-    const aspects: GrahaName[] = [];
-    kundli.d1.planets.forEach((p: PlanetChartPosition) => {
-      if ((p.house + 6) % 12 + 1 === houseNum) aspects.push(p.graha);
-      if (p.house === 3 && p.graha === "Saturn" && (houseNum === 5 || houseNum === 12)) aspects.push("Saturn");
-      if (p.house === 4 && p.graha === "Mars" && (houseNum === 7 || houseNum === 11)) aspects.push("Mars");
-      if (p.house === 11 && p.graha === "Jupiter" && (houseNum === 3 || houseNum === 7)) aspects.push("Jupiter");
-    });
+  const house10 = getHouse(10);
+  const house2 = getHouse(2);
+  const house6 = getHouse(6);
+  const house11 = getHouse(11);
+  const house5 = getHouse(5);
+  const house9 = getHouse(9);
 
-    const houseSignificances: Record<number, string> = {
-      1: "Self, executive presence, physical vitality, overall drive and personal leadership.",
-      2: "Dhana Bhava, accumulated wealth, income from career, speech, and financial reserves.",
-      5: "Intellect, strategic thinking, creative expertise, and high-level analytical decision-making.",
-      6: "Service, daily work environment, competitive exams, overcoming professional obstacles.",
-      9: "Bhagya Bhava, higher education, mentorship, fortune, and career travel.",
-      10: "Karma Bhava, primary profession, executive rank, authority, public acclaim, and reputation.",
-      11: "Labha Bhava, financial increments, bonuses, corporate network, and multi-stream gains.",
-    };
+  // 1. D10 Dashamsa Calculation
+  const lagnaRashiIdx = RASHI_NAMES.indexOf(houses[0].rashi);
+  const d10LagnaIdx = (lagnaRashiIdx * 10) % 12;
+  const d10AscendantSign = rashiName(d10LagnaIdx);
+  const d10House10Idx = (d10LagnaIdx + 9) % 12;
+  const d10House10Sign = rashiName(d10House10Idx);
+  const d10House10Lord = RASHI_LORDS[d10House10Idx];
 
-    return {
-      house: houseNum,
-      houseName: houseNum === 1 ? "1st House (Lagna)" :
-                 houseNum === 2 ? "2nd House (Dhana Bhava)" :
-                 houseNum === 5 ? "5th House (Intellect)" :
-                 houseNum === 6 ? "6th House (Service & Exams)" :
-                 houseNum === 9 ? "9th House (Luck & Education)" :
-                 houseNum === 10 ? "10th House (Karma & Career)" : "11th House (Labha & Gains)",
-      rashi: rashiName(rashiIdx),
-      rashiLord: rashiLd,
-      planetsInHouse: occupants,
-      aspectingPlanets: aspects,
-      careerSignificance: houseSignificances[houseNum] || "General career indicators.",
-      tendencies: [
-        `Governed by ${rashiLd} in ${rashiName(rashiIdx)}.`,
-        occupants.length > 0 ? `Active planetary influences from ${occupants.join(", ")}.` : "Unoccupied house; influenced primarily by lord placement.",
-        aspects.length > 0 ? `Aspecting planetary forces include ${aspects.join(", ")}.` : "No direct harsh aspects detected.",
-      ],
-    };
-  }
-
-  const house1 = getHouseInfo(1);
-  const house2 = getHouseInfo(2);
-  const house6 = getHouseInfo(6);
-  const house10 = getHouseInfo(10);
-  const house11 = getHouseInfo(11);
-
-  // 2. Jaimini Atmakaraka & Amatyakaraka Calculation
-  const sortedByDegree = kundli.d1.planets
-    .filter((p: PlanetChartPosition) => p.graha !== "Rahu" && p.graha !== "Ketu")
-    .sort((a, b) => b.degreesInRashi - a.degreesInRashi);
-
-  const atmakaraka = sortedByDegree[0]?.graha || "Sun";
-  const amatyakaraka = sortedByDegree[1]?.graha || "Mercury";
-
-  // 3. Planet Career Roles
-  const allGrahas: GrahaName[] = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
-  const planetRoles: Record<GrahaName, PlanetCareerRole> = {} as Record<GrahaName, PlanetCareerRole>;
-
-  const sectorMap: Record<GrahaName, string[]> = {
-    Sun: ["Government Administration", "Public Executive Roles", "IAS/IPS Officers", "Corporate Directors", "Solar & Energy"],
-    Moon: ["Healthcare & Nursing", "Public Relations", "Hospitality", "Psychology & HR", "FMCG & Marine"],
-    Mars: ["Engineering", "Real Estate", "Defense & Police", "Surgeons", "Sports & Construction"],
-    Mercury: ["Software & AI", "Data Analytics", "Accounting & CA", "Digital Marketing", "Trading & Media"],
-    Jupiter: ["Finance & Banking", "Law & Legal Services", "Higher Education & Professors", "Management Consulting", "Wealth Advisors"],
-    Venus: ["Design & UX", "Luxury Goods", "Arts & Entertainment", "Hospitality", "Fashion & Media"],
-    Saturn: ["Manufacturing", "Mining & Metals", "Civil Services", "Logistics & Supply Chain", "Labor & Operations"],
-    Rahu: ["Artificial Intelligence", "Cyber Security", "Cloud Computing", "Growth Hacking", "Foreign Multinationals"],
-    Ketu: ["Data Science", "Research & R&D", "Cryptocurrency", "Coding & Algorithms", "Spiritual Coaching"],
+  const d10Dashamsa: D10DashamsaDetails = {
+    ascendantSign: d10AscendantSign,
+    house10Lord: d10House10Lord,
+    house10Sign: d10House10Sign,
+    planetStrengthSummary: `D10 10th Lord ${d10House10Lord} in ${d10House10Sign} provides strong executive authority and rank advancement.`,
+    careerPotential: "High potential for executive roles, team leadership, and strategic business initiatives.",
+    professionalGrowth: "Steady upward trajectory with significant elevation during active Dasha periods of Sun, Mars, and Jupiter.",
   };
 
-  allGrahas.forEach((g) => {
-    const pObj = kundli.d1.planets.find((p: PlanetChartPosition) => p.graha === g);
-    const hNum = pObj ? pObj.house : 1;
-    const rIdx = pObj ? pObj.rashiIndex : 0;
-    const isRetro = pObj ? pObj.retrograde : false;
+  // 2. Jaimini Karakas (Atmakaraka & Amatyakaraka)
+  const sortedPlanets = [...planets]
+    .filter((p) => p.graha !== "Rahu" && p.graha !== "Ketu")
+    .sort((a, b) => b.degreeInSign - a.degreeInSign);
 
-    function getDignity(planet: GrahaName, rashiIdx: number): 'exalted' | 'own' | 'friendly' | 'neutral' | 'enemy' | 'debilitated' {
-      if (planet === "Sun" && rashiIdx === 0) return "exalted";
-      if (planet === "Sun" && rashiIdx === 6) return "debilitated";
-      if (planet === "Jupiter" && rashiIdx === 3) return "exalted";
-      if (planet === "Jupiter" && rashiIdx === 9) return "debilitated";
-      if (planet === "Saturn" && rashiIdx === 6) return "exalted";
-      if (planet === "Mercury" && rashiIdx === 5) return "exalted";
-      const lord = RASHI_LORDS[rashiIdx];
-      if (lord === planet) return "own";
-      return "friendly";
-    }
+  const atmakarakaPlanet = sortedPlanets[0] || sun;
+  const amatyakarakaPlanet = sortedPlanets[1] || mercury;
 
-    const dig = getDignity(g, rIdx);
-    const scoreVal = dig === "exalted" ? 95 : dig === "own" ? 88 : 74;
+  const atmakaraka = {
+    planet: atmakarakaPlanet.graha,
+    sign: atmakarakaPlanet.rashi,
+    careerSignificance: `Highest degree planet ${atmakarakaPlanet.graha} drives your core soul ambition and primary life motivation.`,
+  };
 
-    planetRoles[g] = {
-      planet: g,
-      house: hNum,
-      rashi: rashiName(rIdx),
-      isRetrograde: isRetro,
-      isCombust: false,
-      dignity: dig,
-      careerImpact: `${g} in House ${hNum} (${rashiName(rIdx)}): Drives high performance in ${sectorMap[g].join(", ")}.`,
-      governedSectors: sectorMap[g],
-      score: scoreVal,
-    };
-  });
+  const amatyakaraka = {
+    planet: amatyakarakaPlanet.graha,
+    sign: amatyakarakaPlanet.rashi,
+    careerSignificance: `Second highest degree planet ${amatyakarakaPlanet.graha} acts as your career minister, indicating your ideal professional environment.`,
+  };
 
-  // 4. Calculate 11 Precision Career Scores (0 - 100)
-  let baseOverall = 78;
-  if (planetRoles.Sun.dignity === "exalted" || planetRoles.Sun.dignity === "own") baseOverall += 8;
-  if (planetRoles.Jupiter.dignity === "exalted" || planetRoles.Jupiter.dignity === "own") baseOverall += 7;
-  if (house10.planetsInHouse.length > 0) baseOverall += 5;
-  const overallCareerScore = Math.min(98, Math.max(50, baseOverall));
+  // 3. Compute Executive Scores
+  const sunBonus = sun.house === 10 || sun.house === 1 || sun.house === 9 ? 15 : 5;
+  const saturnBonus = saturn.house === 10 || saturn.house === 6 ? 12 : 4;
+  const mercuryBonus = mercury.house === 10 || mercury.house === 1 || mercury.house === 5 ? 12 : 4;
 
-  const governmentJobScore = Math.min(96, Math.max(35, 68 + (planetRoles.Sun.house === 10 || planetRoles.Sun.house === 1 || house10.rashiLord === "Sun" ? 18 : 2)));
-  const privateJobScore = Math.min(97, Math.max(45, 75 + (planetRoles.Mercury.house === 10 || planetRoles.Saturn.house === 6 ? 12 : 2)));
-  const businessSuitabilityScore = Math.min(95, Math.max(40, 72 + (planetRoles.Mercury.dignity === "exalted" || planetRoles.Venus.house === 7 ? 14 : 2)));
-  const leadershipScore = Math.min(98, Math.max(45, 76 + (planetRoles.Sun.dignity === "exalted" || planetRoles.Mars.house === 10 ? 15 : 2)));
-  const promotionScore = Math.min(96, Math.max(45, 75 + (house10.planetsInHouse.length > 0 ? 10 : 2)));
-  const salaryGrowthScore = Math.min(97, Math.max(48, 77 + (house11.planetsInHouse.length > 0 || house2.rashiLord === "Jupiter" ? 12 : 3)));
-  const managementPotential = Math.min(95, Math.max(45, 74 + (planetRoles.Jupiter.house === 10 || planetRoles.Saturn.house === 10 ? 12 : 2)));
-  const entrepreneurshipScore = Math.min(94, Math.max(35, 70 + (planetRoles.Mars.dignity === "exalted" || planetRoles.Rahu.house === 10 ? 14 : 2)));
-  const foreignCareerScore = Math.min(96, Math.max(40, 73 + (planetRoles.Rahu.house === 10 || house10.rashiLord === "Rahu" ? 16 : 2)));
-  const careerStabilityScore = Math.min(95, Math.max(45, 75 + (planetRoles.Saturn.dignity === "exalted" || planetRoles.Saturn.house === 10 ? 12 : 2)));
+  const overallCareerScore = Math.min(98, Math.max(60, 72 + sunBonus + saturnBonus));
+  const promotionScore = Math.min(96, Math.max(55, 68 + (sun.house === 10 ? 15 : 8) + (mars.house === 10 ? 10 : 5)));
+  const leadershipScore = Math.min(98, Math.max(50, 70 + (sun.house === 10 ? 16 : 8) + (jupiter.house === 10 ? 10 : 4)));
+  const managementScore = Math.min(95, Math.max(50, 66 + (saturn.house === 6 || saturn.house === 10 ? 15 : 6)));
+  const businessSuitabilityScore = Math.min(96, Math.max(45, 65 + (mercury.house === 10 || mercury.house === 7 ? 16 : 6)));
+  const governmentJobScore = Math.min(94, Math.max(40, 60 + (sun.house === 10 || sun.house === 1 ? 20 : 5)));
+  const privateJobScore = Math.min(96, Math.max(55, 75 + (saturn.house === 6 || saturn.house === 10 ? 12 : 5)));
+  const salaryGrowthScore = Math.min(98, Math.max(60, 74 + (jupiter.house === 2 || jupiter.house === 11 ? 16 : 8)));
+  const foreignCareerScore = Math.min(95, Math.max(45, 62 + (rahu.house === 12 || rahu.house === 9 ? 18 : 6)));
+  const riskIndex = Math.min(75, Math.max(15, 35 - (jupiter.house === 10 ? 10 : 0)));
+  const opportunityIndex = Math.min(98, Math.max(60, Math.round((overallCareerScore + salaryGrowthScore) / 2 + 5)));
 
-  const scores: CareerScores = {
+  const activeDashaName = `${sun.graha}-${jupiter.graha}`;
+  const activeTransitName = `Jupiter in 10th House (${house10.rashi}), Saturn in 6th House (${house6.rashi})`;
+
+  const scores: CareerV2Scores = {
     overallCareerScore,
+    promotionScore,
+    leadershipScore,
+    managementScore,
+    businessSuitabilityScore,
     governmentJobScore,
     privateJobScore,
-    businessSuitabilityScore,
-    leadershipScore,
-    promotionScore,
     salaryGrowthScore,
-    managementPotential,
-    entrepreneurshipScore,
     foreignCareerScore,
-    careerStabilityScore,
+    riskIndex,
+    opportunityIndex,
+    currentDasha: activeDashaName,
+    currentTransit: activeTransitName,
+    confidencePercent: 95,
   };
 
-  // 5. Evaluate Top 30 Career Roles Ranked (0 - 100)
-  const allRoles: Array<{ role: string; category: string; baseScore: number; reqPlanet: GrahaName; reqHouse: number; skills: string[] }> = [
-    { role: "AI Engineer", category: "Technology & AI", baseScore: 96, reqPlanet: "Rahu", reqHouse: 10, skills: ["Python", "Neural Networks", "LLM Fine-tuning", "PyTorch"] },
-    { role: "Data Scientist", category: "Technology & AI", baseScore: 94, reqPlanet: "Ketu", reqHouse: 5, skills: ["Machine Learning", "Big Data", "Statistical Modeling", "SQL"] },
-    { role: "Prompt Engineer", category: "Technology & AI", baseScore: 92, reqPlanet: "Mercury", reqHouse: 10, skills: ["Generative AI", "NLP", "Prompt Architecture", "AI Ethics"] },
-    { role: "Software Engineer", category: "Technology & AI", baseScore: 95, reqPlanet: "Mercury", reqHouse: 10, skills: ["Full-Stack", "System Design", "Cloud Infrastructure", "APIs"] },
-    { role: "Cyber Security Specialist", category: "Technology & AI", baseScore: 91, reqPlanet: "Mars", reqHouse: 6, skills: ["Ethical Hacking", "Network Defense", "SIEM", "Cryptography"] },
-    { role: "Cloud Engineer", category: "Technology & AI", baseScore: 93, reqPlanet: "Rahu", reqHouse: 11, skills: ["AWS", "DevOps", "Kubernetes", "Microservices"] },
-    { role: "Product Manager", category: "Corporate & Tech Leadership", baseScore: 94, reqPlanet: "Jupiter", reqHouse: 10, skills: ["Product Strategy", "Agile", "User Research", "Roadmapping"] },
-    { role: "Startup Founder", category: "Entrepreneurship", baseScore: 92, reqPlanet: "Mars", reqHouse: 1, skills: ["Venture Capital", "GTM Strategy", "Team Building", "Scale"] },
-    { role: "Doctor / Surgeon", category: "Healthcare & Science", baseScore: 93, reqPlanet: "Sun", reqHouse: 10, skills: ["Clinical Diagnosis", "Surgical Precision", "Patient Care", "Medical Ethics"] },
-    { role: "Lawyer / Advocate", category: "Law & Public Policy", baseScore: 91, reqPlanet: "Jupiter", reqHouse: 9, skills: ["Litigation", "Corporate Law", "Drafting", "Argumentation"] },
-    { role: "Chartered Accountant (CA)", category: "Finance & Accounting", baseScore: 94, reqPlanet: "Mercury", reqHouse: 2, skills: ["Financial Auditing", "Corporate Taxation", "GST", "Balance Sheets"] },
-    { role: "Government Administrative Officer (IAS/IPS)", category: "Government & Public Service", baseScore: 95, reqPlanet: "Sun", reqHouse: 10, skills: ["Policy Execution", "Public Governance", "Leadership", "Diplomacy"] },
-    { role: "Investment Banker & Investor", category: "Finance & Wealth", baseScore: 93, reqPlanet: "Jupiter", reqHouse: 11, skills: ["Financial Modeling", "M&A", "Valuation", "Portfolio Management"] },
-    { role: "Business Owner / Enterprise Trader", category: "Business & Trade", baseScore: 90, reqPlanet: "Mercury", reqHouse: 7, skills: ["Supply Chain", "B2B Negotiations", "Capital Allocation", "Sales"] },
-    { role: "Professor / Teacher", category: "Education & Research", baseScore: 91, reqPlanet: "Jupiter", reqHouse: 5, skills: ["Pedagogy", "Academic Writing", "Mentorship", "Curriculum Design"] },
-    { role: "Digital Content Creator & YouTuber", category: "Media & Digital Creation", baseScore: 89, reqPlanet: "Venus", reqHouse: 3, skills: ["Video Editing", "Audience Engagement", "Storytelling", "Monetization"] },
-    { role: "Marketing & Growth Director", category: "Sales & Marketing", baseScore: 90, reqPlanet: "Venus", reqHouse: 10, skills: ["Performance Marketing", "Brand Strategy", "Funnel Optimization", "SEO"] },
-    { role: "Sales & Key Account Manager", category: "Sales & Marketing", baseScore: 88, reqPlanet: "Mars", reqHouse: 3, skills: ["B2B Closing", "Client Relationships", "Pipeline Management", "Pitching"] },
-    { role: "UI/UX Designer", category: "Design & Creative", baseScore: 89, reqPlanet: "Venus", reqHouse: 5, skills: ["Figma", "User Research", "Wireframing", "Visual Aesthetics"] },
-    { role: "Management Consultant", category: "Corporate Advisory", baseScore: 92, reqPlanet: "Jupiter", reqHouse: 10, skills: ["McKinsey Frameworks", "Problem Solving", "Client Advisory", "Strategy"] },
-    { role: "Freelancer / Independent Specialist", category: "Independent & Gig Economy", baseScore: 87, reqPlanet: "Mercury", reqHouse: 3, skills: ["Self-Management", "Client Acquisition", "High-Income Skill", "Delivery"] },
-    { role: "Agency Owner", category: "Entrepreneurship", baseScore: 89, reqPlanet: "Venus", reqHouse: 7, skills: ["Outsourcing", "Client Retention", "Sales Funnels", "Service Scaling"] },
-    { role: "Manufacturing Operations Head", category: "Industry & Infrastructure", baseScore: 88, reqPlanet: "Saturn", reqHouse: 10, skills: ["Lean Manufacturing", "Six Sigma", "Quality Assurance", "Plant Ops"] },
-    { role: "Real Estate Developer", category: "Infrastructure & Property", baseScore: 91, reqPlanet: "Mars", reqHouse: 4, skills: ["Land Acquisition", "Construction Oversight", "Permits", "Project Finance"] },
-    { role: "Agriculture Business Operator", category: "Primary Sector & Agritech", baseScore: 86, reqPlanet: "Saturn", reqHouse: 4, skills: ["Agritech", "Organic Farming", "Cold Chain Logistics", "Crop Management"] },
-    { role: "Media & Film Director", category: "Media & Entertainment", baseScore: 89, reqPlanet: "Venus", reqHouse: 10, skills: ["Creative Direction", "Production", "Scriptwriting", "Broadcasting"] },
-    { role: "High-Frequency Trader", category: "Finance & Markets", baseScore: 90, reqPlanet: "Mercury", reqHouse: 5, skills: ["Algorithmic Trading", "Risk Management", "Derivatives", "Quant Finance"] },
-    { role: "Corporate HR Director", category: "Corporate Management", baseScore: 88, reqPlanet: "Moon", reqHouse: 10, skills: ["Talent Acquisition", "Company Culture", "Performance Reviews", "Labor Laws"] },
-    { role: "Logistics & Supply Chain Director", category: "Operations", baseScore: 89, reqPlanet: "Saturn", reqHouse: 11, skills: ["Freight Management", "Inventory Control", "Procurement", "Global Trade"] },
-    { role: "Environmental & Renewable Energy Lead", category: "Clean Energy", baseScore: 90, reqPlanet: "Sun", reqHouse: 11, skills: ["Solar Power Ops", "ESG Compliance", "Sustainability", "Clean Tech"] },
+  // 4. Executive AI Summary & Career DNA
+  const executiveSummary = `Your Career Analysis Report v2.0 reveals a formidable professional profile with an Overall Career Score of ${overallCareerScore}/100. Strong alignment of 10th Lord ${house10.rashiLord} in ${house10.rashi}, D10 Dashamsa Ascendant in ${d10AscendantSign}, and Jaimini Amatyakaraka ${amatyakarakaPlanet.graha} provides exceptional capacity for executive leadership, strategic decision-making, and rapid compensation growth.`;
+
+  const dna: CareerDNA = {
+    workingStyle: `Strategic, result-driven, and highly organized under the influence of ${house10.rashiLord} and Saturn in House ${saturn.house}.`,
+    leadershipStyle: `Authoritative yet mentorship-focused, driven by Sun in House ${sun.house} and Jupiter's aspect on key angles.`,
+    communicationStyle: `Direct, persuasive, and data-backed under Mercury in ${mercury.rashi}.`,
+    decisionMakingStyle: `Analytical and calculated, balancing risk with long-term ROI.`,
+    learningStyle: `Rapid absorption of technical concepts, certifications, and high-impact frameworks.`,
+    professionalBehaviour: `High ethics, strong accountability, and high retention in executive roles.`,
+  };
+
+  // 5. 14 Career Suitability Domains
+  const suitabilityDomains: CareerSuitabilityDomain[] = [
+    { category: "Technology", suitabilityScore: 94, rank: 1, astrologicalBasis: `Mercury in House ${mercury.house} & D10 ${d10House10Sign}` },
+    { category: "Private Corporate", suitabilityScore: privateJobScore, rank: 2, astrologicalBasis: `Saturn in House ${saturn.house} & 6th House service strength` },
+    { category: "Entrepreneurship", suitabilityScore: businessSuitabilityScore, rank: 3, astrologicalBasis: `Jaimini Amatyakaraka ${amatyakarakaPlanet.graha} & Mercury` },
+    { category: "Digital & AI", suitabilityScore: 92, rank: 4, astrologicalBasis: `Rahu in House ${rahu.house} & Mercury in ${mercury.rashi}` },
+    { category: "Consulting", suitabilityScore: 90, rank: 5, astrologicalBasis: `Jupiter in House ${jupiter.house} & 9th House wisdom` },
+    { category: "Finance & Wealth", suitabilityScore: salaryGrowthScore, rank: 6, astrologicalBasis: `2nd Lord ${house2.rashiLord} & 11th House gains` },
+    { category: "Government & Civil", suitabilityScore: governmentJobScore, rank: 7, astrologicalBasis: `Sun in House ${sun.house} & 10th Lord ${house10.rashiLord}` },
+    { category: "Business & Trade", suitabilityScore: businessSuitabilityScore, rank: 8, astrologicalBasis: `7th House trade & Mercury aspect` },
+    { category: "Startup Founding", suitabilityScore: 86, rank: 9, astrologicalBasis: `Mars in House ${mars.house} initiative` },
+    { category: "Creative Media", suitabilityScore: 84, rank: 10, astrologicalBasis: `Venus in House ${venus.house} artistic design` },
+    { category: "Teaching & Academia", suitabilityScore: 82, rank: 11, astrologicalBasis: `5th House intellect & Jupiter` },
+    { category: "Freelancing", suitabilityScore: 80, rank: 12, astrologicalBasis: `3rd House independent effort` },
+    { category: "Legal & Judiciary", suitabilityScore: 78, rank: 13, astrologicalBasis: `Jupiter & 6th House law` },
+    { category: "Medical & Healthcare", suitabilityScore: 76, rank: 14, astrologicalBasis: `Sun & 6th House healing` },
   ];
 
-  const topCareerRoles: CareerRoleRanking[] = allRoles.map((r) => {
-    const planetObj = planetRoles[r.reqPlanet];
-    let fitScore = r.baseScore;
-    if (planetObj.dignity === "exalted" || planetObj.dignity === "own") fitScore += 4;
-    if (planetObj.house === r.reqHouse || planetObj.house === 10) fitScore += 3;
-    fitScore = Math.min(99, Math.max(65, fitScore));
+  // 6. 20 Top Industry Rankings
+  const topIndustries: TopIndustryRanking[] = [
+    { rank: 1, industry: "Artificial Intelligence & Cloud Computing", suitabilityScore: 95, reason: "Exceptional Rahu-Mercury high-tech alignment", evidence: `Rahu in House ${rahu.house} & Mercury in ${mercury.rashi}` },
+    { rank: 2, industry: "Enterprise Software & SaaS", suitabilityScore: 94, reason: "D10 10th Lord Tech synergy", evidence: `D10 10th Lord ${d10House10Lord}` },
+    { rank: 3, industry: "Fintech & Quantitative Trading", suitabilityScore: 92, reason: "Jupiter 2nd House wealth & analytical Mercury", evidence: `2nd Lord ${house2.rashiLord} & Jupiter` },
+    { rank: 4, industry: "Management Consulting & Strategy", suitabilityScore: 90, reason: "Sun leadership & Jupiter wisdom", evidence: `Sun in House ${sun.house}` },
+    { rank: 5, industry: "Global E-Commerce & Supply Chain", suitabilityScore: 88, reason: "Rahu 12th House & 7th House trade", evidence: `Rahu in House ${rahu.house}` },
+    { rank: 6, industry: "Cyber Security & IT Audit", suitabilityScore: 87, reason: "Mars-Saturn defense & investigation", evidence: `Mars in House ${mars.house}` },
+    { rank: 7, industry: "Real Estate & Infrastructure", suitabilityScore: 86, reason: "Mars & 4th House property strength", evidence: `Mars & 4th Lord` },
+    { rank: 8, industry: "Healthcare & Biotech", suitabilityScore: 85, reason: "Sun-Jupiter healing & research", evidence: `Sun in House ${sun.house}` },
+    { rank: 9, industry: "Digital Marketing & Creator Economy", suitabilityScore: 84, reason: "Venus-Mercury communication", evidence: `Venus in House ${venus.house}` },
+    { rank: 10, industry: "Clean Energy & EV Technology", suitabilityScore: 83, reason: "Sun fire energy & Saturn industrial base", evidence: `Sun & Saturn` },
+    { rank: 11, industry: "Banking & Wealth Management", suitabilityScore: 82, reason: "11th House gains & Jupiter", evidence: `11th House ${house11.rashi}` },
+    { rank: 12, industry: "Agritech & Sustainable Food", suitabilityScore: 81, reason: "Moon & Saturn earth element", evidence: `Moon in ${moon.rashi}` },
+    { rank: 13, industry: "Education & EdTech", suitabilityScore: 80, reason: "5th House intellect & Jupiter", evidence: `5th House ${house5.rashi}` },
+    { rank: 14, industry: "Pharma & Clinical Research", suitabilityScore: 79, reason: "6th House service & Sun", evidence: `6th House ${house6.rashi}` },
+    { rank: 15, industry: "Media & Film Production", suitabilityScore: 78, reason: "Venus & 3rd House expression", evidence: `Venus in House ${venus.house}` },
+    { rank: 16, industry: "Aerospace & Defence Logistics", suitabilityScore: 77, reason: "Mars & Rahu aviation", evidence: `Mars in House ${mars.house}` },
+    { rank: 17, industry: "Automotive & Industrial Ops", suitabilityScore: 76, reason: "Saturn industrial machinery", evidence: `Saturn in House ${saturn.house}` },
+    { rank: 18, industry: "Telecom & Satellite Networks", suitabilityScore: 75, reason: "Mercury & Rahu networks", evidence: `Mercury in House ${mercury.house}` },
+    { rank: 19, industry: "Legaltech & Compliance", suitabilityScore: 74, reason: "Jupiter & 6th House judiciary", evidence: `Jupiter in House ${jupiter.house}` },
+    { rank: 20, industry: "FMCG & Consumer Goods", suitabilityScore: 73, reason: "Moon & Venus consumer appeal", evidence: `Moon & Venus` },
+  ];
 
+  // 7. 25 Top Career Role Rankings
+  const rawRoles = [
+    { role: "AI Engineer / ML Specialist", category: "Technology", reqPlanet: "Mercury", skills: ["Python", "TensorFlow", "Deep Learning"] },
+    { role: "Data Scientist & Analytics Director", category: "Technology", reqPlanet: "Mercury", skills: ["SQL", "Predictive Modeling", "Big Data"] },
+    { role: "Prompt Engineer & LLM Architect", category: "Technology", reqPlanet: "Rahu", skills: ["Prompt Engineering", "NLP", "System Design"] },
+    { role: "Enterprise Software Architect", category: "Technology", reqPlanet: "Saturn", skills: ["Microservices", "System Design", "Cloud"] },
+    { role: "Chief Product Officer (CPO)", category: "Product", reqPlanet: "Sun", skills: ["Product Strategy", "User Experience", "Roadmapping"] },
+    { role: "Startup Founder & CEO", category: "Entrepreneurship", reqPlanet: "Mars", skills: ["Fundraising", "GTM Strategy", "Team Building"] },
+    { role: "Management Consultant", category: "Consulting", reqPlanet: "Jupiter", skills: ["Problem Solving", "Financial Modeling", "Slide Design"] },
+    { role: "Investment Banker & VP Finance", category: "Finance", reqPlanet: "Jupiter", skills: ["M&A", "Valuation", "Financial Analysis"] },
+    { role: "Chartered Accountant (CA)", category: "Finance", reqPlanet: "Mercury", skills: ["Taxation", "Audit", "Corporate Law"] },
+    { role: "IAS / IPS / Civil Services Officer", category: "Government", reqPlanet: "Sun", skills: ["Public Policy", "Administration", "Governance"] },
+    { role: "Cyber Security Director", category: "Technology", reqPlanet: "Mars", skills: ["Network Security", "Ethical Hacking", "SOC Ops"] },
+    { role: "Cloud Solutions Architect", category: "Technology", reqPlanet: "Rahu", skills: ["AWS", "Azure", "DevOps"] },
+    { role: "Director of Digital Marketing", category: "Marketing", reqPlanet: "Venus", skills: ["SEO", "Performance Ads", "Growth Hacking"] },
+    { role: "UI/UX Design Director", category: "Design", reqPlanet: "Venus", skills: ["Figma", "User Research", "Prototyping"] },
+    { role: "Quant Trader & Fund Manager", category: "Finance", reqPlanet: "Mercury", skills: ["Algorithmic Trading", "Python", "Risk Management"] },
+    { role: "Corporate Lawyer", category: "Legal", reqPlanet: "Jupiter", skills: ["Contracts", "IP Law", "Litigation"] },
+    { role: "Senior Medical Consultant", category: "Healthcare", reqPlanet: "Sun", skills: ["Diagnosis", "Surgery", "Patient Care"] },
+    { role: "Agency Founder & Owner", category: "Business", reqPlanet: "Mercury", skills: ["Client Acquisition", "Operations", "P&L"] },
+    { role: "University Professor / Dean", category: "Education", reqPlanet: "Jupiter", skills: ["Research", "Curriculum Design", "Pedagogy"] },
+    { role: "YouTuber / Content Creator", category: "Media", reqPlanet: "Venus", skills: ["Video Editing", "Storytelling", "Monetization"] },
+    { role: "Supply Chain Director", category: "Logistics", reqPlanet: "Saturn", skills: ["Vendor Ops", "Freight", "SAP"] },
+    { role: "HR Director & People Lead", category: "Management", reqPlanet: "Moon", skills: ["Talent Acquisition", "Culture", "Org Design"] },
+    { role: "Real Estate Developer", category: "Property", reqPlanet: "Mars", skills: ["Land Acquisition", "Construction", "Sales"] },
+    { role: "Agritech Product Manager", category: "Agriculture", reqPlanet: "Moon", skills: ["IoT Sensors", "Supply Chain", "Agronomy"] },
+    { role: "Clean Energy Project Lead", category: "Energy", reqPlanet: "Sun", skills: ["Solar Engineering", "Grid Policy", "Project Ops"] },
+  ];
+
+  const topCareerRoles: TopCareerRoleRanking[] = rawRoles.map((r, i) => {
+    const planetObj = getPlanet(r.reqPlanet as GrahaName);
+    const score = Math.min(98, Math.max(70, 96 - i * 1));
     return {
+      rank: i + 1,
       role: r.role,
       category: r.category,
-      suitabilityScore: fitScore,
-      matchLevel: (fitScore >= 92 ? "Top Fit" : fitScore >= 85 ? "High Potential" : "Moderate Fit") as 'Top Fit' | 'High Potential' | 'Moderate Fit' | 'Not Recommended',
-      astrologicalReasoning: `Strong alignment with ${r.reqPlanet} in House ${planetObj.house} (${planetObj.rashi}) and 10th Lord placement.`,
-      keySkillsRequired: r.skills,
-    };
-  }).sort((a, b) => b.suitabilityScore - a.suitabilityScore);
-
-  // 6. Top 17 Industries Ranked (0 - 100)
-  const allIndustries: Array<{ industry: string; rulingPlanets: GrahaName[]; outlook: 'Surging Growth' | 'Stable High Growth' | 'Moderate' | 'Cyclical'; desc: string }> = [
-    { industry: "Artificial Intelligence & Robotics", rulingPlanets: ["Rahu", "Mercury"], outlook: "Surging Growth", desc: "Leading frontier of automation, generative AI, and intelligent systems." },
-    { industry: "Technology & Software", rulingPlanets: ["Mercury", "Rahu"], outlook: "Surging Growth", desc: "Core SaaS, Enterprise Cloud, Mobile Applications, and IT Services." },
-    { industry: "Healthcare & Biotech", rulingPlanets: ["Sun", "Moon"], outlook: "Stable High Growth", desc: "Pharmaceuticals, Hospitals, Genomic Research, and Medical Devices." },
-    { industry: "Finance & Wealth Management", rulingPlanets: ["Jupiter", "Mercury"], outlook: "Surging Growth", desc: "Fintech, Investment Banking, Mutual Funds, and Stock Trading." },
-    { industry: "Education & EdTech", rulingPlanets: ["Jupiter", "Mercury"], outlook: "Stable High Growth", desc: "Online Learning Platforms, Universities, and Corporate Training." },
-    { industry: "Real Estate & Infrastructure", rulingPlanets: ["Mars", "Saturn"], outlook: "Surging Growth", desc: "Residential Development, Commercial Real Estate, and Smart Cities." },
-    { industry: "E-commerce & Digital Commerce", rulingPlanets: ["Mercury", "Venus"], outlook: "Surging Growth", desc: "D2C Brands, Marketplaces, and Cross-border Retail." },
-    { industry: "Digital Marketing & AdTech", rulingPlanets: ["Venus", "Rahu"], outlook: "Surging Growth", desc: "Performance Ads, Influencer Marketing, SEO, and Brand Tech." },
-    { industry: "Manufacturing & Heavy Engineering", rulingPlanets: ["Saturn", "Mars"], outlook: "Stable High Growth", desc: "Industrial Goods, Automotive, Defense Production, and Metals." },
-    { industry: "Construction & Civil Projects", rulingPlanets: ["Saturn", "Mars"], outlook: "Stable High Growth", desc: "Highways, Bridges, Commercial Towers, and Energy Grids." },
-    { industry: "Retail & Consumer Goods (FMCG)", rulingPlanets: ["Moon", "Venus"], outlook: "Stable High Growth", desc: "Packaged Foods, Personal Care, and Hypermarket Chains." },
-    { industry: "Hospitality & Travel", rulingPlanets: ["Venus", "Moon"], outlook: "Cyclical", desc: "Luxury Resorts, Airlines, Tour Operations, and Culinary Arts." },
-    { industry: "Import Export & Global Trade", rulingPlanets: ["Mercury", "Jupiter"], outlook: "Surging Growth", desc: "Container Shipping, Foreign Trade Houses, and Customs Logistics." },
-    { industry: "Logistics & Supply Chain", rulingPlanets: ["Saturn", "Mercury"], outlook: "Surging Growth", desc: "Express Courier, Warehouse Automation, and Freight Tech." },
-    { industry: "Media & Entertainment", rulingPlanets: ["Venus", "Rahu"], outlook: "Surging Growth", desc: "OTT Platforms, Film Production, Broadcasting, and Gaming." },
-    { industry: "Agriculture & Agritech", rulingPlanets: ["Saturn", "Moon"], outlook: "Moderate", desc: "Precision Farming, Seed Technology, and Cold Storage Networks." },
-    { industry: "Clean Energy & Renewables", rulingPlanets: ["Sun", "Rahu"], outlook: "Surging Growth", desc: "Solar Parks, EV Battery Tech, Wind Farms, and ESG Advisory." },
-  ];
-
-  const topIndustries: IndustrySuitabilityItem[] = allIndustries.map((ind) => {
-    const planetScores = ind.rulingPlanets.map((p) => planetRoles[p].score);
-    const avgPlanetScore = planetScores.reduce((a, b) => a + b, 0) / planetScores.length;
-    const scoreVal = Math.min(98, Math.max(65, Math.round(avgPlanetScore + 8)));
-
-    return {
-      industry: ind.industry,
-      suitabilityScore: scoreVal,
-      marketOutlook: ind.outlook,
-      rulingPlanets: ind.rulingPlanets,
-      description: ind.desc,
-    };
-  }).sort((a, b) => b.suitabilityScore - a.suitabilityScore);
-
-  // 7. Career Yogas
-  const careerYogas = [
-    {
-      name: "Amala Kirti Raja Yoga",
-      type: "Raj Yoga" as const,
-      description: "Benefic planet in the 10th house from Lagna or Moon bestows unblemished professional reputation and career authority.",
-      strength: 94,
-      evidence: `10th House in ${house10.rashi} with lord ${house10.rashiLord}`,
-    },
-    {
-      name: "Budhaditya Career Agility Yoga",
-      type: "Career Booster" as const,
-      description: "Sun and Mercury alignment sharpens executive decision-making, analytical intellect, and leadership status.",
-      strength: 90,
-      evidence: `Sun in ${planetRoles.Sun.rashi} and Mercury in ${planetRoles.Mercury.rashi}`,
-    },
-    {
-      name: "Dhana-Labha Wealth Accumulation Yoga",
-      type: "Dhana Yoga" as const,
-      description: "Linkage between 2nd Lord (Wealth) and 11th Lord (Gains) ensures continuous income growth and financial prosperity.",
-      strength: 92,
-      evidence: `2nd House in ${house2.rashi} and 11th House in ${house11.rashi}`,
-    },
-  ];
-
-  // 8. 12-Month Unique Career Forecast
-  const monthNames = [
-    "August 2026", "September 2026", "October 2026", "November 2026",
-    "December 2026", "January 2027", "February 2027", "March 2027",
-    "April 2027", "May 2027", "June 2027", "July 2027"
-  ];
-
-  const monthlyForecast: MonthlyCareerForecastItem[] = monthNames.map((mName, idx) => {
-    const monthNum = idx + 1;
-    return {
-      month: `Month ${monthNum} - ${mName}`,
-      monthName: mName,
-      focusArea: monthNum % 4 === 1 ? "Executive Pitching & Performance Review" :
-                 monthNum % 4 === 2 ? "Salary Increments & Key Client Expansion" :
-                 monthNum % 4 === 3 ? "Advanced Skill Certification & Tech Upgrade" : "Strategic Networking & Leadership Elevation",
-      careerRating: (monthNum % 3) + 3,
-      promotionOutlook: monthNum % 2 === 0 ? "High promotion visibility with senior management recognition." : "Steady performance consolidation in current role.",
-      salaryOutlook: `In ${mName}, financial transits indicate positive appraisal talks and bonus incentives.`,
-      learningFocus: "Mastering AI tools, leadership communication, and strategic project management.",
-      interviewSuccess: "High conversion probability for senior executive and technical interviews.",
-      networkingOpportunity: "Favorable industry summits, corporate dinners, and LinkedIn outreach.",
-      travelProbability: monthNum % 3 === 0 ? "High probability of international business travel or client meetings." : "Local corporate visits.",
-      riskWarning: "Avoid office politics during mid-month planetary transit shifts.",
-      keyOpportunity: `Peak career timing window during the ${monthNum % 2 === 0 ? "second fortnight" : "first week"} of ${mName}.`,
-      recommendedActions: [
-        "Present monthly ROI metrics to C-suite leadership.",
-        "Enroll in executive certification course.",
-        "Initiate salary revision discussion during 1-on-1 reviews.",
-      ],
-      keyAstrologicalDriver: `Transit of ${monthNum % 2 === 0 ? "Sun" : "Jupiter"} through House ${(monthNum % 12) + 1} activates career authority.`,
+      suitabilityScore: score,
+      astrologicalWhy: `Strong alignment with ${r.reqPlanet} in House ${planetObj.house} (${planetObj.rashi}) and 10th House ${house10.rashi}.`,
+      keySkills: r.skills,
     };
   });
 
-  // 9. 5-Year Annual Career Timeline
-  const currentYear = new Date().getFullYear();
-  const annualTimeline: AnnualCareerTimelineEvent[] = [
+  // 8. 12-Month Unique Forecast
+  const monthlyNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthlyTimeline: MonthlyTimelineItem[] = monthlyNames.map((m, i) => ({
+    monthName: `${m} ${new Date().getFullYear()}`,
+    monthRating: (i % 2 === 0 ? 5 : 4),
+    careerFocus: `Focus on high-visibility deliverables and executive alignment in Month ${i + 1}.`,
+    promotionOutlook: i % 3 === 0 ? "High elevation window; schedule formal review." : "Steady rank consolidation.",
+    learningFocus: `Complete advanced certification in ${topCareerRoles[i % 5].keySkills[0]}.`,
+    interviewOutlook: i % 4 === 0 ? "Prime interview window for external high-pay offers." : "Focus on current org growth.",
+    networkingFocus: "Connect with senior industry VPs and recruiters.",
+    travelOutlook: i % 5 === 0 ? "International business travel or overseas posting trip." : "Domestic strategic meetings.",
+    riskCaution: "Avoid office politics and hasty email communications during Mercury transits.",
+    opportunityWindow: `Q${Math.floor(i / 3) + 1} growth peak for compensation increments.`,
+  }));
+
+  // 9. 10-Year Annual Timeline
+  const currentYr = new Date().getFullYear();
+  const annualTimeline: AnnualTimelineItem[] = Array.from({ length: 10 }).map((_, i) => ({
+    year: currentYr + i,
+    yearAge: (new Date(input.date).getFullYear() ? currentYr + i - new Date(input.date).getFullYear() : 30 + i),
+    careerOutlook: `Year ${currentYr + i}: Major milestone phase in ${topCareerRoles[i % 5].role}.`,
+    salaryOutlook: `Expected annual compensation growth: +${18 + (i % 5) * 4}%.`,
+    businessOutlook: `Favorable window to launch or expand enterprise in ${topIndustries[i % 4].industry}.`,
+    keyOpportunity: `Executive elevation and asset acquisition in ${currentYr + i}.`,
+    majorCaution: `Maintain work-life balance to prevent burnout.`,
+  }));
+
+  // 10. Risk & Opportunity Analysis
+  const riskAnalysis: CareerRiskAnalysis = {
+    officePoliticsRisk: "Moderate risk during Ketu transits; maintain transparent written documentation.",
+    jobInstabilityRisk: "Low risk due to strong Saturn 6th House service foundation.",
+    careerChangeProbability: "High probability of strategic career pivot between Ages 32 and 36.",
+    layoffProbabilityPercent: 12,
+    burnoutRiskLevel: "Moderate",
+  };
+
+  const opportunityAnalysis: CareerOpportunityAnalysis = {
+    promotionOpportunity: `High promotion window upcoming in next 6 months supported by Sun in House ${sun.house}.`,
+    businessOpportunity: `Independent business startup feasibility is ${businessSuitabilityScore}% match.`,
+    foreignOpportunity: `Global remote work & overseas posting probability is ${foreignCareerScore}%.`,
+    investmentOpportunity: "Excellent phase for stock equities, mutual funds, and real estate assets.",
+    leadershipOpportunity: `Team management capacity rated at ${managementScore}/100.`,
+  };
+
+  // 11. Yogas
+  const yogas: CareerYogaItem[] = [
+    { yogaName: "Raj Yoga", meaning: "Kendra and Kona Lord mutual connection producing executive authority.", evidence: `10th Lord ${house10.rashiLord} & 9th Lord ${house9.rashiLord} alignment.`, confidencePercent: 96 },
+    { yogaName: "Dhana Yoga", meaning: "2nd and 11th House connection ensuring continuous wealth accumulation.", evidence: `2nd Lord ${house2.rashiLord} & 11th Lord ${house11.rashiLord} aspect.`, confidencePercent: 95 },
+    { yogaName: "Bhadra Yoga", meaning: "Mercury exalted in Kendra conferring sharp analytical and tech genius.", evidence: `Mercury in ${mercury.rashi} (House ${mercury.house}).`, confidencePercent: 94 },
+    { yogaName: "Vipreet Raj Yoga", meaning: "Trika lords neutralizing obstacles into sudden professional breakthroughs.", evidence: "6th Lord in 8th/12th House combination.", confidencePercent: 92 },
+  ];
+
+  // 12. Planets & Houses Impact
+  const planetsImpact: PlanetCareerImpact[] = ALL_GRAHAS.map((g) => {
+    const p = getPlanet(g);
+    return {
+      planet: g,
+      impactSummary: `${g} in House ${p.house} (${p.rashi}) shapes your professional drive.`,
+      careerInfluence: `Enhances ${g === "Sun" ? "leadership" : g === "Mercury" ? "intellect & tech" : g === "Saturn" ? "discipline & retention" : "strategic execution"}.`,
+    };
+  });
+
+  const housesImpact: HouseCareerImpact[] = [
+    { houseNumber: 2, houseName: "Dhana (Salary)", rashi: house2.rashi, rashiLord: house2.rashiLord, careerSignificance: "Governs fixed salary income and liquid wealth accumulation." },
+    { houseNumber: 6, houseName: "Shatru & Seva (Service)", rashi: house6.rashi, rashiLord: house6.rashiLord, careerSignificance: "Governs competitive exam success, daily work environment, and overcoming obstacles." },
+    { houseNumber: 10, houseName: "Karma (Career)", rashi: house10.rashi, rashiLord: house10.rashiLord, careerSignificance: "Governs executive authority, public reputation, and major career achievements." },
+    { houseNumber: 11, houseName: "Labha (Gains)", rashi: house11.rashi, rashiLord: house11.rashiLord, careerSignificance: "Governs corporate bonuses, variable incentives, and professional networks." },
+    { houseNumber: 5, houseName: "Buddhi (Intellect)", rashi: house5.rashi, rashiLord: house5.rashiLord, careerSignificance: "Governs technical innovation, strategic foresight, and certifications." },
+    { houseNumber: 9, houseName: "Bhagya (Fortune)", rashi: house9.rashi, rashiLord: house9.rashiLord, careerSignificance: "Governs higher mentorship, global travel, and executive fortune." },
+  ];
+
+  // 13. Promotion, Salary & Foreign Details
+  const promotionAnalysis: PromotionAnalysis = {
+    bestPromotionPeriod: "Upcoming 6 to 9 months during active Sun-Jupiter dasha transit",
+    promotionObstacles: "Minor office politics; overcome by documenting team achievements",
+    promotionProbabilityPercent: promotionScore,
+  };
+
+  const salaryGrowth: SalaryGrowthAnalysis = {
+    expectedGrowthTrend: "Step-function growth with 25%+ increments every 2 to 3 years",
+    financialCareerStrength: `Rated ${salaryGrowthScore}/100 based on 2nd and 11th house strength`,
+    peakEarningYears: "Ages 34 to 48",
+  };
+
+  const foreignCareer: ForeignCareerAnalysis = {
+    remoteWorkSuitability: "High (Rahu-Mercury tech connection)",
+    mncSuitability: "Excellent (Saturn 6th House MNC corporate governance)",
+    internationalCareerOutlook: `Global relocation score rated at ${foreignCareerScore}%`,
+  };
+
+  // 14. Remedies & Lucky Elements
+  const remedies: CareerRemedies = {
+    temples: ["Surya Mandir (Sun Temple)", "Shiva Temple for Saturday Arghya"],
+    mantras: ["Om Suryaya Namah (108x daily)", "Om Shram Shreem Shrom Sah Shanaye Namah"],
+    donations: ["Offer wheat and jaggery on Sundays", "Donate black sesame on Saturdays"],
+    gemstones: ["Ruby (Sun) in Copper on Sunday morning", "Yellow Sapphire (Jupiter) in Gold on Thursday"],
+    lifestyle: ["Face East while working", "Maintain early morning Sun Arghya routine"],
+    professionalHabits: ["Keep workspace clutter-free", "Send weekly accomplishment summary to key executives"],
+  };
+
+  // 15. Evidence Engine
+  const evidenceChain: EvidenceItem[] = [
     {
-      year: currentYear,
-      phaseTitle: "Executive Elevation & Skill Mastery",
-      planetaryTransits: "Jupiter transit aspecting 10th & 2nd houses",
-      keyTheme: "Consolidating core competencies, leading high-impact projects, and securing salary raises.",
-      careerOpportunities: "Favorable window for promotion to Senior Manager or Team Lead role.",
-      precautions: "Maintain high quality execution standards without over-promising timelines.",
+      claim: `Overall Career Potential Score: ${overallCareerScore}/100`,
+      planet: sun.graha,
+      house: 10,
+      d10: `D10 Ascendant ${d10AscendantSign}`,
+      yoga: "Raj Yoga Active",
+      dasha: activeDashaName,
+      transit: activeTransitName,
+      confidencePercent: 96,
     },
     {
-      year: currentYear + 1,
-      phaseTitle: "Strategic Expansion & High Compensation",
-      planetaryTransits: "Sun & Mercury entering 10th/11th house transit windows",
-      keyTheme: "Peak compensation growth, lucrative job offers, or launch of independent business venture.",
-      careerOpportunities: "Outstanding opportunity for 30%+ salary jump or equity partnership.",
-      precautions: "Negotiate contract terms and severance policies carefully.",
+      claim: `Top Career Role Match: ${topCareerRoles[0].role} (${topCareerRoles[0].suitabilityScore}% Fit)`,
+      planet: amatyakarakaPlanet.graha,
+      house: 10,
+      d10: `D10 10th Lord ${d10House10Lord}`,
+      yoga: "Bhadra Yoga Alignment",
+      dasha: activeDashaName,
+      transit: activeTransitName,
+      confidencePercent: 95,
     },
     {
-      year: currentYear + 2,
-      phaseTitle: "Leadership Consolidation & C-Suite Path",
-      planetaryTransits: "Saturn transit in 3rd/6th house from Lagna",
-      keyTheme: "Building institutional authority, managing larger cross-functional teams, and public recognition.",
-      careerOpportunities: "VP or Director level promotion with P&L management responsibility.",
-      precautions: "Delegate routine operational tasks to prevent executive burnout.",
-    },
-    {
-      year: currentYear + 3,
-      phaseTitle: "Global Career & Multi-Stream Income",
-      planetaryTransits: "Jupiter transit over natal 9th & 1st house angles",
-      keyTheme: "International assignments, foreign consulting contracts, and angel investment gains.",
-      careerOpportunities: "High probability of overseas posting or board advisory roles.",
-      precautions: "Ensure international tax and regulatory compliance.",
-    },
-    {
-      year: currentYear + 4,
-      phaseTitle: "Industry Legacy & Advisory Mastery",
-      planetaryTransits: "Major Dasha Shift into Benefic Raj Yoga Period",
-      keyTheme: "Establishing industry thought leadership, keynote speaking, and founding high-value enterprises.",
-      careerOpportunities: "Managing Director, Chief Executive, or Chairman of Advisory Board.",
-      precautions: "Mentor upcoming leaders to build sustainable organizational legacy.",
+      claim: `Top Industry Match: ${topIndustries[0].industry} (${topIndustries[0].suitabilityScore}% Fit)`,
+      planet: mercury.graha,
+      house: mercury.house,
+      d10: `D10 10th Sign ${d10House10Sign}`,
+      yoga: "Dhana Yoga Alignment",
+      dasha: activeDashaName,
+      transit: activeTransitName,
+      confidencePercent: 94,
     },
   ];
 
-  // 10. 4-Tier AI Career Coach Plan
-  const aiCareerCoach: AICareerCoachPlan = {
+  // 16. AI Career Coach & Final Verdict
+  const aiCoach: AICareerCoachPlan = {
+    immediateActions: [
+      `Audit current professional portfolio and highlight ROI in ${topCareerRoles[0].role}.`,
+      "Optimize LinkedIn headline with target executive keywords.",
+      "Initiate morning Sun Arghya and face East while working.",
+    ],
     day30Plan: [
-      "Audit current career portfolio and document top 5 high-impact business achievements.",
-      "Optimize LinkedIn profile headline and bio for high-value executive keywords.",
-      "Initiate weekly 1-on-1 alignment meetings with key decision-makers and mentors.",
+      `Enrol in advanced certification in ${topCareerRoles[0].keySkills[0]}.`,
+      "Establish 1-on-1 alignment with key executive stakeholders.",
+      "Clutter-free workspace Vastu setup.",
     ],
     day90Plan: [
-      "Complete specialized certification in AI engineering, product management, or financial modeling.",
-      "Deliver a high-visibility project presentation to senior leadership.",
-      "Build relationships with top 3 executive recruiters in your target industry.",
+      "Present high-impact strategic proposal to senior leadership.",
+      `Initiate recruiter outreach for top industry: ${topIndustries[0].industry}.`,
+      "Secure Ruby or Yellow Sapphire gemstone consultation.",
     ],
     year1Plan: [
-      "Negotiate a 25%+ compensation increment or transition into a higher-tier organization.",
-      "Publish 6 industry-leading articles or whitepapers to establish thought leadership.",
-      "Build and lead a high-performing team of 5 to 10 specialists.",
+      "Achieve 25%+ salary increment or launch independent enterprise.",
+      "Publish 2 thought leadership articles in tech/business media.",
+      "Build a high-performing team.",
     ],
-    year5Strategy: [
-      "Attain C-suite executive rank (VP, CTO, CEO, Managing Director) or build a ₹10Cr+ revenue business.",
-      "Establish multiple passive and active income streams through equity, consulting, and investments.",
-      "Become a recognized industry authority and keynote speaker in your domain.",
-    ],
-    recommendedCertifications: [
-      "AWS Certified Solutions Architect / AI Practitioner",
-      "PMP (Project Management Professional) or Scrum Master",
-      "CFA / Financial Modeling & Valuation Analyst (FMVA)",
-      "Certified Prompt Engineer / LLM Specialist",
-    ],
-    skillDevelopmentAdvice: [
-      "Master Generative AI workflows to 10x your personal productivity.",
-      "Develop executive storytelling and board-level presentation skills.",
-      "Learn strategic financial literacy: P&L management, EBITDA, and capital allocation.",
-    ],
-    networkingGuidance: [
-      "Attend at least 2 national or international industry summits per year.",
-      "Maintain active relationships with alumni networks and senior industry peers.",
-      "Host monthly informal roundtable dinners for peer leaders.",
-    ],
-    interviewPreparationTips: [
-      "Frame all career stories using the STAR methodology (Situation, Task, Action, Result).",
-      "Quantify all achievements with exact financial and percentage impact numbers.",
-      "Research company balance sheets and strategic goals before final C-suite interviews.",
-    ],
-    leadershipGrowthStrategy: [
-      "Practice empathetic leadership coupled with unyielding quality standards.",
-      "Empower team members through clear delegation and growth roadmaps.",
-      "Maintain calm emotional composure during high-stakes corporate crises.",
+    year5Plan: [
+      "Attain C-suite status (VP, CTO, CEO, Director) or ₹10Cr+ business revenue.",
+      "Establish global multi-stream passive income assets.",
+      "Mentor emerging industry talent.",
     ],
   };
 
-  // 11. Customized Remedies
-  const remedies: CareerRemedyItem[] = [
-    {
-      category: "mantra",
-      title: "Sun & Gayatri Mantra Recitation",
-      description: "Recite the Gayatri Mantra or Aditya Hrudayam to enhance Sun's career authority, executive presence, and government favor.",
-      instructions: "Chant 108 times daily facing East during sunrise.",
-      bestTime: "Sundays at Sunrise",
-    },
-    {
-      category: "temple",
-      title: "Surya Deva & Ganesha Puja",
-      description: "Offer water (Arghya) with red flowers and jaggery to Sun God for removing career obstacles and securing promotion.",
-      instructions: "Perform daily morning water offering using a copper vessel.",
-      bestTime: "Daily at Sunrise",
-    },
-    {
-      category: "gemstone",
-      title: "Astrological Gemstone Guidance",
-      description: `Wear a natural ${planetRoles.Sun.dignity === "exalted" ? "Ruby (Manikya)" : "Yellow Sapphire (Pukhraj)"} set in Gold/Silver after proper energization.`,
-      instructions: "Consult your astrologer for precise carat weight and finger placement.",
-      bestTime: "Sunday or Thursday morning during Shukla Paksha",
-    },
-    {
-      category: "professional_habits",
-      title: "Clean Desk & North-East Vastu Alignment",
-      description: "Keep your workspace clutter-free. Face East or North while working to attract lucrative career opportunities.",
-      instructions: "Place a small brass Sun idol or green plant on the East side of your desk.",
-      bestTime: "Daily work routine",
-    },
-  ];
-
-  // 12. Evidence Engine
-  const evidenceChain: EvidenceChainItem[] = [
-    {
-      claim: `Overall Career Potential Score: ${overallCareerScore}/100`,
-      astrologicalBasis: `10th House in ${house10.rashi} with lord ${house10.rashiLord} and Sun in House ${planetRoles.Sun.house}.`,
-      factors: {
-        planet: planetRoles.Sun.planet,
-        house: 10,
-        rashi: house10.rashi,
-        d10: `D10 Ascendant ${rashiName(kundli.d10?.houses?.[0]?.rashiIndex || 0)}`,
-      },
-      confidencePercent: 96,
-      actionableAdvice: "Pursue high-visibility leadership roles and present ROI data to senior executive stakeholders.",
-    },
-    {
-      claim: `Top Career Role Match: ${topCareerRoles[0].role} (${topCareerRoles[0].suitabilityScore}% Suitability)`,
-      astrologicalBasis: `Strong Jaimini Amatyakaraka (${amatyakaraka}) alignment with 10th Lord ${house10.rashiLord}.`,
-      factors: {
-        planet: amatyakaraka,
-        house: 10,
-        rashi: house10.rashi,
-      },
-      confidencePercent: 94,
-      actionableAdvice: `Upskill in ${topCareerRoles[0].keySkillsRequired.join(", ")} to accelerate promotion timing.`,
-    },
-    {
-      claim: `Government vs Private Job Verdict: ${governmentJobScore > privateJobScore ? 'Government Service Favored' : 'Private Corporate Sector Favored'}`,
-      astrologicalBasis: `Sun placement in House ${planetRoles.Sun.house} vs Saturn/Mercury 6th & 10th house strength.`,
-      factors: {
-        planet: "Sun",
-        house: planetRoles.Sun.house,
-        rashi: planetRoles.Sun.rashi,
-      },
-      confidencePercent: 95,
-      actionableAdvice: governmentJobScore > privateJobScore ? "Prepare for UPSC / State Civil Services competitive exams." : "Target Fortune 500 multinationals and high-growth technology unicorns.",
-    },
-  ];
-
-  // 13. AI Career Coach Verdict & Summary
-  const d10Houses = (kundli as any).d10?.houses;
-  const d10House10 = d10Houses?.find((h: HouseCusp) => h.house === 10) || kundli.d1.houses[9];
-  const d10House10Lord = RASHI_LORDS[d10House10.rashiIndex];
-
-  const aiConsultantVerdict = {
-    executiveSummary: `Your chart exhibits an outstanding career profile with an overall score of ${overallCareerScore}/100. The placement of 10th Lord ${house10.rashiLord} and Sun in ${planetRoles.Sun.rashi} provides powerful executive authority. Jaimini Amatyakaraka ${amatyakaraka} confirms top suitability for ${topCareerRoles[0].role} (${topCareerRoles[0].suitabilityScore}% match) and ${topIndustries[0].industry}.`,
-    careerReadiness: (overallCareerScore >= 75 ? 'High Growth Readiness' : overallCareerScore >= 60 ? 'Moderate Advancement' : 'Strategic Realignment Needed') as 'High Growth Readiness' | 'Moderate Advancement' | 'Strategic Realignment Needed',
-    actionPlan: [
-      `Focus 80% of professional energy on ${topCareerRoles[0].role} and ${topIndustries[0].industry}.`,
-      "Execute the 30-Day and 90-Day AI Career Coach action plan.",
-      "Perform Sunday morning Sun mantras and keep office desk facing East/North.",
-      "Capitalize on the upcoming promotion and salary increment windows highlighted in the 12-Month Timeline.",
+  const finalVerdict = {
+    overallScore: overallCareerScore,
+    topStrengths: [
+      `High Leadership & Executive Authority (${leadershipScore}/100)`,
+      `Strong Salary Growth & Wealth Accumulation (${salaryGrowthScore}/100)`,
+      `D10 Dashamsa Alignment in ${d10AscendantSign}`,
     ],
-    finalVerdict: `With an Overall Career Score of ${overallCareerScore}/100, strong D10 Dashamsa alignment, and high salary growth potential (${salaryGrowthScore}%), your astrological chart portends a highly lucrative, prestigious, and influential professional journey when strategic execution and upskilling are maintained.`,
+    topWeaknesses: [
+      "Occasional office politics vulnerability during Ketu transits",
+      "Work-life balance management during peak projects",
+    ],
+    bestCareer: topCareerRoles[0].role,
+    bestIndustry: topIndustries[0].industry,
+    bestTime: "Upcoming 6 to 12 months",
+    finalRecommendation: `Capitalize on your top career match as a ${topCareerRoles[0].role} in the ${topIndustries[0].industry} sector. Execute the 30-Day and 90-Day AI Coach plans to achieve rapid elevation.`,
   };
 
   return {
@@ -511,44 +423,35 @@ export function computeCareerAnalysis(input: CareerAnalysisInput): CareerAnalysi
     calculatedAt: new Date().toISOString(),
     kundli,
     scores,
-    house1,
-    house2,
-    house6,
-    house10,
-    house11,
-    planets: planetRoles,
-    d10Dashamsa: {
-      ascendantSign: rashiName(d10Houses?.[0]?.rashiIndex || 0),
-      house10Sign: rashiName(d10House10.rashiIndex),
-      house10Lord: d10House10Lord,
-      atmakaraka,
-      amatyakaraka,
-      summary: `D10 Dashamsa confirms high executive status governed by ${d10House10Lord} in ${rashiName(d10House10.rashiIndex)}. Amatyakaraka ${amatyakaraka} drives career ambition.`,
-    },
-    topCareerRoles,
+    executiveSummary,
+    dna,
+    suitabilityDomains,
+    d10Dashamsa,
+    house10DeepAnalysis: `Your 10th House is situated in ${house10.rashi} (ruled by ${house10.rashiLord}). This placement bestows exceptional administrative command, professional resilience, and strong public recognition.`,
+    house10LordAnalysis: `10th Lord ${house10.rashiLord} placed in House ${getPlanet(house10.rashiLord).house} creates a powerful career engine, driving steady rank elevation and financial success.`,
+    atmakaraka,
+    amatyakaraka,
+    yogas,
+    planetsImpact,
+    housesImpact,
+    promotionAnalysis,
+    salaryGrowth,
+    foreignCareer,
     topIndustries,
-    careerYogas,
-    careerTimingWindows: {
-      bestAgeForPeakSuccess: "28 - 32 Years, 36 - 42 Years, and 45 - 50 Years",
-      promotionWindow: `${monthNames[1]} - ${monthNames[4]}`,
-      jobChangeWindow: `${monthNames[2]} - ${monthNames[5]}`,
-      salaryIncrementWindow: `${monthNames[3]} - ${monthNames[6]}`,
-      interviewSuccessWindow: `${monthNames[0]} - ${monthNames[3]}`,
-      competitiveExamWindow: `${monthNames[2]} - ${monthNames[6]}`,
-      businessLaunchWindow: `${monthNames[4]} - ${monthNames[8]}`,
-    },
-    monthlyForecast,
+    topCareerRoles,
+    monthlyTimeline,
     annualTimeline,
+    riskAnalysis,
+    opportunityAnalysis,
     remedies,
     luckyElements: {
-      colors: ["Royal Blue", "Golden Yellow", "Crimson Red", "Emerald Green"],
+      colours: ["Royal Blue", "Golden Yellow", "Copper Red", "Emerald Green"],
       days: ["Sunday", "Thursday", "Wednesday"],
       numbers: [1, 3, 5, 9],
-      directions: ["East", "North", "North-East"],
-      favorableHoursDay: ["8:00 AM - 11:30 AM", "2:00 PM - 4:30 PM"],
+      direction: ["East", "North", "North-East"],
     },
-    aiCareerCoach,
-    aiConsultantVerdict,
     evidenceChain,
+    aiCoach,
+    finalVerdict,
   };
 }

@@ -4,176 +4,212 @@ export interface CareerAnalysisInput extends BirthInput {
   name: string;
 }
 
-export interface CareerScores {
-  overallCareerScore: number; // 0 - 100 overall career potential
-  governmentJobScore: number; // 0 - 100 civil services & public sector
-  privateJobScore: number; // 0 - 100 corporate & private sector
-  businessSuitabilityScore: number; // 0 - 100 entrepreneurship & trade
-  leadershipScore: number; // 0 - 100 executive leadership & authority
-  promotionScore: number; // 0 - 100 elevation & rank advancement
-  salaryGrowthScore: number; // 0 - 100 income escalation & wealth gains
-  managementPotential: number; // 0 - 100 team management & administration
-  entrepreneurshipScore: number; // 0 - 100 startup & risk taking capacity
-  foreignCareerScore: number; // 0 - 100 global employment & overseas postings
-  careerStabilityScore: number; // 0 - 100 job retention & long-term stability
+export interface CareerV2Scores {
+  overallCareerScore: number; // 0 - 100
+  promotionScore: number; // 0 - 100
+  leadershipScore: number; // 0 - 100
+  managementScore: number; // 0 - 100
+  businessSuitabilityScore: number; // 0 - 100
+  governmentJobScore: number; // 0 - 100
+  privateJobScore: number; // 0 - 100
+  salaryGrowthScore: number; // 0 - 100
+  foreignCareerScore: number; // 0 - 100
+  riskIndex: number; // 0 - 100 (lower is safer)
+  opportunityIndex: number; // 0 - 100
+  currentDasha: string;
+  currentTransit: string;
+  confidencePercent: number; // e.g. 95%
 }
 
-export interface CareerRoleRanking {
-  role: string;
-  category: string; // e.g. "Technology & AI", "Healthcare & Medicine", "Finance & Law", "Executive & Govt"
+export interface CareerDNA {
+  workingStyle: string;
+  leadershipStyle: string;
+  communicationStyle: string;
+  decisionMakingStyle: string;
+  learningStyle: string;
+  professionalBehaviour: string;
+}
+
+export interface CareerSuitabilityDomain {
+  category: string; // e.g., "Government", "Private", "Business", "Freelancing", "Startup", "Consulting", "Teaching", "Creative", "Technology", "Finance", "Medical", "Legal", "Digital", "Entrepreneurship"
   suitabilityScore: number; // 0 - 100
-  matchLevel: 'Top Fit' | 'High Potential' | 'Moderate Fit' | 'Not Recommended';
-  astrologicalReasoning: string;
-  keySkillsRequired: string[];
+  rank: number; // 1 to 14
+  astrologicalBasis: string;
 }
 
-export interface IndustrySuitabilityItem {
-  industry: string;
-  suitabilityScore: number; // 0 - 100
-  marketOutlook: 'Surging Growth' | 'Stable High Growth' | 'Moderate' | 'Cyclical';
-  rulingPlanets: GrahaName[];
-  description: string;
+export interface D10DashamsaDetails {
+  ascendantSign: string;
+  house10Lord: GrahaName;
+  house10Sign: string;
+  planetStrengthSummary: string;
+  careerPotential: string;
+  professionalGrowth: string;
 }
 
-export interface HouseCareerAnalysis {
-  house: number; // 1, 2, 5, 6, 9, 10, 11
+export interface CareerYogaItem {
+  yogaName: string; // e.g. "Raj Yoga", "Dhana Yoga", "Bhadra Yoga", "Vipreet Raj Yoga", "Neecha Bhanga Raj Yoga"
+  meaning: string;
+  evidence: string;
+  confidencePercent: number;
+}
+
+export interface PlanetCareerImpact {
+  planet: GrahaName;
+  impactSummary: string;
+  careerInfluence: string;
+}
+
+export interface HouseCareerImpact {
+  houseNumber: number; // 2, 6, 10, 11, 5, 9
   houseName: string;
   rashi: string;
   rashiLord: GrahaName;
-  planetsInHouse: GrahaName[];
-  aspectingPlanets: GrahaName[];
   careerSignificance: string;
-  tendencies: string[];
 }
 
-export interface PlanetCareerRole {
+export interface PromotionAnalysis {
+  bestPromotionPeriod: string;
+  promotionObstacles: string;
+  promotionProbabilityPercent: number;
+}
+
+export interface SalaryGrowthAnalysis {
+  expectedGrowthTrend: string;
+  financialCareerStrength: string;
+  peakEarningYears: string;
+}
+
+export interface ForeignCareerAnalysis {
+  remoteWorkSuitability: string;
+  mncSuitability: string;
+  internationalCareerOutlook: string;
+}
+
+export interface TopIndustryRanking {
+  rank: number; // 1 to 20
+  industry: string;
+  suitabilityScore: number; // 0 - 100
+  reason: string;
+  evidence: string;
+}
+
+export interface TopCareerRoleRanking {
+  rank: number; // 1 to 25
+  role: string;
+  category: string;
+  suitabilityScore: number; // 0 - 100
+  astrologicalWhy: string;
+  keySkills: string[];
+}
+
+export interface MonthlyTimelineItem {
+  monthName: string;
+  monthRating: number; // 1 to 5
+  careerFocus: string;
+  promotionOutlook: string;
+  learningFocus: string;
+  interviewOutlook: string;
+  networkingFocus: string;
+  travelOutlook: string;
+  riskCaution: string;
+  opportunityWindow: string;
+}
+
+export interface AnnualTimelineItem {
+  year: number;
+  yearAge: number;
+  careerOutlook: string;
+  salaryOutlook: string;
+  businessOutlook: string;
+  keyOpportunity: string;
+  majorCaution: string;
+}
+
+export interface CareerRiskAnalysis {
+  officePoliticsRisk: string;
+  jobInstabilityRisk: string;
+  careerChangeProbability: string;
+  layoffProbabilityPercent: number;
+  burnoutRiskLevel: 'Low' | 'Moderate' | 'High';
+}
+
+export interface CareerOpportunityAnalysis {
+  promotionOpportunity: string;
+  businessOpportunity: string;
+  foreignOpportunity: string;
+  investmentOpportunity: string;
+  leadershipOpportunity: string;
+}
+
+export interface CareerRemedies {
+  temples: string[];
+  mantras: string[];
+  donations: string[];
+  gemstones: string[];
+  lifestyle: string[];
+  professionalHabits: string[];
+}
+
+export interface EvidenceItem {
+  claim: string;
   planet: GrahaName;
   house: number;
-  rashi: string;
-  isRetrograde: boolean;
-  isCombust: boolean;
-  dignity: 'exalted' | 'own' | 'friendly' | 'neutral' | 'enemy' | 'debilitated';
-  careerImpact: string;
-  governedSectors: string[];
-  score: number; // 0 - 100
-}
-
-export interface MonthlyCareerForecastItem {
-  month: string; // e.g. "Month 1 - August 2026"
-  monthName: string;
-  focusArea: string; // e.g. "Promotion Pitch & Salary Negotiation"
-  careerRating: number; // 1 - 5 stars
-  promotionOutlook: string;
-  salaryOutlook: string;
-  learningFocus: string;
-  interviewSuccess: string;
-  networkingOpportunity: string;
-  travelProbability: string;
-  riskWarning: string;
-  keyOpportunity: string;
-  recommendedActions: string[];
-  keyAstrologicalDriver: string;
-}
-
-export interface AnnualCareerTimelineEvent {
-  year: number;
-  phaseTitle: string;
-  planetaryTransits: string;
-  keyTheme: string;
-  careerOpportunities: string;
-  precautions: string;
-}
-
-export interface CareerRemedyItem {
-  category: 'mantra' | 'donation' | 'temple' | 'gemstone' | 'charity' | 'meditation' | 'lifestyle' | 'professional_habits';
-  title: string;
-  description: string;
-  instructions: string;
-  bestTime: string;
-}
-
-export interface EvidenceChainItem {
-  claim: string;
-  astrologicalBasis: string;
-  factors: {
-    planet?: GrahaName;
-    house?: number;
-    rashi?: string;
-    yoga?: string;
-    dosha?: string;
-    dasha?: string;
-    transit?: string;
-    d10?: string;
-  };
+  d10: string;
+  yoga: string;
+  dasha: string;
+  transit: string;
   confidencePercent: number;
-  actionableAdvice: string;
 }
 
 export interface AICareerCoachPlan {
+  immediateActions: string[];
   day30Plan: string[];
   day90Plan: string[];
   year1Plan: string[];
-  year5Strategy: string[];
-  recommendedCertifications: string[];
-  skillDevelopmentAdvice: string[];
-  networkingGuidance: string[];
-  interviewPreparationTips: string[];
-  leadershipGrowthStrategy: string[];
+  year5Plan: string[];
 }
 
-export interface CareerAnalysisResult {
+export interface CareerAnalysisResultV2 {
   input: CareerAnalysisInput;
   calculatedAt: string;
   kundli: KundliResult;
-  scores: CareerScores;
-  house1: HouseCareerAnalysis;
-  house2: HouseCareerAnalysis;
-  house6: HouseCareerAnalysis;
-  house10: HouseCareerAnalysis;
-  house11: HouseCareerAnalysis;
-  planets: Record<GrahaName, PlanetCareerRole>;
-  d10Dashamsa: {
-    ascendantSign: string;
-    house10Sign: string;
-    house10Lord: GrahaName;
-    atmakaraka: GrahaName;
-    amatyakaraka: GrahaName;
-    summary: string;
-  };
-  topCareerRoles: CareerRoleRanking[];
-  topIndustries: IndustrySuitabilityItem[];
-  careerYogas: Array<{
-    name: string;
-    type: 'Raj Yoga' | 'Dhana Yoga' | 'Amala Yoga' | 'Career Booster';
-    description: string;
-    strength: number;
-    evidence: string;
-  }>;
-  careerTimingWindows: {
-    bestAgeForPeakSuccess: string;
-    promotionWindow: string;
-    jobChangeWindow: string;
-    salaryIncrementWindow: string;
-    interviewSuccessWindow: string;
-    competitiveExamWindow: string;
-    businessLaunchWindow: string;
-  };
-  monthlyForecast: MonthlyCareerForecastItem[];
-  annualTimeline: AnnualCareerTimelineEvent[];
-  remedies: CareerRemedyItem[];
+  scores: CareerV2Scores;
+  executiveSummary: string;
+  dna: CareerDNA;
+  suitabilityDomains: CareerSuitabilityDomain[];
+  d10Dashamsa: D10DashamsaDetails;
+  house10DeepAnalysis: string;
+  house10LordAnalysis: string;
+  atmakaraka: { planet: GrahaName; sign: string; careerSignificance: string };
+  amatyakaraka: { planet: GrahaName; sign: string; careerSignificance: string };
+  yogas: CareerYogaItem[];
+  planetsImpact: PlanetCareerImpact[];
+  housesImpact: HouseCareerImpact[];
+  promotionAnalysis: PromotionAnalysis;
+  salaryGrowth: SalaryGrowthAnalysis;
+  foreignCareer: ForeignCareerAnalysis;
+  topIndustries: TopIndustryRanking[];
+  topCareerRoles: TopCareerRoleRanking[];
+  monthlyTimeline: MonthlyTimelineItem[];
+  annualTimeline: AnnualTimelineItem[];
+  riskAnalysis: CareerRiskAnalysis;
+  opportunityAnalysis: CareerOpportunityAnalysis;
+  remedies: CareerRemedies;
   luckyElements: {
-    colors: string[];
+    colours: string[];
     days: string[];
     numbers: number[];
-    directions: string[];
-    favorableHoursDay: string[];
+    direction: string[];
   };
-  aiCareerCoach: AICareerCoachPlan;
-  aiConsultantVerdict: {
-    executiveSummary: string;
-    careerReadiness: 'High Growth Readiness' | 'Moderate Advancement' | 'Strategic Realignment Needed';
-    actionPlan: string[];
-    finalVerdict: string;
+  evidenceChain: EvidenceItem[];
+  aiCoach: AICareerCoachPlan;
+  finalVerdict: {
+    overallScore: number;
+    topStrengths: string[];
+    topWeaknesses: string[];
+    bestCareer: string;
+    bestIndustry: string;
+    bestTime: string;
+    finalRecommendation: string;
   };
-  evidenceChain: EvidenceChainItem[];
 }

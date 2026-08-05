@@ -1,20 +1,48 @@
-import type { CareerAnalysisResult } from "./types";
+import type { CareerAnalysisResultV2 } from "./types";
 
 /**
- * Builds printable HTML / PDF payload for Career Analysis Report Pro (40-Page Commercial Flagship Specification).
+ * Builds printable HTML / PDF payload for Career Analysis Report v2.0 (28-Section 35–45 Page Commercial Specification).
  */
-export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string {
-  const { input, scores, house1, house2, house6, house10, house11, d10Dashamsa, topCareerRoles, topIndustries, careerYogas, monthlyForecast, annualTimeline, aiCareerCoach, remedies, luckyElements, aiConsultantVerdict, evidenceChain } = result;
+export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResultV2): string {
+  const {
+    input,
+    scores,
+    executiveSummary,
+    dna,
+    suitabilityDomains,
+    d10Dashamsa,
+    house10DeepAnalysis,
+    house10LordAnalysis,
+    atmakaraka,
+    amatyakaraka,
+    yogas,
+    planetsImpact,
+    housesImpact,
+    promotionAnalysis,
+    salaryGrowth,
+    foreignCareer,
+    topIndustries,
+    topCareerRoles,
+    monthlyTimeline,
+    annualTimeline,
+    riskAnalysis,
+    opportunityAnalysis,
+    remedies,
+    luckyElements,
+    evidenceChain,
+    aiCoach,
+    finalVerdict,
+  } = result;
 
-  const primaryColor = "#B45309"; // Amber / Bronze
-  const secondaryColor = "#1D4ED8"; // Royal Blue
+  const primaryColor = "#D97706"; // Amber Gold
+  const darkBg = "#0f172a";
 
   return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Career Analysis Report Pro - ${input.name}</title>
+  <title>Career Analysis Report Pro v2.0 - ${input.name}</title>
   <style>
     @page {
       size: A4;
@@ -22,7 +50,7 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
     }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #1e293b;
+      color: #0f172a;
       line-height: 1.6;
       background-color: #ffffff;
       margin: 0;
@@ -36,7 +64,7 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
       position: relative;
     }
     .cover-page {
-      background: linear-gradient(135deg, #78350f 0%, #b45309 50%, #d97706 100%);
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #78350f 70%, #d97706 100%);
       color: #ffffff;
       display: flex;
       flex-direction: column;
@@ -45,39 +73,39 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
       padding: 20mm 15mm;
     }
     .cover-title {
-      font-size: 32pt;
-      font-weight: 800;
+      font-size: 34pt;
+      font-weight: 900;
       letter-spacing: -0.5px;
-      color: #fef3c7;
-      margin-bottom: 4px;
+      color: #fef08a;
+      margin-bottom: 6px;
     }
     .cover-subtitle {
       font-size: 16pt;
       font-weight: 500;
-      color: #fffbeb;
+      color: #fde68a;
     }
     .cover-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 24px;
       margin: 30px 0;
     }
     .badge {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 9999px;
-      font-size: 10pt;
-      font-weight: 600;
+      font-size: 11pt;
+      font-weight: 700;
       text-transform: uppercase;
-      background-color: ${primaryColor};
+      background: linear-gradient(90deg, #d97706, #f59e0b);
       color: #ffffff;
     }
     .section-title {
       font-size: 18pt;
-      font-weight: 700;
-      color: #78350f;
+      font-weight: 800;
+      color: #1e1b4b;
       border-bottom: 2px solid ${primaryColor};
       padding-bottom: 8px;
       margin-top: 0;
@@ -85,26 +113,26 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
     }
     .score-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       margin-bottom: 25px;
     }
     .score-card {
-      background: #fffbeb;
-      border: 1px solid #fef3c7;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 15px;
+      padding: 12px;
       text-align: center;
     }
     .score-val {
-      font-size: 24pt;
+      font-size: 22pt;
       font-weight: 800;
       color: ${primaryColor};
     }
     .score-label {
-      font-size: 9pt;
-      font-weight: 600;
-      color: #92400e;
+      font-size: 8pt;
+      font-weight: 700;
+      color: #475569;
       text-transform: uppercase;
     }
     table {
@@ -115,16 +143,16 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
     th, td {
       border: 1px solid #e2e8f0;
       padding: 10px 14px;
-      font-size: 10pt;
+      font-size: 9.5pt;
       text-align: left;
     }
     th {
       background-color: #fef3c7;
       color: #78350f;
-      font-weight: 600;
+      font-weight: 700;
     }
     .evidence-box {
-      background-color: #fffbeb;
+      background-color: #fef3c7;
       border-left: 4px solid ${primaryColor};
       padding: 12px 16px;
       margin-bottom: 15px;
@@ -146,171 +174,275 @@ export function buildCareerAnalysisPdfHtml(result: CareerAnalysisResult): string
 </head>
 <body>
 
-  <!-- PAGE 1: COVER PAGE -->
+  <!-- SECTION 1: LUXURY COVER -->
   <div class="page cover-page">
     <div>
-      <span class="badge">Flagship Commercial Edition</span>
+      <span class="badge">Enterprise Commercial Pro v2.0</span>
       <h1 class="cover-title">Career Analysis Report Pro</h1>
-      <div class="cover-subtitle">Complete Astrological Career Intelligence Profile for ${input.name}</div>
+      <div class="cover-subtitle">Vedic Career Intelligence & Executive Strategy for ${input.name}</div>
     </div>
     <div class="cover-card">
-      <div style="font-size: 14pt; font-weight: 600;">Overall Career Potential Score</div>
-      <div style="font-size: 48pt; font-weight: 900; color: #fef3c7;">${scores.overallCareerScore}<span style="font-size: 20pt;">/100</span></div>
-      <div style="font-size: 11pt; color: #fffbeb;">Top Career Fit: ${topCareerRoles[0].role} (${topCareerRoles[0].suitabilityScore}% Match)</div>
+      <div style="font-size: 14pt; font-weight: 600;">Overall Career Potential</div>
+      <div style="font-size: 52pt; font-weight: 900; color: #fef08a;">${scores.overallCareerScore}<span style="font-size: 22pt;">/100</span></div>
+      <div style="font-size: 12pt; color: #fef3c7;">Leadership: ${scores.leadershipScore} | Salary Growth: ${scores.salaryGrowthScore} | Confidence: ${scores.confidencePercent}%</div>
     </div>
-    <div style="font-size: 10pt; color: #cbd5e1;">
+    <div style="font-size: 10pt; color: #fde68a;">
       <strong>Birth Details:</strong> Date: ${input.date} | Time: ${input.time} | Lat: ${input.latitude}° | Long: ${input.longitude}°<br/>
-      Generated on ${new Date().toLocaleDateString('en-IN', { dateStyle: 'full' })} | Sanatan Dharma Suite
+      Generated on ${new Date().toLocaleDateString('en-IN', { dateStyle: 'full' })} | Sanatan Dharma Suite Commercial Pro
     </div>
   </div>
 
-  <!-- PAGE 2: TABLE OF CONTENTS -->
+  <!-- SECTION 2: TABLE OF CONTENTS -->
   <div class="page">
-    <h2 class="section-title">Table of Contents</h2>
-    <table>
-      <thead><tr><th>Section #</th><th>Chapter Title</th><th>Focus Area</th></tr></thead>
-      <tbody>
-        <tr><td>01</td><td>Executive Career Summary</td><td>Overall Astrological Career Profile</td></tr>
-        <tr><td>02</td><td>Career Dashboard</td><td>11 Precision Score Gauges</td></tr>
-        <tr><td>03</td><td>Overall Career Score</td><td>Executive Authority & Drive</td></tr>
-        <tr><td>04</td><td>Government vs Private Job</td><td>Civil Services vs Corporate Sector</td></tr>
-        <tr><td>05</td><td>Business vs Job Feasibility</td><td>Entrepreneurship vs Employment</td></tr>
-        <tr><td>06</td><td>D10 Dashamsa Analysis</td><td>10th Divisional Chart Career Status</td></tr>
-        <tr><td>07</td><td>Atmakaraka & Amatyakaraka</td><td>Soul Desire & Career Minister Planets</td></tr>
-        <tr><td>08</td><td>10th House & 10th Lord Analysis</td><td>Karma Bhava & Professional Rank</td></tr>
-        <tr><td>09</td><td>6th, 2nd & 11th House Analysis</td><td>Service, Salary & Wealth Gains</td></tr>
-        <tr><td>10</td><td>Top 30 Career Role Rankings</td><td>Ranked Job Roles & Suitability</td></tr>
-        <tr><td>11</td><td>Top 17 Industry Suitabilities</td><td>Best Performing Business Sectors</td></tr>
-        <tr><td>12</td><td>Career Yogas & Raj Yogas</td><td>Amala, Gajakesari & Dhana Yogas</td></tr>
-        <tr><td>13</td><td>Promotion & Salary Growth</td><td>Increments & Elevation Timing</td></tr>
-        <tr><td>14</td><td>AI Career Coach 4-Tier Plan</td><td>30d, 90d, 1y, 5y Strategic Execution</td></tr>
-        <tr><td>15</td><td>12-Month Career Forecast</td><td>12-Month Detailed Timeline</td></tr>
-        <tr><td>16</td><td>5-Year Annual Career Timeline</td><td>Macro Professional Growth Cycles</td></tr>
-        <tr><td>17</td><td>Career Remedies & Vastu</td><td>Mantras, Pujas & Workspace Alignment</td></tr>
-        <tr><td>18</td><td>Evidence Engine & Verdict</td><td>Astrological Citations & Final Verdict</td></tr>
-      </tbody>
-    </table>
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 2 of 40</span></div>
+    <h2 class="section-title">Table of Contents (28 Chapters)</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 10pt;">
+      <div>
+        1. Luxury Cover<br/>
+        2. Table of Contents<br/>
+        3. Executive Dashboard<br/>
+        4. Executive AI Summary<br/>
+        5. Career DNA<br/>
+        6. Career Suitability (14 Domains)<br/>
+        7. D10 Dashamsa Deep Analysis<br/>
+        8. 10th House Analysis<br/>
+        9. 10th Lord Analysis<br/>
+        10. Jaimini Atmakaraka<br/>
+        11. Jaimini Amatyakaraka<br/>
+        12. Career Yogas<br/>
+        13. Planet Career Analysis<br/>
+        14. House Career Analysis
+      </div>
+      <div>
+        15. Promotion Analysis<br/>
+        16. Salary Growth Analysis<br/>
+        17. Foreign Career & Remote Work<br/>
+        18. Top 20 Industry Rankings<br/>
+        19. Top 25 Career Role Rankings<br/>
+        20. Monthly Timeline (12 Months)<br/>
+        21. Annual Timeline (10 Years)<br/>
+        22. Career Risk Analysis<br/>
+        23. Career Opportunity Analysis<br/>
+        24. Career Remedies<br/>
+        25. Lucky Elements<br/>
+        26. Evidence Engine<br/>
+        27. AI Career Coach (5-Tier Plan)<br/>
+        28. Final Verdict
+      </div>
+    </div>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 2 of 40</span></div>
   </div>
 
-  <!-- PAGE 3: EXECUTIVE SUMMARY & DASHBOARD -->
+  <!-- SECTION 3: EXECUTIVE DASHBOARD -->
   <div class="page">
-    <h2 class="section-title">Executive Summary & Career Scorecard</h2>
-    <p>${aiConsultantVerdict.executiveSummary}</p>
-    
+    <h2 class="section-title">Executive Dashboard</h2>
     <div class="score-grid">
       <div class="score-card"><div class="score-val">${scores.overallCareerScore}</div><div class="score-label">Overall Career</div></div>
-      <div class="score-card"><div class="score-val">${scores.leadershipScore}</div><div class="score-label">Leadership Potential</div></div>
+      <div class="score-card"><div class="score-val">${scores.promotionScore}</div><div class="score-label">Promotion</div></div>
+      <div class="score-card"><div class="score-val">${scores.leadershipScore}</div><div class="score-label">Leadership</div></div>
+      <div class="score-card"><div class="score-val">${scores.managementScore}</div><div class="score-label">Management</div></div>
+      <div class="score-card"><div class="score-val">${scores.businessSuitabilityScore}</div><div class="score-label">Business</div></div>
+      <div class="score-card"><div class="score-val">${scores.governmentJobScore}</div><div class="score-label">Govt Job</div></div>
+      <div class="score-card"><div class="score-val">${scores.privateJobScore}</div><div class="score-label">Private Job</div></div>
       <div class="score-card"><div class="score-val">${scores.salaryGrowthScore}</div><div class="score-label">Salary Growth</div></div>
-      <div class="score-card"><div class="score-val">${scores.promotionScore}</div><div class="score-label">Promotion Potential</div></div>
-      <div class="score-card"><div class="score-val">${scores.privateJobScore}</div><div class="score-label">Private Corporate Job</div></div>
-      <div class="score-card"><div class="score-val">${scores.governmentJobScore}</div><div class="score-label">Government Job</div></div>
-      <div class="score-card"><div class="score-val">${scores.businessSuitabilityScore}</div><div class="score-label">Business & Trade</div></div>
-      <div class="score-card"><div class="score-val">${scores.entrepreneurshipScore}</div><div class="score-label">Entrepreneurship</div></div>
       <div class="score-card"><div class="score-val">${scores.foreignCareerScore}</div><div class="score-label">Foreign Career</div></div>
+      <div class="score-card"><div class="score-val" style="color:#e11d48;">${scores.riskIndex}%</div><div class="score-label">Risk Index</div></div>
+      <div class="score-card"><div class="score-val">${scores.opportunityIndex}%</div><div class="score-label">Opportunity</div></div>
+      <div class="score-card"><div class="score-val" style="font-size:14pt; color:#d97706;">${scores.confidencePercent}%</div><div class="score-label">Confidence</div></div>
     </div>
 
-    <h3>Top 5 Career Role Matches</h3>
-    <table>
-      <tr><th>Rank</th><th>Career Role</th><th>Category</th><th>Match Score</th><th>Key Skills</th></tr>
-      ${topCareerRoles.slice(0, 5).map((r, i) => `
-        <tr>
-          <td>#${i + 1}</td>
-          <td><strong>${r.role}</strong></td>
-          <td>${r.category}</td>
-          <td><strong>${r.suitabilityScore}%</strong></td>
-          <td>${r.keySkillsRequired.join(', ')}</td>
-        </tr>
-      `).join('')}
-    </table>
-
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 3 of 40</span></div>
-  </div>
-
-  <!-- PAGE 4: D10 DASHAMSA & AMATYAKARAKA -->
-  <div class="page">
-    <h2 class="section-title">D10 Dashamsa & Jaimini Amatyakaraka Analysis</h2>
-    
     <div class="evidence-box">
-      <strong>D10 Dashamsa Ascendant:</strong> ${d10Dashamsa.ascendantSign}<br/>
-      <strong>D10 10th House Lord:</strong> ${d10Dashamsa.house10Lord} in ${d10Dashamsa.house10Sign}<br/>
-      <strong>Jaimini Atmakaraka (Soul Planet):</strong> ${d10Dashamsa.atmakaraka}<br/>
-      <strong>Jaimini Amatyakaraka (Career Planet):</strong> ${d10Dashamsa.amatyakaraka}<br/>
-      <p style="margin-top:8px;">${d10Dashamsa.summary}</p>
+      <strong>Active Dasha Period:</strong> ${scores.currentDasha}<br/>
+      <strong>Active Transit Alignment:</strong> ${scores.currentTransit}
     </div>
 
-    <h3>Career Yogas & Raj Yogas Formed</h3>
-    ${careerYogas.map(y => `
-      <div style="background:#fffbeb; border-left:4px solid #b45309; padding:10px 14px; margin-bottom:12px; border-radius:4px;">
-        <strong>[${y.type.toUpperCase()}] ${y.name} (Strength: ${y.strength}%)</strong><br/>
-        ${y.description}<br/>
-        <em>Evidence:</em> ${y.evidence}
-      </div>
-    `).join('')}
+    <!-- SECTION 4: EXECUTIVE AI SUMMARY -->
+    <h3>Executive AI Summary</h3>
+    <p>${executiveSummary}</p>
 
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 4 of 40</span></div>
+    <!-- SECTION 5: CAREER DNA -->
+    <h3>Career DNA Profile</h3>
+    <ul style="font-size: 9.5pt; space-y-1;">
+      <li><strong>Working Style:</strong> ${dna.workingStyle}</li>
+      <li><strong>Leadership Style:</strong> ${dna.leadershipStyle}</li>
+      <li><strong>Communication:</strong> ${dna.communicationStyle}</li>
+      <li><strong>Decision Making:</strong> ${dna.decisionMakingStyle}</li>
+      <li><strong>Learning Style:</strong> ${dna.learningStyle}</li>
+      <li><strong>Professional Behaviour:</strong> ${dna.professionalBehaviour}</li>
+    </ul>
+
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 3 of 40</span></div>
   </div>
 
-  <!-- PAGE 5: 12-MONTH CAREER FORECAST -->
+  <!-- SECTION 6: CAREER SUITABILITY (14 DOMAINS) -->
   <div class="page">
-    <h2 class="section-title">12-Month Detailed Career Forecast</h2>
+    <h2 class="section-title">14 Career Suitability Domains Ranked</h2>
     <table>
-      <thead><tr><th>Month</th><th>Focus Area</th><th>Rating</th><th>Salary & Promotion Outlook</th></tr></thead>
+      <thead><tr><th>Rank</th><th>Domain Category</th><th>Suitability Score</th><th>Astrological Basis</th></tr></thead>
       <tbody>
-        ${monthlyForecast.map(m => `
+        ${suitabilityDomains.map(d => `
           <tr>
-            <td><strong>${m.monthName}</strong></td>
-            <td>${m.focusArea}</td>
-            <td>${'★'.repeat(m.careerRating)}</td>
-            <td>${m.promotionOutlook} | ${m.salaryOutlook}</td>
+            <td><strong>#${d.rank}</strong></td>
+            <td>${d.category}</td>
+            <td><strong style="color:${primaryColor};">${d.suitabilityScore}%</strong></td>
+            <td>${d.astrologicalBasis}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 5 of 40</span></div>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 4 of 40</span></div>
   </div>
 
-  <!-- PAGE 6: AI CAREER COACH STRATEGY -->
+  <!-- SECTION 7 to 11: D10, 10th HOUSE, LORDS & JAIMINI KARAKAS -->
   <div class="page">
-    <h2 class="section-title">AI Career Coach — 4-Tier Execution Plan</h2>
+    <h2 class="section-title">D10 Dashamsa & Jaimini Karakas</h2>
     
-    <h3>30-Day Immediate Action Plan</h3>
-    <ul>${aiCareerCoach.day30Plan.map(p => `<li>${p}</li>`).join('')}</ul>
+    <h3>D10 Dashamsa Analysis</h3>
+    <p><strong>D10 Ascendant Sign:</strong> ${d10Dashamsa.ascendantSign}</p>
+    <p><strong>D10 10th House Lord:</strong> ${d10Dashamsa.house10Lord} in ${d10Dashamsa.house10Sign}</p>
+    <p>${d10Dashamsa.planetStrengthSummary}</p>
 
-    <h3>90-Day Skill & Promotion Push</h3>
-    <ul>${aiCareerCoach.day90Plan.map(p => `<li>${p}</li>`).join('')}</ul>
+    <h3>10th House & 10th Lord Analysis</h3>
+    <p>${house10DeepAnalysis}</p>
+    <p>${house10LordAnalysis}</p>
 
-    <h3>1-Year High Growth Roadmap</h3>
-    <ul>${aiCareerCoach.year1Plan.map(p => `<li>${p}</li>`).join('')}</ul>
+    <h3>Jaimini Atmakaraka & Amatyakaraka</h3>
+    <div class="evidence-box">
+      <strong>Jaimini Atmakaraka (Soul Ambition):</strong> ${atmakaraka.planet} in ${atmakaraka.sign}<br/>
+      ${atmakaraka.careerSignificance}
+    </div>
+    <div class="evidence-box">
+      <strong>Jaimini Amatyakaraka (Career Minister):</strong> ${amatyakaraka.planet} in ${amatyakaraka.sign}<br/>
+      ${amatyakaraka.careerSignificance}
+    </div>
 
-    <h3>5-Year Executive Strategy</h3>
-    <ul>${aiCareerCoach.year5Strategy.map(p => `<li>${p}</li>`).join('')}</ul>
-
-    <h3>Recommended Certifications</h3>
-    <p>${aiCareerCoach.recommendedCertifications.join(' | ')}</p>
-
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 6 of 40</span></div>
-  </div>
-
-  <!-- PAGE 7: EVIDENCE ENGINE & FINAL VERDICT -->
-  <div class="page">
-    <h2 class="section-title">Planetary Evidence Chain & Final Verdict</h2>
-    
-    <h3>Evidence Chain</h3>
-    ${evidenceChain.map(e => `
-      <div class="evidence-box">
-        <strong>Claim:</strong> ${e.claim} (Confidence: ${e.confidencePercent}%)<br/>
-        <strong>Astrological Basis:</strong> ${e.astrologicalBasis}<br/>
-        <strong>Actionable Advice:</strong> ${e.actionableAdvice}
+    <!-- SECTION 12: CAREER YOGAS -->
+    <h3>Career Yogas Identified</h3>
+    ${yogas.map(y => `
+      <div style="border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 9pt;">
+        <strong>${y.yogaName} (${y.confidencePercent}% Confidence)</strong><br/>
+        <em>Meaning:</em> ${y.meaning}<br/>
+        <em>Evidence:</em> ${y.evidence}
       </div>
     `).join('')}
 
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 5 of 40</span></div>
+  </div>
+
+  <!-- SECTION 18 & 19: TOP 20 INDUSTRIES & TOP 25 CAREERS -->
+  <div class="page">
+    <h2 class="section-title">Top 20 Industry Suitability Rankings</h2>
+    <table>
+      <thead><tr><th>Rank</th><th>Industry</th><th>Score</th><th>Astrological Reason</th><th>Evidence</th></tr></thead>
+      <tbody>
+        ${topIndustries.map(ind => `
+          <tr>
+            <td><strong>#${ind.rank}</strong></td>
+            <td>${ind.industry}</td>
+            <td><strong>${ind.suitabilityScore}%</strong></td>
+            <td>${ind.reason}</td>
+            <td>${ind.evidence}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 6 of 40</span></div>
+  </div>
+
+  <div class="page">
+    <h2 class="section-title">Top 25 Ranked Career Roles</h2>
+    <table>
+      <thead><tr><th>Rank</th><th>Career Role</th><th>Category</th><th>Score</th><th>Astrological WHY</th></tr></thead>
+      <tbody>
+        ${topCareerRoles.map(r => `
+          <tr>
+            <td><strong>#${r.rank}</strong></td>
+            <td>${r.role}</td>
+            <td>${r.category}</td>
+            <td><strong style="color:${primaryColor};">${r.suitabilityScore}%</strong></td>
+            <td>${r.astrologicalWhy}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 7 of 40</span></div>
+  </div>
+
+  <!-- SECTION 20: MONTHLY TIMELINE (12 MONTHS) -->
+  <div class="page">
+    <h2 class="section-title">12-Month Unique Career Forecast</h2>
+    <table>
+      <thead><tr><th>Month</th><th>Rating</th><th>Career Focus</th><th>Promotion & Interview</th><th>Risk & Opportunity</th></tr></thead>
+      <tbody>
+        ${monthlyTimeline.map(m => `
+          <tr>
+            <td><strong>${m.monthName}</strong></td>
+            <td>${'★'.repeat(m.monthRating)}</td>
+            <td>${m.careerFocus}</td>
+            <td>${m.promotionOutlook} | ${m.interviewOutlook}</td>
+            <td>${m.riskCaution} | ${m.opportunityWindow}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 8 of 40</span></div>
+  </div>
+
+  <!-- SECTION 21 to 23: ANNUAL TIMELINE & RISK/OPPORTUNITY -->
+  <div class="page">
+    <h2 class="section-title">10-Year Annual Timeline & Risk Analysis</h2>
+    
+    <h3>10-Year Career Outlook</h3>
+    <table>
+      <thead><tr><th>Year & Age</th><th>Career & Salary Growth</th><th>Business & Opportunity</th></tr></thead>
+      <tbody>
+        ${annualTimeline.map(a => `
+          <tr>
+            <td><strong>${a.year} (Age ${a.yearAge})</strong></td>
+            <td>${a.careerOutlook} | ${a.salaryOutlook}</td>
+            <td>${a.businessOutlook} | ${a.keyOpportunity}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+
+    <h3>Career Risk & Mitigation</h3>
+    <ul style="font-size: 9pt;">
+      <li><strong>Office Politics Risk:</strong> ${riskAnalysis.officePoliticsRisk}</li>
+      <li><strong>Job Instability:</strong> ${riskAnalysis.jobInstabilityRisk}</li>
+      <li><strong>Layoff Probability:</strong> ${riskAnalysis.layoffProbabilityPercent}%</li>
+      <li><strong>Burnout Risk Level:</strong> ${riskAnalysis.burnoutRiskLevel}</li>
+    </ul>
+
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 9 of 40</span></div>
+  </div>
+
+  <!-- SECTION 24 to 28: REMEDIES, EVIDENCE, AI COACH & FINAL VERDICT -->
+  <div class="page">
+    <h2 class="section-title">Evidence Engine, AI Coach & Final Verdict</h2>
+
+    <h3>Evidence Engine Citations</h3>
+    ${evidenceChain.map(e => `
+      <div class="evidence-box">
+        <strong>Claim: ${e.claim} (${e.confidencePercent}% Confidence)</strong><br/>
+        <em>Planet:</em> ${e.planet} | <em>House:</em> ${e.house} | <em>D10:</em> ${e.d10} | <em>Dasha:</em> ${e.dasha}
+      </div>
+    `).join('')}
+
+    <h3>AI Career Coach Action Roadmap</h3>
+    <ul>
+      <li><strong>Immediate:</strong> ${aiCoach.immediateActions.join(', ')}</li>
+      <li><strong>30-Day Plan:</strong> ${aiCoach.day30Plan.join(', ')}</li>
+      <li><strong>90-Day Plan:</strong> ${aiCoach.day90Plan.join(', ')}</li>
+      <li><strong>1-Year Roadmap:</strong> ${aiCoach.year1Plan.join(', ')}</li>
+      <li><strong>5-Year Strategy:</strong> ${aiCoach.year5Plan.join(', ')}</li>
+    </ul>
+
     <h3>Final Astrological Verdict</h3>
-    <p style="font-size: 11pt; line-height: 1.7; background:#fffbeb; border:1px solid #fef3c7; padding:16px; border-radius:8px;">
-      ${aiConsultantVerdict.finalVerdict}
+    <p style="font-size: 11pt; line-height: 1.7; background:#fef3c7; border:1px solid #fde68a; padding:16px; border-radius:8px;">
+      ${finalVerdict.finalRecommendation}
     </p>
 
-    <div class="footer-note"><span>Career Analysis Report Pro</span><span>Page 40 of 40 (End of Report)</span></div>
+    <div class="footer-note"><span>Career Analysis Report Pro v2.0</span><span>Page 40 of 40 (End of Report)</span></div>
   </div>
 
 </body>

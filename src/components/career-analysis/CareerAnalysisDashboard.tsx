@@ -16,19 +16,18 @@ import {
   Trash2,
   CheckCircle2,
   Clock,
-  ChevronRight,
-  ShieldCheck,
+  ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import type { CareerAnalysisResult } from "@/lib/career-analysis/types";
+import type { CareerAnalysisResultV2 } from "@/lib/career-analysis/types";
 import { buildCareerAnalysisPdfHtml } from "@/lib/career-analysis/pdf-builder";
 
 interface CareerAnalysisDashboardProps {
-  result: CareerAnalysisResult;
+  result: CareerAnalysisResultV2;
   onRegenerate?: () => void;
   onSave?: () => void;
   onDelete?: () => void;
@@ -44,8 +43,8 @@ export function CareerAnalysisDashboard({
   onShare,
   isSaving = false,
 }: CareerAnalysisDashboardProps) {
-  const [activeTab, setActiveTab] = useState("scorecard");
-  const { input, scores, house1, house2, house6, house10, house11, d10Dashamsa, topCareerRoles, topIndustries, careerYogas, monthlyForecast, annualTimeline, aiCareerCoach, remedies, luckyElements, aiConsultantVerdict, evidenceChain } = result;
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const { input, scores, executiveSummary, dna, suitabilityDomains, d10Dashamsa, atmakaraka, amatyakaraka, yogas, topIndustries, topCareerRoles, monthlyTimeline, annualTimeline, riskAnalysis, remedies, luckyElements, evidenceChain, aiCoach, finalVerdict } = result;
 
   const downloadPdf = () => {
     const htmlContent = buildCareerAnalysisPdfHtml(result);
@@ -67,17 +66,17 @@ export function CareerAnalysisDashboard({
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Badge className="bg-amber-400 text-slate-900 font-bold px-3 py-1 text-xs uppercase tracking-wide">
-              Flagship Commercial Pro
+              Enterprise Commercial Pro v2.0
             </Badge>
             <span className="text-xs text-amber-200 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" /> Calculated in Real-Time
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Career Analysis Report Pro — {input.name}
+            Career Analysis Report Pro v2.0 — {input.name}
           </h1>
           <p className="text-sm text-amber-100 mt-1 max-w-2xl">
-            Complete 40-section career intelligence profile analyzing D10 Dashamsa, Jaimini Amatyakaraka, 30 top career roles, 17 industries, and 4-tier AI strategy.
+            28-Section Commercial Vedic Career Intelligence analyzing D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 20 Industries, 25 Ranked Careers, and 5-Tier AI Strategy.
           </p>
         </div>
 
@@ -150,93 +149,102 @@ export function CareerAnalysisDashboard({
       {/* Interactive Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-2 md:grid-cols-6 w-full h-auto p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
-          <TabsTrigger value="scorecard">11 Scores</TabsTrigger>
-          <TabsTrigger value="roles">Top 30 Roles</TabsTrigger>
-          <TabsTrigger value="d10">D10 & Planets</TabsTrigger>
-          <TabsTrigger value="forecast">12-Month Forecast</TabsTrigger>
-          <TabsTrigger value="coach">AI Career Coach</TabsTrigger>
-          <TabsTrigger value="evidence">Evidence & Verdict</TabsTrigger>
+          <TabsTrigger value="dashboard">11 Scores</TabsTrigger>
+          <TabsTrigger value="roles">14 Domains & Roles</TabsTrigger>
+          <TabsTrigger value="d10">D10 & Yogas</TabsTrigger>
+          <TabsTrigger value="timeline">Timelines</TabsTrigger>
+          <TabsTrigger value="risks">Risks & Remedies</TabsTrigger>
+          <TabsTrigger value="evidence">Evidence & AI Coach</TabsTrigger>
         </TabsList>
 
-        {/* Tab 1: Scorecard */}
-        <TabsContent value="scorecard" className="space-y-6 mt-6">
+        {/* Tab 1: Executive Dashboard & Scores */}
+        <TabsContent value="dashboard" className="space-y-6 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>11 Precision Career Score Metrics</CardTitle>
-              <CardDescription>Quantitative evaluation of executive, financial, and leadership capacity.</CardDescription>
+              <CardTitle>11 Precision Career Score Metrics & Indices</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { label: "Overall Career Potential", score: scores.overallCareerScore },
-                { label: "Leadership & Authority", score: scores.leadershipScore },
-                { label: "Salary Growth Capacity", score: scores.salaryGrowthScore },
                 { label: "Promotion Potential", score: scores.promotionScore },
+                { label: "Leadership Score", score: scores.leadershipScore },
+                { label: "Team Management", score: scores.managementScore },
+                { label: "Business Suitability", score: scores.businessSuitabilityScore },
+                { label: "Government Job / Civil Services", score: scores.governmentJobScore },
                 { label: "Private Corporate Sector", score: scores.privateJobScore },
-                { label: "Government Job / IAS", score: scores.governmentJobScore },
-                { label: "Business & Trade Feasibility", score: scores.businessSuitabilityScore },
-                { label: "Entrepreneurship Drive", score: scores.entrepreneurshipScore },
-                { label: "Foreign Career Postings", score: scores.foreignCareerScore },
-                { label: "Team Management", score: scores.managementPotential },
-                { label: "Career Stability & Retention", score: scores.careerStabilityScore },
+                { label: "Salary Growth Capacity", score: scores.salaryGrowthScore },
+                { label: "Foreign Career & MNC", score: scores.foreignCareerScore },
+                { label: "Opportunity Density", score: scores.opportunityIndex },
+                { label: "Risk Index", score: scores.riskIndex, isRisk: true },
               ].map((item, idx) => (
-                <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-                  <div className="flex justify-between items-center mb-2">
+                <div key={idx} className="p-3.5 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="flex justify-between items-center mb-1.5">
                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{item.label}</span>
-                    <span className="text-lg font-extrabold text-amber-600 dark:text-amber-400">
-                      {item.score}/100
+                    <span className={`text-base font-extrabold ${item.isRisk ? "text-rose-600" : "text-amber-600 dark:text-amber-400"}`}>
+                      {item.score}%
                     </span>
                   </div>
-                  <Progress value={item.score} className="h-2 bg-amber-100 dark:bg-amber-950" />
+                  <Progress value={item.score} className={`h-1.5 ${item.isRisk ? "bg-rose-100" : "bg-amber-100 dark:bg-amber-950"}`} />
                 </div>
               ))}
             </CardContent>
           </Card>
-        </TabsContent>
 
-        {/* Tab 2: Top 30 Roles & Industries */}
-        <TabsContent value="roles" className="space-y-6 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Top 30 Career Roles Ranked</CardTitle>
-              <CardDescription>Evaluated against D10 Dashamsa, Jaimini Amatyakaraka & 10th House</CardDescription>
+              <CardTitle>Executive AI Summary & Career DNA</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-xs">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {topCareerRoles.map((r, i) => (
-                  <div key={i} className="p-3 border rounded-xl space-y-1 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800">
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold text-slate-900 dark:text-white text-sm">#{i + 1} {r.role}</span>
-                      <Badge className="bg-amber-600 text-white font-bold">{r.suitabilityScore}% Match</Badge>
-                    </div>
-                    <div className="text-slate-500 font-medium">{r.category} — {r.matchLevel}</div>
-                    <p className="text-slate-600 dark:text-slate-400">{r.astrologicalReasoning}</p>
-                    <div className="text-amber-700 dark:text-amber-300 font-semibold">Skills: {r.keySkillsRequired.join(", ")}</div>
-                  </div>
-                ))}
+            <CardContent className="space-y-4 text-xs">
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">{executiveSummary}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                <div className="p-3 border rounded-xl bg-amber-50/50 dark:bg-amber-950/20"><strong>Working Style:</strong> {dna.workingStyle}</div>
+                <div className="p-3 border rounded-xl bg-amber-50/50 dark:bg-amber-950/20"><strong>Leadership Style:</strong> {dna.leadershipStyle}</div>
+                <div className="p-3 border rounded-xl bg-amber-50/50 dark:bg-amber-950/20"><strong>Communication:</strong> {dna.communicationStyle}</div>
+                <div className="p-3 border rounded-xl bg-amber-50/50 dark:bg-amber-950/20"><strong>Decision Making:</strong> {dna.decisionMakingStyle}</div>
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Tab 2: 14 Domains, Top 20 Industries, Top 25 Careers */}
+        <TabsContent value="roles" className="space-y-6 mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>14 Career Suitability Domains Ranked</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              {suitabilityDomains.map((d, i) => (
+                <div key={i} className="p-3 border rounded-xl flex justify-between items-center bg-slate-50 dark:bg-slate-900">
+                  <div>
+                    <span className="font-bold text-slate-900 dark:text-white">#{d.rank} {d.category}</span>
+                    <div className="text-slate-500 text-[11px]">{d.astrologicalBasis}</div>
+                  </div>
+                  <Badge className="bg-amber-600 text-white font-bold">{d.suitabilityScore}%</Badge>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Top 17 Industry Suitabilities</CardTitle>
+              <CardTitle>Top 25 Ranked Career Roles</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-              {topIndustries.map((ind, i) => (
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              {topCareerRoles.map((r, i) => (
                 <div key={i} className="p-3 border rounded-xl space-y-1 bg-slate-50 dark:bg-slate-900">
-                  <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200">
-                    <span>{ind.industry}</span>
-                    <Badge variant="outline">{ind.suitabilityScore}%</Badge>
+                  <div className="flex justify-between font-bold text-slate-900 dark:text-white">
+                    <span>#{r.rank} {r.role}</span>
+                    <Badge variant="outline">{r.suitabilityScore}%</Badge>
                   </div>
-                  <div className="text-slate-500">{ind.marketOutlook}</div>
-                  <p className="text-slate-600 dark:text-slate-400">{ind.description}</p>
+                  <div className="text-slate-500">{r.astrologicalWhy}</div>
+                  <div className="text-amber-600 dark:text-amber-400 font-semibold">Skills: {r.keySkills.join(", ")}</div>
                 </div>
               ))}
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Tab 3: D10 & Planets */}
+        {/* Tab 3: D10 & Yogas */}
         <TabsContent value="d10" className="space-y-6 mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
@@ -246,118 +254,100 @@ export function CareerAnalysisDashboard({
               <CardContent className="space-y-3 text-xs">
                 <div><strong>D10 Ascendant:</strong> {d10Dashamsa.ascendantSign}</div>
                 <div><strong>D10 10th Lord:</strong> {d10Dashamsa.house10Lord} in {d10Dashamsa.house10Sign}</div>
-                <div><strong>Jaimini Atmakaraka (Soul):</strong> {d10Dashamsa.atmakaraka}</div>
-                <div><strong>Jaimini Amatyakaraka (Career Minister):</strong> {d10Dashamsa.amatyakaraka}</div>
-                <p className="text-slate-600 dark:text-slate-400 pt-2">{d10Dashamsa.summary}</p>
+                <div><strong>Jaimini Atmakaraka (Soul Ambition):</strong> {atmakaraka.planet} in {atmakaraka.sign}</div>
+                <div><strong>Jaimini Amatyakaraka (Career Minister):</strong> {amatyakaraka.planet} in {amatyakaraka.sign}</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Key Career Houses (D1 Chart)</CardTitle>
+                <CardTitle>Career Yogas Identified</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 text-xs">
-                <div><strong>10th House (Karma):</strong> {house10.rashi} (Lord: {house10.rashiLord}) — {house10.careerSignificance}</div>
-                <div><strong>6th House (Service):</strong> {house6.rashi} (Lord: {house6.rashiLord}) — {house6.careerSignificance}</div>
-                <div><strong>2nd House (Salary):</strong> {house2.rashi} (Lord: {house2.rashiLord}) — {house2.careerSignificance}</div>
-                <div><strong>11th House (Gains):</strong> {house11.rashi} (Lord: {house11.rashiLord}) — {house11.careerSignificance}</div>
+                {yogas.map((y, i) => (
+                  <div key={i} className="p-3 border rounded-xl space-y-1 bg-slate-50 dark:bg-slate-900">
+                    <div className="font-bold text-amber-700 dark:text-amber-300">{y.yogaName} ({y.confidencePercent}% Confidence)</div>
+                    <p className="text-slate-600 dark:text-slate-400">{y.meaning}</p>
+                    <div className="text-slate-500 font-medium">Evidence: {y.evidence}</div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        {/* Tab 4: 12-Month Forecast */}
-        <TabsContent value="forecast" className="space-y-4 mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {monthlyForecast.map((m, idx) => (
-              <Card key={idx} className="border-slate-200 dark:border-slate-800">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-center">
-                    <CardTitle className="text-sm font-bold">{m.monthName}</CardTitle>
-                    <div className="flex text-amber-500">
-                      {Array.from({ length: m.careerRating }).map((_, i) => (
-                        <Award key={i} className="w-3.5 h-3.5 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-                  <CardDescription className="text-xs text-amber-600 dark:text-amber-400 font-medium">{m.focusArea}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-xs space-y-2 text-slate-600 dark:text-slate-400">
-                  <div><strong>Promotion:</strong> {m.promotionOutlook}</div>
-                  <div><strong>Salary:</strong> {m.salaryOutlook}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        {/* Tab 5: AI Career Coach */}
-        <TabsContent value="coach" className="space-y-6 mt-6">
+        {/* Tab 4: Monthly & Annual Timelines */}
+        <TabsContent value="timeline" className="space-y-6 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>4-Tier AI Career Execution Roadmap</CardTitle>
-              <CardDescription>Actionable 30-Day, 90-Day, 1-Year & 5-Year Strategy</CardDescription>
+              <CardTitle>12-Month Unique Career Forecast</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              {monthlyTimeline.map((m, i) => (
+                <div key={i} className="p-3.5 border rounded-xl space-y-1.5 bg-slate-50 dark:bg-slate-900">
+                  <div className="flex justify-between font-bold text-slate-900 dark:text-white">
+                    <span>{m.monthName}</span>
+                    <span className="text-amber-500">{'★'.repeat(m.monthRating)}</span>
+                  </div>
+                  <div><strong>Focus:</strong> {m.careerFocus}</div>
+                  <div><strong>Promotion:</strong> {m.promotionOutlook}</div>
+                  <div><strong>Opportunity:</strong> {m.opportunityWindow}</div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Tab 5: Risks & Remedies */}
+        <TabsContent value="risks" className="space-y-6 mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Career Risks & Vedic Remedies</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-xs">
-              <div className="p-3.5 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 rounded-r-lg space-y-1">
-                <div className="font-bold text-amber-900 dark:text-amber-300">30-DAY IMMEDIATE PUSH</div>
-                <ul className="list-disc list-inside text-slate-600 dark:text-slate-400">{aiCareerCoach.day30Plan.map((p, i) => <li key={i}>{p}</li>)}</ul>
+              <div className="p-3 border-l-4 border-rose-500 bg-rose-50 dark:bg-rose-950/20 rounded-r-lg space-y-1">
+                <div className="font-bold text-rose-900 dark:text-rose-300">RISK ASSESSMENT</div>
+                <div><strong>Office Politics Risk:</strong> {riskAnalysis.officePoliticsRisk}</div>
+                <div><strong>Layoff Probability:</strong> {riskAnalysis.layoffProbabilityPercent}%</div>
+                <div><strong>Burnout Risk Level:</strong> {riskAnalysis.burnoutRiskLevel}</div>
               </div>
 
-              <div className="p-3.5 bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 rounded-r-lg space-y-1">
-                <div className="font-bold text-blue-900 dark:text-blue-300">90-DAY SKILL & PROMOTION PUSH</div>
-                <ul className="list-disc list-inside text-slate-600 dark:text-slate-400">{aiCareerCoach.day90Plan.map((p, i) => <li key={i}>{p}</li>)}</ul>
-              </div>
-
-              <div className="p-3.5 bg-emerald-50 dark:bg-emerald-950/20 border-l-4 border-emerald-500 rounded-r-lg space-y-1">
-                <div className="font-bold text-emerald-900 dark:text-emerald-300">1-YEAR HIGH GROWTH ROADMAP</div>
-                <ul className="list-disc list-inside text-slate-600 dark:text-slate-400">{aiCareerCoach.year1Plan.map((p, i) => <li key={i}>{p}</li>)}</ul>
-              </div>
-
-              <div className="p-3.5 bg-purple-50 dark:bg-purple-950/20 border-l-4 border-purple-500 rounded-r-lg space-y-1">
-                <div className="font-bold text-purple-900 dark:text-purple-300">5-YEAR EXECUTIVE STRATEGY</div>
-                <ul className="list-disc list-inside text-slate-600 dark:text-slate-400">{aiCareerCoach.year5Strategy.map((p, i) => <li key={i}>{p}</li>)}</ul>
+              <div className="p-3 border-l-4 border-amber-500 bg-amber-50 dark:bg-amber-950/20 rounded-r-lg space-y-1">
+                <div className="font-bold text-amber-900 dark:text-amber-300">RECOMMENDED REMEDIES & LUCKY ELEMENTS</div>
+                <div><strong>Mantras:</strong> {remedies.mantras.join(", ")}</div>
+                <div><strong>Gemstones:</strong> {remedies.gemstones.join(", ")}</div>
+                <div><strong>Lucky Colours:</strong> {luckyElements.colours.join(", ")}</div>
+                <div><strong>Lucky Days:</strong> {luckyElements.days.join(", ")}</div>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Tab 6: Evidence & Verdict */}
+        {/* Tab 6: Evidence & AI Coach */}
         <TabsContent value="evidence" className="space-y-6 mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Planetary Evidence Chain</CardTitle>
+              <CardTitle>Evidence Engine</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 text-xs">
               {evidenceChain.map((e, i) => (
-                <div key={i} className="p-4 bg-amber-50/50 dark:bg-amber-950/20 border-l-4 border-amber-600 rounded-r-xl text-xs space-y-1">
-                  <div className="flex justify-between font-bold text-amber-950 dark:text-amber-200">
+                <div key={i} className="p-3 bg-amber-50/50 dark:bg-amber-950/20 border-l-4 border-amber-500 rounded-r-lg space-y-1">
+                  <div className="flex justify-between font-bold text-slate-900 dark:text-white">
                     <span>{e.claim}</span>
-                    <Badge variant="outline" className="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">
-                      {e.confidencePercent}% Confidence
-                    </Badge>
+                    <Badge variant="outline">{e.confidencePercent}% Confidence</Badge>
                   </div>
-                  <div className="text-slate-600 dark:text-slate-400"><strong>Basis:</strong> {e.astrologicalBasis}</div>
-                  <div className="text-slate-700 dark:text-slate-300"><strong>Advice:</strong> {e.actionableAdvice}</div>
+                  <div><strong>Planet:</strong> {e.planet} | <strong>House:</strong> {e.house} | <strong>D10:</strong> {e.d10}</div>
                 </div>
               ))}
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-amber-900 to-slate-900 text-white">
+          <Card className="bg-gradient-to-r from-amber-900 to-slate-950 text-white">
             <CardHeader>
               <CardTitle className="text-amber-300">Final Astrological Verdict</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
-              <p>{aiConsultantVerdict.finalVerdict}</p>
-              <div className="pt-2">
-                <span className="font-bold text-xs uppercase text-amber-200">Action Plan:</span>
-                <ul className="list-disc list-inside mt-1 space-y-1 text-xs text-amber-100">
-                  {aiConsultantVerdict.actionPlan.map((act, i) => (
-                    <li key={i}>{act}</li>
-                  ))}
-                </ul>
-              </div>
+              <p>{finalVerdict.finalRecommendation}</p>
             </CardContent>
           </Card>
         </TabsContent>

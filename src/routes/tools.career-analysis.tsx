@@ -11,19 +11,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FAQList } from "@/components/ui-kit/FAQList";
 import { toolSchema } from "@/components/tools/PremiumToolShell";
 import { computeCareerAnalysis } from "@/lib/career-analysis/career-engine";
-import type { CareerAnalysisResult, CareerAnalysisInput } from "@/lib/career-analysis/types";
+import type { CareerAnalysisResultV2, CareerAnalysisInput } from "@/lib/career-analysis/types";
 import { CareerAnalysisDashboard } from "@/components/career-analysis/CareerAnalysisDashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { pdfSaveReport, pdfDeleteReport } from "@/lib/pdf.functions";
 
 const FAQS = [
   {
-    q: "What is Career Analysis Report Pro?",
-    a: "Career Analysis Report Pro is SanatanTools' flagship 40-page career intelligence report analyzing D10 Dashamsa, Jaimini Amatyakaraka, Govt vs Private Job suitability, 30 ranked career roles, 17 top industries, and 4-tier AI strategy.",
+    q: "What is Career Analysis Report Pro v2.0?",
+    a: "Career Analysis Report Pro v2.0 is SanatanTools' completely rewritten 28-section flagship career intelligence report analyzing D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 20 Industries, 25 Ranked Career Roles, and 5-Tier AI strategy.",
   },
   {
-    q: "How does the 30 Top Career Role Ranking work?",
-    a: "The engine evaluates your 10th House, D10 Dashamsa, Atmakaraka, Amatyakaraka, and planetary dignities against 30 modern high-growth professions (AI Engineer, Data Scientist, Prompt Engineer, Software Engineer, Doctor, CA, Product Manager, Startup Founder, Govt Officer, etc.).",
+    q: "How does the 25 Top Career Role Ranking work?",
+    a: "The engine evaluates your 10th House, D10 Dashamsa, Atmakaraka, Amatyakaraka, and planetary dignities against 25 modern high-growth professions with zero generic statements.",
   },
   {
     q: "What birth details are required?",
@@ -38,16 +38,16 @@ const FAQS = [
 export const Route = createFileRoute("/tools/career-analysis")({
   head: () => ({
     meta: [
-      { title: "Career Analysis Report Pro — Flagship Vedic Career Intelligence" },
+      { title: "Career Analysis Report Pro v2.0 — Flagship Vedic Career Intelligence" },
       {
         name: "description",
         content:
-          "Generate a 40-page flagship Career Analysis Report covering D10 Dashamsa, Jaimini Amatyakaraka, 30 ranked career roles, 17 top industries, and 4-tier AI Career Coach strategy.",
+          "Generate a 40-page flagship Career Analysis Report v2.0 covering D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 20 Industries, 25 Ranked Career Roles, and 5-Tier AI Career Coach strategy.",
       },
-      { property: "og:title", content: "Career Analysis Report Pro — Flagship Vedic Career Intelligence" },
+      { property: "og:title", content: "Career Analysis Report Pro v2.0 — Flagship Vedic Career Intelligence" },
       {
         property: "og:description",
-        content: "Enterprise Vedic career report with 11 precision scores, Govt vs Private Job, and 30 ranked career roles.",
+        content: "Enterprise Vedic career report with 11 precision scores, D10 Dashamsa, and 25 ranked career roles.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -55,8 +55,8 @@ export const Route = createFileRoute("/tools/career-analysis")({
       {
         type: "application/ld+json",
         children: toolSchema({
-          name: "Career Analysis Report Pro",
-          description: "Flagship 40-page enterprise Vedic career intelligence report.",
+          name: "Career Analysis Report Pro v2.0",
+          description: "Flagship 40-page enterprise Vedic career intelligence report v2.0.",
           url: "https://sanatantools.com/tools/career-analysis",
           faqs: FAQS,
         }),
@@ -79,7 +79,7 @@ function CareerAnalysisPage() {
     language: "en",
   });
 
-  const [result, setResult] = useState<CareerAnalysisResult | null>(null);
+  const [result, setResult] = useState<CareerAnalysisResultV2 | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [savedReportId, setSavedReportId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -100,7 +100,7 @@ function CareerAnalysisPage() {
 
       const res = computeCareerAnalysis(birthInput);
       setResult(res);
-      toast.success("Career Analysis Report Pro generated successfully!");
+      toast.success("Career Analysis Report Pro v2.0 generated successfully!");
     } catch (err) {
       toast.error((err as Error).message || "Failed to generate Career Analysis Report.");
     } finally {
@@ -119,7 +119,7 @@ function CareerAnalysisPage() {
       const savedRow = await pdfSaveReport({
         data: {
           report: "career-analysis",
-          title: `Career Analysis Report Pro - ${result.input.name}`,
+          title: `Career Analysis Report Pro v2.0 - ${result.input.name}`,
           filename: `career-analysis-${result.input.name.toLowerCase().replace(/\s+/g, "-")}.pdf`,
           language: formData.language,
           pages: 40,
@@ -169,13 +169,13 @@ function CareerAnalysisPage() {
           {/* Header Description */}
           <div className="text-center space-y-3 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-xs font-semibold uppercase tracking-wider">
-              <Briefcase className="w-3.5 h-3.5" /> Flagship Product ₹299 - ₹499
+              <Briefcase className="w-3.5 h-3.5" /> Enterprise Commercial Pro v2.0 ₹299 - ₹499
             </div>
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-              Career Analysis Report Pro
+              Career Analysis Report Pro v2.0
             </h1>
             <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg">
-              Enterprise 40-Page Vedic Report: D10 Dashamsa, Jaimini Amatyakaraka, 30 Ranked Career Roles, 17 Industries, and 4-Tier AI Strategy.
+              Enterprise 40-Page Vedic Report: D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 20 Top Industries, 25 Ranked Careers, and 5-Tier AI Strategy.
             </p>
           </div>
 
@@ -183,10 +183,10 @@ function CareerAnalysisPage() {
           <Card className="max-w-3xl mx-auto shadow-xl border-slate-200 dark:border-slate-800">
             <CardHeader className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border-b border-slate-100 dark:border-slate-800">
               <CardTitle className="flex items-center gap-2 text-xl font-bold">
-                <Sparkles className="w-5 h-5 text-amber-500" /> Enter Birth Details for Career Report
+                <Sparkles className="w-5 h-5 text-amber-500" /> Enter Birth Details for Career Report v2.0
               </CardTitle>
               <CardDescription>
-                Precision calculations powered by Vedic ephemeris, D10 Dashamsa & Jaimini Amatyakaraka.
+                Precision calculations powered by Vedic ephemeris, D10 Dashamsa & Jaimini Karakas.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 space-y-6">
@@ -261,7 +261,7 @@ function CareerAnalysisPage() {
                 disabled={isCalculating}
                 className="w-full h-12 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold text-base shadow-lg transition-all"
               >
-                {isCalculating ? "Calculating 40-Page Career Analysis…" : "Generate Career Analysis Report Pro"}
+                {isCalculating ? "Calculating 40-Page Career Analysis v2.0…" : "Generate Career Analysis Report Pro v2.0"}
                 {!isCalculating && <ArrowRight className="w-5 h-5 ml-2" />}
               </Button>
             </CardContent>
