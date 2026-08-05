@@ -66,23 +66,23 @@ export function CareerAnalysisDashboard({
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Badge className="bg-amber-400 text-slate-900 font-bold px-3 py-1 text-xs uppercase tracking-wide">
-              Commercial Release v3.0 (Enterprise Quality)
+              Commercial Release v4.0 (Enterprise ₹4999 Quality)
             </Badge>
             <span className="text-xs text-amber-200 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" /> Calculated in Real-Time
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Career Analysis Report Pro v3.0 — {input.name}
+            Career Analysis Report Pro v4.0 — {input.name}
           </h1>
           <p className="text-sm text-amber-100 mt-1 max-w-2xl">
-            28-Section Commercial Vedic Career Intelligence analyzing D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 20 Industries, 25 Ranked Careers, and 5-Tier AI Strategy.
+            35-Page Commercial Vedic Career Intelligence analyzing D10 Dashamsa, Jaimini Karakas, 14 Suitability Domains, 25 Ranked Careers, 12-Month Forecast, and McKinsey-Style Strategy.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-3">
           <Button onClick={handleDownloadPdf} size="sm" className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold shadow-md">
-            <Download className="w-4 h-4 mr-2" /> Download PDF (40 Pages)
+            <Download className="w-4 h-4 mr-2" /> Download PDF (35 Pages)
           </Button>
           {onSave && (
             <Button onClick={onSave} disabled={isSaving} size="sm" variant="outline" className="border-amber-400 text-amber-200 hover:bg-amber-500/20">

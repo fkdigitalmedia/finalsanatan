@@ -268,6 +268,12 @@ export interface ChartVisuals {
   salaryGrowthGraphSvg: string;
   careerDNARadarSvg: string;
   opportunityMapSvg: string;
+  promotionMeterSvg: string;
+  planetStrengthWheelSvg: string;
+  careerRoadmapSvg: string;
+  riskHeatmapSvg: string;
+  decisionMatrixSvg: string;
+  swotMatrixSvg: string;
 }
 
 export interface CareerAnalysisResultV2 {
