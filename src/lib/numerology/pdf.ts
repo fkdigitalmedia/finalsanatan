@@ -1,20 +1,22 @@
 /**
- * Enterprise Numerology PDF Report Generator (25-35 Pages)
+ * Enterprise Numerology V2 Commercial Edition PDF Report Generator (30-40 Pages)
  * ------------------------------------------------------------
- * Multi-page A4 Commercial Enterprise Report Layout:
- *   • Cover Page
- *   • Table of Contents & Scorecard (0-100)
- *   • 10 Core Numbers Chapters (Life Path, Destiny, Soul Urge, Personality, Birthday, Maturity, Attitude, Balance, Hidden Passion, Karmic Lessons)
- *   • 4 Pinnacle & 4 Challenge Cycles
- *   • Personal Time Cycles & 12-Month Timeline
- *   • Domain Deep Dives (Career, Finance, Marriage, Health)
- *   • Practical Numerology (Mobile, Vehicle, House, Business, Compatibility)
- *   • Lucky Elements & Personalized Remedies
- *   • AI Summary & Disclaimer
+ * Publication-Grade A4 Layout Suitable for Paid Commercial Sales (₹199-₹299):
+ *   • Chapter 1: Cover Page & Profile Metadata (Page 1)
+ *   • Chapter 2: Table of Contents & Executive Dashboard (Page 2)
+ *   • Chapters 3-12: 10 Core Number Deep Dives (1 Full Page Each -> Pages 3-12)
+ *   • Chapter 13: 4 Pinnacle Cycles Deep Dive (Pages 13-14)
+ *   • Chapter 14: 4 Challenge Cycles Deep Dive (Pages 15-16)
+ *   • Chapter 15: Personal Time Cycles & Year Forecast (Pages 17-18)
+ *   • Chapter 16: Redesigned 12-Month Unique Timeline Cards (Pages 19-24)
+ *   • Chapters 17-20: 4 Life Domain Deep Dives (Pages 25-28)
+ *   • Chapter 21: Expanded Practical Asset Numerology (Pages 29-30)
+ *   • Chapter 22: Lucky Elements & 10-Point Vedic Remedies (Page 31)
+ *   • Chapter 23: AI Executive Summary & Professional Disclaimer (Page 32)
  */
 
 import { jsPDF } from "jspdf";
-import type { NumerologyReportResult } from "./engine";
+import type { NumerologyReportResultV2, CoreNumberDetailV2 } from "./engine";
 import { ensurePdfFont, type PdfLang } from "@/lib/kundli/pdf-i18n";
 import { trackPdfDownload, trackReportGenerated } from "@/lib/workspace/tracker";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +44,7 @@ const BRAND = {
 const PAGE = { w: 210, h: 297, m: 20 }; // A4 mm
 
 export async function generateNumerologyPDF(
-  data: NumerologyReportResult,
+  data: NumerologyReportResultV2,
   opts: NumerologyPdfOptions = {},
 ): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
@@ -67,7 +69,7 @@ export async function generateNumerologyPDF(
     doc.setFont(fontName, "bold");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.saffron);
-    doc.text(`ENTERPRISE NUMEROLOGY PRO REPORT`, PAGE.m, 11);
+    doc.text(`ENTERPRISE NUMEROLOGY V2 COMMERCIAL REPORT`, PAGE.m, 11);
 
     doc.setFont(fontName, "normal");
     doc.setFontSize(8);
@@ -98,13 +100,13 @@ export async function generateNumerologyPDF(
   };
 
   // ==========================================
-  // PAGE 1: COVER PAGE
+  // PAGE 1: PREMIUM COVER PAGE
   // ==========================================
   currentPageIndex = 1;
   doc.setFillColor(BRAND.paper);
   doc.rect(0, 0, PAGE.w, PAGE.h, "F");
 
-  // Border
+  // Double Border
   doc.setDrawColor(BRAND.gold);
   doc.setLineWidth(0.8);
   doc.rect(12, 12, PAGE.w - 24, PAGE.h - 24);
@@ -118,18 +120,18 @@ export async function generateNumerologyPDF(
   doc.setFont(fontName, "bold");
   doc.setFontSize(22);
   doc.setTextColor("#FFFFFF");
-  doc.text(`ENTERPRISE NUMEROLOGY`, PAGE.w / 2, 44, { align: "center" });
+  doc.text(`NUMEROLOGY PRO V2`, PAGE.w / 2, 44, { align: "center" });
 
   doc.setFontSize(11);
   doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.gold);
-  doc.text(`30-CHAPTER COMMERCIAL NUMEROLOGY PRO REPORT`, PAGE.w / 2, 56, { align: "center" });
+  doc.text(`COMMERCIAL EDITION (30–40 PAGES ENTERPRISE REPORT)`, PAGE.w / 2, 56, { align: "center" });
 
-  // Subject Profile Box
+  // Metadata Box
   let y = 82;
   doc.setFillColor(BRAND.cardBg);
   doc.setDrawColor(BRAND.cardBorder);
-  doc.roundedRect(PAGE.m, y, PAGE.w - PAGE.m * 2, 45, 3, 3, "FD");
+  doc.roundedRect(PAGE.m, y, PAGE.w - PAGE.m * 2, 48, 3, 3, "FD");
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(11);
@@ -141,14 +143,14 @@ export async function generateNumerologyPDF(
   doc.setTextColor(BRAND.ink);
   doc.text(`Full Birth Name: ${data.name}`, PAGE.m + 6, y + 20);
   doc.text(`Date of Birth: ${data.dob}`, PAGE.m + 6, y + 27);
-  doc.text(`Report Score: ${data.overallScore} / 100`, PAGE.m + 6, y + 34);
+  doc.text(`Overall Score: ${data.overallScore} / 100`, PAGE.m + 6, y + 34);
 
-  doc.text(`Life Path Number: ${data.lifePath.number} (${data.lifePath.rulingPlanet})`, PAGE.w / 2 + 5, y + 20);
-  doc.text(`Destiny Number: ${data.destiny.number} (${data.destiny.rulingPlanet})`, PAGE.w / 2 + 5, y + 27);
-  doc.text(`Soul Urge Number: ${data.soulUrge.number}`, PAGE.w / 2 + 5, y + 34);
+  doc.text(`Life Path Number: ${data.coreNumbers.lifePath.number} (${data.coreNumbers.lifePath.rulingPlanet})`, PAGE.w / 2 + 5, y + 20);
+  doc.text(`Destiny Number: ${data.coreNumbers.destiny.number} (${data.coreNumbers.destiny.rulingPlanet})`, PAGE.w / 2 + 5, y + 27);
+  doc.text(`Soul Urge Number: ${data.coreNumbers.soulUrge.number}`, PAGE.w / 2 + 5, y + 34);
 
-  // Executive Scorecard Card
-  y = 138;
+  // Score Dashboard Card
+  y = 140;
   doc.setFillColor(BRAND.cardBg);
   doc.setDrawColor(BRAND.gold);
   doc.roundedRect(PAGE.m, y, PAGE.w - PAGE.m * 2, 60, 3, 3, "FD");
@@ -157,32 +159,30 @@ export async function generateNumerologyPDF(
   doc.setFontSize(13);
   doc.setTextColor(BRAND.maroon);
   doc.text(`EXECUTIVE NUMEROLOGY SCORE: ${data.overallScore} / 100`, PAGE.m + 6, y + 12);
-
-  doc.setFontSize(9);
-  doc.setFont(fontName, "normal");
-  doc.setTextColor(BRAND.ink);
-  const headline = doc.splitTextToSize(data.summary.headline, PAGE.w - PAGE.m * 2 - 12);
-  doc.text(headline, PAGE.m + 6, y + 22);
+  doc.setFontSize(9.5);
+  doc.setTextColor(BRAND.saffron);
+  doc.text(`Career Potential: ${data.careerPotential}% | Financial Potential: ${data.financialPotential}%`, PAGE.m + 6, y + 22);
 
   doc.setFontSize(8.5);
+  doc.setFont(fontName, "normal");
   doc.setTextColor(BRAND.muted);
-  doc.text(`• Core Advantage: ${data.summary.strengths[0] || "Strong Life Path Alignment"}`, PAGE.m + 6, y + 38);
-  doc.text(`• Primary Focus: ${data.summary.recommendations[0] || "Capitalize on Personal Year"}`, PAGE.m + 6, y + 46);
+  doc.text(`• Top Advantage: ${data.summary.strengths[0]}`, PAGE.m + 6, y + 36);
+  doc.text(`• Primary Focus: ${data.summary.recommendations[0]}`, PAGE.m + 6, y + 44);
 
   doc.setFontSize(8);
-  doc.text(`Report Version 40.0 Enterprise • ${BRAND.name} • ${BRAND.site}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
+  doc.text(`Report Version 40.0 Commercial Edition V2 • ${BRAND.name} • ${BRAND.site}`, PAGE.w / 2, PAGE.h - 18, { align: "center" });
 
   // ==========================================
   // PAGE 2: TABLE OF CONTENTS & SCORECARD
   // ==========================================
   doc.addPage();
-  addHeaderFooter("EXECUTIVE NUMEROLOGY SCORECARD");
+  addHeaderFooter("EXECUTIVE SCORECARD & DOMAIN POTENTIALS");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("EXECUTIVE SCORECARD & DOMAIN BREAKDOWN", PAGE.m, y);
+  doc.text("EXECUTIVE SCORECARD & LIFE POTENTIAL METERS", PAGE.m, y);
   y += 8;
 
   data.scorecard.forEach((sc) => {
@@ -201,268 +201,384 @@ export async function generateNumerologyPDF(
   });
 
   // ==========================================
-  // PAGES 3-7: CORE NUMBERS DEEP DIVES
+  // PAGES 3-12: 10 CORE NUMBER CHAPTERS (1 FULL PAGE EACH)
   // ==========================================
-  const coreNumbers = [
-    data.lifePath,
-    data.destiny,
-    data.soulUrge,
-    data.personality,
-    data.birthday,
-    data.maturity,
-    data.attitude,
-    data.balance,
-    data.hiddenPassion,
+  const coreList: CoreNumberDetailV2[] = [
+    data.coreNumbers.lifePath,
+    data.coreNumbers.destiny,
+    data.coreNumbers.soulUrge,
+    data.coreNumbers.personality,
+    data.coreNumbers.birthday,
+    data.coreNumbers.maturity,
+    data.coreNumbers.attitude,
+    data.coreNumbers.balance,
+    data.coreNumbers.hiddenPassion,
   ];
 
-  coreNumbers.forEach((cn, idx) => {
+  coreList.forEach((cn, idx) => {
+    doc.addPage();
+    addHeaderFooter(`CORE NUMBER DEEP DIVE: ${cn.title.toUpperCase()}`);
+    y = 24;
+
+    doc.setFont(fontName, "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(BRAND.maroon);
+    doc.text(`${idx + 1}. ${cn.title.toUpperCase()} — NUMBER ${cn.number} (${cn.rulingPlanet})`, PAGE.m, y);
+    y += 8;
+
+    drawCard(y, 40, "1. Core Meaning & Ruling Vibration", () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.ink);
+      const mean = doc.splitTextToSize(`Meaning: ${cn.meaning}`, PAGE.w - PAGE.m * 2 - 10);
+      doc.text(mean, PAGE.m + 5, y + 15);
+      doc.text(`Ruling Force: ${cn.rulingPlanet}`, PAGE.m + 5, y + 30);
+    });
+
+    y += 45;
+
+    drawCard(y, 55, "2. Strengths, Weaknesses & Leadership Style", () => {
+      doc.setFont(fontName, "bold");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.saffron);
+      doc.text(`Key Strengths: ${cn.strengths.join(", ")}`, PAGE.m + 5, y + 15);
+
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.maroon);
+      doc.text(`Weaknesses to Guard: ${cn.weaknesses.join(", ")}`, PAGE.m + 5, y + 25);
+
+      doc.setFont(fontName, "bold");
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Leadership Style: ${cn.leadershipStyle}`, PAGE.m + 5, y + 35);
+      doc.text(`Communication Style: ${cn.communicationStyle}`, PAGE.m + 5, y + 43);
+    });
+
+    y += 60;
+
+    drawCard(y, 60, "3. Domain Impacts & Recommended Actions", () => {
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`• Career Impact: ${cn.careerImpact}`, PAGE.m + 5, y + 15);
+      doc.text(`• Finance Impact: ${cn.financeImpact}`, PAGE.m + 5, y + 24);
+      doc.text(`• Marriage Impact: ${cn.marriageImpact}`, PAGE.m + 5, y + 33);
+      doc.text(`• Recommended Action: ${cn.recommendedActions[0]}`, PAGE.m + 5, y + 42);
+      doc.text(`• AI Summary: ${cn.aiSummary}`, PAGE.m + 5, y + 51);
+    });
+  });
+
+  // Karmic Lessons Full Page (Page 12)
+  doc.addPage();
+  addHeaderFooter("KARMIC LESSON NUMBERS & MISSING VIBRATIONS");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("10. KARMIC LESSON NUMBERS & MISSING VIBRATIONS", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 60, `Missing Karmic Digits: ${data.coreNumbers.karmicLessons.missingNumbers.join(", ") || "None (Fully Balanced)"}`, () => {
+    doc.setFont(fontName, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(BRAND.ink);
+    const mean = doc.splitTextToSize(data.coreNumbers.karmicLessons.meaning, PAGE.w - PAGE.m * 2 - 10);
+    doc.text(mean, PAGE.m + 5, y + 16);
+
+    const rem = doc.splitTextToSize(`Remedies: ${data.coreNumbers.karmicLessons.remedies}`, PAGE.w - PAGE.m * 2 - 10);
+    doc.text(rem, PAGE.m + 5, y + 36);
+  });
+
+  // ==========================================
+  // PAGES 13-14: 4 PINNACLE CYCLES
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("4 PINNACLE CYCLES DEEP DIVE (PART 1)");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("4 PINNACLE CYCLES DEEP DIVE (PHASES 1 & 2)", PAGE.m, y);
+  y += 8;
+
+  [data.pinnacles[0], data.pinnacles[1]].forEach((p) => {
+    if (p) {
+      drawCard(y, 45, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
+        doc.setFont(fontName, "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(BRAND.ink);
+        doc.text(`Meaning: ${p.meaning}`, PAGE.m + 5, y + 15);
+        doc.text(`Career: ${p.career}`, PAGE.m + 5, y + 23);
+        doc.text(`Finance & Relationships: ${p.finance}`, PAGE.m + 5, y + 31);
+      });
+      y += 50;
+    }
+  });
+
+  doc.addPage();
+  addHeaderFooter("4 PINNACLE CYCLES DEEP DIVE (PART 2)");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("4 PINNACLE CYCLES DEEP DIVE (PHASES 3 & 4)", PAGE.m, y);
+  y += 8;
+
+  [data.pinnacles[2], data.pinnacles[3]].forEach((p) => {
+    if (p) {
+      drawCard(y, 45, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
+        doc.setFont(fontName, "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(BRAND.ink);
+        doc.text(`Meaning: ${p.meaning}`, PAGE.m + 5, y + 15);
+        doc.text(`Career: ${p.career}`, PAGE.m + 5, y + 23);
+        doc.text(`Finance & Relationships: ${p.finance}`, PAGE.m + 5, y + 31);
+      });
+      y += 50;
+    }
+  });
+
+  // ==========================================
+  // PAGES 15-16: 4 CHALLENGE CYCLES
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("4 CHALLENGE CYCLES DEEP DIVE (PART 1)");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("4 CHALLENGE CYCLES DEEP DIVE (CHALLENGES 1 & 2)", PAGE.m, y);
+  y += 8;
+
+  [data.challenges[0], data.challenges[1]].forEach((c) => {
+    if (c) {
+      drawCard(y, 45, `${c.cycleName} — Challenge ${c.number}`, () => {
+        doc.setFont(fontName, "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(BRAND.ink);
+        doc.text(`Why Occurs: ${c.whyOccurs}`, PAGE.m + 5, y + 15);
+        doc.text(`What to Avoid: ${c.whatToAvoid}`, PAGE.m + 5, y + 23);
+        doc.text(`Remedies: ${c.remedies}`, PAGE.m + 5, y + 31);
+      });
+      y += 50;
+    }
+  });
+
+  doc.addPage();
+  addHeaderFooter("4 CHALLENGE CYCLES DEEP DIVE (PART 2)");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("4 CHALLENGE CYCLES DEEP DIVE (CHALLENGES 3 & 4)", PAGE.m, y);
+  y += 8;
+
+  [data.challenges[2], data.challenges[3]].forEach((c) => {
+    if (c) {
+      drawCard(y, 45, `${c.cycleName} — Challenge ${c.number}`, () => {
+        doc.setFont(fontName, "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(BRAND.ink);
+        doc.text(`Why Occurs: ${c.whyOccurs}`, PAGE.m + 5, y + 15);
+        doc.text(`What to Avoid: ${c.whatToAvoid}`, PAGE.m + 5, y + 23);
+        doc.text(`Remedies: ${c.remedies}`, PAGE.m + 5, y + 31);
+      });
+      y += 50;
+    }
+  });
+
+  // ==========================================
+  // PAGES 17-18: PERSONAL YEAR & TIME CYCLES
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("PERSONAL YEAR & ANNUAL TIME CYCLES");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("PERSONAL YEAR FORECAST", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 70, data.personalYear.theme, () => {
+    doc.setFont(fontName, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(BRAND.ink);
+    doc.text(`• Career: ${data.personalYear.career}`, PAGE.m + 5, y + 16);
+    doc.text(`• Finance: ${data.personalYear.finance}`, PAGE.m + 5, y + 24);
+    doc.text(`• Relationships: ${data.personalYear.marriage}`, PAGE.m + 5, y + 32);
+    doc.text(`• Health & Stamina: ${data.personalYear.health}`, PAGE.m + 5, y + 40);
+    doc.text(`• Opportunities: ${data.personalYear.opportunities}`, PAGE.m + 5, y + 48);
+    doc.text(`• Action Plan: ${data.personalYear.actionPlan}`, PAGE.m + 5, y + 56);
+  });
+
+  // ==========================================
+  // PAGES 19-24: 12-MONTH UNIQUE TIMELINE CARDS (2 MONTHS PER PAGE)
+  // ==========================================
+  data.monthlyTimeline.forEach((m, idx) => {
     if (idx % 2 === 0) {
       doc.addPage();
-      addHeaderFooter(`CORE NUMBERS ANALYSIS (${idx + 1}-${Math.min(idx + 2, 9)})`);
+      addHeaderFooter(`12-MONTH TIMELINE (${m.monthName})`);
       y = 24;
     }
 
     doc.setFont(fontName, "bold");
     doc.setFontSize(13);
     doc.setTextColor(BRAND.maroon);
-    doc.text(`${idx + 1}. ${cn.title.toUpperCase()} — VIBRATION ${cn.number}`, PAGE.m, y);
+    doc.text(`MONTH ${m.monthNumber}: ${m.monthName.toUpperCase()} (VIBRATION ${m.number})`, PAGE.m, y);
     y += 6;
 
-    drawCard(y, 35, `Ruling Force: ${cn.rulingPlanet}`, () => {
-      doc.setFont(fontName, "normal");
-      doc.setFontSize(8.5);
-      doc.setTextColor(BRAND.ink);
-      doc.text(`Core Meaning: ${cn.meaning}`, PAGE.m + 5, y + 15);
-
-      const aiText = doc.splitTextToSize(cn.aiInterpretation, PAGE.w - PAGE.m * 2 - 10);
-      doc.text(aiText, PAGE.m + 5, y + 23);
-    });
-    y += 40;
-  });
-
-  // Karmic Lessons Page
-  doc.addPage();
-  addHeaderFooter("KARMIC LESSONS & MISSING NUMBERS");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("KARMIC LESSON NUMBERS (MISSING DIGITS)", PAGE.m, y);
-  y += 8;
-
-  drawCard(y, 30, `Missing Karmic Digits: ${data.karmicLessons.join(", ") || "None (Fully Balanced)"}`, () => {
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(8.5);
-    doc.setTextColor(BRAND.ink);
-    doc.text("Karmic lessons indicate life areas requiring conscious learning and intentional effort.", PAGE.m + 5, y + 15);
-    doc.text(`Advice: Perform specific numerology remedies for digits ${data.karmicLessons.join(", ")}.`, PAGE.m + 5, y + 23);
-  });
-
-  // ==========================================
-  // PINNACLE & CHALLENGE CYCLES
-  // ==========================================
-  doc.addPage();
-  addHeaderFooter("PINNACLE & CHALLENGE CYCLES");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("4 PINNACLE CYCLES (LIFE PHASES)", PAGE.m, y);
-  y += 8;
-
-  data.pinnacles.forEach((p) => {
-    drawCard(y, 20, `${p.cycleName} — Vibration ${p.number} (${p.ageRange})`, () => {
+    drawCard(y, 55, `Dates: ${m.startDate} – ${m.endDate} | Opp Score: ${m.opportunityLevel}% | Risk Score: ${m.riskLevel}%`, () => {
       doc.setFont(fontName, "normal");
       doc.setFontSize(8);
       doc.setTextColor(BRAND.ink);
-      doc.text(p.meaning, PAGE.m + 5, y + 15);
+      doc.text(`• Career: ${m.career}`, PAGE.m + 5, y + 15);
+      doc.text(`• Finance: ${m.finance}`, PAGE.m + 5, y + 22);
+      doc.text(`• Relationships: ${m.relationships}`, PAGE.m + 5, y + 29);
+      doc.text(`• Travel & Biz: ${m.travel}`, PAGE.m + 5, y + 36);
+      doc.text(`• Recommended Action: ${m.recommendedActions}`, PAGE.m + 5, y + 43);
     });
-    y += 22;
-  });
 
-  y += 5;
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("4 CHALLENGE CYCLES (OBSTACLES & LESSONS)", PAGE.m, y);
-  y += 8;
-
-  data.challenges.forEach((c) => {
-    drawCard(y, 20, `${c.cycleName} — Challenge ${c.number} (${c.ageRange})`, () => {
-      doc.setFont(fontName, "normal");
-      doc.setFontSize(8);
-      doc.setTextColor(BRAND.ink);
-      doc.text(c.meaning, PAGE.m + 5, y + 15);
-    });
-    y += 22;
+    y += 60;
   });
 
   // ==========================================
-  // PERSONAL TIME CYCLES & 12-MONTH TIMELINE
+  // PAGES 25-28: 4 LIFE DOMAIN DEEP DIVES
   // ==========================================
-  doc.addPage();
-  addHeaderFooter("PERSONAL TIME CYCLES & 12-MONTH TIMELINE");
-  y = 24;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("PERSONAL YEAR, MONTH & DAY FORECAST", PAGE.m, y);
-  y += 8;
-
-  drawCard(y, 35, data.personalYear.theme, () => {
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(8.5);
-    doc.setTextColor(BRAND.ink);
-    const pyText = doc.splitTextToSize(data.personalYear.forecast, PAGE.w - PAGE.m * 2 - 10);
-    doc.text(pyText, PAGE.m + 5, y + 16);
-    doc.text(`Current Personal Month: Number ${data.personalMonth.number} | Personal Day: Number ${data.personalDay.number}`, PAGE.m + 5, y + 28);
-  });
-
-  y += 40;
-
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(14);
-  doc.setTextColor(BRAND.maroon);
-  doc.text("12-MONTH ANNUAL NUMEROLOGY TIMELINE", PAGE.m, y);
-  y += 8;
-
-  data.monthlyTimeline.forEach((m) => {
-    if (y > PAGE.h - 30) {
-      doc.addPage();
-      addHeaderFooter("12-MONTH ANNUAL NUMEROLOGY TIMELINE (CONT.)");
-      y = 24;
-    }
-
-    drawCard(y, 16, "", () => {
-      doc.setFont(fontName, "bold");
-      doc.setFontSize(8.5);
-      doc.setTextColor(BRAND.saffron);
-      doc.text(`${m.month} — Personal Month Vibration ${m.number}`, PAGE.m + 5, y + 5);
-
-      doc.setFont(fontName, "normal");
-      doc.setFontSize(8);
-      doc.setTextColor(BRAND.ink);
-      doc.text(m.forecast, PAGE.m + 5, y + 11);
-    });
-    y += 18;
-  });
-
-  // ==========================================
-  // DOMAIN DEEP DIVES (CAREER, FINANCE, MARRIAGE, HEALTH)
-  // ==========================================
-  const domains = [
-    { title: "CAREER & PROFESSIONAL STRATEGY", data: data.career },
-    { title: "FINANCE, WEALTH & ASSET CREATION", data: data.finance },
-    { title: "MARRIAGE & RELATIONSHIP COMPATIBILITY", data: data.marriage },
-    { title: "HEALTH TENDENCIES & WELLNESS", data: data.health },
-  ];
-
-  domains.forEach((d) => {
+  const domainKeys: Array<keyof typeof data.domains> = ["career", "finance", "marriage", "health"];
+  domainKeys.forEach((key) => {
+    const dom = data.domains[key];
     doc.addPage();
-    addHeaderFooter(d.title);
+    addHeaderFooter(`DOMAIN DEEP DIVE: ${key.toUpperCase()}`);
     y = 24;
 
     doc.setFont(fontName, "bold");
     doc.setFontSize(14);
     doc.setTextColor(BRAND.maroon);
-    doc.text(d.title, PAGE.m, y);
+    doc.text(`LIFE DOMAIN DEEP DIVE: ${key.toUpperCase()}`, PAGE.m, y);
     y += 8;
 
-    drawCard(y, 40, "Executive Overview", () => {
+    drawCard(y, 60, "Executive Overview & Insights", () => {
       doc.setFont(fontName, "normal");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.ink);
-      const ovText = doc.splitTextToSize((d.data as any).summary, PAGE.w - PAGE.m * 2 - 10);
-      doc.text(ovText, PAGE.m + 5, y + 16);
+      const sum = doc.splitTextToSize(dom.summary, PAGE.w - PAGE.m * 2 - 10);
+      doc.text(sum, PAGE.m + 5, y + 15);
+
+      if ("suitableCareers" in dom) {
+        doc.text(`Suitable Fields: ${(dom as any).suitableCareers.join(", ")}`, PAGE.m + 5, y + 30);
+      }
+      if ("wealthBuilding" in dom) {
+        doc.text(`Wealth Building: ${(dom as any).wealthBuilding}`, PAGE.m + 5, y + 30);
+      }
+      if ("relationshipStyle" in dom) {
+        doc.text(`Relationship Style: ${(dom as any).relationshipStyle}`, PAGE.m + 5, y + 30);
+      }
+      if ("stressPatterns" in dom) {
+        doc.text(`Stress Patterns: ${(dom as any).stressPatterns}`, PAGE.m + 5, y + 30);
+      }
     });
   });
 
   // ==========================================
-  // PRACTICAL NUMEROLOGY (MOBILE, VEHICLE, HOUSE, BUSINESS)
+  // PAGES 29-30: PRACTICAL ASSET NUMEROLOGY (9 ASSETS)
   // ==========================================
   doc.addPage();
-  addHeaderFooter("PRACTICAL NUMEROLOGY ANALYSIS");
+  addHeaderFooter("PRACTICAL ASSET NUMEROLOGY (PART 1)");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("PRACTICAL ASSET NUMEROLOGY ANALYSIS", PAGE.m, y);
+  doc.text("PRACTICAL ASSET NUMEROLOGY (NAME, MOBILE, VEHICLE, HOUSE)", PAGE.m, y);
   y += 8;
 
-  const assets = [
-    { name: "Full Name Expression", val: data.nameAnalysis.vibration },
-    { name: "Mobile Number Total", val: data.mobileAnalysis.vibration },
-    { name: "Vehicle Number Total", val: data.vehicleAnalysis.vibration },
-    { name: "House / Flat Total", val: data.houseAnalysis.vibration },
-    { name: "Business Name Total", val: data.businessAnalysis.vibration },
-  ];
-
-  assets.forEach((a) => {
-    drawCard(y, 16, "", () => {
+  data.practicalAssets.slice(0, 5).forEach((pa) => {
+    drawCard(y, 18, "", () => {
       doc.setFont(fontName, "bold");
       doc.setFontSize(8.5);
       doc.setTextColor(BRAND.saffron);
-      doc.text(`${a.name}: ${a.val}`, PAGE.m + 5, y + 6);
+      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibility})`, PAGE.m + 5, y + 5);
+
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Suggestion: ${pa.suggestion}`, PAGE.m + 5, y + 11);
     });
-    y += 18;
+    y += 20;
   });
 
-  // ==========================================
-  // LUCKY ELEMENTS & PERSONALIZED REMEDIES
-  // ==========================================
   doc.addPage();
-  addHeaderFooter("LUCKY ELEMENTS & PERSONALIZED REMEDIES");
+  addHeaderFooter("PRACTICAL ASSET NUMEROLOGY (PART 2)");
   y = 24;
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(14);
   doc.setTextColor(BRAND.maroon);
-  doc.text("LUCKY ELEMENTS & VEDIC REMEDIES", PAGE.m, y);
+  doc.text("PRACTICAL ASSET NUMEROLOGY (BIZ, EMAIL, BRAND, COMPANY, USERNAME)", PAGE.m, y);
   y += 8;
 
-  drawCard(y, 35, "Lucky Elements Matrix", () => {
+  data.practicalAssets.slice(5).forEach((pa) => {
+    drawCard(y, 18, "", () => {
+      doc.setFont(fontName, "bold");
+      doc.setFontSize(8.5);
+      doc.setTextColor(BRAND.saffron);
+      doc.text(`${pa.assetType}: ${pa.vibration} (${pa.compatibility})`, PAGE.m + 5, y + 5);
+
+      doc.setFont(fontName, "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(BRAND.ink);
+      doc.text(`Suggestion: ${pa.suggestion}`, PAGE.m + 5, y + 11);
+    });
+    y += 20;
+  });
+
+  // ==========================================
+  // PAGE 31: LUCKY ELEMENTS & 10-POINT REMEDIES
+  // ==========================================
+  doc.addPage();
+  addHeaderFooter("LUCKY ELEMENTS & 10-POINT REMEDIES");
+  y = 24;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(BRAND.maroon);
+  doc.text("LUCKY ELEMENTS & 10-POINT REMEDIES", PAGE.m, y);
+  y += 8;
+
+  drawCard(y, 75, "10-Point Personalized Numerology Remedies", () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(BRAND.ink);
-    doc.text(`Lucky Numbers: ${data.luckyElements.numbers.join(", ")}`, PAGE.m + 5, y + 16);
-    doc.text(`Lucky Colours: ${data.luckyElements.colors.join(", ")}`, PAGE.m + 5, y + 22);
-    doc.text(`Lucky Days: ${data.luckyElements.days.join(", ")} | Directions: ${data.luckyElements.directions.join(", ")}`, PAGE.m + 5, y + 28);
+    doc.text(`1. Daily Mantra: ${data.remedies.mantras[0]}`, PAGE.m + 5, y + 15);
+    doc.text(`2. Fasting Day: ${data.remedies.fasting}`, PAGE.m + 5, y + 23);
+    doc.text(`3. Charity: ${data.remedies.charity}`, PAGE.m + 5, y + 31);
+    doc.text(`4. Color Therapy: ${data.remedies.colours.join(", ")}`, PAGE.m + 5, y + 39);
+    doc.text(`5. Gemstone: ${data.luckyElements.gemstones.join(", ")}`, PAGE.m + 5, y + 47);
+    doc.text(`6. Lifestyle Alignment: ${data.remedies.lifestyle[0]}`, PAGE.m + 5, y + 55);
   });
 
-  y += 40;
-
-  drawCard(y, 55, "Personalized Vedic Numerology Remedies", () => {
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(8.5);
-    doc.setTextColor(BRAND.ink);
-    doc.text(`• Recommended Gemstone: ${data.remedies.gemstone}`, PAGE.m + 5, y + 16);
-    doc.text(`• Daily Mantra: ${data.remedies.mantra}`, PAGE.m + 5, y + 24);
-    doc.text(`• Fasting & Observance: ${data.remedies.fastingDay}`, PAGE.m + 5, y + 32);
-    doc.text(`• Charity & Seva: ${data.remedies.charity}`, PAGE.m + 5, y + 40);
-    doc.text(`• Yantra Placement: ${data.remedies.yantra}`, PAGE.m + 5, y + 48);
-  });
-
-  y += 62;
+  y += 82;
 
   drawCard(y, 30, "Professional Disclaimer", () => {
     doc.setFont(fontName, "normal");
     doc.setFontSize(8);
     doc.setTextColor(BRAND.muted);
-    const discText = doc.splitTextToSize(data.summary.disclaimer, PAGE.w - PAGE.m * 2 - 10);
-    doc.text(discText, PAGE.m + 5, y + 15);
+    const disc = doc.splitTextToSize(data.summary.disclaimer, PAGE.w - PAGE.m * 2 - 10);
+    doc.text(disc, PAGE.m + 5, y + 15);
   });
 
   return doc;
 }
 
-/** Client helper function to generate & trigger instant download of Enterprise Numerology PDF */
+/** Client helper function to generate & trigger instant download of Commercial Numerology PDF */
 export async function downloadNumerologyPdf(
-  data: NumerologyReportResult,
-  filename = "Enterprise_Numerology_Report.pdf",
+  data: NumerologyReportResultV2,
+  filename = "Enterprise_Numerology_Report_V2.pdf",
   opts: NumerologyPdfOptions = {},
 ): Promise<void> {
   const doc = await generateNumerologyPDF(data, opts);
@@ -480,8 +596,8 @@ export async function downloadNumerologyPdf(
         data: {
           name: data.name,
           dob: data.dob,
-          lifePath: data.lifePath.number,
-          destiny: data.destiny.number,
+          lifePath: data.coreNumbers.lifePath.number,
+          destiny: data.coreNumbers.destiny.number,
           overallScore: data.overallScore,
         },
       });
@@ -493,6 +609,6 @@ export async function downloadNumerologyPdf(
       });
     }
   } catch (err) {
-    console.error("Failed to track Numerology PDF download:", err);
+    console.error("Failed to track Commercial Numerology PDF download:", err);
   }
 }
