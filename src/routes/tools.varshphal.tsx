@@ -283,6 +283,38 @@ function VarshTool() {
             )}
           </div>
 
+          {/* Executive Scorecard (0-100) */}
+          <Card className="p-6 border-amber-500/30 bg-gradient-to-br from-amber-500/5 via-card to-primary/5">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b">
+              <div>
+                <h3 className="text-xl font-bold font-serif text-primary flex items-center gap-2">
+                  <Award className="size-6 text-amber-500" /> Executive Annual Scorecard ({varshResult.overallScore} / 100)
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Weighted commercial score across key annual life domains.
+                </p>
+              </div>
+              <Badge className="bg-amber-500 text-white text-sm px-3 py-1 font-bold">
+                SCORE: {varshResult.overallScore} / 100
+              </Badge>
+            </div>
+
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {varshResult.scorecard.map((sc) => (
+                <div key={sc.domain} className="p-3.5 rounded-lg border bg-card/60 space-y-1">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-foreground">{sc.domain}</span>
+                    <span className="text-amber-600 font-bold">{sc.score}/100</span>
+                  </div>
+                  <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
+                    <div className="bg-amber-500 h-full rounded-full" style={{ width: `${sc.score}%` }} />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2">{sc.summary}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+
           {/* Muntha & Varshapati Key Cards */}
           <div className="grid md:grid-cols-2 gap-6">
             {/* Muntha Card */}
@@ -302,6 +334,10 @@ function VarshTool() {
               <p className="mt-4 text-sm leading-relaxed border-t pt-3">
                 {varshResult.muntha.description}
               </p>
+              <div className="mt-3 text-xs space-y-1 bg-muted/40 p-3 rounded">
+                <div className="text-emerald-600 font-medium">✔ Positive: {varshResult.muntha.positiveEffects}</div>
+                <div className="text-rose-600 font-medium">⚠ Caution: {varshResult.muntha.negativeEffects}</div>
+              </div>
             </Card>
 
             {/* Varshapati Card */}
@@ -321,24 +357,49 @@ function VarshTool() {
               <p className="mt-4 text-sm leading-relaxed border-t pt-3">
                 {varshResult.varshapati.description}
               </p>
+              <div className="mt-3 text-xs space-y-1 bg-muted/40 p-3 rounded">
+                <div className="font-medium text-foreground">Career: {varshResult.varshapati.careerImpact}</div>
+                <div className="font-medium text-foreground">Finance: {varshResult.varshapati.financeImpact}</div>
+              </div>
             </Card>
           </div>
 
-          {/* Tajika Sahams (Pro Only / Detailed View) */}
+          {/* Tajika Yogas Section */}
+          <div>
+            <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
+              <Sparkles className="size-4 text-amber-500" /> Tajika Yogas (Annual Planetary Formations)
+            </h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              {varshResult.tajikaYogas.map((yoga) => (
+                <Card key={yoga.name} className={`p-4 border ${yoga.isFormed ? "border-amber-500/40 bg-amber-500/5" : "opacity-60"}`}>
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-sm text-primary">{yoga.name}</span>
+                    <Badge variant={yoga.isFormed ? "default" : "outline"} className="text-[10px]">
+                      {yoga.isFormed ? "Active" : "Inactive"}
+                    </Badge>
+                  </div>
+                  <div className="text-[11px] text-muted-foreground font-mono mt-0.5">{yoga.sanskritName}</div>
+                  <p className="text-xs text-muted-foreground mt-2">{yoga.meaning}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Tajika Sahams (15 Sahams) */}
           {isPremium ? (
             <div>
               <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
-                <Sparkles className="size-4 text-amber-500" /> Tajika Sahams (Special Points of Destiny)
+                <Sparkles className="size-4 text-amber-500" /> 15 Tajika Sahams (Special Points of Destiny)
               </h3>
-              <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                 {varshResult.sahams.map((saham) => (
-                  <Card key={saham.name} className="p-4 bg-muted/30 border">
-                    <div className="text-xs text-muted-foreground font-mono">{saham.sanskritName}</div>
-                    <div className="font-bold text-base mt-1 text-primary">{saham.name}</div>
-                    <div className="text-xs font-medium text-amber-600 mt-0.5">
-                      {saham.sign} (House {saham.house})
+                  <Card key={saham.name} className="p-3.5 bg-muted/30 border hover:border-amber-500/40 transition-colors">
+                    <div className="text-[10px] text-muted-foreground font-mono">{saham.sanskritName}</div>
+                    <div className="font-bold text-xs mt-1 text-primary">{saham.name}</div>
+                    <div className="text-[11px] font-medium text-amber-600 mt-0.5">
+                      {saham.sign} (H{saham.house})
                     </div>
-                    <p className="text-xs text-muted-foreground mt-2 leading-snug">
+                    <p className="text-[11px] text-muted-foreground mt-1.5 leading-snug line-clamp-2">
                       {saham.meaning}
                     </p>
                   </Card>
@@ -348,9 +409,9 @@ function VarshTool() {
           ) : (
             <Card className="p-6 text-center border-dashed border-amber-500/40 bg-amber-500/5">
               <Lock className="size-8 text-amber-500 mx-auto mb-2" />
-              <h4 className="font-bold text-lg">Unlock Tajika Sahams & Monthly Timeline</h4>
+              <h4 className="font-bold text-lg">Unlock 15 Tajika Sahams & Enterprise PDF</h4>
               <p className="text-sm text-muted-foreground max-w-md mx-auto mt-1">
-                Upgrade to Pro to view Punya, Vidya, Karma, Dhana Sahams, full 12-month timeline predictions, and download PDF reports.
+                Upgrade to Pro to view Punya, Vidya, Karma, Dhana Sahams, Mudda Dasha timeline, 10 Life Domain Deep Dives, and download the 25–40 page Pro PDF.
               </p>
               <Button asChild size="sm" className="mt-4 bg-amber-500 hover:bg-amber-600 text-white font-medium">
                 <Link to="/pricing">Upgrade to Premium Pro →</Link>
@@ -358,38 +419,40 @@ function VarshTool() {
             </Card>
           )}
 
-          {/* Executive Summary Cards */}
+          {/* Mudda Dasha Timeline */}
+          {isPremium && (
+            <div>
+              <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
+                <Calendar className="size-4 text-primary" /> Mudda Dasha Timeline (Annual Vimshottari)
+              </h3>
+              <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                {varshResult.muddaDasha.map((md) => (
+                  <Card key={md.planet} className="p-3.5 border bg-card">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-sm text-primary">{md.planet}</span>
+                      <Badge variant="outline" className="text-[10px]">{md.durationDays} Days</Badge>
+                    </div>
+                    <div className="text-[10px] text-muted-foreground mt-1">{md.startDate} – {md.endDate}</div>
+                    <p className="text-[11px] text-muted-foreground mt-2 line-clamp-3">{md.prediction}</p>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Quarterly Strategy Breakdown (Q1 - Q4) */}
           <div>
             <h3 className="text-lg font-semibold font-serif mb-4 flex items-center gap-2">
-              <TrendingUp className="size-4 text-primary" /> Annual Executive Summary ({varshResult.targetYear})
+              <TrendingUp className="size-4 text-primary" /> Quarterly Strategy Breakdown ({varshResult.targetYear})
             </h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Card className="p-5">
-                <div className="flex items-center gap-2 font-semibold text-sm mb-2 text-primary">
-                  <TrendingUp className="size-4" /> Career & Status
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {varshResult.yearSummary.career}
-                </p>
-              </Card>
-
-              <Card className="p-5">
-                <div className="flex items-center gap-2 font-semibold text-sm mb-2 text-amber-600">
-                  <Activity className="size-4" /> Finance & Wealth
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {varshResult.yearSummary.finance}
-                </p>
-              </Card>
-
-              <Card className="p-5">
-                <div className="flex items-center gap-2 font-semibold text-sm mb-2 text-rose-500">
-                  <Heart className="size-4" /> Relationships & Health
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {varshResult.yearSummary.relationship}
-                </p>
-              </Card>
+            <div className="grid md:grid-cols-4 gap-4">
+              {varshResult.quarterlyForecast.map((q) => (
+                <Card key={q.quarter} className="p-4 border bg-card">
+                  <Badge variant="secondary" className="mb-2 text-xs">{q.periodName}</Badge>
+                  <div className="font-bold text-sm text-primary">{q.focus}</div>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{q.summary}</p>
+                </Card>
+              ))}
             </div>
           </div>
 
@@ -409,9 +472,9 @@ function VarshTool() {
                       <span className="text-xs font-semibold text-primary">{month.rulingPlanet}</span>
                     </div>
                     <div className="font-bold text-sm mt-2">{month.monthName}</div>
-                    <div className="text-[11px] text-amber-600 font-medium">{month.focusArea}</div>
+                    <div className="text-[11px] text-amber-600 font-medium">{month.startDate} – {month.endDate}</div>
                     <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                      {month.prediction}
+                      {month.career}
                     </p>
                   </Card>
                 ))}
