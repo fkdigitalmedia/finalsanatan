@@ -52,13 +52,13 @@ assert(getRobotsDirective("/settings") === "noindex, nofollow", "Private setting
 // 3. Self-Canonical Engine & Default Language URL Normalization
 console.log("\n--- 3. Self-Canonical Engine & English Normalization ---");
 const toolCan = canonicalUrl("/tools");
-assert(toolCan === "https://sanatantools.com/tools", `Canonical for /tools is '${toolCan}' (no /en/ prefix)`);
+assert(toolCan === "https://www.sanatantools.com/tools", `Canonical for /tools is '${toolCan}' (no /en/ prefix)`);
 
 const ariesCan = canonicalUrl("/yearly-horoscope/aries");
-assert(ariesCan === "https://sanatantools.com/yearly-horoscope/aries", `Canonical for /yearly-horoscope/aries is '${ariesCan}'`);
+assert(ariesCan === "https://www.sanatantools.com/yearly-horoscope/aries", `Canonical for /yearly-horoscope/aries is '${ariesCan}'`);
 
 const hiToolCan = canonicalUrl("/hi/tools");
-assert(hiToolCan === "https://sanatantools.com/hi/tools", `Canonical for /hi/tools is '${hiToolCan}'`);
+assert(hiToolCan === "https://www.sanatantools.com/hi/tools", `Canonical for /hi/tools is '${hiToolCan}'`);
 
 const bareLang = withLang("/tools", "en");
 assert(bareLang === "/tools", `withLang('/tools', 'en') outputs '${bareLang}' without prefix`);

@@ -8,7 +8,7 @@ import { LANGUAGES, DEFAULT_LANGUAGE } from "@/i18n/config";
 
 export const SITE_NAME = "SanatanTools";
 export const SITE_LEGAL_NAME = "SanatanTools";
-export const SITE_URL = process.env.VITE_SITE_URL ?? "https://sanatantools.com";
+export const SITE_URL = process.env.VITE_SITE_URL ?? "https://www.sanatantools.com";
 export const SITE_TAGLINE = "Panchang, Kundli, Festivals & Vedic AI tools";
 export const SITE_DESCRIPTION =
   "The largest Sanatan Dharma utility platform — live Panchang, Kundli & matching reports, festival calendars, horoscopes, mantras and Sanskrit learning, in 12 Indian languages.";

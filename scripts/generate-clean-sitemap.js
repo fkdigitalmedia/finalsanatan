@@ -211,9 +211,10 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls
   .map((loc) => {
-    const priority = loc === "https://sanatantools.com/" ? "1.0" : loc.includes("/tools/") || loc.includes("/legal/") ? "0.8" : "0.9";
+    const fullLoc = loc.replace("https://sanatantools.com", "https://www.sanatantools.com");
+    const priority = fullLoc === "https://www.sanatantools.com/" ? "1.0" : fullLoc.includes("/tools/") || fullLoc.includes("/legal/") ? "0.8" : "0.9";
     return `  <url>
-    <loc>${loc}</loc>
+    <loc>${fullLoc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>daily</changefreq>
     <priority>${priority}</priority>
