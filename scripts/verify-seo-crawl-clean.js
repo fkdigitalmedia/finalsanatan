@@ -83,7 +83,7 @@ const routerContent = fs.readFileSync(path.join(process.cwd(), "src", "router.ts
 assert(routerContent.includes('trailingSlash: "never"'), "router.tsx specifies trailingSlash: 'never'");
 
 const startContent = fs.readFileSync(path.join(process.cwd(), "src", "start.ts"), "utf8");
-assert(startContent.includes("hostCanonicalizationMiddleware"), "start.ts includes hostCanonicalizationMiddleware");
+assert(!startContent.includes("hostCanonicalizationMiddleware"), "start.ts excludes hostCanonicalizationMiddleware to prevent ERR_TOO_MANY_REDIRECTS reverse-proxy loops");
 
 const articlesIndexContent = fs.readFileSync(path.join(process.cwd(), "src", "routes", "articles.index.tsx"), "utf8");
 assert(articlesIndexContent.includes("statusCode: 301"), "articles.index.tsx uses statusCode: 301");

@@ -22,8 +22,9 @@ export const Route = createFileRoute("/$lang/$")({
       throw redirect({ href: "/", statusCode: 301 });
     }
     if (lang === "en") {
-      const splat = params._splat ?? "";
-      const target = splat ? `/${splat.replace(/^\/+/, "")}` : "/";
+      const rawSplat = params._splat ?? "";
+      const cleanSplat = rawSplat.replace(/^(en\/+|en$)/i, "").replace(/^\/+/, "");
+      const target = cleanSplat ? `/${cleanSplat}` : "/";
       throw redirect({ href: target, statusCode: 301 });
     }
     if (typeof document !== "undefined") {
