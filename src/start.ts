@@ -32,6 +32,29 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
 });
 
 /**
+ * Host Canonicalization middleware — permanently redirects (HTTP 301) requests from
+ * www.sanatantools.com to https://sanatantools.com to prevent duplicate host crawling.
+ */
+const hostCanonicalizationMiddleware = createMiddleware().server(async ({ next, request }) => {
+  if (isLovableRoute(request.url)) return next();
+  try {
+    const url = new URL(request.url);
+    const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? url.host;
+    if (host.startsWith("www.sanatantools.com")) {
+      const canonicalHost = "sanatantools.com";
+      const redirectUrl = `https://${canonicalHost}${url.pathname}${url.search}`;
+      return new Response(null, {
+        status: 301,
+        headers: { Location: redirectUrl },
+      });
+    }
+  } catch (err) {
+    console.warn("[seo] host canonicalization middleware failed", err);
+  }
+  return next();
+});
+
+/**
  * Language middleware — resolves the visitor's language on every SSR request
  * and forwards it via a `x-lovable-lang` header so SSR entry code / route
  * loaders can read the resolved language synchronously. Priority:
@@ -114,6 +137,7 @@ export const startInstance = createStart(() => ({
   functionMiddleware: [attachSupabaseAuth],
   requestMiddleware: [
     errorMiddleware,
+    hostCanonicalizationMiddleware,
     perfMiddleware,
     securityHeadersMiddleware,
     languageMiddleware,

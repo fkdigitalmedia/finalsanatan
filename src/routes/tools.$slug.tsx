@@ -30,7 +30,7 @@ export const Route = createFileRoute("/tools/$slug")({
       "kundli-generator": "/kundli",
     };
     const target = flagshipRedirects[params.slug];
-    if (target) throw redirect({ to: target });
+    if (target) throw redirect({ to: target, statusCode: 301 });
   },
   loader: ({ params }) => {
     const tool = getTool(params.slug);

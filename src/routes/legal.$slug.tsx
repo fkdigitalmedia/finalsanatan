@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect, useRouter } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { LegalShell, type LegalPage } from "@/components/legal/LegalShell";
@@ -49,6 +49,15 @@ function ErrorView({ reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createFileRoute("/legal/$slug")({
+  beforeLoad: ({ params }) => {
+    if (params.slug === "terms-conditions") {
+      throw redirect({
+        to: "/legal/$slug",
+        params: { slug: "terms-and-conditions" },
+        statusCode: 301,
+      });
+    }
+  },
   loader: async ({ context, params }) => {
     const res = await context.queryClient.ensureQueryData(pageQuery(params.slug));
     if (!res.page) throw notFound();

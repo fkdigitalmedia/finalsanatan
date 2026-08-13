@@ -30,6 +30,7 @@ export function splitLangPath(path: string): { lang: string; path: string } {
 export function withLang(path: string, lang: string): string {
   const { path: bare } = splitLangPath(path);
   const code = lang || DEFAULT_LANG;
+  if (code === DEFAULT_LANG) return bare;
   return normalizePath(`/${code}${bare === "/" ? "" : bare}`);
 }
 

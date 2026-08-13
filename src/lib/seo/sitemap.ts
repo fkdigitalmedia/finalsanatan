@@ -11,6 +11,7 @@ import { HOROSCOPE_PERIODS, SIGNS } from "@/lib/horoscope-public";
 import { allEntityPaths } from "@/config/seo-entities";
 import { ENABLED_LANGUAGES, DEFAULT_LANG, SITE_URL, SITE_NAME } from "./constants";
 import { withLang } from "./canonical";
+import { isSitemapEligible } from "./classification";
 
 export interface SitemapEntry {
   path: string;
@@ -117,9 +118,10 @@ export interface RenderOptions {
 
 export function renderUrlset(entries: SitemapEntry[], opts: RenderOptions = {}): string {
   const origin = (opts.origin ?? SITE_URL).replace(/\/+$/, "");
+  const eligible = entries.filter((e) => isSitemapEligible(e.path));
   const langs = opts.multilingual === false ? [{ code: DEFAULT_LANG }] : ENABLED_LANGUAGES;
   const urls: string[] = [];
-  for (const entry of entries) {
+  for (const entry of eligible) {
     for (const lang of langs) urls.push(renderEntry(entry, origin, lang.code));
   }
   return [

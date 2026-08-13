@@ -75,19 +75,21 @@ const altList = alternates("/kundli", "https://dharma-divine-tools.lovable.app")
 assert(altList.length >= expectedCodes.length + 1, `hreflang contains entries for all languages + x-default (total: ${altList.length})`);
 const xDef = altList.find((a) => a.hrefLang === "x-default");
 assert(!!xDef, "hreflang contains 'x-default'");
-assert(xDef.href.includes("/en/kundli"), `x-default points to fallback English localized URL '${xDef.href}'`);
+assert(xDef.href.endsWith("/kundli"), `x-default points to fallback English un-prefixed URL '${xDef.href}'`);
 
 for (const code of expectedCodes) {
   const alt = altList.find((a) => a.hrefLang === code);
   assert(!!alt, `hreflang tag exists for ISO code '${code}'`);
-  assert(alt?.href.includes(`/${code}/kundli`), `hreflang URL for '${code}' is localized '${alt?.href}'`);
+  const expectedPath = code === "en" ? "/kundli" : `/${code}/kundli`;
+  assert(alt?.href.endsWith(expectedPath), `hreflang URL for '${code}' is '${alt?.href}'`);
 }
 
 // 5. Canonical URLs
 console.log("\n--- 5. Canonical URLs ---");
 for (const code of ["hi", "ta", "mr", "en"]) {
   const can = canonicalUrl(`/${code}/kundli`);
-  assert(can.includes(`/${code}/kundli`), `Canonical URL for '${code}' is '${can}'`);
+  const expectedPath = code === "en" ? "/kundli" : `/${code}/kundli`;
+  assert(can.includes(expectedPath), `Canonical URL for '${code}' is '${can}'`);
 }
 
 // 6. User Dashboard Language Labels

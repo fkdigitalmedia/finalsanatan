@@ -59,6 +59,7 @@ import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as DoshaIndexRouteImport } from './routes/dosha.index'
 import { Route as DailyHoroscopeIndexRouteImport } from './routes/daily-horoscope.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as LangIndexRouteImport } from './routes/$lang.index'
 import { Route as YogaSlugRouteImport } from './routes/yoga.$slug'
 import { Route as YearlyHoroscopeSignRouteImport } from './routes/yearly-horoscope.$sign'
@@ -88,6 +89,7 @@ import { Route as FestivalsSlugRouteImport } from './routes/festivals.$slug'
 import { Route as DoshaSlugRouteImport } from './routes/dosha.$slug'
 import { Route as DailyHoroscopeSignRouteImport } from './routes/daily-horoscope.$sign'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ApiRashiRouteImport } from './routes/api/rashi'
 import { Route as ApiPlanetsRouteImport } from './routes/api/planets'
 import { Route as ApiNakshatraRouteImport } from './routes/api/nakshatra'
@@ -408,6 +410,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LangIndexRoute = LangIndexRouteImport.update({
   id: '/$lang/',
   path: '/$lang/',
@@ -553,6 +560,11 @@ const DailyHoroscopeSignRoute = DailyHoroscopeSignRouteImport.update({
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRashiRoute = ApiRashiRouteImport.update({
@@ -1001,6 +1013,7 @@ export interface FileRoutesByFullPath {
   '/api/nakshatra': typeof ApiNakshatraRoute
   '/api/planets': typeof ApiPlanetsRoute
   '/api/rashi': typeof ApiRashiRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/daily-horoscope/$sign': typeof DailyHoroscopeSignRoute
   '/dosha/$slug': typeof DoshaSlugRoute
@@ -1030,6 +1043,7 @@ export interface FileRoutesByFullPath {
   '/yearly-horoscope/$sign': typeof YearlyHoroscopeSignRoute
   '/yoga/$slug': typeof YogaSlugRoute
   '/$lang/': typeof LangIndexRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/daily-horoscope/': typeof DailyHoroscopeIndexRoute
   '/dosha/': typeof DoshaIndexRoute
@@ -1149,6 +1163,7 @@ export interface FileRoutesByTo {
   '/api/nakshatra': typeof ApiNakshatraRoute
   '/api/planets': typeof ApiPlanetsRoute
   '/api/rashi': typeof ApiRashiRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/daily-horoscope/$sign': typeof DailyHoroscopeSignRoute
   '/dosha/$slug': typeof DoshaSlugRoute
@@ -1178,6 +1193,7 @@ export interface FileRoutesByTo {
   '/yearly-horoscope/$sign': typeof YearlyHoroscopeSignRoute
   '/yoga/$slug': typeof YogaSlugRoute
   '/$lang': typeof LangIndexRoute
+  '/articles': typeof ArticlesIndexRoute
   '/blog': typeof BlogIndexRoute
   '/daily-horoscope': typeof DailyHoroscopeIndexRoute
   '/dosha': typeof DoshaIndexRoute
@@ -1301,6 +1317,7 @@ export interface FileRoutesById {
   '/api/nakshatra': typeof ApiNakshatraRoute
   '/api/planets': typeof ApiPlanetsRoute
   '/api/rashi': typeof ApiRashiRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/daily-horoscope/$sign': typeof DailyHoroscopeSignRoute
   '/dosha/$slug': typeof DoshaSlugRoute
@@ -1330,6 +1347,7 @@ export interface FileRoutesById {
   '/yearly-horoscope/$sign': typeof YearlyHoroscopeSignRoute
   '/yoga/$slug': typeof YogaSlugRoute
   '/$lang/': typeof LangIndexRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/daily-horoscope/': typeof DailyHoroscopeIndexRoute
   '/dosha/': typeof DoshaIndexRoute
@@ -1452,6 +1470,7 @@ export interface FileRouteTypes {
     | '/api/nakshatra'
     | '/api/planets'
     | '/api/rashi'
+    | '/articles/$slug'
     | '/blog/$slug'
     | '/daily-horoscope/$sign'
     | '/dosha/$slug'
@@ -1481,6 +1500,7 @@ export interface FileRouteTypes {
     | '/yearly-horoscope/$sign'
     | '/yoga/$slug'
     | '/$lang/'
+    | '/articles/'
     | '/blog/'
     | '/daily-horoscope/'
     | '/dosha/'
@@ -1600,6 +1620,7 @@ export interface FileRouteTypes {
     | '/api/nakshatra'
     | '/api/planets'
     | '/api/rashi'
+    | '/articles/$slug'
     | '/blog/$slug'
     | '/daily-horoscope/$sign'
     | '/dosha/$slug'
@@ -1629,6 +1650,7 @@ export interface FileRouteTypes {
     | '/yearly-horoscope/$sign'
     | '/yoga/$slug'
     | '/$lang'
+    | '/articles'
     | '/blog'
     | '/daily-horoscope'
     | '/dosha'
@@ -1751,6 +1773,7 @@ export interface FileRouteTypes {
     | '/api/nakshatra'
     | '/api/planets'
     | '/api/rashi'
+    | '/articles/$slug'
     | '/blog/$slug'
     | '/daily-horoscope/$sign'
     | '/dosha/$slug'
@@ -1780,6 +1803,7 @@ export interface FileRouteTypes {
     | '/yearly-horoscope/$sign'
     | '/yoga/$slug'
     | '/$lang/'
+    | '/articles/'
     | '/blog/'
     | '/daily-horoscope/'
     | '/dosha/'
@@ -1888,6 +1912,7 @@ export interface RootRouteChildren {
   ApiNakshatraRoute: typeof ApiNakshatraRoute
   ApiPlanetsRoute: typeof ApiPlanetsRoute
   ApiRashiRoute: typeof ApiRashiRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
   BlogSlugRoute: typeof BlogSlugRoute
   DailyHoroscopeSignRoute: typeof DailyHoroscopeSignRoute
   DoshaSlugRoute: typeof DoshaSlugRoute
@@ -1902,6 +1927,7 @@ export interface RootRouteChildren {
   YearlyHoroscopeSignRoute: typeof YearlyHoroscopeSignRoute
   YogaSlugRoute: typeof YogaSlugRoute
   LangIndexRoute: typeof LangIndexRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   DailyHoroscopeIndexRoute: typeof DailyHoroscopeIndexRoute
   DoshaIndexRoute: typeof DoshaIndexRoute
@@ -2288,6 +2314,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$lang/': {
       id: '/$lang/'
       path: '/$lang'
@@ -2489,6 +2522,13 @@ declare module '@tanstack/react-router' {
       path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/rashi': {
@@ -3194,6 +3234,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiNakshatraRoute: ApiNakshatraRoute,
   ApiPlanetsRoute: ApiPlanetsRoute,
   ApiRashiRoute: ApiRashiRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
   BlogSlugRoute: BlogSlugRoute,
   DailyHoroscopeSignRoute: DailyHoroscopeSignRoute,
   DoshaSlugRoute: DoshaSlugRoute,
@@ -3208,6 +3249,7 @@ const rootRouteChildren: RootRouteChildren = {
   YearlyHoroscopeSignRoute: YearlyHoroscopeSignRoute,
   YogaSlugRoute: YogaSlugRoute,
   LangIndexRoute: LangIndexRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   DailyHoroscopeIndexRoute: DailyHoroscopeIndexRoute,
   DoshaIndexRoute: DoshaIndexRoute,

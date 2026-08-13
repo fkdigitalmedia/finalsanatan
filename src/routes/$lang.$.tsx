@@ -19,7 +19,12 @@ export const Route = createFileRoute("/$lang/$")({
   beforeLoad: ({ params }) => {
     const lang = params.lang;
     if (!isSupportedLanguage(lang)) {
-      throw redirect({ href: "/", replace: true });
+      throw redirect({ href: "/", statusCode: 301 });
+    }
+    if (lang === "en") {
+      const splat = params._splat ?? "";
+      const target = splat ? `/${splat.replace(/^\/+/, "")}` : "/";
+      throw redirect({ href: target, statusCode: 301 });
     }
     if (typeof document !== "undefined") {
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;

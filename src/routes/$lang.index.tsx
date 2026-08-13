@@ -10,8 +10,8 @@ import { HomePage } from "./index";
 export const Route = createFileRoute("/$lang/")({
   beforeLoad: ({ params }) => {
     const lang = params.lang;
-    if (!isSupportedLanguage(lang)) {
-      throw redirect({ href: "/", replace: true });
+    if (!isSupportedLanguage(lang) || lang === "en") {
+      throw redirect({ href: "/", statusCode: 301 });
     }
     if (typeof document !== "undefined") {
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
