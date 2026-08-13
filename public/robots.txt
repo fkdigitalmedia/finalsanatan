@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /api
+Disallow: /profile
+Disallow: /settings
+Disallow: /billing
 
-Sitemap: https://dharma-divine-tools.lovable.app/sitemap.xml
-Sitemap: https://dharma-divine-tools.lovable.app/sitemap-festivals.xml
+Sitemap: https://sanatantools.com/sitemap.xml
