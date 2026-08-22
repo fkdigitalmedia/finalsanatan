@@ -1755,9 +1755,10 @@ export function renderPDFReportSection(
 // Health, Education, Family, Spirituality, Travel
 // ============================================================
 function lifeAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
+  const { X } = ctx;
   const sections = generateLifeAnalysis(r);
-  const title = "Life Analysis";
-  const subtitle = "Bhava-wise interpretive themes drawn from lords, occupants & significators";
+  const title = X.lifeAnalysisTitle;
+  const subtitle = X.lifeAnalysisSub;
   pageHeader(doc, title, subtitle, ctx);
 
   let y = 44;
@@ -1869,28 +1870,28 @@ function drawTableHeader(
 // ============================================================
 
 function tocPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "TABLE OF CONTENTS", "Report Outline", ctx);
+  const { X, L, font } = ctx;
+  pageHeader(doc, X.tocTitle, X.tocSubtitle, ctx);
 
-  let y = renderPageTitle(doc, "Report Index & Navigation", "Complete Table of Contents & Chapter Guide", ctx);
+  let y = renderPageTitle(doc, X.tocHeader, X.tocSub, ctx);
 
   const sections = [
-    { title: "1. Birth Charts (D1 Rashi & D9 Navamsa)", page: 3 },
-    { title: "2. Planetary Positions & Dignities", page: 4 },
-    { title: "3. House Cusps & Birth Nakshatra Breakdown", page: 5 },
-    { title: "4. Planet Strength Engine (Shadbala & Digbala)", page: 6 },
-    { title: "5. 12 House Analysis (Bhavas & Karakatva)", page: 7 },
-    { title: "6. Birth Panchang & Avakahada Chakra", page: 8 },
-    { title: "7. Vimshottari Dasha Overview", page: 9 },
-    { title: "8. Dasha Timeline Visualization", page: 10 },
-    { title: "9. 150+ Classical Yogas Evaluation", page: 11 },
-    { title: "10. Advanced 13 Doshas Analysis", page: 12 },
-    { title: "11. Recommended Vedic Remedies", page: 13 },
-    { title: "12. 11 Life Domain Predictions", page: 14 },
-    { title: "13. Complete Shodashvargas (D16, D20, D24, D27, D30, D40, D45, D60)", page: 15 },
-    { title: "14. Ashtakavarga Engine (BAV & SAV Heatmap)", page: 16 },
-    { title: "15. Comprehensive Life Analysis", page: 17 },
-    { title: "16. Summary & Guidelines", page: 18 },
+    { title: `1. ${L.rashiCharts}`, page: 3 },
+    { title: `2. ${L.planetaryPositions}`, page: 4 },
+    { title: `3. ${L.housesNakshatra}`, page: 5 },
+    { title: `4. ${X.strengthEngineTitle}`, page: 6 },
+    { title: `5. ${X.houseAnalysisTitle}`, page: 7 },
+    { title: `6. ${X.panchangTitle} & ${X.avakahadaTitle}`, page: 8 },
+    { title: `7. ${X.dashaTitle}`, page: 9 },
+    { title: `8. ${X.timelineVisual}`, page: 10 },
+    { title: `9. ${X.yogasTitle}`, page: 11 },
+    { title: `10. ${X.doshasTitle}`, page: 12 },
+    { title: `11. ${X.remediesTitle}`, page: 13 },
+    { title: `12. ${X.predictionEngineTitle}`, page: 14 },
+    { title: `13. ${X.divisionalTitle}`, page: 15 },
+    { title: `14. ${X.ashtakvargaTitle}`, page: 16 },
+    { title: `15. ${X.lifeAnalysisTitle}`, page: 17 },
+    { title: `16. ${L.chartSummary}`, page: 18 },
   ];
 
   setFont(doc, font, "normal");
@@ -1899,16 +1900,16 @@ function tocPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.ink);
     doc.text(s.title, PAGE.m + 5, y);
     doc.setTextColor(BRAND.muted);
-    doc.text(`. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Page ${s.page}`, PAGE.w - PAGE.m - 40, y);
+    doc.text(`. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ${X.page} ${s.page}`, PAGE.w - PAGE.m - 40, y);
     y += 10;
   }
 }
 
 function planetStrengthGraphPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "PLANET STRENGTH ENGINE", "0–100 Strength Ratings", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.strengthEngineTitle, X.strengthEngineSub, ctx);
 
-  let y = renderPageTitle(doc, "Planetary Composite Strength Graphs", "Color-Coded Status Bars", ctx);
+  let y = renderPageTitle(doc, X.compositeGraphs, X.statusBars, ctx);
 
   const planets = r.d1.planets;
   for (const p of planets) {
@@ -1940,10 +1941,10 @@ function planetStrengthGraphPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function houseAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "HOUSE ANALYSIS ENGINE", "12 Bhavas Overview", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.houseAnalysisTitle, X.houseAnalysisSub, ctx);
 
-  let y = renderPageTitle(doc, "12 Houses (Bhavas) Key Analysis", "2-Column Cusp Signs & Occupants Grid", ctx);
+  let y = renderPageTitle(doc, X.houseAnalysisHeader, X.houseAnalysisGrid, ctx);
 
   const houses = r.d1.houses;
   const colW = (PAGE.w - 2 * PAGE.m - 6) / 2;
@@ -1963,33 +1964,33 @@ function houseAnalysisPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(9.5);
-    doc.text(`House ${h.house}: ${h.rashi}`, cardX + 4, cardY + 6);
+    doc.text(`${X.house} ${h.house}: ${h.rashi}`, cardX + 4, cardY + 6);
 
     const occ = r.d1.planets.filter((p) => p.house === h.house).map((p) => p.graha);
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
-    doc.text(`Occupants: ${occ.length > 0 ? occ.join(", ") : "None (Empty)"}`, cardX + 4, cardY + 12);
+    doc.text(`${X.occupants}: ${occ.length > 0 ? occ.join(", ") : X.emptyNone}`, cardX + 4, cardY + 12);
   });
 }
 
 function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "RULE-BASED PREDICTION ENGINE", "11 Life Domains", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.predictionEngineTitle, X.predictionEngineSub, ctx);
 
-  let y = renderPageTitle(doc, "Structured Life Domain Predictions", "Vedic Life Area Interpretations", ctx);
+  let y = renderPageTitle(doc, X.predictionHeader, X.predictionGrid, ctx);
 
   const domains = [
-    { title: "Career & Profession", text: "Strong 10th house indicators support executive authority, leadership, and public status." },
-    { title: "Business & Trade", text: "7th & 11th house strength indicates positive commercial acumen and gains from trade." },
-    { title: "Marriage & Relationships", text: "Venus and 7th house positioning promote emotional bonding and mutual respect." },
-    { title: "Finance & Wealth", text: "2nd house savings and 11th house gains support steady wealth accumulation." },
-    { title: "Health & Vitality", text: "Lagna lord and Sun placement provide robust physical vitality and immunity." },
-    { title: "Education & Knowledge", text: "4th and 5th house influences support analytical intellect and academic success." },
-    { title: "Children & Progeny", text: "Jupiter's positive aspect brings happiness, intelligence, and joy through progeny." },
-    { title: "Property & Real Estate", text: "4th house and Mars support real estate, land ownership, and vehicle luxury." },
-    { title: "Foreign Travel", text: "9th and 12th house placements facilitate international opportunities and travel." },
-    { title: "Spiritual Growth", text: "9th house Dharma and Ketu's influence foster deep spiritual insight and dhyana." },
+    { title: X.domainCareer, text: X.domainCareerDesc },
+    { title: X.domainBusiness, text: X.domainBusinessDesc },
+    { title: X.domainMarriage, text: X.domainMarriageDesc },
+    { title: X.domainFinance, text: X.domainFinanceDesc },
+    { title: X.domainHealth, text: X.domainHealthDesc },
+    { title: X.domainEducation, text: X.domainEducationDesc },
+    { title: X.domainChildren, text: X.domainChildrenDesc },
+    { title: X.domainProperty, text: X.domainPropertyDesc },
+    { title: X.domainForeign, text: X.domainForeignDesc },
+    { title: X.domainSpiritual, text: X.domainSpiritualDesc },
   ];
 
   for (const d of domains) {
@@ -2009,10 +2010,10 @@ function predictionsPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "OPPORTUNITIES & RISKS MATRIX", "Prediction Intelligence", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.oppRiskTitle, X.oppRiskSub, ctx);
 
-  let y = renderPageTitle(doc, "Auspicious Opportunities & Risk Alerts", "2-Column Prediction Matrix", ctx);
+  let y = renderPageTitle(doc, X.oppRiskHeader, X.oppRiskGrid, ctx);
 
   const cardW = (PAGE.w - 2 * PAGE.m - 6) / 2;
 
@@ -2024,12 +2025,12 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor("#166534");
   setFont(doc, font, "bold");
   doc.setFontSize(10);
-  doc.text("✓ Auspicious Opportunity Windows", PAGE.m + 4, y + 7);
+  doc.text(`✓ ${X.auspiciousWindows}`, PAGE.m + 4, y + 7);
 
   const opportunities = [
-    { title: "Career Promotion & Growth", text: "Active under 10th house strength." },
-    { title: "Business Expansion", text: "7th & 11th house coordination." },
-    { title: "Auspicious Marriage Window", text: "Optimal Venus & 7th Lord transit." },
+    { title: X.domainCareer, text: X.domainCareerDesc },
+    { title: X.domainBusiness, text: X.domainBusinessDesc },
+    { title: X.domainMarriage, text: X.domainMarriageDesc },
   ];
 
   setFont(doc, font, "normal");
@@ -2052,12 +2053,12 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor("#991B1B");
   setFont(doc, font, "bold");
   doc.setFontSize(10);
-  doc.text("⚠ Vulnerability & Risk Alerts", col2X + 4, y + 7);
+  doc.text(`⚠ ${X.riskAlerts}`, col2X + 4, y + 7);
 
   const risks = [
-    { title: "Financial Caution Alert", text: "2nd/11th house fluctuation." },
-    { title: "Health & Immunity Caution", text: "6th house transit routine focus." },
-    { title: "Relationship Patience", text: "Maintain active partner empathy." },
+    { title: X.financeWealth, text: X.domainFinanceDesc },
+    { title: X.healthVitality, text: X.domainHealthDesc },
+    { title: X.marriageHarmony, text: X.domainMarriageDesc },
   ];
 
   setFont(doc, font, "normal");
@@ -2073,17 +2074,17 @@ function opportunityRiskPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "TIME-BASED PREDICTION TIMELINE", "1, 3, 5, 10 Year Horizons", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.timeTimelineTitle, X.timeTimelineSub, ctx);
 
-  let y = renderPageTitle(doc, "Dasha & Transit Prediction Timeline", "Multi-Year Macro Horizon", ctx);
+  let y = renderPageTitle(doc, X.timeTimelineHeader, X.timeTimelineGrid, ctx);
 
   const timeline = [
-    { timeframe: "Current Year", text: "Consolidation of professional projects and financial planning under active Dasha." },
-    { timeframe: "Next 1 Year", text: "Prime 12-month window for career advancement and relationship stability." },
-    { timeframe: "Next 3 Years", text: "Asset creation, foreign travel opportunities, and family milestones." },
-    { timeframe: "Next 5 Years", text: "Peak business ventures, progeny progress, and social recognition." },
-    { timeframe: "Next 10 Years", text: "Enduring legacy, spiritual maturity, and long-term financial freedom." },
+    { timeframe: X.currentYear, text: X.domainCareerDesc },
+    { timeframe: X.next1Year, text: X.domainFinanceDesc },
+    { timeframe: X.next3Years, text: X.domainPropertyDesc },
+    { timeframe: X.next5Years, text: X.domainBusinessDesc },
+    { timeframe: X.next10Years, text: X.domainSpiritualDesc },
   ];
 
   for (const t of timeline) {
@@ -2106,21 +2107,21 @@ function timeBasedTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function luckyFactorsPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "LUCKY FACTORS & PROSPERITY INDICATORS", "Phase 18 PDF v2", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.luckyTitle, X.luckySub, ctx);
 
   const lucky = computeLuckyFactors(r);
-  let y = renderPageTitle(doc, "Personal Lucky Attributes", "Lucky Numbers, Colours, Days & Gemstones", ctx);
+  let y = renderPageTitle(doc, X.luckyHeader, X.luckyGrid, ctx);
 
   const items = [
-    { label: "Lucky Numbers", value: lucky.numbers.join(", ") },
-    { label: "Lucky Colours", value: lucky.colors.join(", ") },
-    { label: "Lucky Days", value: lucky.days.join(", ") },
-    { label: "Lucky Gemstones", value: lucky.gemstones.join(" / ") },
-    { label: "Lucky Rudraksha", value: lucky.rudraksha.join(" / ") },
-    { label: "Lucky Direction", value: lucky.direction },
-    { label: "Lucky Deity", value: lucky.deity },
-    { label: "Lucky Mantras", value: lucky.mantras.join(" | ") },
+    { label: X.luckyNumbers, value: lucky.numbers.join(", ") },
+    { label: X.luckyColours, value: lucky.colors.join(", ") },
+    { label: X.luckyDays, value: lucky.days.join(", ") },
+    { label: X.luckyGemstones, value: lucky.gemstones.join(" / ") },
+    { label: X.luckyRudraksha, value: lucky.rudraksha.join(" / ") },
+    { label: X.luckyDirection, value: lucky.direction },
+    { label: X.luckyDeity, value: lucky.deity },
+    { label: X.luckyMantras, value: lucky.mantras.join(" | ") },
   ];
 
   for (const it of items) {
@@ -2143,16 +2144,16 @@ function luckyFactorsPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function remedyPlannerPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "CUSTOM REMEDY PLANNER", "Daily, Weekly, Monthly Matrix", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.remedyPlannerTitle, X.remedyPlannerSub, ctx);
 
-  let y = renderPageTitle(doc, "Structured Remedy Action Plan", "Daily, Weekly & Annual Matrix", ctx);
+  let y = renderPageTitle(doc, X.remedyPlannerHeader, X.remedyPlannerGrid, ctx);
 
   const plans = [
-    { interval: "Daily Routine", detail: "Morning Surya Arghya facing East; Recite 108 repetitions of Maha Mrityunjaya Mantra." },
-    { interval: "Weekly Rituals", detail: "Tuesday Hanuman Chalisa recitation & Friday Mahalakshmi Puja with white flowers." },
-    { interval: "Monthly Observances", detail: "Fast on Amavasya / Pradosham and water Peepal tree with unboiled milk and water." },
-    { interval: "Annual Festivals", detail: "Participate in Mahashivratri dhyana & Maha Navratri Chandi Path." },
+    { interval: X.dailyRoutine, detail: "Surya Arghya, Gayatri / Maha Mrityunjaya Mantra (108x)" },
+    { interval: X.weeklyRituals, detail: "Hanuman Chalisa, Mahalakshmi Puja" },
+    { interval: X.monthlyObservances, detail: "Amavasya / Pradosham Vrat, Peepal Seva" },
+    { interval: X.annualFestivals, detail: "Mahashivratri, Navratri Chandi Path, Guru Purnima" },
   ];
 
   for (const p of plans) {
@@ -2175,11 +2176,11 @@ function remedyPlannerPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function lifeTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "DECADE LIFE TIMELINE (0–60+)", "Macro Life Phases", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.decadeTitle, X.decadeSub, ctx);
 
   const timeline = computeDecadeTimeline(r);
-  let y = renderPageTitle(doc, "Decade-by-Decade Planetary Predictions", "Life Stages 0 to 60+ Years", ctx);
+  let y = renderPageTitle(doc, X.decadeHeader, X.decadeGrid, ctx);
 
   for (const t of timeline) {
     if (y > PAGE.h - 30) break;
@@ -2197,17 +2198,17 @@ function lifeTimelinePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setFontSize(8.5);
     doc.text(t.detailedPrediction, PAGE.m + 4, y + 12, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
     doc.setTextColor(BRAND.muted);
-    doc.text(`Focus: ${t.recommendedFocus}`, PAGE.m + 4, y + 17, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    doc.text(`${X.focus}: ${t.recommendedFocus}`, PAGE.m + 4, y + 17, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     y += 24;
   }
 }
 
 function faqPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "FREQUENTLY ASKED QUESTIONS", "Educational Interpretive Guide", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.faqTitle, X.faqSub, ctx);
 
-  let y = renderPageTitle(doc, "Astrological Clarifications & FAQ", "Core Interpretive Guide", ctx);
+  let y = renderPageTitle(doc, X.faqHeader, X.faqGrid, ctx);
 
   for (const f of PDF_V2_FAQS) {
     if (y > PAGE.h - 30) break;
@@ -2226,10 +2227,10 @@ function faqPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function glossaryPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "SANSKRIT TERMS GLOSSARY", "Jyotisha Vocabulary", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.glossaryTitle, X.glossarySub, ctx);
 
-  let y = renderPageTitle(doc, "Vedic Astrology Glossary", "Classical Sanskrit Vocabulary", ctx);
+  let y = renderPageTitle(doc, X.glossaryHeader, X.glossaryGrid, ctx);
 
   for (const g of PDF_V2_GLOSSARY) {
     if (y > PAGE.h - 25) break;
@@ -2248,10 +2249,10 @@ function glossaryPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "APPENDIX & CALCULATION METHODOLOGY", "Astronomical Standards", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.appendixTitle, X.appendixSub, ctx);
 
-  let y = renderPageTitle(doc, "Astronomy Engine & Calculation Methods", "Ephemeris System Standards", ctx);
+  let y = renderPageTitle(doc, X.appendixHeader, X.appendixGrid, ctx);
 
   const details = [
     { label: "Ayanamsa System", val: PDF_V2_APPENDIX.ayanamsaSystem },
@@ -2281,10 +2282,10 @@ function appendixPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "EXECUTIVE KUNDLI SUMMARY DASHBOARD", "Phase 18.2 Master Overview", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.execTitle, X.execSubtitle, ctx);
 
-  let y = renderPageTitle(doc, "Executive Chart Summary & Core Indicators", "Master Kundli Rating & 2-Column Life Domain Analysis", ctx);
+  let y = renderPageTitle(doc, X.execHeader, X.execSub, ctx);
 
   // Overall Score Banner
   doc.setFillColor("#FFF6E1");
@@ -2294,7 +2295,7 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor(BRAND.maroon);
   setFont(doc, font, "bold");
   doc.setFontSize(12);
-  doc.text("Overall Kundli Strength Rating: 86 / 100  [Auspicious]", PAGE.m + 6, y + 8);
+  doc.text(`${X.overallRating}: 86 / 100  [${X.auspicious}]`, PAGE.m + 6, y + 8);
 
   doc.setTextColor(BRAND.ink);
   setFont(doc, font, "normal");
@@ -2305,12 +2306,12 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
   // 2-Column Domain Grid
   const domains = [
-    { name: "Career & Status", score: "88/100", label: "Outstanding", color: BRAND.excellent },
-    { name: "Marriage & Harmony", score: "82/100", label: "Favorable", color: BRAND.good },
-    { name: "Finance & Wealth", score: "85/100", label: "Favorable", color: BRAND.good },
-    { name: "Health & Vitality", score: "79/100", label: "Moderate-High", color: BRAND.good },
-    { name: "Education & Intellect", score: "90/100", label: "Outstanding", color: BRAND.excellent },
-    { name: "Spiritual Growth", score: "92/100", label: "Outstanding", color: BRAND.excellent },
+    { name: X.careerStatus, score: "88/100", label: X.outstanding, color: BRAND.excellent },
+    { name: X.marriageHarmony, score: "82/100", label: X.favorable, color: BRAND.good },
+    { name: X.financeWealth, score: "85/100", label: X.favorable, color: BRAND.good },
+    { name: X.healthVitality, score: "79/100", label: X.moderateHigh, color: BRAND.good },
+    { name: X.eduIntellect, score: "90/100", label: X.outstanding, color: BRAND.excellent },
+    { name: X.spiritualGrowth, score: "92/100", label: X.outstanding, color: BRAND.excellent },
   ];
 
   const colW = (PAGE.w - 2 * PAGE.m - 6) / 2;
@@ -2354,7 +2355,7 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor(BRAND.excellent);
   setFont(doc, font, "bold");
   doc.setFontSize(10);
-  doc.text("Top 5 Astrological Strengths", PAGE.m + 4, y + 7);
+  doc.text(X.topStrengths, PAGE.m + 4, y + 7);
 
   const strengths = [
     "1. 10th House executive strength",
@@ -2379,7 +2380,7 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
   doc.setTextColor(BRAND.weak);
   setFont(doc, font, "bold");
   doc.setFontSize(10);
-  doc.text("Top 5 Growth Challenges", col2X + 4, y + 7);
+  doc.text(X.topChallenges, col2X + 4, y + 7);
 
   const challenges = [
     "1. Mild Saturn sub-period transit",
@@ -2397,10 +2398,10 @@ function executiveDashboardPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "PERSONALIZED LIFE DOMAINS", "Phase 19 Astrological Intelligence", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.personalizedTitle, X.personalizedSub, ctx);
 
-  let y = renderPageTitle(doc, "Personalized Life Domain Intelligence", "Native Consultation & Classical Citations", ctx);
+  let y = renderPageTitle(doc, X.personalizedHeader, X.personalizedGrid, ctx);
 
   const domainData = generateDomainNarratives(r);
   const chapters = [domainData.career, domainData.marriage, domainData.finance, domainData.health];
@@ -2413,7 +2414,7 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     if (y + cardH > PAGE.h - 20) {
       doc.addPage();
-      pageHeader(doc, "PERSONALIZED LIFE DOMAINS", "Phase 19 Astrological Intelligence", ctx);
+      pageHeader(doc, X.personalizedTitle, X.personalizedSub, ctx);
       y = 28;
     }
 
@@ -2429,31 +2430,31 @@ function personalizedLifeDomainPdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     doc.setTextColor(BRAND.excellent);
     doc.setFontSize(8.5);
-    doc.text(`Score: ${ch.score}/100  |  Confidence: ${ch.confidence}%`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
+    doc.text(`${X.score}: ${ch.score}/100  |  ${X.confidence}: ${ch.confidence}%`, PAGE.w - PAGE.m - 4, y + 6, { align: "right" });
 
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");
     doc.setFontSize(8.5);
     let curY = y + 12;
     summaryLines.forEach((line: string) => {
-    doc.text(line, PAGE.m + 4, curY);
+      doc.text(line, PAGE.m + 4, curY);
       curY += 4;
     });
 
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "italic");
     doc.setFontSize(7.5);
-    doc.text(`Source: ${ch.classicalSource}`, PAGE.m + 4, y + cardH - 4);
+    doc.text(`${X.source}: ${ch.classicalSource}`, PAGE.m + 4, y + cardH - 4);
 
     y += cardH + 6;
   }
 }
 
 function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.explainableTitle, X.explainableSub, ctx);
 
-  let y = renderPageTitle(doc, "Prediction Evidence & Rule Flow Traces", "Transparent Astrological Reasoning", ctx);
+  let y = renderPageTitle(doc, X.explainableHeader, X.explainableGrid, ctx);
 
   try {
     doc.setCharSpace(0);
@@ -2481,7 +2482,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     // 2. Sources Box dynamic height based on wrapped rows
     const sourceRowsData = [
       {
-        label: "PLANETS",
+        label: X.planetsLabel,
         labelColor: "#1D4ED8",
         badges: [
           { text: "Sun (9th Lord)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
@@ -2491,7 +2492,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
         ],
       },
       {
-        label: "HOUSES",
+        label: X.housesLabel,
         labelColor: "#C2410C",
         badges: [
           { text: "10th House (Karma Sthana)", bg: "#FFF7ED", border: "#FED7AA", textCol: "#C2410C" },
@@ -2500,7 +2501,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
         ],
       },
       {
-        label: "YOGAS",
+        label: X.yogasLabel,
         labelColor: "#6B21A8",
         badges: [
           { text: "Ruchaka Yoga", bg: "#FAF5FF", border: "#E9D5FF", textCol: "#6B21A8" },
@@ -2509,7 +2510,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
         ],
       },
       {
-        label: "DASHA",
+        label: X.dashaLabel,
         labelColor: "#047857",
         badges: [
           { text: `${tr.activeDasha} (2023-2043)`, bg: "#ECFDF5", border: "#A7F3D0", textCol: "#047857" },
@@ -2544,7 +2545,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     // Check strict footer safety: If y + cardH > MAX_SAFE_Y (272mm), move COMPLETE card to next page!
     if (y + cardH > MAX_SAFE_Y) {
       doc.addPage();
-      pageHeader(doc, "EXPLAINABLE AI RULE TRACES", "Phase 20 Evidence Chains", ctx);
+      pageHeader(doc, X.explainableTitle, X.explainableSub, ctx);
       y = 28;
     }
 
@@ -2579,7 +2580,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "bold");
     doc.setFontSize(6.5);
-    doc.text("CONFIDENCE", cardX + cardW - 25, curY + 1.8, { align: "center" });
+    doc.text(X.confidence.toUpperCase(), cardX + cardW - 25, curY + 1.8, { align: "center" });
 
     doc.setTextColor(confText);
     setFont(doc, font, "bold");
@@ -2612,7 +2613,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("EVIDENCE FLOW", cardX + 11, curY + 4.5);
+    doc.text(X.evidenceFlow, cardX + 11, curY + 4.5);
 
     const steps = [
       { num: "1", title: tr.supportingRules[0] || "Dasamesh Kendra Yoga", desc: "10th lord is in a Kendra from Lagna." },
@@ -2671,7 +2672,7 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.maroon);
     setFont(doc, font, "bold");
     doc.setFontSize(7.5);
-    doc.text("SOURCES", cardX + 11, curY + 4.5);
+    doc.text(X.sources, cardX + 11, curY + 4.5);
 
     let rowY = curY + 6;
     sourceRowsData.forEach((rGroup, rIdx) => {
@@ -2718,10 +2719,10 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     // 4. COLORED STATUS METRIC CARDS
     // ============================================================
     const metrics = [
-      { title: "Planet Strength", value: `${tr.planetStrengthScore ?? 62} / 100`, progress: 0.62, status: "Good", bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8", barColor: "#2563EB" },
-      { title: "House Strength", value: tr.houseStatus ?? "Moderate", progress: 0.50, status: "Balanced", bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C", barColor: "#EA580C" },
-      { title: "Yoga Strength", value: tr.yogaStatus ?? "Active", progress: 0.75, status: "Favorable", bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8", barColor: "#9333EA" },
-      { title: "Dasha Strength", value: tr.dashaStatus ?? "Running", progress: 0.85, status: "Supportive", bg: "#ECFDF5", border: "#A7F3D0", color: "#047857", barColor: "#059669" },
+      { title: X.planetStrengthCard, value: `${tr.planetStrengthScore ?? 62} / 100`, progress: 0.62, status: X.favorable, bg: "#EFF6FF", border: "#BFDBFE", color: "#1D4ED8", barColor: "#2563EB" },
+      { title: X.houseStrengthCard, value: tr.houseStatus ?? "Moderate", progress: 0.50, status: X.favorable, bg: "#FFF7ED", border: "#FED7AA", color: "#C2410C", barColor: "#EA580C" },
+      { title: X.yogaStrengthCard, value: tr.yogaStatus ?? "Active", progress: 0.75, status: X.favorable, bg: "#FAF5FF", border: "#E9D5FF", color: "#6B21A8", barColor: "#9333EA" },
+      { title: X.dashaStrengthCard, value: tr.dashaStatus ?? "Running", progress: 0.85, status: X.favorable, bg: "#ECFDF5", border: "#A7F3D0", color: "#047857", barColor: "#059669" },
     ];
 
     const mWidth = (innerW - 9) / 4;
@@ -2768,24 +2769,24 @@ function explainableRuleTracePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.muted);
     setFont(doc, font, "normal");
     doc.setFontSize(6.5);
-    doc.text("ⓘ Note: Strength scores are calculated based on planetary dignity, positions, aspects, and yogas.", cardX + 8, curY + 2);
-    doc.text("Scale: 0 (Very Weak) to 100 (Very Strong)", cardX + cardW - 8, curY + 2, { align: "right" });
+    doc.text(`ⓘ ${X.disclaimerRemedy}`, cardX + 8, curY + 2);
+    doc.text(X.scaleNote, cardX + cardW - 8, curY + 2, { align: "right" });
 
     y += cardH + 8; // Gap between cards = 8mm
   }
 }
 
 function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "CLASSICAL ASTROLOGY KNOWLEDGE ENGINE", "Phase 21 Authentic Citations", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.classicalTitle, X.classicalSub, ctx);
 
-  let y = renderPageTitle(doc, "Classical Text Citations & Educational Modules", "Authentic Vedic References & Learn-Why Guide", ctx);
+  let y = renderPageTitle(doc, X.classicalHeader, X.classicalGrid, ctx);
 
   const knowledgeEntries = Object.values(CLASSICAL_KNOWLEDGE_DATABASE);
 
   for (const ke of knowledgeEntries) {
     const translationText = `"${ke.translation}"`;
-    const modernText = `Modern Application: ${ke.modernInterpretation}`;
+    const modernText = `${X.modernApp}: ${ke.modernInterpretation}`;
 
     const translationLines = doc.splitTextToSize(translationText, PAGE.w - 2 * PAGE.m - 8);
     const modernLines = doc.splitTextToSize(modernText, PAGE.w - 2 * PAGE.m - 8);
@@ -2794,7 +2795,7 @@ function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     if (y + cardH > PAGE.h - 20) {
       doc.addPage();
-      pageHeader(doc, "CLASSICAL ASTROLOGY KNOWLEDGE ENGINE", "Phase 21 Authentic Citations", ctx);
+      pageHeader(doc, X.classicalTitle, X.classicalSub, ctx);
       y = 28;
     }
 
@@ -2812,7 +2813,7 @@ function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
     doc.setTextColor(BRAND.gold);
     setFont(doc, font, "bold");
     doc.setFontSize(8.5);
-    doc.text(`Source: ${ke.classicalSource} · ${ke.chapter} (${ke.verseNumber})`, PAGE.m + 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    doc.text(`${X.source}: ${ke.classicalSource} · ${ke.chapter} (${ke.verseNumber})`, PAGE.m + 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     // Line 3: Translation
     doc.setTextColor(BRAND.ink);
@@ -2839,10 +2840,10 @@ function classicalKnowledgePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 }
 
 function interactiveIntelligencePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
-  const { font } = ctx;
-  pageHeader(doc, "INTERACTIVE ASTROLOGY INTELLIGENCE", "Phase 22 Decision Support", ctx);
+  const { X, font } = ctx;
+  pageHeader(doc, X.interactiveTitle, X.interactiveSub, ctx);
 
-  let y = renderPageTitle(doc, "Decision Support & Opportunity Calendar", "Strategic Life Guidance & Priority Matrix", ctx);
+  let y = renderPageTitle(doc, X.interactiveHeader, X.interactiveGrid, ctx);
 
   const decisions = generateDecisionSupport(r);
 
@@ -2852,7 +2853,7 @@ function interactiveIntelligencePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     if (y + cardH > PAGE.h - 20) {
       doc.addPage();
-      pageHeader(doc, "INTERACTIVE ASTROLOGY INTELLIGENCE", "Phase 22 Decision Support", ctx);
+      pageHeader(doc, X.interactiveTitle, X.interactiveSub, ctx);
       y = 28;
     }
 
@@ -2867,7 +2868,7 @@ function interactiveIntelligencePdfPage(doc: jsPDF, r: KundliResult, ctx: Ctx) {
 
     doc.setTextColor(BRAND.excellent);
     doc.setFontSize(8.5);
-    doc.text(`Recommended Period: ${d.recommendedPeriod}  |  Confidence: ${d.confidenceScore}%`, PAGE.m + 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
+    doc.text(`${X.recPeriod}: ${d.recommendedPeriod}  |  ${X.confidence}: ${d.confidenceScore}%`, PAGE.w - PAGE.m - 4, y + 11, { maxWidth: PAGE.w - 2 * PAGE.m - 8 });
 
     doc.setTextColor(BRAND.ink);
     setFont(doc, font, "normal");

@@ -9,6 +9,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { LegalShell, type LegalPage } from "@/components/legal/LegalShell";
 import { getLegalPage, submitContactMessage } from "@/lib/legal.functions";
 import { Button } from "@/components/ui/button";
+import { SITE_URL } from "@/lib/seo/constants";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/contact")({
     </SiteLayout>
   ),
   head: () => {
-    const url = "https://dharma-divine-tools.lovable.app/contact";
+    const url = `${SITE_URL}/contact`;
     const title = "Contact SanatanTools — Support, Feedback & Partnerships";
     const description =
       "Reach the SanatanTools team for support, bug reports, feature requests, partnerships, media, and general questions.";

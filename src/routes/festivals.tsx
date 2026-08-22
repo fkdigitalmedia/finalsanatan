@@ -14,10 +14,10 @@ import { SectionHeading } from "@/components/ui-kit/SectionHeading";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { NewsletterCTA } from "@/components/tools/NewsletterCTA";
-import { toolsByCategory } from "@/config/tools";
 import { getFestivalsHub } from "@/lib/festivals-public.functions";
+import { SITE_URL } from "@/lib/seo/constants";
 
-const BASE_URL = "https://dharma-divine-tools.lovable.app";
+const BASE_URL = SITE_URL;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 function fmtShort(iso: string) {
   const d = new Date(iso + "T12:00:00");

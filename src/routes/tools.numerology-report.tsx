@@ -35,7 +35,7 @@ export const Route = createFileRoute("/tools/numerology-report")({
       {
         name: "description",
         content:
-          "Enterprise commercial numerology report — calculate Life Path, Destiny, Soul Urge, Pinnacles, Personal Year, 12-Month Timeline, Practical Assets, and download 30-40 page PDF.",
+          "Commercial numerology report — calculate Life Path, Destiny, Soul Urge, Pinnacles, Personal Year, 12-Month Timeline & download full multi-page PDF.",
       },
       { property: "og:title", content: "Enterprise Numerology Pro Report V2" },
       {

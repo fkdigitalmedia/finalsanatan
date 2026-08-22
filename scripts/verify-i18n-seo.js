@@ -71,7 +71,7 @@ for (const code of expectedCodes) {
 
 // 4. hreflang Alternate Tags
 console.log("\n--- 4. hreflang Alternate Tags ---");
-const altList = alternates("/kundli", "https://dharma-divine-tools.lovable.app");
+const altList = alternates("/kundli", "https://www.sanatantools.com");
 assert(altList.length >= expectedCodes.length + 1, `hreflang contains entries for all languages + x-default (total: ${altList.length})`);
 const xDef = altList.find((a) => a.hrefLang === "x-default");
 assert(!!xDef, "hreflang contains 'x-default'");

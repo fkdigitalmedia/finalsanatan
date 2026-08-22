@@ -5,8 +5,9 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { SectionHeading } from "@/components/ui-kit/SectionHeading";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { getFestivalsHub, listPublicFestivals } from "@/lib/festivals-public.functions";
+import { SITE_URL } from "@/lib/seo/constants";
 
-const BASE_URL = "https://dharma-divine-tools.lovable.app";
+const BASE_URL = SITE_URL;
 
 function unslug(s: string) {
   return s

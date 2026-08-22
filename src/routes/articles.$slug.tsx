@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { getTool } from "@/config/tools";
+import { getCategory } from "@/config/categories";
 import { getBlogPost } from "@/lib/blog-public.functions";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
@@ -7,23 +8,41 @@ import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/articles/$slug")({
   beforeLoad: async ({ params }) => {
-    // 1. Check if slug matches a tool
-    const tool = getTool(params.slug);
+    const rawSlug = params.slug.toLowerCase().trim();
+    const cleanSlug = rawSlug.replace(/-practice$/, "");
+
+    // 1. Check if raw or clean slug matches a tool
+    const tool = getTool(rawSlug) || getTool(cleanSlug);
     if (tool) {
+      if (tool.slug === "kundli-generator") {
+        throw redirect({ to: "/kundli", statusCode: 301 });
+      }
       throw redirect({
         to: "/tools/$slug",
-        params: { slug: params.slug },
+        params: { slug: tool.slug },
         statusCode: 301,
       });
     }
 
-    // 2. Check if slug matches a blog post
+    // 2. Check if slug matches a category hub
+    if (rawSlug === "astrology" || cleanSlug === "astrology") {
+      throw redirect({ to: "/astrology", statusCode: 301 });
+    }
+    const cat = getCategory(rawSlug) || getCategory(cleanSlug);
+    if (cat) {
+      throw redirect({
+        to: `/${cat.slug}` as any,
+        statusCode: 301,
+      });
+    }
+
+    // 3. Check if slug matches an active blog post
     try {
-      const { post } = await getBlogPost({ data: { slug: params.slug } });
+      const { post } = await getBlogPost({ data: { slug: rawSlug } });
       if (post) {
         throw redirect({
           to: "/blog/$slug",
-          params: { slug: params.slug },
+          params: { slug: post.slug },
           statusCode: 301,
         });
       }
@@ -31,10 +50,9 @@ export const Route = createFileRoute("/articles/$slug")({
       // Ignore lookup errors
     }
 
-    // 3. 301 redirect to /blog/$slug as default migration for article namespace
+    // 4. Safe fallback to /blog instead of non-existent 404 URL
     throw redirect({
-      to: "/blog/$slug",
-      params: { slug: params.slug },
+      to: "/blog",
       statusCode: 301,
     });
   },

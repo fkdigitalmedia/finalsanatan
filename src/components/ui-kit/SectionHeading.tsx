@@ -6,6 +6,7 @@ interface SectionProps extends Omit<React.HTMLAttributes<HTMLElement>, "title"> 
   title: React.ReactNode;
   description?: React.ReactNode;
   align?: "left" | "center";
+  as?: "h1" | "h2" | "h3";
 }
 
 export function SectionHeading({
@@ -13,6 +14,7 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  as: Component = "h2",
   className,
   ...rest
 }: SectionProps) {
@@ -30,7 +32,7 @@ export function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">{title}</h2>
+      <Component className="text-3xl md:text-4xl font-semibold tracking-tight">{title}</Component>
       {description && (
         <p className="text-base md:text-lg text-muted-foreground max-w-2xl">{description}</p>
       )}

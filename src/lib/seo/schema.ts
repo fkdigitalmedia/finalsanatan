@@ -4,10 +4,12 @@
 // drops it into `head().scripts`.
 // ============================================================
 
+import { SITE_URL } from "./constants";
+
 export type Json = Record<string, unknown>;
 
 export const SITE_NAME = "SanatanTools";
-export const SITE_URL = "https://dharma-divine-tools.lovable.app";
+export { SITE_URL };
 
 export function abs(path: string, origin: string = SITE_URL): string {
   if (/^https?:\/\//i.test(path)) return path;

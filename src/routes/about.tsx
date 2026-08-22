@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { LegalShell, type LegalPage } from "@/components/legal/LegalShell";
 import { getLegalPage } from "@/lib/legal.functions";
 import { Button } from "@/components/ui/button";
+import { SITE_URL } from "@/lib/seo/constants";
 
 const q = queryOptions({
   queryKey: ["legal-page", "about"],
@@ -44,7 +45,7 @@ export const Route = createFileRoute("/about")({
   ),
   head: ({ loaderData }) => {
     const p = loaderData?.page;
-    const url = "https://dharma-divine-tools.lovable.app/about";
+    const url = `${SITE_URL}/about`;
     const title = p?.seo_title || "About SanatanTools";
     const description =
       p?.seo_description ||

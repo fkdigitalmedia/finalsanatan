@@ -3,8 +3,9 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { getPublicFestivalBySlug } from "@/lib/festivals-public.functions";
 import { FestivalLanding, type FestivalRow } from "@/components/festivals/FestivalLanding";
+import { SITE_URL } from "@/lib/seo/constants";
 
-const BASE_URL = "https://dharma-divine-tools.lovable.app";
+const BASE_URL = SITE_URL;
 
 const LANGS = ["en", "hi", "mr", "gu", "ta", "te", "kn", "bn", "ml", "pa", "or", "as"] as const;
 const searchSchema = z.object({

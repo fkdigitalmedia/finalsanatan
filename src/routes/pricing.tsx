@@ -47,7 +47,7 @@ export const Route = createFileRoute("/pricing")({
       {
         name: "description",
         content:
-          "Choose a monthly or annual premium subscription for unlimited access to AI-powered Kundli, advanced Panchang and all premium Sanatan tools. Secure payments via multiple gateways.",
+          "Choose a monthly or annual subscription for unlimited access to AI Kundli, advanced Panchang & 100+ premium Vedic tools. Secure checkout with instant access.",
       },
       { property: "og:title", content: "Pricing — SanatanTools" },
       {
@@ -220,6 +220,7 @@ function PricingPage() {
     <SiteLayout>
       <div className="container-page py-10 md:py-14">
         <SectionHeading
+          as="h1"
           eyebrow="Pricing"
           title="Choose a plan that fits you"
           description="Subscribe monthly or yearly for unlimited access to premium tools, AI-powered Kundli reports and advanced Panchang."

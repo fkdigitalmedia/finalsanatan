@@ -48,7 +48,7 @@ function FaqPage() {
   return (
     <SiteLayout>
       <div className="container-page py-10 space-y-12">
-        <SectionHeading eyebrow="Help" title="Frequently asked questions" description={DESC} />
+        <SectionHeading as="h1" eyebrow="Help" title="Frequently asked questions" description={DESC} />
         {SITE_FAQ_GROUPS.map((group) => (
           <section key={group.title}>
             <h2 className="font-serif text-xl">{group.title}</h2>

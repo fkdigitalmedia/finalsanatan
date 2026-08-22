@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, Filter, Flame, Sparkles, ArrowRight, X } from "lucide-react";
 
@@ -24,11 +24,15 @@ import { useTranslation } from "@/i18n/I18nProvider";
 import { useCategoryLabel } from "@/i18n/useCategoryLabel";
 import { LocalizedHead } from "@/components/i18n/LocalizedHead";
 import { localizedSearchableText } from "@/i18n/useToolI18n";
+import { SITE_URL } from "@/lib/seo/constants";
 
 export const Route = createFileRoute("/tools/")({
   validateSearch: (search: Record<string, unknown>) => ({
     q: typeof search.q === "string" ? search.q : "",
   }),
+  search: {
+    middlewares: [stripSearchParams({ q: "" })],
+  },
   head: () => ({
     meta: [
       { title: "All Tools — SanatanTools" },
@@ -43,9 +47,9 @@ export const Route = createFileRoute("/tools/")({
         content:
           "The complete SanatanTools hub — search, filter and discover every tool across 10 categories.",
       },
-      { property: "og:url", content: "/tools" },
+      { property: "og:url", content: `${SITE_URL}/tools` },
     ],
-    links: [{ rel: "canonical", href: "/tools" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/tools` }],
     scripts: [
       {
         type: "application/ld+json",

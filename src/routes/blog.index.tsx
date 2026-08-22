@@ -80,7 +80,7 @@ function BlogIndex() {
   return (
     <SiteLayout>
       <div className="container-page py-10 space-y-10">
-        <SectionHeading eyebrow="Blog" title="Sanatan knowledge, explained" description={DESC} />
+        <SectionHeading as="h1" eyebrow="Blog" title="Sanatan knowledge, explained" description={DESC} />
 
         {categories.length > 0 && (
           <nav className="flex flex-wrap gap-2" aria-label="Blog categories">

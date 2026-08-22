@@ -437,15 +437,15 @@ export function ToolShell(props: ToolShellProps) {
           {[
             {
               title: t("tool_shell.article_complete_guide", { title }),
-              href: `/articles/${tool.slug}`,
+              href: `/blog?category=${cat?.slug ?? "astrology"}`,
             },
             {
               title: t("tool_shell.article_foundational", { category: cat?.title ?? "Sanatan" }),
-              href: `/articles/${cat?.slug ?? "sanatan"}`,
+              href: `/${cat?.slug ?? "calculators"}`,
             },
             {
               title: t("tool_shell.article_daily_practice", { title }),
-              href: `/articles/${tool.slug}-practice`,
+              href: "/blog",
             },
           ].map((a) => (
             <a

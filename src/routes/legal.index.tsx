@@ -3,6 +3,7 @@ import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { listLegalPages } from "@/lib/legal.functions";
 import { Card } from "@/components/ui/card";
+import { SITE_URL } from "@/lib/seo/constants";
 
 const CATEGORY_ORDER = ["privacy", "terms", "disclaimer", "policy", "company", "future"] as const;
 const CATEGORY_LABEL: Record<string, string> = {
@@ -23,7 +24,7 @@ const listQuery = queryOptions({
 export const Route = createFileRoute("/legal/")({
   loader: ({ context }) => context.queryClient.ensureQueryData(listQuery),
   head: () => {
-    const url = "https://dharma-divine-tools.lovable.app/legal";
+    const url = `${SITE_URL}/legal`;
     const title = "Legal & Compliance — SanatanTools";
     const description =
       "All SanatanTools legal documents: Privacy Policy, Terms & Conditions, AI Disclaimer, Cookie Policy, Refund Policy, and more.";

@@ -75,7 +75,7 @@ const PAGE_URL = "/kundli";
 // ------------------------------------------------------------
 const SEO_TITLE = "Free Janam Kundli Online — Vedic Birth Chart Generator | SanatanTools";
 const SEO_DESC =
-  "Generate your free Janam Kundli online in seconds. Accurate Vedic birth chart with North / South / East Indian styles, planet & house tables, nakshatra, lagna, rashi — plus a premium print-ready PDF in 12 Indian languages.";
+  "Free Janam Kundli generator online. Accurate Vedic birth chart with North/South/East Indian styles, planetary tables, nakshatra, and 12-language PDF download.";
 
 const FAQS: Array<{ q: string; a: string }> = [
   {

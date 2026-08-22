@@ -31,19 +31,30 @@ To prevent SEO performance degradation from HTTP 307 temporary redirects:
 - The Router uses `trailingSlash: "never"` to prevent automatic 307 redirects for bare layout paths like `/tools`.
 - Host canonicalization middleware in `src/start.ts` permanently redirects `www.sanatantools.com` requests to `https://sanatantools.com` with HTTP 301.
 
-## 5. Namespace Handlers
+## 5. Namespace Handlers & 404 Prevention
 
 - `/articles/`: Index redirects 301 to `/blog`.
-- `/articles/$slug`: Performs dynamic lookup against `admin_articles` and `TOOLS`. If found, redirects 301 to `/blog/$slug` or `/tools/$slug`. Unmatched/retired URLs return HTTP 410 (Gone).
-- `/tools`: Renders the full indexable Tools Hub with HTTP 200 OK. Flagship tool `/tools/kundli-generator` redirects 301 to `/kundli`.
+- `/articles/$slug`: Performs dynamic lookup against `admin_articles`, `TOOLS`, and `CATEGORIES`.
+  - If it ends in `-practice`, strips suffix and maps to live tool or category URL.
+  - If matched to a tool, redirects 301 to `/tools/$slug` (or `/kundli` for Kundli).
+  - If matched to a category hub, redirects 301 to `/$category`.
+  - If matched to an active blog post, redirects 301 to `/blog/$slug`.
+  - Fallback: Safely redirects 301 to `/blog` to completely eliminate 404 client errors.
+- `/tools`: Renders the full indexable Tools Hub with HTTP 200 OK without 307 temporary redirects using `stripSearchParams`.
 
-## 6. Sitemap Sharding (`src/lib/seo/sitemap.ts`)
+## 6. On-Page Headings & Metadata Optimization
+
+- **Polymorphic Headings**: `SectionHeading` supports the `as` prop (`h1`, `h2`, `h3`, default `h2`) ensuring primary indexable landing pages (`/pricing`, `/faq`, `/blog`, `/support`) possess a valid semantic `<h1>` tag.
+- **SERP Snippet Bounds**: Core flagship pages (Kundli, Pricing, Numerology) have meta descriptions trimmed within the optimal 150–160 character boundary to prevent SERP truncation.
+- **Canonical Consistency**: All schema and route head builders reference the primary production origin `SITE_URL` (`https://www.sanatantools.com`), preventing accidental staging domain canonical leakage.
+
+## 7. Sitemap Sharding (`src/lib/seo/sitemap.ts`)
 
 - Sitemap index served at `/sitemap.xml`.
 - Shards generated: `sitemap-pages.xml`, `sitemap-tools.xml`, `sitemap-blog.xml`, `sitemap-festivals.xml`, `sitemap-horoscope.xml`, `sitemap-images.xml`, `sitemap-news.xml`, `sitemap-video.xml`.
 - Entry Filtering: Every entry is filtered via `isSitemapEligible(path)`. Sitemaps contain ONLY HTTP 200 indexable self-canonical public URLs.
 
-## 7. Verification & Audit Tools
+## 8. Verification & Audit Tools
 
 Run the automated verification suite:
 ```bash

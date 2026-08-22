@@ -81,7 +81,7 @@ function SupportPage() {
   return (
     <SiteLayout>
       <div className="container-page py-10 space-y-12">
-        <SectionHeading eyebrow="Help centre" title="How can we help?" description={DESC} />
+        <SectionHeading as="h1" eyebrow="Help centre" title="How can we help?" description={DESC} />
 
         <div className="grid gap-5 sm:grid-cols-2">
           {CARDS.map((c) => {
