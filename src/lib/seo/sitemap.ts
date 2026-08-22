@@ -213,12 +213,23 @@ export function collectPages(): SitemapEntry[] {
 }
 
 export function collectTools(): SitemapEntry[] {
-  return TOOLS.filter((t) => t.status !== "coming-soon").map((t) => ({
-    path: `/tools/${t.slug}`,
-    changefreq: t.category === "panchang" ? "daily" : "weekly",
-    priority: t.featured ? "0.9" : t.popularity >= 70 ? "0.8" : "0.7",
-    lastmod: t.addedAt,
-  }));
+  const entries: SitemapEntry[] = [
+    {
+      path: "/kundli",
+      changefreq: "daily",
+      priority: "1.0",
+    },
+  ];
+  for (const t of TOOLS) {
+    if (t.status === "coming-soon" || t.slug === "kundli-generator") continue;
+    entries.push({
+      path: `/tools/${t.slug}`,
+      changefreq: t.category === "panchang" ? "daily" : "weekly",
+      priority: t.featured ? "0.9" : t.popularity >= 70 ? "0.8" : "0.7",
+      lastmod: t.addedAt,
+    });
+  }
+  return entries;
 }
 
 export function collectHoroscopes(): SitemapEntry[] {
