@@ -23,6 +23,9 @@ import { AIRunner } from "@/components/tools/AIToolShell";
 import { SankalpGeneratorView } from "@/components/tools/sankalp/SankalpGeneratorView";
 import { DevanagariTypingStudio } from "@/components/tools/devanagari/DevanagariTypingStudio";
 import { ShlokaAnalyzerView } from "@/components/tools/shloka/ShlokaAnalyzerView";
+import { SandhiSplitterView } from "@/components/tools/sandhi/SandhiSplitterView";
+import { VerbConjugatorView } from "@/components/tools/verb/VerbConjugatorView";
+import { SanskritWordOfDayView } from "@/components/tools/word-of-day/SanskritWordOfDayView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1850,36 +1853,7 @@ export function Transliteration() {
 }
 
 export function SandhiSplitter() {
-  const [input, setInput] = useState("dharmakshetre");
-  const parts = splitSandhi(input);
-  return (
-    <>
-      <Field label="Compound word" hint="Simple rule-based splitter — handles common sandhi joins.">
-        <Input value={input} onChange={(e) => setInput(e.target.value)} />
-      </Field>
-      <div className="mt-6">
-        <ToolCardFrame title="Suggested split">
-          <div className="font-display text-2xl">{parts.join(" + ")}</div>
-          <p className="mt-4 text-xs text-muted-foreground">
-            For complex vigraha use the AI Sanskrit Helper for a full grammar analysis.
-          </p>
-        </ToolCardFrame>
-      </div>
-    </>
-  );
-}
-function splitSandhi(s: string): string[] {
-  // rudimentary: split on visual vowel joins
-  const rules = [/aa/, /ee/, /oo/, /ai/, /au/];
-  let parts = [s];
-  for (const r of rules) {
-    parts = parts.flatMap((p) => p.split(r).filter(Boolean));
-  }
-  if (parts.length < 2) {
-    // split at capital or hyphen if present
-    return s.split(/[\s\-]/).filter(Boolean);
-  }
-  return parts;
+  return <SandhiSplitterView />;
 }
 
 export function ShlokaAnalyzer() {
@@ -1890,130 +1864,8 @@ export function DevanagariTyping() {
   return <DevanagariTypingStudio />;
 }
 
-const DHATU_TABLE: Record<
-  string,
-  { root: string; meaning: string; forms: Record<string, string> }
-> = {
-  gam: {
-    root: "गम्",
-    meaning: "to go",
-    forms: {
-      "1st singular": "गच्छामि",
-      "1st plural": "गच्छामः",
-      "2nd singular": "गच्छसि",
-      "2nd plural": "गच्छथ",
-      "3rd singular": "गच्छति",
-      "3rd plural": "गच्छन्ति",
-    },
-  },
-  bhu: {
-    root: "भू",
-    meaning: "to be",
-    forms: {
-      "1st singular": "भवामि",
-      "1st plural": "भवामः",
-      "2nd singular": "भवसि",
-      "2nd plural": "भवथ",
-      "3rd singular": "भवति",
-      "3rd plural": "भवन्ति",
-    },
-  },
-  kri: {
-    root: "कृ",
-    meaning: "to do",
-    forms: {
-      "1st singular": "करोमि",
-      "1st plural": "कुर्मः",
-      "2nd singular": "करोषि",
-      "2nd plural": "कुरुथ",
-      "3rd singular": "करोति",
-      "3rd plural": "कुर्वन्ति",
-    },
-  },
-  as: {
-    root: "अस्",
-    meaning: "to be",
-    forms: {
-      "1st singular": "अस्मि",
-      "1st plural": "स्मः",
-      "2nd singular": "असि",
-      "2nd plural": "स्थ",
-      "3rd singular": "अस्ति",
-      "3rd plural": "सन्ति",
-    },
-  },
-  vad: {
-    root: "वद्",
-    meaning: "to speak",
-    forms: {
-      "1st singular": "वदामि",
-      "1st plural": "वदामः",
-      "2nd singular": "वदसि",
-      "2nd plural": "वदथ",
-      "3rd singular": "वदति",
-      "3rd plural": "वदन्ति",
-    },
-  },
-  path: {
-    root: "पठ्",
-    meaning: "to read",
-    forms: {
-      "1st singular": "पठामि",
-      "1st plural": "पठामः",
-      "2nd singular": "पठसि",
-      "2nd plural": "पठथ",
-      "3rd singular": "पठति",
-      "3rd plural": "पठन्ति",
-    },
-  },
-  sthaa: {
-    root: "स्था",
-    meaning: "to stand",
-    forms: {
-      "1st singular": "तिष्ठामि",
-      "1st plural": "तिष्ठामः",
-      "2nd singular": "तिष्ठसि",
-      "2nd plural": "तिष्ठथ",
-      "3rd singular": "तिष्ठति",
-      "3rd plural": "तिष्ठन्ति",
-    },
-  },
-};
 export function VerbConjugator() {
-  const [dhatu, setDhatu] = useState("gam");
-  const d = DHATU_TABLE[dhatu];
-  return (
-    <>
-      <Field label="Dhatu (root)">
-        <select
-          value={dhatu}
-          onChange={(e) => setDhatu(e.target.value)}
-          className="w-full h-10 rounded-md border border-border bg-background px-3 text-sm"
-        >
-          {Object.entries(DHATU_TABLE).map(([k, v]) => (
-            <option key={k} value={k}>
-              {k} — {v.meaning}
-            </option>
-          ))}
-        </select>
-      </Field>
-      <div className="mt-6">
-        <ToolCardFrame title={`${d.root} — present tense (लट् लकार)`}>
-          <div className="grid sm:grid-cols-2 gap-2">
-            {Object.entries(d.forms).map(([person, form]) => (
-              <div
-                key={person}
-                className="flex items-baseline justify-between rounded-lg border border-border p-3"
-              >
-                <span className="text-sm text-muted-foreground">{person}</span>
-                <span className="font-devanagari text-lg">{form}</span>
-              </div>
-            ))}
-          </div>
-        </ToolCardFrame>
-      </div>
-    </>
-  );
+  return <VerbConjugatorView />;
 }
 
 /* ═══════════════════════ BABY NAMES ═══════════════════════ */
@@ -2427,19 +2279,7 @@ export function PuranasOverview() {
 }
 
 export function SanskritWordOfDay() {
-  const idx = new Date().getDate() % SANSKRIT_DICT.length;
-  const w = SANSKRIT_DICT[idx];
-  return (
-    <ToolCardFrame title="Sanskrit word of the day">
-      <div className="font-devanagari text-5xl">{w.devanagari}</div>
-      <div className="mt-2 italic text-muted-foreground">{w.word}</div>
-      <p className="mt-4 text-sm">{w.meaning}</p>
-      {w.root && <p className="mt-2 text-xs text-muted-foreground">Root: {w.root}</p>}
-      <div className="mt-4">
-        <Badge variant="outline">{w.category}</Badge>
-      </div>
-    </ToolCardFrame>
-  );
+  return <SanskritWordOfDayView />;
 }
 
 export function DeityOfTheDay() {
