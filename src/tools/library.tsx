@@ -28,6 +28,7 @@ import { VerbConjugatorView } from "@/components/tools/verb/VerbConjugatorView";
 import { SanskritWordOfDayView } from "@/components/tools/word-of-day/SanskritWordOfDayView";
 import { SanskritDictionaryView } from "@/components/tools/dictionary/SanskritDictionaryView";
 import { TransliterationStudioView } from "@/components/tools/transliteration/TransliterationStudioView";
+import { PradoshVratView } from "@/components/tools/pradosh/PradoshVratView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -674,7 +675,7 @@ export function RegionalFestivals() {
 }
 
 export function PradoshVrat() {
-  return <ListWithFilter items={PRADOSH_2026} extraRender={(p) => p.description} />;
+  return <PradoshVratView />;
 }
 export function SankashtiChaturthi() {
   return <ListWithFilter items={SANKASHTI_2026} extraRender={(p) => p.description} />;
