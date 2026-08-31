@@ -22,6 +22,7 @@ import { ToolCardFrame } from "@/components/tools/ToolShell";
 import { AIRunner } from "@/components/tools/AIToolShell";
 import { SankalpGeneratorView } from "@/components/tools/sankalp/SankalpGeneratorView";
 import { DevanagariTypingStudio } from "@/components/tools/devanagari/DevanagariTypingStudio";
+import { ShlokaAnalyzerView } from "@/components/tools/shloka/ShlokaAnalyzerView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1882,45 +1883,7 @@ function splitSandhi(s: string): string[] {
 }
 
 export function ShlokaAnalyzer() {
-  const [input, setInput] = useState("");
-  const lines = input.split("\n").filter(Boolean);
-  const totalSyllables = lines.reduce((n, l) => n + syllableCount(l), 0);
-  const guess = guessMeter(totalSyllables, lines.length);
-  return (
-    <>
-      <Field label="Paste a shloka (Devanagari or IAST)">
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} rows={6} />
-      </Field>
-      <div className="mt-6 grid sm:grid-cols-2 gap-4">
-        <ToolCardFrame title="Structure">
-          <Kv k="Padas (lines)" v={lines.length} />
-          <Kv k="Total syllables" v={totalSyllables} />
-          <Kv
-            k="Syllables per pada"
-            v={lines.length ? Math.round(totalSyllables / lines.length) : 0}
-          />
-        </ToolCardFrame>
-        <ToolCardFrame title="Chhandas guess">
-          <div className="font-display text-2xl">{guess}</div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Heuristic based on syllable count. Anushtup = 32, Trishtup = 44, Jagati = 48.
-          </p>
-        </ToolCardFrame>
-      </div>
-    </>
-  );
-}
-function syllableCount(line: string): number {
-  // Approximation: count vowels + independent vowel marks
-  const vowels = line.match(/[aāiīuūeoṛṝḷ]|[अआइईउऊऋॠएऐओऔ]|[ािीुूृेैोौ]/gi);
-  return vowels ? vowels.length : 0;
-}
-function guessMeter(total: number, lines: number) {
-  if (lines === 4 && total >= 30 && total <= 34) return "Anushtup (32 syllables)";
-  if (lines === 4 && total >= 42 && total <= 46) return "Trishtup (44 syllables)";
-  if (lines === 4 && total >= 46 && total <= 50) return "Jagati (48 syllables)";
-  if (total >= 76 && total <= 84) return "Shardulavikridita (76)";
-  return "Unrecognised — try another chhandas reference.";
+  return <ShlokaAnalyzerView />;
 }
 
 export function DevanagariTyping() {
