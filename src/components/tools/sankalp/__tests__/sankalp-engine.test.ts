@@ -72,6 +72,14 @@ describe("sankalp-engine", () => {
     expect(familyRes.sanskrit).toContain("सभार्यापुत्रपौत्र");
   });
 
+  it("renders SankalpGeneratorView component without crashing", async () => {
+    const React = await import("react");
+    const { renderToString } = await import("react-dom/server");
+    const { SankalpGeneratorView } = await import("../SankalpGeneratorView");
+    const html = renderToString(React.createElement(SankalpGeneratorView));
+    expect(html).toContain("वैदिक संकल्प निर्माण विधान");
+  });
+
   it("has valid presets and gotra registries", () => {
     expect(COMMON_GOTRAS.length).toBeGreaterThanOrEqual(15);
     expect(PURPOSE_PRESETS.length).toBeGreaterThanOrEqual(10);

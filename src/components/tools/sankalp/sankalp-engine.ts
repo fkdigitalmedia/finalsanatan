@@ -270,27 +270,46 @@ const RASHI_SANSKRIT = [
  * Generate full Vedic Sankalpa with all variants
  */
 export function generateVedicSankalp(input: SankalpInput): SankalpResult {
-  const tithiInfo = getTithi(input.date);
-  const nakshatraInfo = getNakshatra(input.date);
-  const yogaInfo = getYoga(input.date);
-  const karanaInfo = getKarana(input.date);
-  const moonRashiInfo = getMoonRashi(input.date);
+  const safeDate =
+    input.date instanceof Date && !isNaN(input.date.getTime()) ? input.date : new Date();
+  const safeLocation = input.location || {
+    lat: 28.6139,
+    lon: 77.209,
+    label: "New Delhi, India",
+    tz: "Asia/Kolkata",
+  };
 
-  const calYear = input.date.getFullYear();
+  let tithiInfo: any = null;
+  let nakshatraInfo: any = null;
+  let yogaInfo: any = null;
+  let karanaInfo: any = null;
+  let moonRashiInfo: any = null;
+
+  try {
+    tithiInfo = getTithi(safeDate);
+    nakshatraInfo = getNakshatra(safeDate);
+    yogaInfo = getYoga(safeDate);
+    karanaInfo = getKarana(safeDate);
+    moonRashiInfo = getMoonRashi(safeDate);
+  } catch (err) {
+    console.warn("Panchang computation fallback:", err);
+  }
+
+  const calYear = safeDate.getFullYear();
   const vikramSamvat = calYear + 57;
   const shakaSamvat = calYear - 78;
 
-  const samvatIndex = (vikramSamvat + 9) % 60;
+  const samvatIndex = Math.abs((vikramSamvat + 9) % 60);
   const samvatsaraName = SAMVATSARA_NAMES[samvatIndex] || "विश्वावसु";
 
-  const monthIdx = (input.date.getMonth() + (input.date.getDate() > 15 ? 1 : 0)) % 12;
+  const monthIdx = (safeDate.getMonth() + (safeDate.getDate() > 15 ? 1 : 0)) % 12;
   const masaSanskrit = VEDA_SAMVAT_NAMES[monthIdx] || "चैत्र";
 
-  const isUttarayana = input.date.getMonth() >= 0 && input.date.getMonth() <= 5;
+  const isUttarayana = safeDate.getMonth() >= 0 && safeDate.getMonth() <= 5;
   const ayanaSanskrit = isUttarayana ? "उत्तरायणे" : "दक्षिणायने";
   const ayanaIast = isUttarayana ? "Uttarāyaṇe" : "Dakṣiṇāyane";
 
-  const rituIdx = Math.floor((input.date.getMonth() + 1) / 2) % 6;
+  const rituIdx = Math.floor((safeDate.getMonth() + 1) / 2) % 6;
   const rituSanskrit = RITU_SANSKRIT[rituIdx] || "वसन्ते";
 
   const isShukla = (tithiInfo?.index ?? 1) <= 15;

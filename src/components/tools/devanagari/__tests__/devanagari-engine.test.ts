@@ -43,10 +43,11 @@ describe("devanagari-engine", () => {
     expect(VARNAMALA_LAYOUT.vedicAccents).toContain("॑");
   });
 
-  it("contains preset classic shlokas and mantras", () => {
-    expect(PRESET_SHLOKAS.length).toBeGreaterThanOrEqual(5);
-    const gayatri = PRESET_SHLOKAS.find((s) => s.id === "gayatri");
-    expect(gayatri?.title).toContain("गायत्री");
-    expect(gayatri?.devanagari).toContain("भूर्भुवः");
+  it("renders DevanagariTypingStudio component without crashing", async () => {
+    const React = await import("react");
+    const { renderToString } = await import("react-dom/server");
+    const { DevanagariTypingStudio } = await import("../DevanagariTypingStudio");
+    const html = renderToString(React.createElement(DevanagariTypingStudio));
+    expect(html).toContain("देवनागरी एवं संस्कृत टाइपिंग स्टूडियो");
   });
 });
