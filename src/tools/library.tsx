@@ -20,6 +20,8 @@ import { toast } from "sonner";
 
 import { ToolCardFrame } from "@/components/tools/ToolShell";
 import { AIRunner } from "@/components/tools/AIToolShell";
+import { SankalpGeneratorView } from "@/components/tools/sankalp/SankalpGeneratorView";
+import { DevanagariTypingStudio } from "@/components/tools/devanagari/DevanagariTypingStudio";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -860,54 +862,7 @@ export function SamagriChecklist() {
 }
 
 export function SankalpGenerator() {
-  const [name, setName] = useState("");
-  const [gotra, setGotra] = useState("");
-  const [place, setPlace] = useState("");
-  const [purpose, setPurpose] = useState("Ganesh Puja");
-  const today = new Date();
-  const dateStr = today.toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const sankalp = `॥ श्री गणेशाय नमः ॥\n\nToday, on ${dateStr}, at ${place || "[place]"}, I, ${name || "[your name]"}, of ${gotra || "[your]"} gotra, resolve to perform ${purpose || "this puja"} with pure heart and devotion, seeking the blessings of the Divine, for the welfare of my family, my community, and all beings.\n\n॥ ॐ शान्तिः शान्तिः शान्तिः ॥`;
-  return (
-    <>
-      <div className="grid sm:grid-cols-2 gap-4 mb-6">
-        <Field label="Your name">
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Arjuna Sharma"
-          />
-        </Field>
-        <Field label="Gotra">
-          <Input
-            value={gotra}
-            onChange={(e) => setGotra(e.target.value)}
-            placeholder="e.g. Bharadwaj"
-          />
-        </Field>
-        <Field label="Place">
-          <Input
-            value={place}
-            onChange={(e) => setPlace(e.target.value)}
-            placeholder="e.g. Varanasi, India"
-          />
-        </Field>
-        <Field label="Purpose">
-          <Input value={purpose} onChange={(e) => setPurpose(e.target.value)} />
-        </Field>
-      </div>
-      <ToolCardFrame title="Sankalp">
-        <pre className="whitespace-pre-wrap font-body text-sm leading-relaxed">{sankalp}</pre>
-        <div className="mt-4">
-          <CopyBtn text={sankalp} />
-        </div>
-      </ToolCardFrame>
-    </>
-  );
+  return <SankalpGeneratorView />;
 }
 
 export function GrihaPraveshPlanner() {
@@ -1968,50 +1923,8 @@ function guessMeter(total: number, lines: number) {
   return "Unrecognised — try another chhandas reference.";
 }
 
-const DEVANAGARI_KEYS = [
-  ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ए", "ऐ", "ओ", "औ", "अं", "अः"],
-  ["क", "ख", "ग", "घ", "ङ", "च", "छ", "ज", "झ", "ञ"],
-  ["ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न"],
-  ["प", "फ", "ब", "भ", "म", "य", "र", "ल", "व"],
-  ["श", "ष", "स", "ह", "ा", "ि", "ी", "ु", "ू", "े", "ै", "ो", "ौ", "्", " "],
-];
 export function DevanagariTyping() {
-  const [text, setText] = useState("");
-  return (
-    <>
-      <Textarea
-        rows={5}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="font-devanagari text-2xl"
-        placeholder="Type or tap the keys below…"
-      />
-      <div className="mt-4 space-y-2">
-        {DEVANAGARI_KEYS.map((row, ri) => (
-          <div key={ri} className="flex flex-wrap gap-1.5">
-            {row.map((k) => (
-              <button
-                key={k}
-                onClick={() => setText((t) => t + k)}
-                className="min-w-[40px] h-10 px-3 rounded-md border border-border bg-background hover:bg-primary hover:text-primary-foreground font-devanagari text-lg"
-              >
-                {k}
-              </button>
-            ))}
-          </div>
-        ))}
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setText((t) => t.slice(0, -1))}>
-            ⌫ Backspace
-          </Button>
-          <Button variant="outline" onClick={() => setText("")}>
-            Clear
-          </Button>
-          <CopyBtn text={text} />
-        </div>
-      </div>
-    </>
-  );
+  return <DevanagariTypingStudio />;
 }
 
 const DHATU_TABLE: Record<
