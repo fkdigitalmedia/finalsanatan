@@ -27,6 +27,7 @@ import { SandhiSplitterView } from "@/components/tools/sandhi/SandhiSplitterView
 import { VerbConjugatorView } from "@/components/tools/verb/VerbConjugatorView";
 import { SanskritWordOfDayView } from "@/components/tools/word-of-day/SanskritWordOfDayView";
 import { SanskritDictionaryView } from "@/components/tools/dictionary/SanskritDictionaryView";
+import { TransliterationStudioView } from "@/components/tools/transliteration/TransliterationStudioView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1804,26 +1805,7 @@ export function SanskritDictionary() {
 }
 
 export function Transliteration() {
-  const [input, setInput] = useState("namaste");
-  const out = iastToDevanagari(input);
-  return (
-    <>
-      <Field
-        label="Input (IAST or English phonetic)"
-        hint="Try: namaste · om namah shivaya · gayatri"
-      >
-        <Textarea value={input} onChange={(e) => setInput(e.target.value)} rows={4} />
-      </Field>
-      <div className="mt-6">
-        <ToolCardFrame title="Devanagari">
-          <div className="font-devanagari text-3xl leading-relaxed">{out}</div>
-          <div className="mt-4">
-            <CopyBtn text={out} />
-          </div>
-        </ToolCardFrame>
-      </div>
-    </>
-  );
+  return <TransliterationStudioView />;
 }
 
 export function SandhiSplitter() {
