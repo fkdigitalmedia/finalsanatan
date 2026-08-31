@@ -26,6 +26,7 @@ import { ShlokaAnalyzerView } from "@/components/tools/shloka/ShlokaAnalyzerView
 import { SandhiSplitterView } from "@/components/tools/sandhi/SandhiSplitterView";
 import { VerbConjugatorView } from "@/components/tools/verb/VerbConjugatorView";
 import { SanskritWordOfDayView } from "@/components/tools/word-of-day/SanskritWordOfDayView";
+import { SanskritDictionaryView } from "@/components/tools/dictionary/SanskritDictionaryView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1799,34 +1800,7 @@ export function BirthstoneFinder() {
 /* ═══════════════════════ SANSKRIT ═══════════════════════ */
 
 export function SanskritDictionary() {
-  const [q, setQ] = useState("");
-  const list = SANSKRIT_DICT.filter((w) =>
-    (w.word + w.devanagari + w.meaning).toLowerCase().includes(q.toLowerCase()),
-  );
-  return (
-    <>
-      <div className="mb-6">
-        <SearchBar value={q} onChange={setQ} placeholder="Search word or meaning…" />
-      </div>
-      <div className="grid sm:grid-cols-2 gap-3">
-        {list.map((w) => (
-          <div key={w.word} className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-baseline justify-between gap-3">
-              <div>
-                <div className="font-devanagari text-lg">{w.devanagari}</div>
-                <div className="text-xs text-muted-foreground italic">
-                  {w.word} · {w.category}
-                </div>
-              </div>
-              <Badge variant="outline">{w.category}</Badge>
-            </div>
-            <div className="mt-2 text-sm">{w.meaning}</div>
-            {w.root && <div className="text-xs text-muted-foreground mt-1">Root: {w.root}</div>}
-          </div>
-        ))}
-      </div>
-    </>
-  );
+  return <SanskritDictionaryView />;
 }
 
 export function Transliteration() {
