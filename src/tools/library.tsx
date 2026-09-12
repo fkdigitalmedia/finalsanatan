@@ -29,6 +29,7 @@ import { SanskritWordOfDayView } from "@/components/tools/word-of-day/SanskritWo
 import { SanskritDictionaryView } from "@/components/tools/dictionary/SanskritDictionaryView";
 import { TransliterationStudioView } from "@/components/tools/transliteration/TransliterationStudioView";
 import { PradoshVratView } from "@/components/tools/pradosh/PradoshVratView";
+import { RashiCalculatorView } from "@/components/tools/rashi/RashiCalculatorView";
 import { LocationPicker, DateInput } from "@/components/tools/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1594,23 +1595,7 @@ export function KundliGenerator() {
 }
 
 export function RashiCalculator() {
-  const [res, setRes] = useState<ReturnType<typeof computeBirthChart> | null>(null);
-  return (
-    <>
-      <BirthForm onSubmit={({ date, time }) => setRes(computeBirthChart(date, time))} />
-      {res && (
-        <ToolCardFrame title="Moon sign (Rashi)">
-          <div className="font-display text-4xl">{res.rashi}</div>
-          <div className="text-sm text-muted-foreground mt-2">
-            Sidereal moon longitude: {res.sidereal.toFixed(2)}°
-          </div>
-          <div className="text-sm mt-4">
-            <strong>Sound syllables:</strong> {RASHI_SYLLABLES[res.rashiIdx].syllables.join(", ")}
-          </div>
-        </ToolCardFrame>
-      )}
-    </>
-  );
+  return <RashiCalculatorView />;
 }
 
 export function NakshatraFinder() {
