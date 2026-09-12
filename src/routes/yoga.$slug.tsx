@@ -5,6 +5,8 @@ import { ENTITY_FAMILIES, findEntity } from "@/config/seo-entities";
 import { seoHead } from "@/lib/seo/engine";
 import { buildSeo } from "@/lib/seo/engine";
 
+import { MalavyaYogaCalculator } from "@/components/tools/yogas/MalavyaYogaCalculator";
+
 const FAMILY = ENTITY_FAMILIES.yoga;
 
 function descriptor(slug: string) {
@@ -38,6 +40,9 @@ function Page() {
   const { entity, seo } = descriptor(slug);
   if (!entity || !seo) throw notFound();
   const built = buildSeo(seo);
+
+  const calculatorWidget = slug === "malavya-yoga" ? <MalavyaYogaCalculator /> : undefined;
+
   return (
     <EntityDetailPage
       entity={entity}
@@ -46,6 +51,7 @@ function Page() {
       links={built.links}
       faqs={built.faqs}
       siblings={FAMILY.items}
+      calculator={calculatorWidget}
     />
   );
 }

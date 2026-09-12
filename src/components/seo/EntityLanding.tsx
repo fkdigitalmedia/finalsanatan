@@ -24,6 +24,7 @@ interface DetailProps {
   links: LinkBlock[];
   faqs: { question: string; answer: string }[];
   siblings: SeoEntity[];
+  calculator?: React.ReactNode;
 }
 
 export function EntityDetailPage({
@@ -33,6 +34,7 @@ export function EntityDetailPage({
   links,
   faqs,
   siblings,
+  calculator,
 }: DetailProps) {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-8 space-y-10">
@@ -44,6 +46,12 @@ export function EntityDetailPage({
         <p className="text-muted-foreground max-w-3xl">{entity.summary}</p>
         <ShareButtons title={entity.title} />
       </header>
+
+      {calculator ? (
+        <section className="space-y-4 pt-2">
+          {calculator}
+        </section>
+      ) : null}
 
       {entity.facts?.length ? (
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
