@@ -4,6 +4,8 @@ import { EntityIndexPage } from "@/components/seo/EntityLanding";
 import { ENTITY_FAMILIES } from "@/config/seo-entities";
 import { seoHead } from "@/lib/seo/engine";
 
+import { MasterYogaScannerView } from "@/components/tools/yogas/MasterYogaScannerView";
+
 const FAMILY = ENTITY_FAMILIES.yoga;
 
 export const Route = createFileRoute("/yoga/")({
@@ -27,6 +29,7 @@ function Page() {
       familyBase={FAMILY.base}
       intro={FAMILY.intro}
       items={FAMILY.items}
+      customWidget={<MasterYogaScannerView />}
     />
   );
 }

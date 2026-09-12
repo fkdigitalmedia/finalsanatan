@@ -146,9 +146,10 @@ interface IndexProps {
   familyBase: string;
   intro: string;
   items: SeoEntity[];
+  customWidget?: React.ReactNode;
 }
 
-export function EntityIndexPage({ familyLabel, familyBase, intro, items }: IndexProps) {
+export function EntityIndexPage({ familyLabel, familyBase, intro, items, customWidget }: IndexProps) {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-8 space-y-8">
       <Breadcrumbs items={[{ label: familyLabel }]} />
@@ -156,6 +157,9 @@ export function EntityIndexPage({ familyLabel, familyBase, intro, items }: Index
         <h1 className="font-display text-3xl sm:text-4xl">{familyLabel}</h1>
         <p className="text-muted-foreground max-w-3xl">{intro}</p>
       </header>
+
+      {customWidget ? <div className="pt-2">{customWidget}</div> : null}
+
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((e) => (
           <li key={e.slug}>
