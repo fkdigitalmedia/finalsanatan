@@ -66,6 +66,26 @@ export const listBlogPosts = createServerFn({ method: "GET" })
 
       const { data: rows, count } = await query;
       const dbPosts = (rows ?? []) as BlogPostSummary[];
+      const seedMap = new Map(SEED_BLOG_POSTS.map((s) => [s.slug, s]));
+
+      // Merge dbPosts with seeds: if seed has richer metadata, use it
+      const enhancedDbPosts = dbPosts.map((p) => {
+        const seed = seedMap.get(p.slug);
+        if (seed) {
+          return {
+            slug: p.slug,
+            title: seed.title || p.title,
+            excerpt: seed.excerpt || p.excerpt,
+            category: seed.category || p.category,
+            tags: seed.tags.length > 0 ? seed.tags : p.tags,
+            featured_image: seed.featured_image || p.featured_image,
+            published_at: seed.published_at || p.published_at,
+            lang: seed.lang || p.lang,
+          };
+        }
+        return p;
+      });
+
       const dbSlugs = new Set(dbPosts.map((p) => p.slug));
 
       const matchingSeeds = SEED_BLOG_POSTS.filter((seed) => {
@@ -90,7 +110,7 @@ export const listBlogPosts = createServerFn({ method: "GET" })
         lang: s.lang,
       }));
 
-      const combined = [...dbPosts, ...matchingSeeds];
+      const combined = [...enhancedDbPosts, ...matchingSeeds];
       return {
         posts: combined.slice(0, pageSize),
         total: (count ?? 0) + matchingSeeds.length,
@@ -142,8 +162,23 @@ export const getBlogPost = createServerFn({ method: "GET" })
           .order("published_at", { ascending: false })
           .limit(3);
 
+        // If seed exists and has more comprehensive content than thin DB row, use seed content
+        const postData =
+          seed && seed.content_md.length > ((row.content_md as string)?.length || 0)
+            ? {
+                ...row,
+                title: seed.title || row.title,
+                excerpt: seed.excerpt || row.excerpt,
+                category: seed.category || row.category,
+                tags: seed.tags.length > 0 ? seed.tags : row.tags,
+                featured_image: seed.featured_image || row.featured_image,
+                content_md: seed.content_md,
+                seo: seed.seo || row.seo,
+              }
+            : row;
+
         return {
-          post: row as unknown as BlogPost,
+          post: postData as unknown as BlogPost,
           related: (related ?? []) as BlogPostSummary[],
         };
       }
@@ -275,18 +310,17 @@ export const listBlogSitemapRows = createServerFn({ method: "GET" }).handler(asy
   }
 
   for (const seed of SEED_BLOG_POSTS) {
-    if (!rowsMap.has(seed.slug)) {
-      rowsMap.set(seed.slug, {
-        slug: seed.slug,
-        title: seed.title,
-        excerpt: seed.excerpt,
-        featured_image: seed.featured_image,
-        updated_at: seed.updated_at,
-        published_at: seed.published_at,
-        category: seed.category,
-        tags: seed.tags,
-      });
-    }
+    const existing = rowsMap.get(seed.slug);
+    rowsMap.set(seed.slug, {
+      slug: seed.slug,
+      title: seed.title || existing?.title || "",
+      excerpt: seed.excerpt || existing?.excerpt || null,
+      featured_image: seed.featured_image || existing?.featured_image || null,
+      updated_at: seed.updated_at || existing?.updated_at || new Date().toISOString(),
+      published_at: seed.published_at || existing?.published_at || null,
+      category: seed.category || existing?.category || null,
+      tags: seed.tags.length > 0 ? seed.tags : (existing?.tags ?? null),
+    });
   }
 
   return [...rowsMap.values()];
