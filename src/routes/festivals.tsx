@@ -15,6 +15,7 @@ import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { NewsletterCTA } from "@/components/tools/NewsletterCTA";
 import { getFestivalsHub } from "@/lib/festivals-public.functions";
+import { toolsByCategory } from "@/config/tools";
 import { SITE_URL } from "@/lib/seo/constants";
 
 const BASE_URL = SITE_URL;

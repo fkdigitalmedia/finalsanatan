@@ -272,52 +272,101 @@ export const listPublicFestivals = createServerFn({ method: "GET" })
 
 // -------- Festivals Hub (grouped view) --------
 export const getFestivalsHub = createServerFn({ method: "GET" }).handler(async () => {
-  const supa = publicClient();
-  const today = new Date().toISOString().slice(0, 10);
   const thisYear = new Date().getUTCFullYear();
   const nextYear = thisYear + 1;
+  const today = new Date().toISOString().slice(0, 10);
 
-  const [{ data: festivals }, { data: cache }] = await Promise.all([
-    supa
-      .from("admin_festivals")
-      .select(
-        "id, slug, name, short_description, featured_image, category, deities, tags, is_featured, is_trending, is_popular",
-      )
-      .eq("status", "published")
-      .order("name", { ascending: true })
-      .limit(500),
-    supa
-      .from("festival_date_cache")
-      .select("festival_id, year, occurrences")
-      .in("year", [thisYear, nextYear]),
-  ]);
+  try {
+    const supa = publicClient();
+    const [{ data: festivals }, { data: cache }] = await Promise.all([
+      supa
+        .from("admin_festivals")
+        .select(
+          "id, slug, name, short_description, featured_image, category, deities, tags, is_featured, is_trending, is_popular",
+        )
+        .eq("status", "published")
+        .order("name", { ascending: true })
+        .limit(500),
+      supa
+        .from("festival_date_cache")
+        .select("festival_id, year, occurrences")
+        .in("year", [thisYear, nextYear]),
+    ]);
 
-  // Build: nextDate per festival, categories, deities aggregates
-  const nextDate: Record<string, string> = {};
-  for (const c of cache ?? []) {
-    const dates: any[] = Array.isArray((c.occurrences as any)?.dates)
-      ? (c.occurrences as any).dates
-      : [];
-    for (const d of dates) {
-      if (d.isoDate && d.isoDate >= today) {
-        const prev = nextDate[c.festival_id];
-        if (!prev || d.isoDate < prev) nextDate[c.festival_id] = d.isoDate;
+    if (festivals && festivals.length > 0) {
+      // Build: nextDate per festival, categories, deities aggregates
+      const nextDate: Record<string, string> = {};
+      for (const c of cache ?? []) {
+        const dates: any[] = Array.isArray((c.occurrences as any)?.dates)
+          ? (c.occurrences as any).dates
+          : [];
+        for (const d of dates) {
+          if (d.isoDate && d.isoDate >= today) {
+            const prev = nextDate[c.festival_id];
+            if (!prev || d.isoDate < prev) nextDate[c.festival_id] = d.isoDate;
+          }
+        }
       }
+
+      const rows = (festivals ?? []).map((f: any) => ({ ...f, nextDate: nextDate[f.id] ?? null }));
+      const upcoming = rows
+        .filter((r) => r.nextDate)
+        .sort((a, b) => (a.nextDate! > b.nextDate! ? 1 : -1));
+
+      const in90 = (() => {
+        const cut = new Date();
+        cut.setUTCDate(cut.getUTCDate() + 90);
+        const cutISO = cut.toISOString().slice(0, 10);
+        return upcoming.filter((r) => r.nextDate! <= cutISO);
+      })();
+
+      const categories: Record<string, number> = {};
+      const deities: Record<string, number> = {};
+      for (const r of rows) {
+        if (r.category) categories[r.category] = (categories[r.category] ?? 0) + 1;
+        for (const d of r.deities ?? []) deities[d] = (deities[d] ?? 0) + 1;
+      }
+
+      const featured = rows.filter((r: any) => r.is_featured).slice(0, 6);
+      const trending = rows.filter((r: any) => r.is_trending).slice(0, 6);
+
+      return {
+        upcoming: (in90.length ? in90 : upcoming).slice(0, 24),
+        featured: featured.length ? featured : rows.slice(0, 6),
+        trending: trending.length ? trending : rows.slice(6, 12),
+        all: rows,
+        categories: Object.entries(categories)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count),
+        deities: Object.entries(deities)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 30),
+        thisYear,
+      };
     }
+  } catch (err) {
+    console.warn("[getFestivalsHub] Supabase fetch failed, using fallback dataset:", err);
   }
 
-  const rows = (festivals ?? []).map((f: any) => ({ ...f, nextDate: nextDate[f.id] ?? null }));
-  const upcoming = rows
-    .filter((r) => r.nextDate)
-    .sort((a, b) => (a.nextDate! > b.nextDate! ? 1 : -1));
+  // Fallback to static FESTIVALS_2026
+  const { FESTIVALS_2026 } = await import("@/lib/festivals-data");
+  const rows = FESTIVALS_2026.map((f) => ({
+    id: f.slug,
+    slug: f.slug,
+    name: f.name,
+    short_description: f.description,
+    featured_image: null,
+    category: f.category,
+    deities: f.deity ? [f.deity] : [],
+    tags: [f.category, f.region],
+    is_featured: f.category === "Major",
+    is_trending: true,
+    is_popular: true,
+    nextDate: f.date,
+  }));
 
-  const in90 = (() => {
-    const cut = new Date();
-    cut.setUTCDate(cut.getUTCDate() + 90);
-    const cutISO = cut.toISOString().slice(0, 10);
-    return upcoming.filter((r) => r.nextDate! <= cutISO);
-  })();
-
+  const upcoming = rows.sort((a, b) => (a.nextDate > b.nextDate ? 1 : -1));
   const categories: Record<string, number> = {};
   const deities: Record<string, number> = {};
   for (const r of rows) {
@@ -325,13 +374,10 @@ export const getFestivalsHub = createServerFn({ method: "GET" }).handler(async (
     for (const d of r.deities ?? []) deities[d] = (deities[d] ?? 0) + 1;
   }
 
-  const featured = rows.filter((r: any) => r.is_featured).slice(0, 6);
-  const trending = rows.filter((r: any) => r.is_trending).slice(0, 6);
-
   return {
-    upcoming: in90.slice(0, 24),
-    featured,
-    trending,
+    upcoming: upcoming.slice(0, 24),
+    featured: rows.filter((r) => r.is_featured).slice(0, 6),
+    trending: rows.slice(6, 12),
     all: rows,
     categories: Object.entries(categories)
       .map(([name, count]) => ({ name, count }))
