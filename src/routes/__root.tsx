@@ -131,8 +131,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "SanatanTools",
-          url: "/",
-          logo: "/favicon.svg",
+          url: "https://www.sanatantools.com",
+          logo: "https://www.sanatantools.com/favicon.svg",
           description:
             "The world's largest collection of Sanatan Dharma tools — Panchang, mantras, festivals, temples, Sanskrit learning and AI utilities.",
           sameAs: ["https://twitter.com/sanatantools"],

@@ -68,7 +68,7 @@ import type { KundliSection } from "@/lib/kundli/interpret.functions";
 import { KundliPaywallDialog } from "@/components/kundli/KundliPaywallDialog";
 import { KundliGeneratingDialog } from "@/components/kundli/KundliGeneratingDialog";
 
-const PAGE_URL = "/kundli";
+const PAGE_URL = "https://www.sanatantools.com/kundli";
 
 // ------------------------------------------------------------
 // SEO — head + JSON-LD (Software, FAQ, HowTo, Breadcrumb, WebPage)
@@ -177,7 +177,7 @@ function schemaJsonLd(): unknown {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.sanatantools.com/" },
       { "@type": "ListItem", position: 2, name: "Free Janam Kundli", item: PAGE_URL },
     ],
   };

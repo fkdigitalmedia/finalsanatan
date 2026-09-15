@@ -59,7 +59,7 @@ export const Route = createFileRoute("/tools/")({
           name: "SanatanTools — All Tools",
           description:
             "Complete directory of Sanatan Dharma tools across Panchang, mantras, festivals, temples, calculators, Sanskrit, baby names and AI.",
-          url: "/tools",
+          url: `${SITE_URL}/tools`,
         }),
       },
     ],

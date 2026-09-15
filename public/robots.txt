@@ -1,11 +1,64 @@
+# robots.txt for SanatanTools (https://www.sanatantools.com)
 User-agent: *
 Allow: /
+Disallow: /auth/
 Disallow: /auth
+Disallow: /reset-password/
+Disallow: /reset-password
+Disallow: /dashboard/
 Disallow: /dashboard
+Disallow: /admin/
 Disallow: /admin
+Disallow: /api/
 Disallow: /api
+Disallow: /profile/
 Disallow: /profile
+Disallow: /settings/
 Disallow: /settings
+Disallow: /billing/
 Disallow: /billing
+Disallow: /bookmarks/
+Disallow: /bookmarks
+Disallow: /favorites/
+Disallow: /favorites
+Disallow: /history/
+Disallow: /history
+Disallow: /notifications/
+Disallow: /notifications
+Disallow: /saved-mantras/
+Disallow: /saved-mantras
+Disallow: /my-kundlis/
+Disallow: /my-kundlis
+Disallow: /family/
+Disallow: /family
+Disallow: /downloads/
+Disallow: /downloads
+Disallow: /horoscope-history/
+Disallow: /horoscope-history
+Disallow: /reports/shared/
+Disallow: /*?*utm_
+Disallow: /*?*fbclid
+Disallow: /*?*gclid
+Disallow: /*?*ref=
 
-Sitemap: https://sanatantools.com/sitemap.xml
+# AI & Search crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Block abusive scrapers
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+Sitemap: https://www.sanatantools.com/sitemap.xml

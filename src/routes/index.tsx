@@ -35,6 +35,7 @@ import { CATEGORIES } from "@/config/categories";
 import { useTranslation } from "@/i18n/I18nProvider";
 import { useCategoryLabel } from "@/i18n/useCategoryLabel";
 import { LocalizedHead } from "@/components/i18n/LocalizedHead";
+import { seoHead } from "@/lib/seo/engine";
 
 // Static English defaults used for SSR head() — client-side LocalizedHead
 // takes over the moment the language dictionary loads.
@@ -66,51 +67,14 @@ const EN_FAQ = [
 ];
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: EN_HOME_TITLE },
-      { name: "description", content: EN_HOME_DESC },
-      {
-        property: "og:title",
-        content: "SanatanTools — The largest Sanatan Dharma utility platform",
-      },
-      {
-        property: "og:description",
-        content:
-          "Panchang, mantras, festivals, temples, calculators, Sanskrit, baby names, AI and more — 100+ tools in one place.",
-      },
-      { property: "og:url", content: "/" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "SanatanTools",
-          url: "/",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "/tools?q={search_term_string}",
-            "query-input": "required name=search_term_string",
-          },
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: EN_FAQ.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }),
-      },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      type: "homepage",
+      path: "/",
+      title: EN_HOME_TITLE,
+      description: EN_HOME_DESC,
+      faqs: EN_FAQ.map((f) => ({ question: f.q, answer: f.a })),
+    }),
   component: HomePage,
 });
 

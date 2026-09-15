@@ -9,26 +9,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
 import { listPublicTemples, type PublicTemple } from "@/lib/temples-public.functions";
+import { seoHead } from "@/lib/seo/engine";
 
 export const Route = createFileRoute("/temples")({
-  head: () => ({
-    meta: [
-      { title: "Famous Hindu Temples of India — SanatanTools" },
-      {
-        name: "description",
-        content:
-          "Browse a curated directory of famous Hindu temples across India — Jyotirlingas, Shakti Peethas, Divya Desams and more. Get address, coordinates, and directions.",
-      },
-      { property: "og:title", content: "Famous Hindu Temples of India" },
-      {
-        property: "og:description",
-        content: "Curated directory of famous Hindu temples across India with directions.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/temples" }],
-  }),
+  head: () =>
+    seoHead({
+      type: "category",
+      path: "/temples",
+      slug: "temples",
+      title: "Famous Hindu Temples of India — SanatanTools",
+      description:
+        "Browse a curated directory of famous Hindu temples across India — Jyotirlingas, Shakti Peethas, Divya Desams and more. Get address, coordinates, and directions.",
+      category: "temples",
+    }),
   component: TemplesPage,
   errorComponent: ({ error }) => (
     <SiteLayout>

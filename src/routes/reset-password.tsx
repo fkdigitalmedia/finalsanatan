@@ -10,12 +10,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
   head: () => ({
-    meta: [{ title: "Reset password — SanatanTools" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Reset password — SanatanTools" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: ResetPwPage,
 });
 
-export default function ResetPwPage() {
+function ResetPwPage() {
   const [ready, setReady] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

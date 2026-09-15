@@ -23,7 +23,7 @@ export const Route = createFileRoute("/auth")({
         content:
           "Sign in to save mantras, tools, favorites and track your daily practice on SanatanTools.",
       },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AuthPage,

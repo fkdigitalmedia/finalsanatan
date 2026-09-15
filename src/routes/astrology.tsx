@@ -25,40 +25,19 @@ import { SectionHeading } from "@/components/ui-kit/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { NewsletterCTA } from "@/components/tools/NewsletterCTA";
 import { useTranslation } from "@/i18n/I18nProvider";
+import { seoHead } from "@/lib/seo/engine";
 
 export const Route = createFileRoute("/astrology")({
-  head: () => ({
-    meta: [
-      { title: "Vedic Astrology & Kundli Tools — All in One Place" },
-      {
-        name: "description",
-        content:
-          "Complete Vedic astrology suite — Free Kundli, Kundli Matching, Rashi & Nakshatra Finder, Dasha, Muhurat, Numerology, Vastu, Baby Names, Career, Varshphal and more.",
-      },
-      { property: "og:title", content: "Kundli & Jyotish Tools — SanatanTools" },
-      {
-        property: "og:description",
-        content:
-          "All Vedic astrology tools — Kundli, Matching, Dasha, Muhurat, Numerology, Vastu, Career and Varshphal in one place.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/astrology" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/astrology" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          name: "Vedic Astrology & Kundli Tools",
-          description: "Complete suite of Vedic astrology tools on SanatanTools.",
-          url: "/astrology",
-        }),
-      },
-    ],
-  }),
+  head: () =>
+    seoHead({
+      type: "category",
+      path: "/astrology",
+      slug: "astrology",
+      title: "Vedic Astrology & Kundli Tools — All in One Place",
+      description:
+        "Complete Vedic astrology suite — Free Kundli, Kundli Matching, Rashi & Nakshatra Finder, Dasha, Muhurat, Numerology, Vastu, Baby Names, Career, Varshphal and more.",
+      category: "astrology",
+    }),
   component: AstrologyHub,
 });
 

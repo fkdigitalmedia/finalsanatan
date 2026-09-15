@@ -2,18 +2,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CategoryPage } from "@/components/templates/CategoryPage";
 import { getCategory } from "@/config/categories";
 
+import { seoHead } from "@/lib/seo/engine";
+
 const cat = getCategory("panchang")!;
 
 export const Route = createFileRoute("/panchang")({
-  head: () => ({
-    meta: [
-      { title: `${cat.title} — SanatanTools` },
-      { name: "description", content: cat.description },
-      { property: "og:title", content: `${cat.title} — SanatanTools` },
-      { property: "og:description", content: cat.description },
-      { property: "og:url", content: "/panchang" },
-    ],
-    links: [{ rel: "canonical", href: "/panchang" }],
-  }),
+  head: () =>
+    seoHead({
+      type: "category",
+      path: "/panchang",
+      slug: "panchang",
+      title: `${cat.title} — SanatanTools`,
+      description: cat.description,
+      category: "panchang",
+    }),
   component: () => <CategoryPage category={cat} />,
 });

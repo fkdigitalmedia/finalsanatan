@@ -22,6 +22,7 @@ import { useCategoryLabel } from "@/i18n/useCategoryLabel";
 import { useLocalizedTool, useLocalizedFaqs } from "@/i18n/useToolI18n";
 import { LocalizedHeadRaw } from "@/components/i18n/LocalizedHead";
 import { tStandalone } from "@/i18n/standalone";
+import { seoHead } from "@/lib/seo/engine";
 
 export const Route = createFileRoute("/tools/$slug")({
   beforeLoad: ({ params }) => {
@@ -40,58 +41,22 @@ export const Route = createFileRoute("/tools/$slug")({
   head: ({ params, loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Tool not found — SanatanTools" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Tool not found — SanatanTools" }, { name: "robots", content: "noindex, nofollow" }],
       };
     }
     const { tool } = loaderData;
     const cat = categoryFor(tool);
     const title = `${tool.title} — ${cat?.title ?? "SanatanTools"}`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: tool.description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: tool.description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: `/tools/${params.slug}` },
-      ],
-      links: [{ rel: "canonical", href: `/tools/${params.slug}` }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: tool.title,
-            description: tool.description,
-            applicationCategory: cat?.title ?? "Utility",
-            operatingSystem: "Web",
-            url: `/tools/${params.slug}`,
-            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          }),
-        },
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Tools", item: "/tools" },
-              ...(cat
-                ? [{ "@type": "ListItem", position: 3, name: cat.title, item: `/${cat.slug}` }]
-                : []),
-              {
-                "@type": "ListItem",
-                position: cat ? 4 : 3,
-                name: tool.title,
-                item: `/tools/${params.slug}`,
-              },
-            ],
-          }),
-        },
-      ],
-    };
+    return seoHead({
+      type: "tool",
+      path: `/tools/${params.slug}`,
+      slug: params.slug,
+      title,
+      description: tool.description,
+      category: cat?.slug,
+      tags: tool.tags,
+      publishedAt: tool.addedAt,
+    });
   },
   notFoundComponent: ToolNotFound,
   pendingComponent: ToolPending,
@@ -160,9 +125,9 @@ function ToolDetail() {
       description,
       applicationCategory: catTitle || "Utility",
       operatingSystem: "Web",
-      url: `/tools/${tool.slug}`,
+      url: `https://www.sanatantools.com/tools/${tool.slug}`,
       inLanguage: lang,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
     },
     {
       "@type": "FAQPage",
