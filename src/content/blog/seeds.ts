@@ -332,4 +332,299 @@ Deepen your astronomical and astrological understanding with our dedicated suite
 * 📅 **[Daily Vedic Panchang](https://www.sanatantools.com/panchang)**: Access accurate Tithi, Nakshatra, Yoga, Karana, and auspicious timings (*Muhurta*).
 `,
   },
+  {
+    slug: "kundli-matching-36-guna-milan-guide",
+    title: "Kundli Matching: Complete Guide to 36 Guna Milan & Vedic Horoscope Compatibility",
+    excerpt:
+      "Learn what Kundli Matching (Kundli Milan) is, how the 36 Guna Ashta Koota system works, scoring rules, Mangal Dosha cancellations, and real marriage compatibility.",
+    category: "ASTROLOGY",
+    tags: ["Kundli Matching", "Gun Milan", "36 Gunas", "Marriage Compatibility", "Mangal Dosha", "Vedic Astrology"],
+    featured_image: "/blog/kundli-guide.jpg",
+    published_at: "2026-02-01T00:00:00.000Z",
+    updated_at: "2026-09-15T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Kundli Matching (Kundli Milan): Complete Guide to 36 Guna Milan for Marriage",
+      meta_description:
+        "Learn what Kundli Matching is, how the 36 Guna Ashta Koota system works, scoring rules, Mangal Dosha cancellations, and real marriage compatibility.",
+      canonical: "https://www.sanatantools.com/blog/kundli-matching-36-guna-milan-guide",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Kundli Matching** (also known as *Kundli Milan* or *Patrika Milan*) is the Vedic astrological method of assessing long-term marital harmony between two prospective partners. Rooted in the **Ashta Koota system**, it analyzes **8 distinct dimensions of compatibility** worth a total of **36 Gunas (points)** based on the birth Moon's constellation (*Nakshatra*) and sign (*Rashi*). A minimum of **18 Gunas** is traditionally required for an acceptable match, while comprehensive analysis also checks Mars placement (*Mangal Dosha*), the 7th house, and divisional charts (*Navamsha*).
+
+---
+
+## Why Kundli Matching Matters: Beyond Mere Superstition
+
+In traditional Vedic culture, marriage (*Vivaha*) is regarded not merely as a social contract between two individuals, but as a lifelong spiritual and karmic union (*Samskara*) linking two family lineages.
+
+\`\`\`
+       [Partner 1 Birth Chart]                 [Partner 2 Birth Chart]
+       (Moon, Nakshatra, Lagna)                (Moon, Nakshatra, Lagna)
+                  │                                       │
+                  └───────────────────┬───────────────────┘
+                                      ▼
+                         [ASHTA KOOTA MILAN (36 GUNAS)]
+                         ├─ 1. Varna (1 pt)  - Ego & Work
+                         ├─ 2. Vashya (2 pt) - Attraction & Dominance
+                         ├─ 3. Tara (3 pt)   - Destiny & Longevity
+                         ├─ 4. Yoni (4 pt)   - Biological Intimacy
+                         ├─ 5. Maitri (5 pt) - Mental Harmony
+                         ├─ 6. Gana (6 pt)   - Temperament
+                         ├─ 7. Bhakoot (7 pt)- Emotional Resonance
+                         └─ 8. Nadi (8 pt)   - Genetic & Health Balance
+                                      │
+                                      ▼
+                          [TOTAL COMPATIBILITY SCORE]
+\`\`\`
+
+Kundli matching evaluates biological, psychological, emotional, and spiritual dynamics before commitments are finalized. It helps couples identify natural areas of effortless alignment as well as friction points that require mutual patience and maturity.
+
+> 💍 **Calculate Instantly**: Check your 36 Guna score and detailed Koota breakdown with our [Free Kundli Matching Tool](https://www.sanatantools.com/tools/kundli-matching).
+
+---
+
+## The Ashta Koota Framework: The 8 Pillars of 36 Guna Milan
+
+The word *Ashta* means eight, and *Koota* means categories or dimensions. The system allocates 36 total points across 8 distinct physiological and behavioral parameters:
+
+\`\`\`
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │                 ASHTA KOOTA WEIGHTAGE DISTRIBUTION                     │
+  │                                                                        │
+  │  Nadi (8 pts)        ████████████████ (22.2%)                          │
+  │  Bhakoot (7 pts)     ██████████████ (19.4%)                            │
+  │  Gana (6 pts)        ████████████ (16.7%)                              │
+  │  Graha Maitri (5 pts)██████████ (13.9%)                                │
+  │  Yoni (4 pts)        ████████ (11.1%)                                  │
+  │  Tara (3 pts)        ██████ (8.3%)                                     │
+  │  Vashya (2 pts)      ████ (5.6%)                                       │
+  │  Varna (1 pt)        ██ (2.8%)                                         │
+  └────────────────────────────────────────────────────────────────────────┘
+\`\`\`
+
+---
+
+### 1. Varna Koota (1 Point) — Ego & Spiritual Compatibility
+* **What It Measures**: Spiritual hierarchy, work tendencies, and subconscious ego alignment.
+* **The 4 Varnas**: Brahmin (Water signs), Kshatriya (Fire signs), Vaishya (Earth signs), and Shudra (Air signs).
+* **Scoring Rule**: Traditionally, when the groom's Varna is equal to or higher than the bride's, 1 full point is awarded; otherwise, 0 points.
+
+---
+
+### 2. Vashya Koota (2 Points) — Mutual Attraction & Power Dynamics
+* **What It Measures**: Magnetic attraction, balance of influence, and mutual respect within the relationship.
+* **The 5 Classifications**:
+  1. *Chatushpada* (Quadruped / 4-legged animals: Aries, Taurus, 2nd half of Sagittarius, 1st half of Capricorn)
+  2. *Dwipada / Manava* (Human: Gemini, Virgo, Libra, 1st half of Sagittarius, Aquarius)
+  3. *Jalachara* (Water-dwellers: Cancer, Pisces, 2nd half of Capricorn)
+  4. *Vanachara* (Wild predators: Leo)
+  5. *Keeta* (Insects: Scorpio)
+* **Scoring Rule**: Compatible pairs receive 2 points; neutral pairs receive 1 point; hostile pairs receive 0 points.
+
+---
+
+### 3. Tara Koota (3 Points) — Destiny, Health & Lunar Well-being
+* **What It Measures**: Karmic destiny, mutual health vibrations, and psychological well-being.
+* **Calculation**: Calculated by counting the distance from the bride's Janma Nakshatra to the groom's (and vice-versa), then dividing by 9.
+* **The 9 Taras**: Janma (Danger), Sampat (Wealth), Vipat (Obstacles), Kshem (Well-being), Pratyak (Opposition), Sadhana (Success), Naidhana (Destruction), Mitra (Friend), Parama Mitra (Best Friend).
+* **Scoring Rule**: If both counts fall into auspicious Taras, 3 full points are scored.
+
+---
+
+### 4. Yoni Koota (4 Points) — Physical & Biological Intimacy
+* **What It Measures**: Sexual compatibility, instinctual nature, biological attraction, and animal archetypes assigned to each of the 27 Nakshatras.
+* **The 14 Yoni Archetypes**:
+  * Horse (*Ashwa*), Elephant (*Gaja*), Sheep (*Mesha*), Serpent (*Sarpa*), Dog (*Shwan*), Cat (*Marjara*), Rat (*Mushaka*), Cow (*Gau*), Buffalo (*Mahisha*), Tiger (*Vyaghra*), Deer (*Mriga*), Monkey (*Vanara*), Mongoose (*Nakula*), Lion (*Simha*).
+
+\`\`\`
+   ┌──────────────────────────────────────────────────────────────┐
+   │                   NATURAL YONI ENMITIES                      │
+   │                                                              │
+   │   Horse ◄──► Buffalo             Cat ◄──► Rat                │
+   │   Elephant ◄──► Lion             Dog ◄──► Deer               │
+   │   Cow ◄──► Tiger                 Monkey ◄──► Sheep           │
+   │   Serpent ◄──► Mongoose (Sworn Enmity - 0 Points)            │
+   └──────────────────────────────────────────────────────────────┘
+\`\`\`
+
+* **Scoring Rule**: Same Yoni yields 4 points; friendly yields 3; neutral yields 2; non-hostile yields 1; sworn enemy pairs yield 0 points.
+
+---
+
+### 5. Graha Maitri Koota (5 Points) — Mental & Intellectual Harmony
+* **What It Measures**: Psychological friendship, intellectual understanding, communication style, and worldview based on the planetary lords of the Moon signs (*Rashi Lords*).
+* **Planetary Relationships**:
+  * **Natural Friends**: Sun, Moon, Mars, Jupiter.
+  * **Natural Friends**: Mercury, Venus, Saturn.
+* **Scoring Rule**:
+  * Both lords mutual friends: **5 Points**
+  * One friend, one neutral: **4 Points**
+  * Both neutral: **3 Points**
+  * One friend, one enemy: **1 Point**
+  * Both mutual enemies: **0 Points**
+
+---
+
+### 6. Gana Koota (6 Points) — Temperament & Behavioral Rhythm
+* **What It Measures**: Fundamental personality archetypes and behavioral dispositions.
+* **The 3 Ganas**:
+  1. **Deva Gana (Divine)**: Gentle, patient, ethical, calm, philosophical.
+  2. **Manushya Gana (Human)**: Ambitious, practical, emotional, hardworking.
+  3. **Rakshasa Gana (Dominant/Dynamic)**: Strong-willed, highly intuitive, protective, assertive, independent.
+* **Scoring Rule**:
+  * Same Gana: **6 Points**
+  * Deva + Manushya: **5–6 Points**
+  * Deva + Rakshasa: **1 Point** (needs careful temperamental balance)
+  * Manushya + Rakshasa: **0 Points** (*Gana Dosha*)
+
+---
+
+### 7. Bhakoot Koota (7 Points) — Emotional Resonance & Family Welfare
+* **What It Measures**: Long-term emotional bond, financial prosperity, family happiness, and life longevity.
+* **Calculation**: Analyzes the relative house placement of both Moon signs ($1/1, 1/7, 2/12, 3/11, 4/10, 5/9, 6/8$).
+* **Bhakoot Dosha Combinations**:
+  * **Shadashtaka ($6/8$ axis)**: Traditionally associated with disputes or health stressors.
+  * **Dwirdwadasha ($2/12$ axis)**: Associated with financial imbalances or divergent priorities.
+  * **Navapanchama ($5/9$ axis)**: Generally auspicious for philosophical alignment, though classical texts examine child-birth factors.
+* **Cancellations (*Bhakoot Dosha Parihara*)**: If both Moon signs share the same planetary ruler (e.g., Aries and Scorpio ruled by Mars) or are mutual friends, the Dosha is largely neutralized.
+
+---
+
+### 8. Nadi Koota (8 Points) — Genetic, Physiological & Progeny Balance
+* **What It Measures**: Biological energy, hereditary health, nervous system constitution (Ayurvedic Tridoshas), and genetic compatibility for healthy offspring.
+* **The 3 Nadis**:
+  1. **Aadi Nadi (Vata / Wind)**: Governing movement and nervous impulses.
+  2. **Madhya Nadi (Pitta / Fire)**: Governing metabolic digestion and vitality.
+  3. **Antya Nadi (Kapha / Water & Earth)**: Governing physical structure and fluids.
+
+\`\`\`
+                  BRIDE NADI vs. GROOM NADI
+   ┌───────────────┬───────────────┬───────────────┐
+   │   Aadi Nadi   │  Madhya Nadi  │  Antya Nadi   │
+   ├───────────────┼───────────────┼───────────────┤
+   │ Same = 0 pts  │ Diff = 8 pts  │ Diff = 8 pts  │
+   │ (Nadi Dosha)  │ (Full Points) │ (Full Points) │
+   └───────────────┴───────────────┴───────────────┘
+\`\`\`
+
+* **Scoring Rule**: If bride and groom belong to **different Nadis**, the full **8 points** are awarded. If they share the **same Nadi**, 0 points are given, forming **Nadi Dosha**.
+* **Nadi Dosha Exceptions**: Nadi Dosha is cancelled if both partners share the same Nakshatra but have different Charans (quarters), or share the same Rashi with different Nakshatras.
+
+---
+
+## 36 Guna Milan Score Interpretation Matrix
+
+| Total Guna Score | Classical Category | Practical Interpretation & Guidance |
+| :--- | :--- | :--- |
+| **0 to 17 Points** | *Asamarth* (Inauspicious) | Significant divergence in temperaments, communication, or physiological energy. Detailed manual chart analysis by an experienced astrologer is strongly recommended before proceeding. |
+| **18 to 24 Points** | *Madhyam* (Acceptable / Average) | Solid foundational compatibility. The couple can enjoy a stable, fulfilling marriage with mutual understanding, patience, and realistic expectations. |
+| **25 to 32 Points** | *Uttam* (Very Good / Auspicious) | Strong emotional, mental, and physical resonance. High degree of natural alignment in goals, family life, and lifestyle habits. |
+| **33 to 36 Points** | *Sarvottam* (Exceptional / Rare) | Extraordinary cosmic synergy. Rare match where mind, values, and biological energies complement each other effortlessly. |
+
+---
+
+## Beyond 36 Gunas: 5 Critical Factors That Astrologers Must Check
+
+Many people make the mistake of assuming that a high 36 Guna score alone guarantees marital success. In classical Jyotisha, Guna Milan accounts for **only about 50% of the total compatibility evaluation**. An authentic assessment must examine five additional chart components:
+
+\`\`\`
+                          COMPREHENSIVE HOROSCOPE MATCHING
+         ┌───────────────────────────────┴───────────────────────────────┐
+         ▼                                                               ▼
+   36 Guna Milan                                            Comprehensive Natal Chart Audit
+   (Ashta Koota - 50%)                                      (Planetary Positions - 50%)
+                                                            ├─ 1. Mangal Dosha (Mars)
+                                                            ├─ 2. 7th House & 7th Lord (D1)
+                                                            ├─ 3. Navamsha Chart (D9)
+                                                            ├─ 4. Venus & Jupiter Dignity
+                                                            └─ 5. Vimshottari Dasha Overlap
+\`\`\`
+
+### 1. Mangal Dosha (Kuja Dosha) Analysis
+Mars (*Mangal*) represents ambition, passion, and assertiveness. When placed in the 1st, 2nd, 4th, 7th, 8th, or 12th house from the Lagna, Moon, or Venus, it creates **Mangal Dosha**.
+* If both partners have Mangal Dosha in comparable intensity, the fiery energies balance each other out.
+* Numerous classical exceptions (such as Mars in Capricorn, Leo, or conjunct Jupiter) mitigate the Dosha.
+* *Check your chart placements with our [Dosha Analysis Engine](https://www.sanatantools.com/dosha).*
+
+### 2. The 7th House and 7th Lord (*Kalatra Bhava*)
+The 7th house in the birth chart (*D1*) represents marriage and long-term partnerships. Astrologers inspect:
+* Is the 7th house influenced by natural benefics (Jupiter, Venus) or under heavy malefic afflictions (Rahu, Saturn)?
+* Where is the 7th lord positioned, and is it exalted or debilitated?
+
+### 3. The Navamsha Chart (D9 Divisional Chart)
+While the D1 chart reveals the physical reality, the **D9 Navamsha chart** reveals the soul-level strength of planets after marriage. A weak planet in D1 that gains dignity in D9 (*Vargottama*) produces auspicious long-term outcomes.
+
+### 4. Natural Significators of Marriage (*Karakas*)
+* **For Men**: The placement, dignity, and aspects on **Venus (*Shukra*)** indicate the nature and health of the spouse.
+* **For Women**: The placement and dignity of **Jupiter (*Guru*)** and **Mars (*Mangal*)** indicate husband and relationship harmony.
+
+### 5. Vimshottari Dasha Synchronization
+If both partners simultaneously enter difficult planetary periods (such as a harsh Rahu Mahadasha or adverse Dasha Sandhi), marital stress may peak at the same time. Balanced dashas ensure one partner remains grounded while the other traverses demanding life transitions.
+* *Analyze your upcoming cycles with the [Vimshottari Dasha Engine](https://www.sanatantools.com/tools/dasha-calculator).*
+
+---
+
+## Step-by-Step: How to Perform Kundli Matching Online
+
+\`\`\`
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 KUNDLI MATCHING STEP-BY-STEP                │
+  │                                                             │
+  │  [Step 1] Enter Bride's exact DOB, Time & Birth City        │
+  │                             │                               │
+  │                             ▼                               │
+  │  [Step 2] Enter Groom's exact DOB, Time & Birth City        │
+  │                             │                               │
+  │                             ▼                               │
+  │  [Step 3] Calculate 8 Kootas & 36 Guna Score                │
+  │                             │                               │
+  │                             ▼                               │
+  │  [Step 4] Review Mangal Dosha & Koota-level Recommendations │
+  └─────────────────────────────────────────────────────────────┘
+\`\`\`
+
+1. Navigate to the **[SanatanTools Kundli Matching Tool](https://www.sanatantools.com/tools/kundli-matching)**.
+2. Enter the **exact birth details** (Date, Time, and City) for both partners.
+3. Review your **Ashta Koota breakdown table** showing individual scores for Varna, Vashya, Tara, Yoni, Maitri, Gana, Bhakoot, and Nadi.
+4. Check the **Mangal Dosha verification box** to confirm whether Kuja Dosha is present or neutralized.
+5. Download or print your free, comprehensive PDF compatibility report.
+
+---
+
+## Common Misconceptions About Kundli Milan
+
+1. **"A 36/36 Score Guarantees a Problem-Free Marriage"**:
+   Even with a 36/36 score, mutual communication, shared ethical values, and conscious effort are required to sustain a healthy partnership.
+2. **"Low Gunas Mean Immediate Breakup"**:
+   Scores between 14 and 17 often have strong planetary mitigations in individual charts (such as powerful 7th houses, strong Jupiter aspects, or high love compatibility).
+3. **"Nadi Dosha Always Leads to Calamity"**:
+   More than 80% of Nadi Dosha instances have classical cancellation conditions (*Nadi Dosha Nivaran*), especially when Nakshatra quarters (*Padas*) differ.
+
+---
+
+## Frequently Asked Questions (FAQs)
+
+### What is the minimum passing score in 36 Guna Milan?
+The traditional threshold for an acceptable match is **18 out of 36 Gunas**. Matches scoring 18 to 24 are considered average, while scores of 25 and above are considered highly auspicious.
+
+### Can Kundli Matching be done using names alone?
+Name-based matching (*Naam Rashi Milan*) is an approximate fallback used when exact birth times are unknown. However, because names may not correspond to the actual astronomical birth Nakshatra, **date and time-based matching (*Janma Kundli Milan*) is far more accurate and reliable**.
+
+### What happens if there is a Mangal Dosha mismatch?
+If one partner has Mangal Dosha and the other does not, classical astrologers look for cancelling factors—such as Mars placed in its own sign, aspected by Jupiter, or neutral placements in the Navamsha (D9) chart.
+
+---
+
+## Complementary Astrology Tools on SanatanTools
+
+* 💍 **[Kundli Matching & Gun Milan Tool](https://www.sanatantools.com/tools/kundli-matching)**: Complete 36 Guna and Mangal Dosha calculator.
+* 📊 **[Free Janam Kundli Generator](https://www.sanatantools.com/kundli)**: Generate full D1, D9, and divisional birth charts.
+* 🌟 **[Nakshatra Finder](https://www.sanatantools.com/tools/nakshatra-finder)**: Find your birth star, deity, and Yoni animal archetype.
+* 🌌 **[Moon Sign (Rashi) Calculator](https://www.sanatantools.com/tools/rashi-calculator)**: Find your exact Vedic Moon sign and element.
+* ⏳ **[Vimshottari Dasha Engine](https://www.sanatantools.com/tools/dasha-calculator)**: Analyze current and upcoming planetary life periods.
+* 📅 **[Daily Vedic Panchang](https://www.sanatantools.com/panchang)**: Check daily Tithi, Nakshatra, and auspicious Muhurtas.
+`,
+  },
 ];

@@ -21,6 +21,7 @@ const staticPages = [
   { path: "/pricing", priority: "0.9", changefreq: "weekly" },
   { path: "/blog", priority: "0.8", changefreq: "daily" },
   { path: "/blog/understanding-your-janam-kundli", priority: "0.8", changefreq: "monthly" },
+  { path: "/blog/kundli-matching-36-guna-milan-guide", priority: "0.8", changefreq: "monthly" },
   { path: "/faq", priority: "0.8", changefreq: "monthly" },
   { path: "/support", priority: "0.7", changefreq: "monthly" },
   { path: "/about", priority: "0.7", changefreq: "monthly" },
