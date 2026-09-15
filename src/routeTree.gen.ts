@@ -120,6 +120,7 @@ import { Route as ApiV1SplatRouteImport } from './routes/api/v1/$'
 import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
 import { Route as ApiPublicStatusRouteImport } from './routes/api/public/status'
 import { Route as ApiPublicReadyRouteImport } from './routes/api/public/ready'
+import { Route as ApiPublicPhonepeWebhookRouteImport } from './routes/api/public/phonepe-webhook'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api/public/lemonsqueezy-webhook'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as AuthenticatedAdminAdminIndexRouteImport } from './routes/_authenticated/_admin.admin.index'
@@ -133,6 +134,7 @@ import { Route as ApiPublicHooksDailyPanchangNotifyRouteImport } from './routes/
 import { Route as ApiPublicHooksAnalyticsTickRouteImport } from './routes/api/public/hooks/analytics-tick'
 import { Route as ApiPublicFestivalsCalendarDoticsRouteImport } from './routes/api/public/festivals/calendar[.]ics'
 import { Route as ApiPublicFestivalsSlugDoticsRouteImport } from './routes/api/public/festivals/$slug[.]ics'
+import { Route as ApiPaymentsPhonepeCallbackRouteImport } from './routes/api/payments/phonepe/callback'
 import { Route as AuthenticatedAdminAdminUsersRouteImport } from './routes/_authenticated/_admin.admin.users'
 import { Route as AuthenticatedAdminAdminTranslationsRouteImport } from './routes/_authenticated/_admin.admin.translations'
 import { Route as AuthenticatedAdminAdminToolsRouteImport } from './routes/_authenticated/_admin.admin.tools'
@@ -719,6 +721,11 @@ const ApiPublicReadyRoute = ApiPublicReadyRouteImport.update({
   path: '/api/public/ready',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPhonepeWebhookRoute = ApiPublicPhonepeWebhookRouteImport.update({
+  id: '/api/public/phonepe-webhook',
+  path: '/api/public/phonepe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLemonsqueezyWebhookRoute =
   ApiPublicLemonsqueezyWebhookRouteImport.update({
     id: '/api/public/lemonsqueezy-webhook',
@@ -792,6 +799,12 @@ const ApiPublicFestivalsSlugDoticsRoute =
   ApiPublicFestivalsSlugDoticsRouteImport.update({
     id: '/api/public/festivals/$slug.ics',
     path: '/api/public/festivals/$slug.ics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPaymentsPhonepeCallbackRoute =
+  ApiPaymentsPhonepeCallbackRouteImport.update({
+    id: '/api/payments/phonepe/callback',
+    path: '/api/payments/phonepe/callback',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AuthenticatedAdminAdminUsersRoute =
@@ -1060,6 +1073,7 @@ export interface FileRoutesByFullPath {
   '/yoga/': typeof YogaIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
+  '/api/public/phonepe-webhook': typeof ApiPublicPhonepeWebhookRoute
   '/api/public/ready': typeof ApiPublicReadyRoute
   '/api/public/status': typeof ApiPublicStatusRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -1095,6 +1109,7 @@ export interface FileRoutesByFullPath {
   '/admin/tools': typeof AuthenticatedAdminAdminToolsRoute
   '/admin/translations': typeof AuthenticatedAdminAdminTranslationsRoute
   '/admin/users': typeof AuthenticatedAdminAdminUsersRoute
+  '/api/payments/phonepe/callback': typeof ApiPaymentsPhonepeCallbackRoute
   '/api/public/festivals/$slug.ics': typeof ApiPublicFestivalsSlugDoticsRoute
   '/api/public/festivals/calendar.ics': typeof ApiPublicFestivalsCalendarDoticsRoute
   '/api/public/hooks/analytics-tick': typeof ApiPublicHooksAnalyticsTickRoute
@@ -1210,6 +1225,7 @@ export interface FileRoutesByTo {
   '/yoga': typeof YogaIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
+  '/api/public/phonepe-webhook': typeof ApiPublicPhonepeWebhookRoute
   '/api/public/ready': typeof ApiPublicReadyRoute
   '/api/public/status': typeof ApiPublicStatusRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -1245,6 +1261,7 @@ export interface FileRoutesByTo {
   '/admin/tools': typeof AuthenticatedAdminAdminToolsRoute
   '/admin/translations': typeof AuthenticatedAdminAdminTranslationsRoute
   '/admin/users': typeof AuthenticatedAdminAdminUsersRoute
+  '/api/payments/phonepe/callback': typeof ApiPaymentsPhonepeCallbackRoute
   '/api/public/festivals/$slug.ics': typeof ApiPublicFestivalsSlugDoticsRoute
   '/api/public/festivals/calendar.ics': typeof ApiPublicFestivalsCalendarDoticsRoute
   '/api/public/hooks/analytics-tick': typeof ApiPublicHooksAnalyticsTickRoute
@@ -1364,6 +1381,7 @@ export interface FileRoutesById {
   '/yoga/': typeof YogaIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
+  '/api/public/phonepe-webhook': typeof ApiPublicPhonepeWebhookRoute
   '/api/public/ready': typeof ApiPublicReadyRoute
   '/api/public/status': typeof ApiPublicStatusRoute
   '/api/public/track': typeof ApiPublicTrackRoute
@@ -1399,6 +1417,7 @@ export interface FileRoutesById {
   '/_authenticated/_admin/admin/tools': typeof AuthenticatedAdminAdminToolsRoute
   '/_authenticated/_admin/admin/translations': typeof AuthenticatedAdminAdminTranslationsRoute
   '/_authenticated/_admin/admin/users': typeof AuthenticatedAdminAdminUsersRoute
+  '/api/payments/phonepe/callback': typeof ApiPaymentsPhonepeCallbackRoute
   '/api/public/festivals/$slug.ics': typeof ApiPublicFestivalsSlugDoticsRoute
   '/api/public/festivals/calendar.ics': typeof ApiPublicFestivalsCalendarDoticsRoute
   '/api/public/hooks/analytics-tick': typeof ApiPublicHooksAnalyticsTickRoute
@@ -1517,6 +1536,7 @@ export interface FileRouteTypes {
     | '/yoga/'
     | '/api/public/health'
     | '/api/public/lemonsqueezy-webhook'
+    | '/api/public/phonepe-webhook'
     | '/api/public/ready'
     | '/api/public/status'
     | '/api/public/track'
@@ -1552,6 +1572,7 @@ export interface FileRouteTypes {
     | '/admin/tools'
     | '/admin/translations'
     | '/admin/users'
+    | '/api/payments/phonepe/callback'
     | '/api/public/festivals/$slug.ics'
     | '/api/public/festivals/calendar.ics'
     | '/api/public/hooks/analytics-tick'
@@ -1667,6 +1688,7 @@ export interface FileRouteTypes {
     | '/yoga'
     | '/api/public/health'
     | '/api/public/lemonsqueezy-webhook'
+    | '/api/public/phonepe-webhook'
     | '/api/public/ready'
     | '/api/public/status'
     | '/api/public/track'
@@ -1702,6 +1724,7 @@ export interface FileRouteTypes {
     | '/admin/tools'
     | '/admin/translations'
     | '/admin/users'
+    | '/api/payments/phonepe/callback'
     | '/api/public/festivals/$slug.ics'
     | '/api/public/festivals/calendar.ics'
     | '/api/public/hooks/analytics-tick'
@@ -1820,6 +1843,7 @@ export interface FileRouteTypes {
     | '/yoga/'
     | '/api/public/health'
     | '/api/public/lemonsqueezy-webhook'
+    | '/api/public/phonepe-webhook'
     | '/api/public/ready'
     | '/api/public/status'
     | '/api/public/track'
@@ -1855,6 +1879,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_admin/admin/tools'
     | '/_authenticated/_admin/admin/translations'
     | '/_authenticated/_admin/admin/users'
+    | '/api/payments/phonepe/callback'
     | '/api/public/festivals/$slug.ics'
     | '/api/public/festivals/calendar.ics'
     | '/api/public/hooks/analytics-tick'
@@ -1943,12 +1968,14 @@ export interface RootRouteChildren {
   YogaIndexRoute: typeof YogaIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
+  ApiPublicPhonepeWebhookRoute: typeof ApiPublicPhonepeWebhookRoute
   ApiPublicReadyRoute: typeof ApiPublicReadyRoute
   ApiPublicStatusRoute: typeof ApiPublicStatusRoute
   ApiPublicTrackRoute: typeof ApiPublicTrackRoute
   ApiV1SplatRoute: typeof ApiV1SplatRoute
   ReportsSharedTokenRoute: typeof ReportsSharedTokenRoute
   ApiKundliIndexRoute: typeof ApiKundliIndexRoute
+  ApiPaymentsPhonepeCallbackRoute: typeof ApiPaymentsPhonepeCallbackRoute
   ApiPublicFestivalsSlugDoticsRoute: typeof ApiPublicFestivalsSlugDoticsRoute
   ApiPublicFestivalsCalendarDoticsRoute: typeof ApiPublicFestivalsCalendarDoticsRoute
   ApiPublicHooksAnalyticsTickRoute: typeof ApiPublicHooksAnalyticsTickRoute
@@ -2741,6 +2768,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicReadyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/phonepe-webhook': {
+      id: '/api/public/phonepe-webhook'
+      path: '/api/public/phonepe-webhook'
+      fullPath: '/api/public/phonepe-webhook'
+      preLoaderRoute: typeof ApiPublicPhonepeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/lemonsqueezy-webhook': {
       id: '/api/public/lemonsqueezy-webhook'
       path: '/api/public/lemonsqueezy-webhook'
@@ -2830,6 +2864,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/festivals/$slug.ics'
       fullPath: '/api/public/festivals/$slug.ics'
       preLoaderRoute: typeof ApiPublicFestivalsSlugDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/phonepe/callback': {
+      id: '/api/payments/phonepe/callback'
+      path: '/api/payments/phonepe/callback'
+      fullPath: '/api/payments/phonepe/callback'
+      preLoaderRoute: typeof ApiPaymentsPhonepeCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/_admin/admin/users': {
@@ -3265,12 +3306,14 @@ const rootRouteChildren: RootRouteChildren = {
   YogaIndexRoute: YogaIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
+  ApiPublicPhonepeWebhookRoute: ApiPublicPhonepeWebhookRoute,
   ApiPublicReadyRoute: ApiPublicReadyRoute,
   ApiPublicStatusRoute: ApiPublicStatusRoute,
   ApiPublicTrackRoute: ApiPublicTrackRoute,
   ApiV1SplatRoute: ApiV1SplatRoute,
   ReportsSharedTokenRoute: ReportsSharedTokenRoute,
   ApiKundliIndexRoute: ApiKundliIndexRoute,
+  ApiPaymentsPhonepeCallbackRoute: ApiPaymentsPhonepeCallbackRoute,
   ApiPublicFestivalsSlugDoticsRoute: ApiPublicFestivalsSlugDoticsRoute,
   ApiPublicFestivalsCalendarDoticsRoute: ApiPublicFestivalsCalendarDoticsRoute,
   ApiPublicHooksAnalyticsTickRoute: ApiPublicHooksAnalyticsTickRoute,

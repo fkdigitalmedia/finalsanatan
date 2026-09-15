@@ -84,9 +84,25 @@ const PROVIDER_FIELDS: Record<string, CredField[]> = {
     { key: "secret_key", label: "Secret Key", secret: true },
   ],
   phonepe: [
-    { key: "merchant_id", label: "Merchant ID" },
-    { key: "salt_key", label: "Salt Key", secret: true },
-    { key: "salt_index", label: "Salt Index", placeholder: "1" },
+    {
+      key: "merchant_id",
+      label: "Merchant ID",
+      placeholder: "e.g. PGTESTPAYUAT86 or your Live MID",
+      hint: "Your Merchant ID (MID) from PhonePe Developer Dashboard.",
+    },
+    {
+      key: "salt_key",
+      label: "Salt Key",
+      secret: true,
+      placeholder: "e.g. 96434309-7796-489d-8924-ab56988a6076",
+      hint: "Secret Salt Key for generating the X-VERIFY checksum.",
+    },
+    {
+      key: "salt_index",
+      label: "Salt Index",
+      placeholder: "1",
+      hint: "Key index (typically 1).",
+    },
   ],
   paytm: [
     { key: "merchant_id", label: "Merchant ID" },
@@ -480,6 +496,14 @@ function GatewayDialog({
                     {f.hint && <p className="mt-1 text-xs text-muted-foreground">{f.hint}</p>}
                   </div>
                 ))}
+              </div>
+            )}
+            {form.provider === "phonepe" && (
+              <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs space-y-1 text-muted-foreground">
+                <p className="font-semibold text-foreground">PhonePe Integration Endpoints:</p>
+                <p>• <strong>Callback URL:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">/api/payments/phonepe/callback</code></p>
+                <p>• <strong>Webhook URL:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">/api/public/phonepe-webhook</code></p>
+                <p>• <strong>Sandbox MID:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">PGTESTPAYUAT86</code> | <strong>Salt:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">96434309-7796-489d-8924-ab56988a6076</code></p>
               </div>
             )}
             <p className="text-xs text-muted-foreground">

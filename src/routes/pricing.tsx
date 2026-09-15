@@ -7,7 +7,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { SiteLayout } from "@/components/layout/SiteLayout";
@@ -108,6 +108,21 @@ function PricingPage() {
 
   const [buyingId, setBuyingId] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+    if (payment === "failed") {
+      toast.error("Payment failed. Please try again or choose another payment method.");
+    } else if (payment === "cancelled") {
+      toast.info("Payment was cancelled.");
+    } else if (payment === "error") {
+      toast.error("An error occurred while processing the payment.");
+    } else if (payment === "success") {
+      toast.success("Payment successful! Your subscription has been activated.");
+    }
+  }, []);
+
   const checkoutMutation = useMutation({
     mutationFn: async (plan: Plan) => {
       if (!user) {
@@ -172,8 +187,8 @@ function PricingPage() {
           });
           rz.open();
         });
-      } else if (order.provider === "lemonsqueezy") {
-        // Redirect the user to Lemon Squeezy's hosted checkout (USD).
+      } else if (order.provider === "lemonsqueezy" || order.provider === "phonepe") {
+        // Redirect the user to PhonePe or Lemon Squeezy's hosted checkout.
         window.location.href = order.checkoutUrl;
         // Return without resolving so the button stays in "opening…" state
         // until navigation happens.

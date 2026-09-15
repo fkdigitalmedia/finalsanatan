@@ -219,7 +219,7 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
         .update({ provider_order_id: json.data.id })
         .eq("id", orderRow.id);
 
-      return {
+        return {
         provider: "lemonsqueezy" as const,
         gatewayId: gateway.id,
         checkoutUrl: json.data.attributes.url,
@@ -227,9 +227,58 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
       };
     }
 
+    // ─── PhonePe (Standard Pay Page / Hermes UPI & Cards) ─────────
+    if (gateway.provider === "phonepe") {
+      const { initiatePhonePePayment } = await import("@/lib/payments/phonepe.server");
+      const { SITE_URL } = await import("@/lib/seo/schema");
+
+      // Unique merchant transaction id (max 38 chars alphanumeric + hyphen/underscore)
+      const txnId = `PP_${Date.now()}_${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+      // Insert order into orders table
+      const { error: orderErr } = await supabaseAdmin.from("orders").insert({
+        user_id: context.userId,
+        plan_id: plan.id,
+        provider: "phonepe",
+        gateway_id: gateway.id,
+        provider_order_id: txnId,
+        amount_cents: plan.price_cents,
+        currency: plan.currency || "INR",
+        status: "created",
+        product_type: plan.product_type,
+        customer_email: data.customer?.email ?? null,
+        customer_name: data.customer?.name ?? null,
+        customer_phone: data.customer?.phone ?? null,
+      });
+
+      if (orderErr) {
+        console.error("Failed to record PhonePe order:", orderErr);
+        throw new Error("Failed to record order in database");
+      }
+
+      const siteUrl = process.env.SITE_URL || SITE_URL || "https://www.sanatantools.com";
+
+      const { checkoutUrl } = await initiatePhonePePayment({
+        gateway,
+        orderId: txnId,
+        amountCents: plan.price_cents,
+        userId: context.userId,
+        customer: data.customer,
+        siteUrl,
+      });
+
+      return {
+        provider: "phonepe" as const,
+        gatewayId: gateway.id,
+        checkoutUrl,
+        orderId: txnId,
+        planName: plan.name,
+      };
+    }
+
     // ─── Other providers — staged, not yet wired ──────────────────
     throw new Error(
-      `Provider "${gateway.provider}" is saved but not yet wired for checkout. Please choose Razorpay or Lemon Squeezy.`,
+      `Provider "${gateway.provider}" is saved but not yet wired for checkout. Please choose Razorpay, PhonePe, or Lemon Squeezy.`,
     );
   });
 
@@ -239,22 +288,32 @@ export const createPaymentOrder = createServerFn({ method: "POST" })
  */
 export const verifyPayment = createServerFn({ method: "POST" })
   .inputValidator(
-    (input: {
-      provider: "razorpay";
-      // Razorpay checkout returns these keys after success
-      razorpay_order_id: string;
-      razorpay_payment_id: string;
-      razorpay_signature: string;
-    }) => input,
+    (
+      input:
+        | {
+            provider: "razorpay";
+            // Razorpay checkout returns these keys after success
+            razorpay_order_id: string;
+            razorpay_payment_id: string;
+            razorpay_signature: string;
+          }
+        | {
+            provider: "phonepe";
+            order_id: string;
+          },
+    ) => input,
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     // Look up the order + its gateway (credentials live there, not env)
+    const lookupOrderId =
+      data.provider === "razorpay" ? data.razorpay_order_id : data.order_id;
+
     const { data: order } = await supabaseAdmin
       .from("orders")
       .select("id,user_id,plan_id,product_type,gateway_id,provider")
-      .eq("provider_order_id", data.razorpay_order_id)
+      .eq("provider_order_id", lookupOrderId)
       .maybeSingle();
     if (!order) throw new Error("Order not found");
 
@@ -273,16 +332,29 @@ export const verifyPayment = createServerFn({ method: "POST" })
       if (sig.length !== exp.length || !timingSafeEqual(sig, exp)) {
         throw new Error("Invalid payment signature");
       }
-    }
 
-    await supabaseAdmin
-      .from("orders")
-      .update({
-        status: "paid",
-        provider_payment_id: data.razorpay_payment_id,
-        provider_signature: data.razorpay_signature,
-      })
-      .eq("id", order.id);
+      await supabaseAdmin
+        .from("orders")
+        .update({
+          status: "paid",
+          provider_payment_id: data.razorpay_payment_id,
+          provider_signature: data.razorpay_signature,
+        })
+        .eq("id", order.id);
+    } else if (data.provider === "phonepe") {
+      const { loadGatewayById } = await import("@/lib/payments/gateways.server");
+      const { checkPhonePeStatus, fulfillPhonePeOrder } =
+        await import("@/lib/payments/phonepe.server");
+      const gateway = order.gateway_id ? await loadGatewayById(order.gateway_id) : null;
+      if (!gateway) throw new Error("Gateway config missing for this order");
+
+      const status = await checkPhonePeStatus(gateway, data.order_id);
+      if (!status.success) {
+        throw new Error(`PhonePe payment not completed: ${status.message || status.code}`);
+      }
+
+      return await fulfillPhonePeOrder(data.order_id, status.transactionId);
+    }
 
     if (order.user_id && order.plan_id) {
       const { data: plan } = await supabaseAdmin

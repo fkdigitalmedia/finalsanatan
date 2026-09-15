@@ -99,7 +99,13 @@ export function KundliPaywallDialog({ open, onOpenChange, onFreeDownload, onUnlo
     const gs = gatewaysQ.data ?? [];
     if (!plan) return null;
     if (plan.currency === "INR") {
-      return gs.find((g) => g.provider === "razorpay") ?? gs[0] ?? null;
+      return (
+        gs.find((g) => g.is_default) ??
+        gs.find((g) => g.provider === "phonepe") ??
+        gs.find((g) => g.provider === "razorpay") ??
+        gs[0] ??
+        null
+      );
     }
     return gs.find((g) => g.provider === "lemonsqueezy") ?? gs[0] ?? null;
   }, [gatewaysQ.data, plan]);
@@ -158,7 +164,7 @@ export function KundliPaywallDialog({ open, onOpenChange, onFreeDownload, onUnlo
           });
           rz.open();
         });
-      } else if (order.provider === "lemonsqueezy") {
+      } else if (order.provider === "lemonsqueezy" || order.provider === "phonepe") {
         window.location.href = order.checkoutUrl;
         await new Promise(() => {});
       } else {
