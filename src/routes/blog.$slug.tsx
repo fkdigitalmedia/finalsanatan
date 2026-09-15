@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { ShareButtons } from "@/components/share/ShareButtons";
@@ -114,8 +115,8 @@ function BlogPostPage() {
           </div>
         )}
 
-        <div className="prose prose-neutral dark:prose-invert mt-8 max-w-none">
-          <ReactMarkdown>{post.content_md}</ReactMarkdown>
+        <div className="prose prose-neutral dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-20 prose-table:overflow-x-auto">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content_md}</ReactMarkdown>
         </div>
 
         <div className="mt-10 border-t border-border pt-6">
