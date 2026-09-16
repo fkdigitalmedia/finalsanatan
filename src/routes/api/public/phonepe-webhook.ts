@@ -52,10 +52,19 @@ export const Route = createFileRoute("/api/public/phonepe-webhook")({
         }
 
         if (!base64Response) {
-          return new Response(
-            JSON.stringify({ success: false, message: "Missing response field in webhook payload" }),
-            { status: 400, headers: { "Content-Type": "application/json" } },
-          );
+          // If PhonePe sends direct JSON test ping or handshake during webhook creation:
+          try {
+            const parsed = JSON.parse(rawBody);
+            return new Response(
+              JSON.stringify({ success: true, message: "Webhook test ping acknowledged", received: parsed }),
+              { status: 200, headers: { "Content-Type": "application/json" } },
+            );
+          } catch {
+            return new Response(
+              JSON.stringify({ success: false, message: "Missing response field in webhook payload" }),
+              { status: 400, headers: { "Content-Type": "application/json" } },
+            );
+          }
         }
 
         // Decode payload to inspect merchantTransactionId
@@ -84,9 +93,10 @@ export const Route = createFileRoute("/api/public/phonepe-webhook")({
 
         const merchantTxnId = decodedPayload.data?.merchantTransactionId;
         if (!merchantTxnId) {
+          // If PhonePe sends a test base64 payload during registration without a live transaction:
           return new Response(
-            JSON.stringify({ success: false, message: "Missing merchantTransactionId in payload" }),
-            { status: 400, headers: { "Content-Type": "application/json" } },
+            JSON.stringify({ success: true, message: "Test webhook acknowledged successfully" }),
+            { status: 200, headers: { "Content-Type": "application/json" } },
           );
         }
 
