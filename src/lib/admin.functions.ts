@@ -124,7 +124,18 @@ export const adminUpsert = createServerFn({ method: "POST" })
   })
   .handler(async ({ data, context }) => {
     await assertStaff(context as Ctx);
-    const { data: row, error } = await (context as any).supabase
+    const sb = (context as any).supabase;
+
+    // Special handling: payment_gateways has a partial unique index that allows
+    // only ONE row with is_default = true. Clear existing default before setting a new one.
+    if (data.table === "payment_gateways" && data.values?.is_default === true) {
+      const existingId = data.values?.id as string | undefined;
+      let q = sb.from("payment_gateways").update({ is_default: false }).eq("is_default", true);
+      if (existingId) q = q.neq("id", existingId); // don't touch the row we're about to upsert
+      await q;
+    }
+
+    const { data: row, error } = await sb
       .from(data.table)
       .upsert(data.values, data.onConflict ? { onConflict: data.onConflict } : undefined)
       .select()
