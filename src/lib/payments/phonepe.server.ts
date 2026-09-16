@@ -483,22 +483,48 @@ export async function fulfillPhonePeOrder(
   if (order.user_id && order.plan_id) {
     const { data: plan } = await supabaseAdmin
       .from("subscription_plans")
-      .select("entitlement_key,product_type,download_url")
+      .select("name,slug,interval,product_type,entitlement_key,download_url")
       .eq("id", order.plan_id)
       .maybeSingle();
 
-    if (plan?.entitlement_key) {
-      await supabaseAdmin.from("user_entitlements").upsert(
-        {
-          user_id: order.user_id,
-          entitlement_key: plan.entitlement_key,
-          plan_id: order.plan_id,
-          order_id: order.id,
-          source: plan.product_type,
-          active: true,
-        },
-        { onConflict: "user_id,entitlement_key" },
-      );
+    if (plan) {
+      const planSlug = (plan.slug || "").toLowerCase();
+      const planName = (plan.name || "").toLowerCase();
+      const isLifetime =
+        planSlug.includes("lifetime") ||
+        planName.includes("lifetime") ||
+        plan.interval === "one_time" && plan.product_type !== "one_time";
+      const isSubscription =
+        plan.product_type === "subscription" ||
+        plan.interval === "month" ||
+        plan.interval === "year";
+
+      const keysToGrant = new Set<string>();
+      if (plan.entitlement_key) keysToGrant.add(plan.entitlement_key);
+      if (plan.slug) keysToGrant.add(plan.slug);
+
+      if (isLifetime || isSubscription || planSlug.includes("pro") || planName.includes("pro") || planSlug.includes("premium")) {
+        keysToGrant.add("premium_access");
+        keysToGrant.add("kundli_premium_report");
+        if (isLifetime) {
+          keysToGrant.add("lifetime_vip");
+          keysToGrant.add("lifetime");
+        }
+      }
+
+      for (const entKey of keysToGrant) {
+        await supabaseAdmin.from("user_entitlements").upsert(
+          {
+            user_id: order.user_id,
+            entitlement_key: entKey,
+            plan_id: order.plan_id,
+            order_id: order.id,
+            source: isLifetime ? "lifetime" : plan.product_type,
+            active: true,
+          },
+          { onConflict: "user_id,entitlement_key" },
+        );
+      }
     }
 
     return { ok: true, downloadUrl: plan?.download_url ?? null };

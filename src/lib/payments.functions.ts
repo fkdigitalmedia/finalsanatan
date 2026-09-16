@@ -359,21 +359,48 @@ export const verifyPayment = createServerFn({ method: "POST" })
     if (order.user_id && order.plan_id) {
       const { data: plan } = await supabaseAdmin
         .from("subscription_plans")
-        .select("entitlement_key,download_url,product_type")
+        .select("name,slug,interval,product_type,entitlement_key,download_url")
         .eq("id", order.plan_id)
         .maybeSingle();
-      if (plan?.entitlement_key) {
-        await supabaseAdmin.from("user_entitlements").upsert(
-          {
-            user_id: order.user_id,
-            entitlement_key: plan.entitlement_key,
-            plan_id: order.plan_id,
-            order_id: order.id,
-            source: plan.product_type,
-            active: true,
-          },
-          { onConflict: "user_id,entitlement_key" },
-        );
+
+      if (plan) {
+        const planSlug = (plan.slug || "").toLowerCase();
+        const planName = (plan.name || "").toLowerCase();
+        const isLifetime =
+          planSlug.includes("lifetime") ||
+          planName.includes("lifetime") ||
+          plan.interval === "one_time" && plan.product_type !== "one_time";
+        const isSubscription =
+          plan.product_type === "subscription" ||
+          plan.interval === "month" ||
+          plan.interval === "year";
+
+        const keysToGrant = new Set<string>();
+        if (plan.entitlement_key) keysToGrant.add(plan.entitlement_key);
+        if (plan.slug) keysToGrant.add(plan.slug);
+
+        if (isLifetime || isSubscription || planSlug.includes("pro") || planName.includes("pro") || planSlug.includes("premium")) {
+          keysToGrant.add("premium_access");
+          keysToGrant.add("kundli_premium_report");
+          if (isLifetime) {
+            keysToGrant.add("lifetime_vip");
+            keysToGrant.add("lifetime");
+          }
+        }
+
+        for (const entKey of keysToGrant) {
+          await supabaseAdmin.from("user_entitlements").upsert(
+            {
+              user_id: order.user_id,
+              entitlement_key: entKey,
+              plan_id: order.plan_id,
+              order_id: order.id,
+              source: isLifetime ? "lifetime" : plan.product_type,
+              active: true,
+            },
+            { onConflict: "user_id,entitlement_key" },
+          );
+        }
       }
     }
 
@@ -391,20 +418,141 @@ export const verifyPayment = createServerFn({ method: "POST" })
   });
 
 /** Return the list of active entitlement keys for the signed-in user.
- *  Used by client gates (e.g. "kundli_premium_report") to show/hide
- *  premium features. Requires auth via the RLS-scoped supabase client. */
+ *  Checks user_entitlements, paid orders fallback, and staff status.
+ *  Normalizes lifetime and pro tiers so users with any paid plan get full access. */
 export const getMyEntitlements = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const userId = context.userId;
     const nowIso = new Date().toISOString();
-    const { data, error } = await context.supabase
-      .from("user_entitlements")
-      .select("entitlement_key,active,expires_at")
-      .eq("user_id", context.userId)
-      .eq("active", true);
-    if (error) throw new Error(error.message);
-    const keys = (data ?? [])
-      .filter((r) => !r.expires_at || r.expires_at > nowIso)
-      .map((r) => r.entitlement_key);
-    return { entitlements: keys };
+
+    const keys = new Set<string>();
+
+    // 1. Staff/admin auto-grant
+    try {
+      const { data: isStaff } = await supabaseAdmin.rpc("is_staff", { _user_id: userId });
+      if (isStaff) {
+        keys.add("premium_access");
+        keys.add("lifetime_vip");
+        keys.add("kundli_premium_report");
+        keys.add("admin");
+      }
+    } catch (e) {
+      console.error("[getMyEntitlements] is_staff check error:", e);
+    }
+
+    // 2. Query user_entitlements
+    try {
+      const { data: entitlements } = await supabaseAdmin
+        .from("user_entitlements")
+        .select("entitlement_key,active,expires_at")
+        .eq("user_id", userId)
+        .eq("active", true);
+
+      for (const r of entitlements ?? []) {
+        if (!r.expires_at || r.expires_at > nowIso) {
+          keys.add(r.entitlement_key);
+        }
+      }
+    } catch (e) {
+      console.error("[getMyEntitlements] fetch entitlements error:", e);
+    }
+
+    // 3. Paid Orders Fallback: Check if user has any paid order in orders table
+    try {
+      const { data: paidOrders } = await supabaseAdmin
+        .from("orders")
+        .select("id,plan_id,status,created_at,product_type")
+        .eq("user_id", userId)
+        .eq("status", "paid");
+
+      if (paidOrders && paidOrders.length > 0) {
+        for (const order of paidOrders) {
+          if (!order.plan_id) continue;
+          const { data: plan } = await supabaseAdmin
+            .from("subscription_plans")
+            .select("name,slug,interval,product_type,entitlement_key")
+            .eq("id", order.plan_id)
+            .maybeSingle();
+
+          if (!plan) continue;
+
+          const planSlug = (plan.slug || "").toLowerCase();
+          const planName = (plan.name || "").toLowerCase();
+          const isLifetime =
+            planSlug.includes("lifetime") ||
+            planName.includes("lifetime") ||
+            plan.interval === "one_time" && plan.product_type !== "one_time";
+          const isSubscription =
+            plan.product_type === "subscription" ||
+            plan.interval === "month" ||
+            plan.interval === "year";
+
+          if (plan.entitlement_key) keys.add(plan.entitlement_key);
+          if (plan.slug) keys.add(plan.slug);
+
+          if (isLifetime || isSubscription || planSlug.includes("pro") || planName.includes("pro") || planSlug.includes("premium")) {
+            keys.add("premium_access");
+            keys.add("kundli_premium_report");
+            if (isLifetime) {
+              keys.add("lifetime_vip");
+              keys.add("lifetime");
+            }
+
+            // Self-heal: ensure active entry in user_entitlements so future calls are instant
+            const syncKey = isLifetime ? "lifetime_vip" : "premium_access";
+            await supabaseAdmin.from("user_entitlements").upsert(
+              {
+                user_id: userId,
+                entitlement_key: syncKey,
+                plan_id: order.plan_id,
+                order_id: order.id,
+                source: isLifetime ? "lifetime" : "subscription",
+                active: true,
+              },
+              { onConflict: "user_id,entitlement_key" },
+            );
+          }
+        }
+      }
+    } catch (e) {
+      console.error("[getMyEntitlements] paid orders check error:", e);
+    }
+
+    // 4. Normalize synonyms: If user has ANY lifetime pass variant, grant full access
+    const hasLifetime =
+      keys.has("lifetime") ||
+      keys.has("lifetime_vip") ||
+      keys.has("lifetime_access") ||
+      keys.has("lifetime-pass") ||
+      keys.has("lifetime_moksha_pass");
+
+    if (hasLifetime) {
+      keys.add("lifetime_vip");
+      keys.add("lifetime");
+      keys.add("premium_access");
+      keys.add("kundli_premium_report");
+    }
+
+    // If user has any pro/premium variant, grant pro access
+    const hasPro =
+      keys.has("pro") ||
+      keys.has("pro-monthly") ||
+      keys.has("pro-yearly") ||
+      keys.has("pro_monthly") ||
+      keys.has("pro_yearly") ||
+      keys.has("premium") ||
+      keys.has("premium_access") ||
+      keys.has("premium_pro") ||
+      keys.has("premium_monthly") ||
+      keys.has("sadhak-pro");
+
+    if (hasPro) {
+      keys.add("premium_access");
+      keys.add("kundli_premium_report");
+    }
+
+    return { entitlements: Array.from(keys) };
   });
+

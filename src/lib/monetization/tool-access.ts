@@ -255,9 +255,26 @@ export function evaluateToolAccess(
     };
   }
 
-  const hasEntitlement = userEntitlements.some((e) => item.includedPlans.includes(e));
+  // Universal access: Lifetime VIP, pro subscribers, and admins unlock all tools
+  const isLifetimeOrAdmin = userEntitlements.some((e) =>
+    ["lifetime_vip", "lifetime", "lifetime_access", "lifetime-pass", "admin", "all_tools"].includes(e),
+  );
 
-  if (hasEntitlement) {
+  const isProUser = userEntitlements.some((e) =>
+    [
+      "premium_access",
+      "premium",
+      "pro",
+      "pro-monthly",
+      "pro-yearly",
+      "premium_pro",
+      "sadhak-pro",
+    ].includes(e),
+  );
+
+  const hasExplicitEntitlement = userEntitlements.some((e) => item.includedPlans.includes(e));
+
+  if (isLifetimeOrAdmin || isProUser || hasExplicitEntitlement) {
     return {
       tool: item,
       isAccessible: true,
