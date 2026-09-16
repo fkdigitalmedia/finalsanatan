@@ -5,21 +5,34 @@
  * shows other saved providers but only Razorpay opens a live checkout.
  */
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { Check } from "lucide-react";
+import { Check, Pencil, Trash2, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { SectionHeading } from "@/components/ui-kit/SectionHeading";
 import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { listPublicPlans } from "@/lib/razorpay.functions";
 import { listPublicGateways, createPaymentOrder, verifyPayment } from "@/lib/payments.functions";
+import { adminUpsert, adminDelete } from "@/lib/admin.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 declare global {
   interface Window {
@@ -64,10 +77,46 @@ type Gateway = Awaited<ReturnType<typeof listPublicGateways>>[number];
 function PricingPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const listPlans = useServerFn(listPublicPlans);
   const listGateways = useServerFn(listPublicGateways);
   const createOrder = useServerFn(createPaymentOrder);
   const verify = useServerFn(verifyPayment);
+  const upsertPlan = useServerFn(adminUpsert);
+  const delPlan = useServerFn(adminDelete);
+
+  // Check if current user is admin/staff
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("is_staff", { _user_id: user.id }).then(({ data }) => setIsAdmin(!!data));
+  }, [user]);
+
+  // Admin plan editor state
+  const [editingPlan, setEditingPlan] = useState<Record<string, unknown> | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const savePlanMut = useMutation({
+    mutationFn: (values: Record<string, unknown>) =>
+      upsertPlan({ data: { table: "subscription_plans", values } }),
+    onSuccess: () => {
+      toast.success("Plan saved!");
+      qc.invalidateQueries({ queryKey: ["public-plans"] });
+      setEditOpen(false);
+      setEditingPlan(null);
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const deletePlanMut = useMutation({
+    mutationFn: (id: string) =>
+      delPlan({ data: { table: "subscription_plans", column: "id", value: id } }),
+    onSuccess: () => {
+      toast.success("Plan deleted");
+      qc.invalidateQueries({ queryKey: ["public-plans"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   const { data: plans, isLoading } = useQuery({
     queryKey: ["public-plans"],
@@ -275,6 +324,14 @@ function PricingPage() {
         ) : !plans || plans.length === 0 ? (
           <div className="mt-10 rounded-3xl border border-dashed p-10 text-center text-muted-foreground">
             No plans have been published yet. Please check back soon.
+            {isAdmin && (
+              <Button
+                className="mt-4"
+                onClick={() => { setEditingPlan({}); setEditOpen(true); }}
+              >
+                <Plus className="mr-2 h-4 w-4" /> Add First Plan
+              </Button>
+            )}
           </div>
         ) : (
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -302,6 +359,34 @@ function PricingPage() {
                       One-time
                     </Badge>
                   )}
+
+                  {/* Admin controls — only visible to staff */}
+                  {isAdmin && (
+                    <div className="absolute top-3 right-3 flex gap-1 z-10">
+                      <Button
+                        size="icon"
+                        variant="secondary"
+                        className="h-7 w-7 opacity-80 hover:opacity-100"
+                        title="Edit plan"
+                        onClick={() => { setEditingPlan(plan as unknown as Record<string, unknown>); setEditOpen(true); }}
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        className="h-7 w-7 opacity-80 hover:opacity-100"
+                        title="Delete plan"
+                        onClick={() => {
+                          if (confirm(`"${plan.name}" ko delete karna chahte hain?`))
+                            deletePlanMut.mutate(plan.id);
+                        }}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  )}
+
                   <div>
                     <h3 className="font-display text-xl font-semibold">{plan.name}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -340,6 +425,18 @@ function PricingPage() {
                 </div>
               );
             })}
+
+            {/* Admin: Add new plan card */}
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={() => { setEditingPlan({}); setEditOpen(true); }}
+                className="flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-primary/30 p-7 text-muted-foreground hover:border-primary/60 hover:text-primary transition-colors min-h-[200px]"
+              >
+                <Plus className="h-8 w-8" />
+                <span className="font-medium">Add New Plan</span>
+              </button>
+            )}
           </div>
         )}
 
@@ -356,6 +453,194 @@ function PricingPage() {
           .
         </p>
       </div>
+
+      {/* Admin Plan Editor Dialog */}
+      {isAdmin && (
+        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
+                {editingPlan?.id ? "✏️ Plan Edit Karein" : "➕ Naya Plan Add Karein"}
+              </DialogTitle>
+            </DialogHeader>
+            <PlanEditorForm
+              plan={editingPlan ?? {}}
+              saving={savePlanMut.isPending}
+              onSave={(values) => savePlanMut.mutate(values)}
+              onCancel={() => { setEditOpen(false); setEditingPlan(null); }}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </SiteLayout>
+  );
+}
+
+// ── Admin Plan Editor Form ────────────────────────────────────────────────────
+
+function PlanEditorForm({
+  plan,
+  saving,
+  onSave,
+  onCancel,
+}: {
+  plan: Record<string, unknown>;
+  saving: boolean;
+  onSave: (v: Record<string, unknown>) => void;
+  onCancel: () => void;
+}) {
+  const [name, setName] = useState(String(plan.name ?? ""));
+  const [slug, setSlug] = useState(String(plan.slug ?? ""));
+  const [description, setDescription] = useState(String(plan.description ?? ""));
+  const [priceCents, setPriceCents] = useState(String(plan.price_cents ?? ""));
+  const [currency, setCurrency] = useState(String(plan.currency ?? "INR"));
+  const [interval, setInterval] = useState(String(plan.interval ?? "month"));
+  const [productType, setProductType] = useState(String(plan.product_type ?? "subscription"));
+  const [features, setFeatures] = useState(
+    Array.isArray(plan.features) ? (plan.features as string[]).join("\n") : "",
+  );
+  const [ctaLabel, setCtaLabel] = useState(String(plan.cta_label ?? ""));
+  const [downloadUrl, setDownloadUrl] = useState(String(plan.download_url ?? ""));
+  const [entitlementKey, setEntitlementKey] = useState(String(plan.entitlement_key ?? ""));
+  const [featured, setFeatured] = useState(!!plan.featured);
+  const [active, setActive] = useState(plan.active !== false);
+  const [sortOrder, setSortOrder] = useState(String(plan.sort_order ?? "0"));
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const featureArr = features
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const values: Record<string, unknown> = {
+      name: name.trim(),
+      slug: slug.trim() || name.trim().toLowerCase().replace(/\s+/g, "-"),
+      description: description.trim() || null,
+      price_cents: Math.round(Number(priceCents)) || 0,
+      currency: currency.trim() || "INR",
+      interval: productType === "one_time" ? "one_time" : interval,
+      product_type: productType,
+      features: featureArr,
+      cta_label: ctaLabel.trim() || null,
+      download_url: downloadUrl.trim() || null,
+      entitlement_key: entitlementKey.trim() || null,
+      featured,
+      active,
+      sort_order: Number(sortOrder) || 0,
+    };
+    if (plan.id) values.id = plan.id;
+    onSave(values);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label className="text-xs">Plan Name *</Label>
+          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Premium Monthly" required />
+        </div>
+        <div>
+          <Label className="text-xs">Slug</Label>
+          <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="auto-generated" />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-xs">Short Description</Label>
+        <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Sab kuch unlimited..." />
+      </div>
+
+      <div className="grid grid-cols-3 gap-3">
+        <div>
+          <Label className="text-xs">Price (Paise/Cents) *</Label>
+          <Input type="number" value={priceCents} onChange={(e) => setPriceCents(e.target.value)} placeholder="49900" required />
+          <p className="text-[10px] text-muted-foreground mt-0.5">₹499 = 49900 paise</p>
+        </div>
+        <div>
+          <Label className="text-xs">Currency</Label>
+          <Input value={currency} onChange={(e) => setCurrency(e.target.value)} placeholder="INR" />
+        </div>
+        <div>
+          <Label className="text-xs">Sort Order</Label>
+          <Input type="number" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label className="text-xs">Product Type</Label>
+          <select
+            value={productType}
+            onChange={(e) => setProductType(e.target.value)}
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
+            <option value="subscription">Subscription</option>
+            <option value="one_time">One-time</option>
+          </select>
+        </div>
+        {productType === "subscription" && (
+          <div>
+            <Label className="text-xs">Interval</Label>
+            <select
+              value={interval}
+              onChange={(e) => setInterval(e.target.value)}
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            >
+              <option value="month">Monthly</option>
+              <option value="year">Yearly</option>
+            </select>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <Label className="text-xs">Features (ek line mein ek feature)</Label>
+        <Textarea
+          rows={4}
+          value={features}
+          onChange={(e) => setFeatures(e.target.value)}
+          placeholder={"Unlimited AI Kundli Reports\nAdvanced Panchang\nPriority Support"}
+          className="text-sm"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label className="text-xs">CTA Button Label</Label>
+          <Input value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} placeholder="Subscribe Now" />
+        </div>
+        <div>
+          <Label className="text-xs">Entitlement Key</Label>
+          <Input value={entitlementKey} onChange={(e) => setEntitlementKey(e.target.value)} placeholder="premium_monthly" />
+        </div>
+      </div>
+
+      {productType === "one_time" && (
+        <div>
+          <Label className="text-xs">Download URL (one-time ke liye)</Label>
+          <Input value={downloadUrl} onChange={(e) => setDownloadUrl(e.target.value)} placeholder="https://..." />
+        </div>
+      )}
+
+      <div className="flex items-center gap-6">
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <Switch checked={featured} onCheckedChange={setFeatured} />
+          Featured (Most Popular)
+        </label>
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <Switch checked={active} onCheckedChange={setActive} />
+          Active (visible)
+        </label>
+      </div>
+
+      <DialogFooter className="gap-2">
+        <Button type="button" variant="ghost" onClick={onCancel}>
+          <X className="mr-1 h-4 w-4" /> Cancel
+        </Button>
+        <Button type="submit" disabled={saving}>
+          {saving ? "Saving…" : plan.id ? "💾 Update Plan" : "✅ Create Plan"}
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
