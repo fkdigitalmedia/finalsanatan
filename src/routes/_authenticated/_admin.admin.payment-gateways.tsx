@@ -139,7 +139,7 @@ const EMPTY: Gateway = {
   is_default: false,
   sort_order: 0,
   credentials: {},
-  public_config: null,
+  public_config: {},
   supported_currencies: ["INR"],
   notes: "",
 };
@@ -345,7 +345,7 @@ function GatewayDialog({
         if (!proceed) return;
       }
     }
-    onSave({ ...form, credentials });
+    onSave({ ...form, credentials, public_config: form.public_config ?? {} });
   }
 
   return (
