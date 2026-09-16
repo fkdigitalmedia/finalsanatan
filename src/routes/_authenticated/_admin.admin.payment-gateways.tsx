@@ -85,23 +85,42 @@ const PROVIDER_FIELDS: Record<string, CredField[]> = {
   ],
   phonepe: [
     {
+      key: "client_id",
+      label: "Client ID (V2)",
+      placeholder: "e.g. SU2506181842...",
+      hint: "PhonePe V2 Client ID from Developer Settings. Use this for new integrations.",
+    },
+    {
+      key: "client_secret",
+      label: "Client Secret (V2)",
+      secret: true,
+      placeholder: "e.g. a5e2d4f6-...",
+      hint: "PhonePe V2 Client Secret from Developer Settings.",
+    },
+    {
+      key: "client_version",
+      label: "Client Version (V2)",
+      placeholder: "1",
+      hint: "PhonePe V2 Client Version (usually 1). Check Developer Settings.",
+    },
+    {
       key: "merchant_id",
-      label: "Merchant ID",
-      placeholder: "e.g. PGTESTPAYUAT86 or your Live MID",
-      hint: "Your Merchant ID (MID) from PhonePe Developer Dashboard.",
+      label: "Merchant ID (V1 legacy)",
+      placeholder: "e.g. PGTESTPAYUAT86",
+      hint: "Optional (V1 only). Leave blank if using V2 Client ID above.",
     },
     {
       key: "salt_key",
-      label: "Salt Key",
+      label: "Salt Key (V1 legacy)",
       secret: true,
-      placeholder: "e.g. 96434309-7796-489d-8924-ab56988a6076",
-      hint: "Secret Salt Key for generating the X-VERIFY checksum.",
+      placeholder: "e.g. 96434309-7796-...",
+      hint: "Optional (V1 only). Leave blank if using V2 Client ID above.",
     },
     {
       key: "salt_index",
-      label: "Salt Index",
+      label: "Salt Index (V1 legacy)",
       placeholder: "1",
-      hint: "Key index (typically 1).",
+      hint: "Optional (V1 only). Key index — typically 1.",
     },
   ],
   paytm: [
@@ -500,10 +519,12 @@ function GatewayDialog({
             )}
             {form.provider === "phonepe" && (
               <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs space-y-1 text-muted-foreground">
-                <p className="font-semibold text-foreground">PhonePe Integration Endpoints:</p>
-                <p>• <strong>Callback URL:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">/api/payments/phonepe/callback</code></p>
+                <p className="font-semibold text-foreground">PhonePe Integration Guide:</p>
+                <p className="text-green-700 font-medium">✅ V2 (New — Recommended): Fill Client ID + Client Secret + Client Version from PhonePe Dashboard → Developer Settings</p>
+                <p className="text-orange-600">⚠️ V1 (Legacy): Fill Merchant ID + Salt Key + Salt Index only if you have old V1 credentials</p>
                 <p>• <strong>Webhook URL:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">/api/public/phonepe-webhook</code></p>
-                <p>• <strong>Sandbox MID:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">PGTESTPAYUAT86</code> | <strong>Salt:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">96434309-7796-489d-8924-ab56988a6076</code></p>
+                <p>• <strong>Redirect URL:</strong> <code className="bg-background px-1 py-0.5 rounded text-foreground">/api/payments/phonepe/callback</code></p>
+                <p>• <strong>Sandbox Client ID:</strong> Get from <a href="https://developer.phonepe.com" target="_blank" className="underline text-primary">developer.phonepe.com</a> → Developer Settings</p>
               </div>
             )}
             <p className="text-xs text-muted-foreground">
