@@ -29,21 +29,120 @@ async function getUserIdSafely() {
   }
 }
 
+function triggerBrowserDownload(result: { dataUrl?: string; blob?: Blob }, filename: string) {
+  if (typeof window === "undefined") return;
+  const href = result.dataUrl || (result.blob ? URL.createObjectURL(result.blob) : "");
+  if (!href) throw new Error("No PDF content generated to download.");
+  const link = document.createElement("a");
+  link.href = href;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  if (result.blob && href.startsWith("blob:")) {
+    setTimeout(() => URL.revokeObjectURL(href), 5000);
+  }
+}
+
 /** Dedicated PDF Generator for Kundli Matching (Gun Milan Pro) */
 export async function generateMatchingPDF(data: Record<string, unknown>, opts: { language?: string } = {}) {
+  const boy = (data.boy as any) || {};
+  const girl = (data.girl as any) || {};
+  const kootas = Array.isArray(data.kootas) ? (data.kootas as any[]) : [];
+  const doshas = (data.doshas as any) || {};
+
+  const brideName = girl.name || (data.bride as string) || "Partner 2";
+  const groomName = boy.name || (data.groom as string) || "Partner 1";
+  const totalScore = typeof data.totalScore === "number" ? data.totalScore : 0;
+  const verdictLabel =
+    (data.verdictLabel as string) ||
+    (totalScore >= 18 ? "Auspicious Match" : "Requires Astrological Consultation");
+
+  // Format Koota Table rows for PDF template
+  const kootaTable = kootas.map((k) => ({
+    Koota: k.name || "",
+    "Points Obtained": `${k.score ?? 0}`,
+    "Maximum Points": `${k.max ?? 0}`,
+    Analysis: k.note || k.description || "",
+  }));
+
+  // Scorecards
+  const scores = [
+    {
+      label: "Guna Score",
+      value: `${totalScore} / 36`,
+      trend: totalScore >= 18 ? "positive" : "negative",
+    },
+    { label: "Overall Verdict", value: verdictLabel },
+    {
+      label: "Mangal Dosha",
+      value:
+        (doshas.manglik?.boy || doshas.manglik?.girl) && !doshas.manglik?.cancelled
+          ? "Present"
+          : "Clear",
+    },
+    {
+      label: "Nadi Dosha",
+      value: doshas.nadi ? "Present" : "Clear",
+    },
+    {
+      label: "Bhakoot Dosha",
+      value: doshas.bhakoot ? "Present" : "Clear",
+    },
+  ];
+
+  const categories = kootas.map((k) => ({
+    label: `${k.name} Compatibility`,
+    value: Math.round(((k.score ?? 0) / (k.max || 1)) * 100),
+  }));
+
+  const payload: Record<string, unknown> = {
+    ...data,
+    user: `${groomName} & ${brideName}`,
+    groom: groomName,
+    bride: brideName,
+    gunaScore: `${totalScore} / 36`,
+    reportDate: new Date().toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    scores,
+    kootaTable: kootaTable.length > 0 ? kootaTable : undefined,
+    categories: categories.length > 0 ? categories : undefined,
+    summary:
+      (data.summary as string) ||
+      `Vedic Ashtakoot compatibility between ${groomName} and ${brideName} yields a total of ${totalScore} out of 36 gunas with a verdict of "${verdictLabel}".`,
+    analysis:
+      (data.analysis as string) ||
+      `### Comprehensive Compatibility Analysis\n\n- **Emotional & Mental Alignment**: ${groomName} (${boy.moonRashi || "Moon Rashi"} - ${boy.nakshatra || "Nakshatra"}) and ${brideName} (${girl.moonRashi || "Moon Rashi"} - ${girl.nakshatra || "Nakshatra"}).\n- **Mangal Dosha**: ${doshas.manglik?.note || "No adverse Manglik dosha obstruction."}\n- **Nadi Dosha**: ${doshas.nadi ? "Same Nadi present — Vedic consultation suggested." : "No Nadi dosha — excellent compatibility for health and progeny."}\n- **Bhakoot Dosha**: ${doshas.bhakoot ? "Bhakoot disagreement detected." : "Bhakoot placement is harmoniously positioned."}`,
+    recommendations: [
+      "Perform Lord Shiva and Goddess Parvati puja together for marital longevity and peace.",
+      "Chant the Maha Mrityunjaya mantra if minor health or Nadi concerns exist.",
+      "Exchange traditional Vedic blessings and seek elders' guidance prior to auspicious milestones.",
+    ],
+  };
+
   return engine.generate({
     report: "kundli-matching",
-    data,
+    data: payload,
     language: opts.language || "en",
   });
 }
 
-export async function downloadMatchingPdf(data: Record<string, unknown>, filename = "Kundli_Matching_Report.pdf") {
+export async function downloadMatchingPdf(
+  data: Record<string, unknown>,
+  filename = "Kundli_Matching_Report.pdf",
+) {
   const result = await generateMatchingPDF(data);
-  (result as any).doc.save(filename);
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
-    await trackReportGenerated(userId, { kind: "matching", title: "Kundli Matching Report", data }).catch(console.error);
+    await trackReportGenerated(userId, {
+      kind: "matching",
+      title: "Kundli Matching Report",
+      data,
+    }).catch(console.error);
     await trackPdfDownload(userId, { filename, file_type: "PDF" }).catch(console.error);
   }
 }
@@ -53,7 +152,10 @@ import { downloadNumerologyPdf, generateNumerologyPDF } from "@/lib/numerology/p
 export { generateNumerologyPDF, downloadNumerologyPdf };
 
 /** Dedicated PDF Generator for Muhurat Report */
-export async function generateMuhuratPDF(data: Record<string, unknown>, opts: { language?: string } = {}) {
+export async function generateMuhuratPDF(
+  data: Record<string, unknown>,
+  opts: { language?: string } = {},
+) {
   return engine.generate({
     report: "muhurat-report",
     data,
@@ -61,12 +163,17 @@ export async function generateMuhuratPDF(data: Record<string, unknown>, opts: { 
   });
 }
 
-export async function downloadMuhuratPdf(data: Record<string, unknown>, filename = "Muhurat_Report.pdf") {
+export async function downloadMuhuratPdf(
+  data: Record<string, unknown>,
+  filename = "Muhurat_Report.pdf",
+) {
   const result = await generateMuhuratPDF(data);
-  (result as any).doc.save(filename);
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
-    await trackReportGenerated(userId, { kind: "muhurat", title: "Muhurat Report", data }).catch(console.error);
+    await trackReportGenerated(userId, { kind: "muhurat", title: "Muhurat Report", data }).catch(
+      console.error,
+    );
     await trackPdfDownload(userId, { filename, file_type: "PDF" }).catch(console.error);
   }
 }
@@ -127,12 +234,7 @@ export async function generateMarriagePDF(data: Record<string, unknown>, opts: {
 
 export async function downloadMarriagePdf(data: Record<string, unknown>, filename = "Marriage_Analysis_Report.pdf") {
   const result = await generateMarriagePDF(data);
-  if (typeof window !== "undefined" && result.dataUrl) {
-    const link = document.createElement("a");
-    link.href = result.dataUrl;
-    link.download = filename;
-    link.click();
-  }
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "marriage-report", title: "Marriage Analysis Report", data }).catch(console.error);
@@ -151,12 +253,7 @@ export async function generateBusinessPDF(data: Record<string, unknown>, opts: {
 
 export async function downloadBusinessPdf(data: Record<string, unknown>, filename = "Business_Analysis_Report.pdf") {
   const result = await generateBusinessPDF(data);
-  if (typeof window !== "undefined" && result.dataUrl) {
-    const link = document.createElement("a");
-    link.href = result.dataUrl;
-    link.download = filename;
-    link.click();
-  }
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "business-report", title: "Business Analysis Report", data }).catch(console.error);
@@ -175,12 +272,7 @@ export async function generateHealthPDF(data: Record<string, unknown>, opts: { l
 
 export async function downloadHealthPdf(data: Record<string, unknown>, filename = "Health_Analysis_Report.pdf") {
   const result = await generateHealthPDF(data);
-  if (typeof window !== "undefined" && result.dataUrl) {
-    const link = document.createElement("a");
-    link.href = result.dataUrl;
-    link.download = filename;
-    link.click();
-  }
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "health-report", title: "Health Analysis Report", data }).catch(console.error);
@@ -199,12 +291,7 @@ export async function generateForeignPDF(data: Record<string, unknown>, opts: { 
 
 export async function downloadForeignPdf(data: Record<string, unknown>, filename = "Foreign_Settlement_Report.pdf") {
   const result = await generateForeignPDF(data);
-  if (typeof window !== "undefined" && result.dataUrl) {
-    const link = document.createElement("a");
-    link.href = result.dataUrl;
-    link.download = filename;
-    link.click();
-  }
+  triggerBrowserDownload(result, filename);
   const userId = await getUserIdSafely();
   if (userId) {
     await trackReportGenerated(userId, { kind: "foreign-settlement", title: "Foreign Settlement Report", data }).catch(console.error);
