@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Loader2,
   Users,
+  Download,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -22,6 +23,8 @@ import { SanatanLoader } from "@/components/ui-kit/SanatanLoader";
 import { PhotonPlacePicker } from "@/components/tools/PhotonPlacePicker";
 import { DEFAULT_LOCATION, type LatLon } from "@/lib/panchang";
 import { computeMatching, type MatchingResult } from "@/lib/kundli/matching";
+import { useToolAccess } from "@/lib/monetization/tool-access";
+import { downloadMatchingPdf } from "@/lib/pdf/report-generators";
 
 interface PersonForm {
   name: string;
@@ -220,6 +223,28 @@ function PersonCard({
 }
 
 function ResultView({ result, softLanguage }: { result: MatchingResult; softLanguage: boolean }) {
+  const toolAccess = useToolAccess("kundli-matching");
+  const isPremium = toolAccess.isAccessible;
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      await downloadMatchingPdf(
+        result as unknown as Record<string, unknown>,
+        softLanguage ? "Love_Compatibility_Report.pdf" : "Kundli_Matching_Report.pdf",
+      );
+      toast.success(
+        softLanguage ? "Love Compatibility PDF downloaded!" : "Kundli Matching PDF downloaded!",
+      );
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.message || "Failed to generate PDF");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const pct = Math.round((result.totalScore / 36) * 100);
   const color =
     result.verdict === "excellent"
@@ -245,6 +270,35 @@ function ResultView({ result, softLanguage }: { result: MatchingResult; softLang
           {result.verdictLabel} · {pct}%
         </div>
         <p className="mt-3 text-sm text-muted-foreground max-w-xl mx-auto">{result.summary}</p>
+
+        {/* Download PDF Action Bar */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {isPremium ? (
+            <Button
+              onClick={handleDownload}
+              disabled={downloading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-sm"
+            >
+              {downloading ? (
+                <>
+                  <Loader2 className="size-4 mr-2 animate-spin" /> Generating PDF…
+                </>
+              ) : (
+                <>
+                  <Download className="size-4 mr-2" />{" "}
+                  {softLanguage
+                    ? "Download Love Compatibility Pro PDF"
+                    : "Download Kundli Matching Pro PDF"}
+                </>
+              )}
+            </Button>
+          ) : (
+            <Button asChild variant="outline" className="border-primary/40 text-primary font-medium">
+              <Link to="/pricing">Unlock 30+ Page Pro Match PDF →</Link>
+            </Button>
+          )}
+        </div>
+
         <div className="mt-6 grid grid-cols-2 gap-4 max-w-xl mx-auto text-sm">
           <div className="rounded-lg bg-background/60 border p-3">
             <div className="text-xs text-muted-foreground">

@@ -1,12 +1,15 @@
-// Shared premium tool landing shell — hero, breadcrumbs, tool slot, FAQ, related tools, CTA.
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { Card } from "@/components/ui/card";
 import { FAQList, type FAQItem } from "@/components/ui-kit/FAQList";
 import { NewsletterCTA } from "@/components/tools/NewsletterCTA";
 import { useTranslation } from "@/i18n/I18nProvider";
+import { useAuth } from "@/hooks/useAuth";
+import { getMyEntitlements } from "@/lib/payments.functions";
 
 export interface RelatedTool {
   title: string;
@@ -28,6 +31,30 @@ export interface PremiumToolShellProps {
 
 export function PremiumToolShell(props: PremiumToolShellProps) {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const fetchEntitlements = useServerFn(getMyEntitlements);
+
+  const entitlementsQuery = useQuery({
+    queryKey: ["my-entitlements", user?.id ?? "anon"],
+    queryFn: () => fetchEntitlements(),
+    enabled: !!user,
+    staleTime: 60_000,
+  });
+
+  const ents = entitlementsQuery.data?.entitlements ?? [];
+  const isProOrLifetime =
+    ents.some((e) =>
+      [
+        "lifetime_vip",
+        "lifetime",
+        "lifetime_access",
+        "premium_access",
+        "premium",
+        "pro",
+        "admin",
+        "all_tools",
+      ].includes(e),
+    );
   return (
     <SiteLayout>
       <div className="container mx-auto px-4 py-8">
@@ -75,7 +102,16 @@ export function PremiumToolShell(props: PremiumToolShellProps) {
           <FAQList items={props.faqs} />
         </section>
 
-        {props.premiumNote && (
+        {isProOrLifetime ? (
+          <section className="mt-12 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-card to-primary/5 p-6 text-center">
+            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-500/10 px-3 py-1 rounded-full mb-2">
+              <Sparkles className="size-3.5" /> Lifetime Pro Member Unlocked
+            </div>
+            <p className="text-sm text-foreground font-medium">
+              You have full Pro access. All AI relationship guides, deep analyses, and downloadable PDF reports are included with your plan.
+            </p>
+          </section>
+        ) : props.premiumNote ? (
           <section className="mt-12 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 to-orange-500/5 p-6 text-center">
             <p className="text-sm">{props.premiumNote}</p>
             <Link
@@ -85,7 +121,7 @@ export function PremiumToolShell(props: PremiumToolShellProps) {
               {t("premium_tools.shell.view_premium_plans")} <ArrowRight className="size-4" />
             </Link>
           </section>
-        )}
+        ) : null}
 
         <section className="mt-12">
           <h2 className="text-2xl font-bold mb-4">
