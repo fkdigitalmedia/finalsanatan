@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   Sun,
   Sparkles,
@@ -52,6 +53,21 @@ function DashboardPage() {
     if (!uid) return;
     void api.registerDevice(uid, navigator.userAgent);
   }, [uid]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+    if (!payment) return;
+
+    window.history.replaceState({}, "", window.location.pathname);
+
+    if (payment === "success") {
+      toast.success("Payment successful! Aapka subscription activate ho gaya hai. 🎉");
+    } else if (payment === "pending") {
+      toast.info("Payment pending hai. Jaise hi confirm hoga aapka plan activate ho jayega.");
+    }
+  }, []);
 
   const loc = useMemo(() => (primary ? locationFromKundli(primary) : DEFAULT_LOCATION), [primary]);
 

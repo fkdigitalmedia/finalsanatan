@@ -161,14 +161,21 @@ function PricingPage() {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const payment = params.get("payment");
+    if (!payment) return;
+
+    // Clear query params from URL so refresh doesn't re-show toasts
+    window.history.replaceState({}, "", window.location.pathname);
+
     if (payment === "failed") {
-      toast.error("Payment failed. Please try again or choose another payment method.");
+      toast.error("Payment failed. Please try again.");
     } else if (payment === "cancelled") {
-      toast.info("Payment was cancelled.");
+      toast.info("Payment cancelled.");
     } else if (payment === "error") {
-      toast.error("An error occurred while processing the payment.");
+      toast.error("Payment processing mein error aaya. Agar paise kat gaye hain toh support se contact karein.");
+    } else if (payment === "not_found") {
+      toast.error("Order nahi mila. Support se contact karein.");
     } else if (payment === "success") {
-      toast.success("Payment successful! Your subscription has been activated.");
+      toast.success("Payment successful! Subscription activate ho gaya.");
     }
   }, []);
 

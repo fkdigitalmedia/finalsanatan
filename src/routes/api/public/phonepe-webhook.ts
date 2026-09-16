@@ -91,7 +91,13 @@ export const Route = createFileRoute("/api/public/phonepe-webhook")({
           );
         }
 
-        const merchantTxnId = decodedPayload.data?.merchantTransactionId;
+        const anyPayload = decodedPayload as any;
+        const merchantTxnId =
+          anyPayload.data?.merchantTransactionId ||
+          anyPayload.payload?.merchantOrderId ||
+          anyPayload.merchantOrderId ||
+          anyPayload.merchantTransactionId;
+
         if (!merchantTxnId) {
           // If PhonePe sends a test base64 payload during registration without a live transaction:
           return new Response(
@@ -159,21 +165,34 @@ export const Route = createFileRoute("/api/public/phonepe-webhook")({
           );
         }
 
+        const isSuccess =
+          (anyPayload.success && anyPayload.code === "PAYMENT_SUCCESS") ||
+          anyPayload.data?.state === "COMPLETED" ||
+          anyPayload.payload?.state === "COMPLETED" ||
+          anyPayload.state === "COMPLETED" ||
+          anyPayload.event === "checkout.order.completed";
+
+        const isFailed =
+          anyPayload.code === "PAYMENT_ERROR" ||
+          anyPayload.data?.state === "FAILED" ||
+          anyPayload.payload?.state === "FAILED" ||
+          anyPayload.state === "FAILED" ||
+          anyPayload.event === "checkout.order.failed";
+
+        const transactionId =
+          anyPayload.data?.transactionId ||
+          anyPayload.payload?.orderId ||
+          anyPayload.payload?.paymentDetails?.[0]?.transactionId ||
+          anyPayload.transactionId;
+
         // If payment succeeded, fulfill order and provision entitlement
-        if (
-          decodedPayload.success &&
-          (decodedPayload.code === "PAYMENT_SUCCESS" ||
-            decodedPayload.data?.state === "COMPLETED")
-        ) {
+        if (isSuccess) {
           await fulfillPhonePeOrder(
             merchantTxnId,
-            decodedPayload.data?.transactionId,
+            transactionId,
             receivedXVerify,
           );
-        } else if (
-          decodedPayload.code === "PAYMENT_ERROR" ||
-          decodedPayload.data?.state === "FAILED"
-        ) {
+        } else if (isFailed) {
           await supabaseAdmin
             .from("orders")
             .update({ status: "failed" })

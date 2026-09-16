@@ -32,10 +32,11 @@ async function handlePhonePeCallback(request: Request): Promise<Response> {
         orderId =
           (formData.get("transactionId") as string) ||
           (formData.get("merchantTransactionId") as string) ||
+          (formData.get("merchantOrderId") as string) ||
           null;
       } else if (contentType.includes("application/json")) {
         const json = await request.json();
-        orderId = json.transactionId || json.merchantTransactionId || null;
+        orderId = json.transactionId || json.merchantTransactionId || json.merchantOrderId || null;
       }
     } catch {
       // Body may be empty or unparseable, continue
@@ -65,7 +66,7 @@ async function handlePhonePeCallback(request: Request): Promise<Response> {
       return Response.redirect(new URL("/pricing?payment=not_found", url.origin).toString(), 303);
     }
 
-    // If order is already paid, redirect straight to dashboard
+    // If order is already paid (e.g. webhook already fulfilled it), redirect to success
     if (order.status === "paid") {
       return Response.redirect(
         new URL(`/dashboard?payment=success&orderId=${orderId}`, url.origin).toString(),
@@ -80,7 +81,33 @@ async function handlePhonePeCallback(request: Request): Promise<Response> {
     }
 
     // Verify payment status with PhonePe
-    const statusResult = await checkPhonePeStatus(gateway, orderId);
+    let statusResult;
+    try {
+      statusResult = await checkPhonePeStatus(gateway, orderId);
+    } catch (statusErr) {
+      // If PhonePe status API fails (e.g. token error), re-check DB order status
+      // The webhook may have already fulfilled the order
+      console.error("[PhonePe Callback] Status check failed, re-checking DB:", statusErr);
+
+      const { data: freshOrder } = await supabaseAdmin
+        .from("orders")
+        .select("status")
+        .eq("id", order.id)
+        .maybeSingle();
+
+      if (freshOrder?.status === "paid") {
+        return Response.redirect(
+          new URL(`/dashboard?payment=success&orderId=${orderId}`, url.origin).toString(),
+          303,
+        );
+      }
+
+      // Cannot determine status — send to pending page, not failed
+      return Response.redirect(
+        new URL(`/dashboard?payment=pending&orderId=${orderId}`, url.origin).toString(),
+        303,
+      );
+    }
 
     if (statusResult.success && statusResult.state === "COMPLETED") {
       const fulfillment = await fulfillPhonePeOrder(orderId, statusResult.transactionId);
@@ -91,7 +118,7 @@ async function handlePhonePeCallback(request: Request): Promise<Response> {
       return Response.redirect(new URL(targetUrl, url.origin).toString(), 303);
     }
 
-    // Payment failed or pending
+    // Payment failed
     if (statusResult.state === "FAILED") {
       await supabaseAdmin
         .from("orders")
@@ -104,13 +131,33 @@ async function handlePhonePeCallback(request: Request): Promise<Response> {
       );
     }
 
-    // Still pending
+    // Still pending — redirect to dashboard, not pricing/failed
     return Response.redirect(
       new URL(`/dashboard?payment=pending&orderId=${orderId}`, url.origin).toString(),
       303,
     );
   } catch (err) {
-    console.error("[PhonePe Callback] Error processing callback:", err);
+    console.error("[PhonePe Callback] Unhandled error:", err);
+
+    // Last resort: check if order was paid before showing error
+    try {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { data: order } = await supabaseAdmin
+        .from("orders")
+        .select("status")
+        .eq("provider_order_id", orderId)
+        .maybeSingle();
+
+      if (order?.status === "paid") {
+        return Response.redirect(
+          new URL(`/dashboard?payment=success&orderId=${orderId}`, url.origin).toString(),
+          303,
+        );
+      }
+    } catch {
+      // ignore
+    }
+
     return Response.redirect(new URL("/pricing?payment=error", url.origin).toString(), 303);
   }
 }

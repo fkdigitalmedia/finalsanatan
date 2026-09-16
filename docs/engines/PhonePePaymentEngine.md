@@ -3,7 +3,7 @@
 ## 1. Overview
 The **PhonePe Payment Gateway Engine** provides server-side payment initiation, cryptographic signature generation/verification, real-time transaction status queries, browser callback redirects, and server-to-server webhook processing for SanatanTools subscriptions and report purchases.
 
-It integrates with the **PhonePe Standard Checkout (Pay Page / Hermes API)** supporting UPI, Credit/Debit Cards, Net Banking, and PhonePe Wallets.
+It supports **both PhonePe V2 (OAuth / PG Checkout v2)** and **legacy PhonePe V1 (Hermes / Salt Key)** with automatic version detection.
 
 ---
 
@@ -15,11 +15,11 @@ It integrates with the **PhonePe Standard Checkout (Pay Page / Hermes API)** sup
 │ or Paywall      │                                   │ (payments.functions.ts)│
 └─────────────────┘                                   └───────────┬────────────┘
          ▲                                                        │
-         │                                       2. Initiate /pg/v1/pay
+         │                                       2. Initiate V2 Pay or V1 Pay
          │                                                        ▼
          │  3. Redirect to Checkout URL       ┌────────────────────────┐
          └─────────────────────────────────── │ PhonePe Pay Page       │
-                                              │ (Hermes / PG-Sandbox)  │
+                                              │ (V2 Hosted / Sandbox)  │
                                               └───────────┬────────────┘
                                                           │
                                          4. User Completes Payment
@@ -29,7 +29,7 @@ It integrates with the **PhonePe Standard Checkout (Pay Page / Hermes API)** sup
     5a. Browser Redirect (POST/GET)                                            5b. Server Webhook (POST)
 ┌──────────────────────────────────────────────┐                         ┌─────────────────────────────────┐
 │ /api/payments/phonepe/callback               │                         │ /api/public/phonepe-webhook     │
-│ - Calls /pg/v1/status check API              │                         │ - Verifies X-VERIFY signature   │
+│ - Calls V2 /checkout/v2/order/{id}/status    │                         │ - Accepts V2 and V1 webhooks    │
 │ - Fulfills order & provisions entitlement    │                         │ - Idempotently updates order    │
 │ - Redirects to /dashboard?payment=success    │                         │ - Provisions user entitlement   │
 └──────────────────────────────────────────────┘                         └─────────────────────────────────┘
@@ -41,23 +41,27 @@ It integrates with the **PhonePe Standard Checkout (Pay Page / Hermes API)** sup
 
 Credentials are stored securely in the database (`payment_gateways` table) and managed via **Admin → Payment Gateways**:
 
+### V2 Credentials (Recommended / New)
+| Key | Type | Description |
+| :--- | :--- | :--- |
+| `client_id` | String | Client ID from PhonePe Developer Settings. |
+| `client_secret` | Secret | Client Secret from PhonePe Developer Settings. |
+| `client_version` | String | Client version (defaults to `"1"`). |
+
+### V1 Credentials (Legacy)
 | Key | Type | Description |
 | :--- | :--- | :--- |
 | `merchant_id` | String | PhonePe assigned Merchant ID (MID). |
-| `salt_key` | Secret | Secret salt key used for generating the `X-VERIFY` SHA256 checksum. |
+| `salt_key` | Secret | Secret salt key used for `X-VERIFY` SHA256 checksum. |
 | `salt_index` | String | Key index appended to checksum (defaults to `"1"`). |
-| `mode` | `"test" \| "live"` | Toggles between UAT Sandbox and Production APIs. |
 
-### API Base URLs
-- **Production (`mode: "live"`)**: `https://api.phonepe.com/apis/hermes`
-- **Sandbox (`mode: "test"`)**: `https://api-preprod.phonepe.com/apis/pg-sandbox`
+### V2 API Endpoints
+- **Production Token:** `https://api.phonepe.com/apis/identity-manager/v1/oauth/token`
+- **Sandbox Token:** `https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token`
+- **Production Checkout:** `https://api.phonepe.com/apis/pg/checkout/v2/pay`
+- **Sandbox Checkout:** `https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/pay`
+- **Order Status:** `https://api.phonepe.com/apis/pg/checkout/v2/order/{merchantOrderId}/status`
 
-### Default Sandbox Credentials
-- **Merchant ID**: `PGTESTPAYUAT86`
-- **Salt Key**: `96434309-7796-489d-8924-ab56988a6076`
-- **Salt Index**: `1`
-
----
 
 ## 4. Cryptographic Checksum (`X-VERIFY`) Logic
 

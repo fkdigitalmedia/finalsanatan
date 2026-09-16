@@ -346,7 +346,8 @@ async function checkPhonePeStatusV2(
   // Sanitize orderId same as initiation
   const sanitized = merchantOrderId.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 63);
 
-  const res = await fetch(`${baseUrl}/${sanitized}`, {
+  // Endpoint: GET /checkout/v2/order/{merchantOrderId}/status
+  const res = await fetch(`${baseUrl}/${sanitized}/status`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -355,7 +356,14 @@ async function checkPhonePeStatusV2(
   });
 
   const text = await res.text();
-  let json: { state?: string; orderId?: string; amount?: number; message?: string; paymentDetails?: Array<{ transactionId?: string }> };
+  let json: {
+    state?: string;
+    orderId?: string;
+    merchantOrderId?: string;
+    amount?: number;
+    message?: string;
+    paymentDetails?: Array<{ transactionId?: string; status?: string }>;
+  };
   try {
     json = JSON.parse(text);
   } catch {
@@ -373,7 +381,7 @@ async function checkPhonePeStatusV2(
     success: state === "COMPLETED",
     code: json.state ?? "UNKNOWN",
     state,
-    transactionId: json.paymentDetails?.[0]?.transactionId,
+    transactionId: json.paymentDetails?.[0]?.transactionId || json.orderId,
     amount: json.amount,
     message: json.message,
     raw: json,
