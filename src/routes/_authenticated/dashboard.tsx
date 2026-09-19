@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import {
   Sun,
@@ -15,13 +16,23 @@ import {
   Bell,
   ArrowRight,
   Activity,
+  Briefcase,
+  Heart,
+  Calendar,
+  Globe,
+  Compass,
+  Search,
+  CheckCircle2,
 } from "lucide-react";
 import { DashboardShell } from "@/components/user/DashboardShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useKundlis, useWorkspaceAnalytics } from "@/lib/workspace/hooks";
+import { getMyEntitlements } from "@/lib/payments.functions";
 import * as api from "@/lib/workspace/api";
 import {
   birthInputFromKundli,
@@ -33,6 +44,163 @@ import {
   upcomingMuhurats,
 } from "@/lib/workspace/insights";
 import { DEFAULT_LOCATION } from "@/lib/panchang";
+
+type ToolCategory = "All" | "Kundli & Horoscope" | "Relationships" | "Life & Career" | "Reports & PDF";
+
+interface PremiumToolItem {
+  id: string;
+  title: string;
+  description: string;
+  category: ToolCategory;
+  href: string;
+  icon: any;
+  badge: string;
+  features: string[];
+  gradient: string;
+}
+
+const TOOL_CATEGORIES: ToolCategory[] = [
+  "All",
+  "Kundli & Horoscope",
+  "Relationships",
+  "Life & Career",
+  "Reports & PDF",
+];
+
+const PREMIUM_TOOLS: PremiumToolItem[] = [
+  {
+    id: "kundli-pro",
+    title: "Janam Kundli Pro",
+    description: "Vedic birth chart, Lagna, Navamsa D9, planetary strengths, Vimshottari dasha, and 22+ page print-ready PDF.",
+    category: "Kundli & Horoscope",
+    href: "/kundli",
+    icon: Star,
+    badge: "22+ Page PDF",
+    features: ["North/South/East Charts", "Full Dasha Analysis", "Instant PDF"],
+    gradient: "from-amber-500/10 via-primary/5 to-amber-500/5",
+  },
+  {
+    id: "career-report",
+    title: "Career & Business Analysis",
+    description: "10th House Karma Bhava deep dive, D10 Dasamsa chart analysis, job vs business suitability, and income timing PDF.",
+    category: "Life & Career",
+    href: "/tools/career-report",
+    icon: Briefcase,
+    badge: "Pro PDF",
+    features: ["D10 Dasamsa Analysis", "Business vs Job", "Income Vectors"],
+    gradient: "from-blue-500/10 via-primary/5 to-cyan-500/5",
+  },
+  {
+    id: "varshphal",
+    title: "Varshphal (Annual Return)",
+    description: "Solar return annual horoscope, Muntha analysis, 15 Tajika Sahams, Mudda Dasha timeline, and 12-month predictions.",
+    category: "Kundli & Horoscope",
+    href: "/tools/varshphal",
+    icon: Calendar,
+    badge: "Annual Report",
+    features: ["Muntha Analysis", "15 Tajika Sahams", "Mudda Dasha"],
+    gradient: "from-purple-500/10 via-primary/5 to-pink-500/5",
+  },
+  {
+    id: "kundli-matching",
+    title: "Kundli Matching (Gun Milan)",
+    description: "Traditional 36 Gun Milan, Manglik Dosha, Nadi Dosha, Bhakoot compatibility analysis, and downloadable match report.",
+    category: "Relationships",
+    href: "/tools/kundli-matching",
+    icon: Heart,
+    badge: "36 Gunas",
+    features: ["36 Gun Milan", "Dosha Cancellations", "Full Match PDF"],
+    gradient: "from-rose-500/10 via-primary/5 to-orange-500/5",
+  },
+  {
+    id: "love-compatibility",
+    title: "Love & Marriage Compatibility",
+    description: "Emotional harmony, psychological dynamics, love language alignment, and comprehensive compatibility PDF.",
+    category: "Relationships",
+    href: "/tools/love-compatibility",
+    icon: Sparkles,
+    badge: "Relationship Guide",
+    features: ["Romantic Dynamics", "Emotional Sync", "Shareable PDF"],
+    gradient: "from-pink-500/10 via-primary/5 to-rose-500/5",
+  },
+  {
+    id: "numerology-report",
+    title: "Numerology Pro Report",
+    description: "Life Path, Destiny, Soul Urge, 12-Month Personal Year timeline, Pinnacle cycles, and 30-40 page commercial PDF.",
+    category: "Life & Career",
+    href: "/tools/numerology-report",
+    icon: FileText,
+    badge: "30-Section PDF",
+    features: ["Life Path & Destiny", "12-Month Timeline", "Pinnacle Cycles"],
+    gradient: "from-emerald-500/10 via-primary/5 to-teal-500/5",
+  },
+  {
+    id: "marriage-analysis",
+    title: "Marriage & Spouse Analysis",
+    description: "Navamsa D9 chart breakdown, spouse nature and direction, marriage timing Dasha, and relationship longevity.",
+    category: "Relationships",
+    href: "/tools/marriage-analysis",
+    icon: Users,
+    badge: "Navamsa D9",
+    features: ["Spouse Characteristics", "Marriage Timing", "Remedies"],
+    gradient: "from-violet-500/10 via-primary/5 to-purple-500/5",
+  },
+  {
+    id: "health-analysis",
+    title: "Vedic Health & Medical Astrology",
+    description: "D6 & D8 astrological vulnerability indicators, planetary balance, wellness scorecards, and Ayurvedic recommendations.",
+    category: "Reports & PDF",
+    href: "/tools/health-analysis",
+    icon: Activity,
+    badge: "Medical Astrology",
+    features: ["Organ System Trends", "Vulnerability Score", "Ayurvedic Remedies"],
+    gradient: "from-emerald-500/10 via-primary/5 to-green-500/5",
+  },
+  {
+    id: "foreign-settlement",
+    title: "Foreign Settlement & Travel",
+    description: "9th and 12th house relocation potentials, overseas higher education, visa approval timing, and permanent residence.",
+    category: "Life & Career",
+    href: "/tools/foreign-settlement-analysis",
+    icon: Globe,
+    badge: "Travel & PR",
+    features: ["Visa Timing", "Relocation Prospects", "Overseas Career"],
+    gradient: "from-sky-500/10 via-primary/5 to-indigo-500/5",
+  },
+  {
+    id: "master-life-blueprint",
+    title: "Master Life Blueprint (VIP)",
+    description: "The ultimate 96-page VIP astrological blueprint covering career, wealth, marriage, spirituality, and lifelong milestones.",
+    category: "Reports & PDF",
+    href: "/tools/master-life-blueprint",
+    icon: Crown,
+    badge: "96-Page VIP",
+    features: ["Comprehensive 96 Pages", "Lifelong Timelines", "VIP Publication Grade"],
+    gradient: "from-amber-500/15 via-yellow-500/10 to-amber-600/10",
+  },
+  {
+    id: "muhurat-finder",
+    title: "Auspicious Muhurat Finder",
+    description: "Calculate optimal shubh muhurats for marriage, property purchase, vehicle registration, and Griha Pravesh.",
+    category: "Reports & PDF",
+    href: "/tools/muhurat-finder",
+    icon: Clock3,
+    badge: "Panchang Timing",
+    features: ["Marriage Muhurat", "Griha Pravesh", "Vehicle & Business"],
+    gradient: "from-amber-500/10 via-orange-500/5 to-primary/5",
+  },
+  {
+    id: "vastu-report",
+    title: "Vastu Energy Report",
+    description: "Evaluate directional energies of your home, office, or plot using classical Vastu Shastra principles and remedial guides.",
+    category: "Reports & PDF",
+    href: "/tools/vastu-report",
+    icon: Compass,
+    badge: "Vastu Shastra",
+    features: ["Directional Alignment", "Energy Scorecard", "Remedial Tips"],
+    gradient: "from-teal-500/10 via-emerald-500/5 to-primary/5",
+  },
+];
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   ssr: false,
@@ -70,6 +238,40 @@ function DashboardPage() {
   }, []);
 
   const loc = useMemo(() => (primary ? locationFromKundli(primary) : DEFAULT_LOCATION), [primary]);
+
+  const fetchEntitlements = useServerFn(getMyEntitlements);
+  const { data: entData } = useQuery({
+    queryKey: ["my-entitlements", uid ?? "anon"],
+    queryFn: () => fetchEntitlements(),
+    enabled: !!uid,
+    staleTime: 60_000,
+  });
+
+  const entitlements = entData?.entitlements ?? [];
+  const isLifetime = entitlements.some((e) =>
+    ["lifetime", "lifetime_vip", "lifetime_access", "admin"].includes(e),
+  );
+  const isPro =
+    isLifetime ||
+    entitlements.some((e) =>
+      ["pro", "premium_access", "premium", "pro-monthly", "pro-yearly"].includes(e),
+    );
+
+  const [toolSearch, setToolSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<ToolCategory>("All");
+
+  const filteredTools = useMemo(() => {
+    return PREMIUM_TOOLS.filter((tool) => {
+      const matchesCat = selectedCategory === "All" || tool.category === selectedCategory;
+      const q = toolSearch.toLowerCase().trim();
+      const matchesQuery =
+        !q ||
+        tool.title.toLowerCase().includes(q) ||
+        tool.description.toLowerCase().includes(q) ||
+        tool.features.some((f) => f.toLowerCase().includes(q));
+      return matchesCat && matchesQuery;
+    });
+  }, [toolSearch, selectedCategory]);
 
   const { data: today } = useQuery({
     queryKey: ["ws", "today", loc.lat, loc.lon, new Date().toDateString()],
@@ -137,15 +339,71 @@ function DashboardPage() {
   return (
     <DashboardShell
       title={`Namaste, ${side?.name ?? "friend"}`}
-      description="Your personal astrology workspace — panchang, dasha, gochar, reports and downloads in one place."
+      description="Your personal astrology workspace — panchang, dasha, gochar, premium tools and reports in one place."
       actions={
-        <Link to="/my-kundlis">
-          <Button>
-            <Star className="size-4" /> My Kundlis
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <a href="#premium-tools">
+            <Button variant="outline" className="border-amber-500/40 hover:bg-amber-500/10">
+              <Crown className="size-4 text-amber-500 mr-1.5" /> Premium Tools
+            </Button>
+          </a>
+          <Link to="/my-kundlis">
+            <Button>
+              <Star className="size-4 mr-1.5" /> My Kundlis
+            </Button>
+          </Link>
+        </div>
       }
     >
+      {/* Plan Status Banner */}
+      {isLifetime ? (
+        <div className="mb-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/5 p-4 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center size-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 shadow-sm">
+              <Crown className="size-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm text-foreground">Lifetime VIP Pass Active</span>
+                <Badge className="bg-amber-500 text-white text-[10px] px-2 py-0 border-0">VIP Access</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Aapke paas sabhi 12+ Premium Tools aur publication-grade PDF report downloads ka unrestricted lifetime access hai.
+              </p>
+            </div>
+          </div>
+          <a
+            href="#premium-tools"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-1.5 rounded-lg shadow-2xs"
+          >
+            Aapke Premium Tools <ArrowRight className="size-3.5" />
+          </a>
+        </div>
+      ) : isPro ? (
+        <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-primary/5 to-emerald-500/5 p-4 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center size-10 rounded-xl bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
+              <Sparkles className="size-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm text-foreground">Pro Subscription Active</span>
+                <Badge className="bg-emerald-600 text-white text-[10px] px-2 py-0 border-0">Pro Unlocked</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                All Pro astrology calculators, deep compatibility tools, and PDF downloads are unlocked.
+              </p>
+            </div>
+          </div>
+          <a
+            href="#premium-tools"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-1.5 rounded-lg shadow-2xs"
+          >
+            Aapke Premium Tools <ArrowRight className="size-3.5" />
+          </a>
+        </div>
+      ) : null}
+
       {/* Today */}
       <div className="grid lg:grid-cols-3 gap-4">
         <Card className="p-6 lg:col-span-2">
@@ -248,6 +506,160 @@ function DashboardPage() {
         </Card>
       </div>
 
+      {/* Premium Tools Suite */}
+      <section id="premium-tools" className="mt-10 scroll-mt-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 text-xs font-semibold mb-2 border border-amber-500/20">
+              <Crown className="size-3.5" />
+              <span>Premium Vedic Astrological Tools</span>
+            </div>
+            <h2 className="font-display text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
+              Aapke Premium Vedic Tools
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+              Kundli, Career D10, Varshphal, Gun Milan, Numerology aur sabhi high-precision calculators — direct access ke sath.
+            </p>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative w-full md:w-72 shrink-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search tools (e.g. Career, Match)..."
+              value={toolSearch}
+              onChange={(e) => setToolSearch(e.target.value)}
+              className="pl-9 h-10 rounded-xl bg-card border-border/80 text-sm focus-visible:ring-amber-500"
+            />
+            {toolSearch && (
+              <button
+                type="button"
+                onClick={() => setToolSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Category Filters */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-6">
+          {TOOL_CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                selectedCategory === cat
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-card hover:bg-muted text-muted-foreground border border-border"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Tools Grid */}
+        {filteredTools.length === 0 ? (
+          <div className="text-center py-12 px-4 rounded-2xl border border-dashed border-border bg-card/50">
+            <Search className="size-8 text-muted-foreground mx-auto mb-2 opacity-50" />
+            <p className="text-base font-medium">Koi tool nahi mila</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              &ldquo;{toolSearch}&rdquo; se milta julta koi tool nahi mila. Dusra search try karein.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setToolSearch("");
+                setSelectedCategory("All");
+              }}
+              className="mt-4 text-xs"
+            >
+              Reset Filters
+            </Button>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filteredTools.map((tool) => {
+              const IconComp = tool.icon;
+              return (
+                <Card
+                  key={tool.id}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-5 transition-all duration-200 hover:border-amber-500/40 hover:shadow-md hover:-translate-y-0.5"
+                >
+                  {/* Gradient background accent */}
+                  <div
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-50 transition-opacity group-hover:opacity-100`}
+                  />
+
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex size-11 items-center justify-center rounded-xl bg-background/90 shadow-2xs border border-border/60 text-primary group-hover:border-amber-500/40 group-hover:text-amber-500 transition-colors">
+                        <IconComp className="size-5" />
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Badge
+                          variant="outline"
+                          className="text-[11px] font-medium bg-background/80 border-border/70"
+                        >
+                          {tool.badge}
+                        </Badge>
+                        {isLifetime ? (
+                          <Badge className="bg-amber-500 text-white text-[10px] px-2 py-0 border-0 shadow-2xs">
+                            ✨ Unlocked
+                          </Badge>
+                        ) : isPro ? (
+                          <Badge className="bg-emerald-600 text-white text-[10px] px-2 py-0 border-0 shadow-2xs">
+                            ✨ Pro
+                          </Badge>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <h3 className="font-display text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                      {tool.description}
+                    </p>
+
+                    {/* Features pills */}
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {tool.features.map((feat, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/80 bg-background/90 border border-border/50 px-2 py-0.5 rounded-md"
+                        >
+                          <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                          {feat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 mt-5 pt-3 border-t border-border/40 flex items-center justify-between">
+                    <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+                      {tool.category}
+                    </span>
+                    <Link
+                      to={tool.href}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-amber-600 transition-colors hover:underline"
+                    >
+                      <span>Launch Tool</span>
+                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
       {/* Analytics */}
       <div className="mt-8 grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
         <Metric
@@ -343,7 +755,11 @@ function DashboardPage() {
               </span>
             </div>
             <p className="mt-3 font-display text-xl font-semibold capitalize">
-              {side?.entitlement
+              {isLifetime
+                ? "Lifetime VIP Pass ✨"
+                : isPro
+                ? "Pro Subscription Active ✨"
+                : side?.entitlement
                 ? side.entitlement.entitlement_key.replace(/[-_]/g, " ")
                 : "Free plan"}
             </p>

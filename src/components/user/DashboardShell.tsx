@@ -17,6 +17,7 @@ import {
   CreditCard,
   Search,
   X,
+  Compass,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ const groups = [
     label: "Workspace",
     items: [
       { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
+      { to: "/tools", label: "All Tools", icon: Compass },
       { to: "/my-kundlis", label: "My Kundlis", icon: Star },
       { to: "/family", label: "Family", icon: Users },
       { to: "/reports", label: "Reports", icon: FileText },
