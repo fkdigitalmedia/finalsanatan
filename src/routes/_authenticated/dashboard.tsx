@@ -341,15 +341,15 @@ function DashboardPage() {
       title={`Namaste, ${side?.name ?? "friend"}`}
       description="Your personal astrology workspace — panchang, dasha, gochar, premium tools and reports in one place."
       actions={
-        <div className="flex items-center gap-2">
-          <a href="#premium-tools">
-            <Button variant="outline" className="border-amber-500/40 hover:bg-amber-500/10">
-              <Crown className="size-4 text-amber-500 mr-1.5" /> Premium Tools
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <a href="#premium-tools" className="flex-1 sm:flex-initial">
+            <Button variant="outline" className="w-full border-amber-500/40 hover:bg-amber-500/10 text-xs sm:text-sm h-9 sm:h-10 px-3 sm:px-4">
+              <Crown className="size-3.5 sm:size-4 text-amber-500 mr-1.5 shrink-0" /> Premium Tools
             </Button>
           </a>
-          <Link to="/my-kundlis">
-            <Button>
-              <Star className="size-4 mr-1.5" /> My Kundlis
+          <Link to="/my-kundlis" className="flex-1 sm:flex-initial">
+            <Button className="w-full text-xs sm:text-sm h-9 sm:h-10 px-3 sm:px-4">
+              <Star className="size-3.5 sm:size-4 mr-1.5 shrink-0" /> My Kundlis
             </Button>
           </Link>
         </div>
@@ -357,13 +357,13 @@ function DashboardPage() {
     >
       {/* Plan Status Banner */}
       {isLifetime ? (
-        <div className="mb-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/5 p-4 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center size-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 shadow-sm">
+        <div className="mb-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-amber-500/5 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <div className="flex shrink-0 items-center justify-center size-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 shadow-sm">
               <Crown className="size-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="font-bold text-sm text-foreground">Lifetime VIP Pass Active</span>
                 <Badge className="bg-amber-500 text-white text-[10px] px-2 py-0 border-0">VIP Access</Badge>
               </div>
@@ -374,19 +374,19 @@ function DashboardPage() {
           </div>
           <a
             href="#premium-tools"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-1.5 rounded-lg shadow-2xs"
+            className="inline-flex shrink-0 items-center justify-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-2 rounded-xl shadow-2xs w-full sm:w-auto"
           >
             Aapke Premium Tools <ArrowRight className="size-3.5" />
           </a>
         </div>
       ) : isPro ? (
-        <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-primary/5 to-emerald-500/5 p-4 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center size-10 rounded-xl bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
+        <div className="mb-6 rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-primary/5 to-emerald-500/5 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <div className="flex shrink-0 items-center justify-center size-10 rounded-xl bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
               <Sparkles className="size-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="font-bold text-sm text-foreground">Pro Subscription Active</span>
                 <Badge className="bg-emerald-600 text-white text-[10px] px-2 py-0 border-0">Pro Unlocked</Badge>
               </div>
@@ -397,7 +397,7 @@ function DashboardPage() {
           </div>
           <a
             href="#premium-tools"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-1.5 rounded-lg shadow-2xs"
+            className="inline-flex shrink-0 items-center justify-center gap-1 text-xs font-semibold text-primary hover:underline bg-background/80 border px-3 py-2 rounded-xl shadow-2xs w-full sm:w-auto"
           >
             Aapke Premium Tools <ArrowRight className="size-3.5" />
           </a>
@@ -406,7 +406,7 @@ function DashboardPage() {
 
       {/* Today */}
       <div className="grid lg:grid-cols-3 gap-4">
-        <Card className="p-6 lg:col-span-2">
+        <Card className="p-4 sm:p-6 lg:col-span-2">
           <div className="flex items-center gap-2 text-accent">
             <Sun className="size-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">
@@ -414,7 +414,7 @@ function DashboardPage() {
             </span>
           </div>
           {today ? (
-            <dl className="mt-4 grid sm:grid-cols-3 gap-4 text-sm">
+            <dl className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 text-sm">
               <Fact label="Tithi" value={today.panchang.tithi} />
               <Fact label="Nakshatra" value={today.panchang.nakshatra} />
               <Fact label="Yoga" value={today.panchang.yoga} />
@@ -433,7 +433,7 @@ function DashboardPage() {
           </Link>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <div className="flex items-center gap-2 text-accent">
             <Clock3 className="size-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">
@@ -458,8 +458,8 @@ function DashboardPage() {
       </div>
 
       {/* Personalised */}
-      <div className="mt-4 grid lg:grid-cols-3 gap-4">
-        <Card className="p-6">
+      <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card className="p-4 sm:p-6">
           <div className="flex items-center gap-2 text-accent">
             <Sparkles className="size-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">Mahadasha</span>
@@ -477,7 +477,7 @@ function DashboardPage() {
             />
           </div>
         </Card>
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <div className="flex items-center gap-2 text-accent">
             <Sparkles className="size-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">Antardasha</span>
@@ -489,7 +489,7 @@ function DashboardPage() {
             {primary ? `Based on ${primary.name}’s chart` : "Save a chart to personalise"}
           </p>
         </Card>
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2 text-accent">
             <TrendingUp className="size-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">Gochar today</span>
@@ -507,36 +507,36 @@ function DashboardPage() {
       </div>
 
       {/* Premium Tools Suite */}
-      <section id="premium-tools" className="mt-10 scroll-mt-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+      <section id="premium-tools" className="mt-8 sm:mt-10 scroll-mt-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 text-xs font-semibold mb-2 border border-amber-500/20">
-              <Crown className="size-3.5" />
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 text-xs font-semibold mb-2 border border-amber-500/20">
+              <Crown className="size-3.5 shrink-0" />
               <span>Premium Vedic Astrological Tools</span>
             </div>
-            <h2 className="font-display text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
+            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
               Aapke Premium Vedic Tools
             </h2>
-            <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
               Kundli, Career D10, Varshphal, Gun Milan, Numerology aur sabhi high-precision calculators — direct access ke sath.
             </p>
           </div>
 
           {/* Search bar */}
-          <div className="relative w-full md:w-72 shrink-0">
+          <div className="relative w-full sm:w-72 shrink-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search tools (e.g. Career, Match)..."
               value={toolSearch}
               onChange={(e) => setToolSearch(e.target.value)}
-              className="pl-9 h-10 rounded-xl bg-card border-border/80 text-sm focus-visible:ring-amber-500"
+              className="pl-9 pr-14 h-10 rounded-xl bg-card border-border/80 text-sm focus-visible:ring-amber-500 w-full"
             />
             {toolSearch && (
               <button
                 type="button"
                 onClick={() => setToolSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground hover:text-foreground px-1.5 py-0.5"
               >
                 Clear
               </button>
@@ -545,16 +545,16 @@ function DashboardPage() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-6">
+        <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-4 sm:mb-6">
           {TOOL_CATEGORIES.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+              className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "bg-card hover:bg-muted text-muted-foreground border border-border"
+                  ? "bg-primary text-primary-foreground shadow-2xs font-semibold"
+                  : "bg-card hover:bg-muted text-muted-foreground border border-border/80"
               }`}
             >
               {cat}
@@ -564,7 +564,7 @@ function DashboardPage() {
 
         {/* Tools Grid */}
         {filteredTools.length === 0 ? (
-          <div className="text-center py-12 px-4 rounded-2xl border border-dashed border-border bg-card/50">
+          <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-border bg-card/50">
             <Search className="size-8 text-muted-foreground mx-auto mb-2 opacity-50" />
             <p className="text-base font-medium">Koi tool nahi mila</p>
             <p className="text-xs text-muted-foreground mt-1">
@@ -583,71 +583,73 @@ function DashboardPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
             {filteredTools.map((tool) => {
               const IconComp = tool.icon;
               return (
                 <Card
                   key={tool.id}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-5 transition-all duration-200 hover:border-amber-500/40 hover:shadow-md hover:-translate-y-0.5"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-amber-500/40 hover:shadow-md hover:-translate-y-0.5"
                 >
                   {/* Gradient background accent */}
                   <div
-                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-50 transition-opacity group-hover:opacity-100`}
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-40 transition-opacity group-hover:opacity-100`}
                   />
 
                   <div className="relative z-10">
-                    <div className="flex items-start justify-between gap-3 mb-3">
-                      <div className="flex size-11 items-center justify-center rounded-xl bg-background/90 shadow-2xs border border-border/60 text-primary group-hover:border-amber-500/40 group-hover:text-amber-500 transition-colors">
+                    <div className="flex items-start justify-between gap-2.5 mb-2.5 sm:mb-3">
+                      <div className="flex shrink-0 size-10 sm:size-11 items-center justify-center rounded-xl bg-background/90 shadow-2xs border border-border/60 text-primary group-hover:border-amber-500/40 group-hover:text-amber-500 transition-colors">
                         <IconComp className="size-5" />
                       </div>
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5">
                         <Badge
                           variant="outline"
-                          className="text-[11px] font-medium bg-background/80 border-border/70"
+                          className="text-[10px] sm:text-[11px] font-medium bg-background/80 border-border/70 shrink-0"
                         >
                           {tool.badge}
                         </Badge>
                         {isLifetime ? (
-                          <Badge className="bg-amber-500 text-white text-[10px] px-2 py-0 border-0 shadow-2xs">
+                          <Badge className="bg-amber-500 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
                             ✨ Unlocked
                           </Badge>
                         ) : isPro ? (
-                          <Badge className="bg-emerald-600 text-white text-[10px] px-2 py-0 border-0 shadow-2xs">
+                          <Badge className="bg-emerald-600 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
                             ✨ Pro
                           </Badge>
                         ) : null}
                       </div>
                     </div>
 
-                    <h3 className="font-display text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                      {tool.title}
-                    </h3>
-                    <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                    <Link to={tool.href} className="block group-hover:underline">
+                      <h3 className="font-display text-base sm:text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                        {tool.title}
+                      </h3>
+                    </Link>
+                    <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                       {tool.description}
                     </p>
 
                     {/* Features pills */}
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                    <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5">
                       {tool.features.map((feat, idx) => (
                         <span
                           key={idx}
-                          className="inline-flex items-center gap-1 text-[11px] font-medium text-foreground/80 bg-background/90 border border-border/50 px-2 py-0.5 rounded-md"
+                          className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-foreground/80 bg-background/90 border border-border/50 px-2 py-0.5 rounded-md"
                         >
-                          <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                          <CheckCircle2 className="size-2.5 sm:size-3 text-emerald-500 shrink-0" />
                           {feat}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="relative z-10 mt-5 pt-3 border-t border-border/40 flex items-center justify-between">
-                    <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+                  <div className="relative z-10 mt-4 sm:mt-5 pt-3 border-t border-border/40 flex items-center justify-between gap-2">
+                    <span className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider truncate">
                       {tool.category}
                     </span>
                     <Link
                       to={tool.href}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-amber-600 transition-colors hover:underline"
+                      className="inline-flex shrink-0 items-center justify-center gap-1.5 text-xs font-semibold text-primary group-hover:text-amber-600 transition-colors bg-primary/5 hover:bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg active:scale-95"
                     >
                       <span>Launch Tool</span>
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -661,7 +663,7 @@ function DashboardPage() {
       </section>
 
       {/* Analytics */}
-      <div className="mt-8 grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
         <Metric
           icon={<FileText className="size-4" />}
           label="Reports"
@@ -700,10 +702,10 @@ function DashboardPage() {
       </div>
 
       {/* Lists */}
-      <div className="mt-8 grid lg:grid-cols-3 gap-4">
-        <Card className="p-6 lg:col-span-2">
+      <div className="mt-6 sm:mt-8 grid lg:grid-cols-3 gap-4">
+        <Card className="p-4 sm:p-6 lg:col-span-2">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-xl font-semibold">Recent reports</h2>
+            <h2 className="font-display text-lg sm:text-xl font-semibold">Recent reports</h2>
             <Link to="/reports" className="text-sm text-accent hover:underline">
               Library
             </Link>
@@ -729,7 +731,7 @@ function DashboardPage() {
             </p>
           )}
 
-          <h3 className="mt-8 font-display text-lg font-semibold">Recent downloads</h3>
+          <h3 className="mt-6 sm:mt-8 font-display text-base sm:text-lg font-semibold">Recent downloads</h3>
           {side?.downloads.length ? (
             <ul className="mt-3 divide-y divide-border">
               {side.downloads.map((d) => (
@@ -747,14 +749,14 @@ function DashboardPage() {
         </Card>
 
         <div className="space-y-4">
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center gap-2 text-accent">
               <Crown className="size-4" />
               <span className="text-xs font-semibold uppercase tracking-widest">
                 Premium status
               </span>
             </div>
-            <p className="mt-3 font-display text-xl font-semibold capitalize">
+            <p className="mt-3 font-display text-lg sm:text-xl font-semibold capitalize">
               {isLifetime
                 ? "Lifetime VIP Pass ✨"
                 : isPro
@@ -771,13 +773,13 @@ function DashboardPage() {
             </Link>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center gap-2 text-accent">
               <Bell className="size-4" />
               <span className="text-xs font-semibold uppercase tracking-widest">Notifications</span>
             </div>
-            <p className="mt-3 font-display text-3xl font-semibold">{side?.unread ?? 0}</p>
-            <p className="text-sm text-muted-foreground">unread updates</p>
+            <p className="mt-3 font-display text-2xl sm:text-3xl font-semibold">{side?.unread ?? 0}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">unread updates</p>
             <Link
               to="/notifications"
               className="mt-3 inline-flex items-center gap-1 text-sm text-accent hover:underline"
@@ -786,8 +788,8 @@ function DashboardPage() {
             </Link>
           </Card>
 
-          <Card className="p-6">
-            <h3 className="font-display text-lg font-semibold">Saved birth charts</h3>
+          <Card className="p-4 sm:p-6">
+            <h3 className="font-display text-base sm:text-lg font-semibold">Saved birth charts</h3>
             {charts?.rows.length ? (
               <ul className="mt-3 space-y-2 text-sm">
                 {charts.rows.map((c) => (
@@ -840,12 +842,12 @@ function Metric({
   to?: "/reports" | "/downloads" | "/horoscope-history" | "/my-kundlis" | "/family";
 }) {
   const body = (
-    <Card className="p-4">
-      <div className="inline-flex size-8 items-center justify-center rounded-lg bg-primary-soft text-accent">
+    <Card className="p-3 sm:p-4 hover:border-accent/40 transition-colors">
+      <div className="inline-flex size-7 sm:size-8 items-center justify-center rounded-lg bg-primary-soft text-accent">
         {icon}
       </div>
-      <p className="mt-2 text-[11px] uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className="font-display text-xl font-semibold">{value}</p>
+      <p className="mt-1.5 sm:mt-2 text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground truncate">{label}</p>
+      <p className="font-display text-lg sm:text-xl font-semibold">{value}</p>
     </Card>
   );
   return to ? <Link to={to}>{body}</Link> : body;

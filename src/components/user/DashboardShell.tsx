@@ -127,12 +127,12 @@ export function DashboardShell({
 
   return (
     <SiteLayout>
-      <section className="container-page py-8 md:py-12">
-        <div className="grid lg:grid-cols-[230px_1fr] gap-8">
-          <aside>
-            <nav className="lg:sticky lg:top-24 flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+      <section className="container-page py-5 sm:py-8 md:py-12">
+        <div className="grid lg:grid-cols-[230px_1fr] gap-5 lg:gap-8">
+          <aside className="-mx-4 px-4 sm:mx-0 sm:px-0">
+            <nav className="lg:sticky lg:top-24 flex lg:flex-col gap-2 sm:gap-3 lg:gap-4 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-none">
               {groups.map((g) => (
-                <div key={g.label} className="flex lg:flex-col gap-1">
+                <div key={g.label} className="flex lg:flex-col gap-1.5 sm:gap-1 shrink-0">
                   <p className="hidden lg:block px-3 pb-1 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                     {g.label}
                   </p>
@@ -145,13 +145,13 @@ export function DashboardShell({
                         to={i.to}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "inline-flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium whitespace-nowrap transition-colors",
+                          "inline-flex shrink-0 items-center gap-2 rounded-xl px-3 py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors",
                           active
-                            ? "bg-primary-soft text-accent"
-                            : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                            ? "bg-primary text-primary-foreground shadow-2xs font-semibold"
+                            : "bg-card sm:bg-transparent border border-border/60 sm:border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground",
                         )}
                       >
-                        <Icon className="size-4" />
+                        <Icon className="size-3.5 sm:size-4 shrink-0" />
                         {i.label}
                       </Link>
                     );
@@ -162,14 +162,18 @@ export function DashboardShell({
           </aside>
           <div className="min-w-0">
             <GlobalSearch />
-            <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <h1 className="font-display text-3xl md:text-4xl font-semibold tracking-tight">
+            <header className="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div className="min-w-0">
+                <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">
                   {title}
                 </h1>
-                {description && <p className="mt-2 text-muted-foreground">{description}</p>}
+                {description && (
+                  <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground">
+                    {description}
+                  </p>
+                )}
               </div>
-              {actions}
+              {actions && <div className="shrink-0 w-full sm:w-auto">{actions}</div>}
             </header>
             {children}
           </div>
