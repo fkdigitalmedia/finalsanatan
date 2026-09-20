@@ -362,7 +362,7 @@ function DashboardPage() {
             <div className="flex shrink-0 items-center justify-center size-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 shadow-sm">
               <Crown className="size-5" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-bold text-sm text-foreground">Lifetime VIP Pass Active</span>
                 <Badge className="bg-amber-500 text-white text-[10px] px-2 py-0 border-0">VIP Access</Badge>
@@ -385,7 +385,7 @@ function DashboardPage() {
             <div className="flex shrink-0 items-center justify-center size-10 rounded-xl bg-emerald-500/20 text-emerald-600 border border-emerald-500/30">
               <Sparkles className="size-5" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-bold text-sm text-foreground">Pro Subscription Active</span>
                 <Badge className="bg-emerald-600 text-white text-[10px] px-2 py-0 border-0">Pro Unlocked</Badge>
@@ -403,6 +403,164 @@ function DashboardPage() {
           </a>
         </div>
       ) : null}
+
+      {/* Premium Tools Suite — placed prominently at the top */}
+      <section id="premium-tools" className="mb-10 scroll-mt-6 w-full min-w-0 max-w-full">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 text-xs font-semibold mb-2 border border-amber-500/20">
+              <Crown className="size-3.5 shrink-0" />
+              <span>Premium Vedic Astrological Tools</span>
+            </div>
+            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
+              Aapke Premium Vedic Tools
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
+              Kundli, Career D10, Varshphal, Gun Milan, Numerology aur sabhi high-precision calculators — direct access ke sath.
+            </p>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative w-full sm:w-72 shrink-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search tools (e.g. Career, Match)..."
+              value={toolSearch}
+              onChange={(e) => setToolSearch(e.target.value)}
+              className="pl-9 pr-14 h-10 rounded-xl bg-card border-border/80 text-sm focus-visible:ring-amber-500 w-full"
+            />
+            {toolSearch && (
+              <button
+                type="button"
+                onClick={() => setToolSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground hover:text-foreground px-1.5 py-0.5"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Category Filters */}
+        <div className="w-full flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-4 sm:mb-6 touch-pan-x">
+          {TOOL_CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                selectedCategory === cat
+                  ? "bg-primary text-primary-foreground shadow-2xs font-semibold"
+                  : "bg-card hover:bg-muted text-muted-foreground border border-border/80"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Tools Grid */}
+        {filteredTools.length === 0 ? (
+          <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-border bg-card/50">
+            <Search className="size-8 text-muted-foreground mx-auto mb-2 opacity-50" />
+            <p className="text-base font-medium">Koi tool nahi mila</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              &ldquo;{toolSearch}&rdquo; se milta julta koi tool nahi mila. Dusra search try karein.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setToolSearch("");
+                setSelectedCategory("All");
+              }}
+              className="mt-4 text-xs"
+            >
+              Reset Filters
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
+            {filteredTools.map((tool) => {
+              const IconComp = tool.icon;
+              return (
+                <Card
+                  key={tool.id}
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-amber-500/40 hover:shadow-md hover:-translate-y-0.5"
+                >
+                  {/* Gradient background accent */}
+                  <div
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-40 transition-opacity group-hover:opacity-100`}
+                  />
+
+                  <div className="relative z-10">
+                    <div className="flex items-start gap-3 mb-2.5">
+                      <div className="flex shrink-0 size-10 sm:size-11 items-center justify-center rounded-xl bg-background/90 shadow-2xs border border-border/60 text-primary group-hover:border-amber-500/40 group-hover:text-amber-500 transition-colors">
+                        <IconComp className="size-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                          <Badge
+                            variant="outline"
+                            className="text-[10px] sm:text-[11px] font-medium bg-background/80 border-border/70 shrink-0"
+                          >
+                            {tool.badge}
+                          </Badge>
+                          {isLifetime ? (
+                            <Badge className="bg-amber-500 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
+                              ✨ Unlocked
+                            </Badge>
+                          ) : isPro ? (
+                            <Badge className="bg-emerald-600 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
+                              ✨ Pro
+                            </Badge>
+                          ) : null}
+                        </div>
+                        <Link to={tool.href} className="block group-hover:underline">
+                          <h3 className="font-display text-base sm:text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors leading-snug">
+                            {tool.title}
+                          </h3>
+                        </Link>
+                      </div>
+                    </div>
+
+                    <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                      {tool.description}
+                    </p>
+
+                    {/* Features pills */}
+                    <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5">
+                      {tool.features.map((feat, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-foreground/80 bg-background/90 border border-border/50 px-2 py-0.5 rounded-md"
+                        >
+                          <CheckCircle2 className="size-2.5 sm:size-3 text-emerald-500 shrink-0" />
+                          {feat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 mt-4 sm:mt-5 pt-3 border-t border-border/40 flex items-center justify-between gap-2">
+                    <span className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider truncate">
+                      {tool.category}
+                    </span>
+                    <Link
+                      to={tool.href}
+                      className="inline-flex shrink-0 items-center justify-center gap-1.5 text-xs font-semibold text-primary group-hover:text-amber-600 transition-colors bg-primary/10 hover:bg-primary/20 border border-primary/20 px-3.5 py-1.5 rounded-xl active:scale-95 shadow-2xs"
+                    >
+                      <span>Launch Tool</span>
+                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+      </section>
 
       {/* Today */}
       <div className="grid lg:grid-cols-3 gap-4">
@@ -505,162 +663,6 @@ function DashboardPage() {
           </p>
         </Card>
       </div>
-
-      {/* Premium Tools Suite */}
-      <section id="premium-tools" className="mt-8 sm:mt-10 scroll-mt-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 text-xs font-semibold mb-2 border border-amber-500/20">
-              <Crown className="size-3.5 shrink-0" />
-              <span>Premium Vedic Astrological Tools</span>
-            </div>
-            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-foreground">
-              Aapke Premium Vedic Tools
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
-              Kundli, Career D10, Varshphal, Gun Milan, Numerology aur sabhi high-precision calculators — direct access ke sath.
-            </p>
-          </div>
-
-          {/* Search bar */}
-          <div className="relative w-full sm:w-72 shrink-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search tools (e.g. Career, Match)..."
-              value={toolSearch}
-              onChange={(e) => setToolSearch(e.target.value)}
-              className="pl-9 pr-14 h-10 rounded-xl bg-card border-border/80 text-sm focus-visible:ring-amber-500 w-full"
-            />
-            {toolSearch && (
-              <button
-                type="button"
-                onClick={() => setToolSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground hover:text-foreground px-1.5 py-0.5"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Category Filters */}
-        <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-4 sm:mb-6">
-          {TOOL_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setSelectedCategory(cat)}
-              className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                selectedCategory === cat
-                  ? "bg-primary text-primary-foreground shadow-2xs font-semibold"
-                  : "bg-card hover:bg-muted text-muted-foreground border border-border/80"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Tools Grid */}
-        {filteredTools.length === 0 ? (
-          <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-border bg-card/50">
-            <Search className="size-8 text-muted-foreground mx-auto mb-2 opacity-50" />
-            <p className="text-base font-medium">Koi tool nahi mila</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              &ldquo;{toolSearch}&rdquo; se milta julta koi tool nahi mila. Dusra search try karein.
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setToolSearch("");
-                setSelectedCategory("All");
-              }}
-              className="mt-4 text-xs"
-            >
-              Reset Filters
-            </Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
-            {filteredTools.map((tool) => {
-              const IconComp = tool.icon;
-              return (
-                <Card
-                  key={tool.id}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-amber-500/40 hover:shadow-md hover:-translate-y-0.5"
-                >
-                  {/* Gradient background accent */}
-                  <div
-                    className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-40 transition-opacity group-hover:opacity-100`}
-                  />
-
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between gap-2.5 mb-2.5 sm:mb-3">
-                      <div className="flex shrink-0 size-10 sm:size-11 items-center justify-center rounded-xl bg-background/90 shadow-2xs border border-border/60 text-primary group-hover:border-amber-500/40 group-hover:text-amber-500 transition-colors">
-                        <IconComp className="size-5" />
-                      </div>
-                      <div className="flex flex-wrap items-center justify-end gap-1.5">
-                        <Badge
-                          variant="outline"
-                          className="text-[10px] sm:text-[11px] font-medium bg-background/80 border-border/70 shrink-0"
-                        >
-                          {tool.badge}
-                        </Badge>
-                        {isLifetime ? (
-                          <Badge className="bg-amber-500 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
-                            ✨ Unlocked
-                          </Badge>
-                        ) : isPro ? (
-                          <Badge className="bg-emerald-600 text-white text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0 border-0 shadow-2xs shrink-0">
-                            ✨ Pro
-                          </Badge>
-                        ) : null}
-                      </div>
-                    </div>
-
-                    <Link to={tool.href} className="block group-hover:underline">
-                      <h3 className="font-display text-base sm:text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                        {tool.title}
-                      </h3>
-                    </Link>
-                    <p className="mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                      {tool.description}
-                    </p>
-
-                    {/* Features pills */}
-                    <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5">
-                      {tool.features.map((feat, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-foreground/80 bg-background/90 border border-border/50 px-2 py-0.5 rounded-md"
-                        >
-                          <CheckCircle2 className="size-2.5 sm:size-3 text-emerald-500 shrink-0" />
-                          {feat}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="relative z-10 mt-4 sm:mt-5 pt-3 border-t border-border/40 flex items-center justify-between gap-2">
-                    <span className="text-[10px] sm:text-[11px] font-medium text-muted-foreground uppercase tracking-wider truncate">
-                      {tool.category}
-                    </span>
-                    <Link
-                      to={tool.href}
-                      className="inline-flex shrink-0 items-center justify-center gap-1.5 text-xs font-semibold text-primary group-hover:text-amber-600 transition-colors bg-primary/5 hover:bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg active:scale-95"
-                    >
-                      <span>Launch Tool</span>
-                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-      </section>
 
       {/* Analytics */}
       <div className="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
