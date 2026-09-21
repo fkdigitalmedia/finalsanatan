@@ -84,6 +84,48 @@ const DEFAULT_QUESTIONS_BY_TOPIC: Record<AstrologyTopic, string[]> = {
   ],
 };
 
+const DEFAULT_HINDI_QUESTIONS_BY_TOPIC: Record<AstrologyTopic, string[]> = {
+  kundli: [
+    "मेरे लग्न और लग्नेश के अनुसार मेरे जीवन का मुख्य उद्देश्य क्या है?",
+    "वर्तमान में मेरी कुंडली में कौन सी विंशोत्तरी महादशा चल रही है और इसके क्या फल होंगे?",
+    "क्या मेरी जन्म कुंडली में कोई शक्तिशाली राजयोग या धन योग बना है?",
+    "मेरी कुंडली में शनि की क्या स्थिति है — क्या मुझ पर साढ़ेसाती का प्रभाव है?",
+    "मेरे जन्म नक्षत्र, स्वामी ग्रह और इष्ट देव के अनुसार कौन सा मार्ग श्रेष्ठ है?",
+  ],
+  marriage: [
+    "क्या मेरी कुंडली में मांगलिक दोष है और क्या इसका कोई शास्त्रीय परिहार है?",
+    "मेरे 7वें भाव और नवांश (D9) से भावी जीवनसाथी के स्वभाव के क्या संकेत मिलते हैं?",
+    "विवाह के लिए कौन सी आगामी महादशा या अंतर्दशा सबसे शुभ है?",
+    "कुंडली मिलान में नाड़ी या भकूट दोष आने पर उसका सही समाधान क्या है?",
+    "दांपत्य जीवन में सामंजस्य और प्रेम बनाए रखने के लिए कौन से ग्रह अनुकूल हैं?",
+  ],
+  career: [
+    "10वें भाव और अमात्यकारक के अनुसार मेरे लिए कौन सा करियर या व्यवसाय सबसे उत्तम है?",
+    "क्या मुझे नौकरी करनी चाहिए या खुद का व्यवसाय/स्टार्टअप शुरू करना चाहिए?",
+    "पदोन्नति या करियर में बदलाव के लिए अगला सबसे अनुकूल समय कब है?",
+    "क्या मेरी कुंडली में विदेश में नौकरी करने या विदेश में बसने के योग हैं?",
+    "करियर में स्थिरता और वृद्धि के लिए 10वें भाव के स्वामी को कैसे मजबूत करें?",
+  ],
+  finance: [
+    "क्या मेरी कुंडली में 2रे, 5वें और 11वें भाव में धन योग या लक्ष्मी योग हैं?",
+    "जीवन में सबसे अधिक आर्थिक लाभ किस महादशा में होने की संभावना है?",
+    "क्या कुंडली में अनावश्यक खर्च या कर्ज के योग हैं और उनसे कैसे बचें?",
+    "संपत्ति, वाहन या दीर्घकालिक निवेश के लिए कौन सा समय श्रेष्ठ रहेगा?",
+  ],
+  remedies: [
+    "मेरी सक्रिय दशा के अनुसार कौन से प्रामाणिक वैदिक उपाय (मंत्र, दान, रत्न) करने चाहिए?",
+    "शनि साढ़ेसाती या राहु की दशा में बिना भय के सकारात्मक ऊर्जा कैसे बनाएं?",
+    "मेरे 5वें और 9वें भाव के अनुसार मेरी नित्य साधना और इष्ट देव कौन हैं?",
+    "कुंडली के चुनौतीपूर्ण भावों (6, 8, 12) के प्रभाव को आत्म-विकास में कैसे बदलें?",
+  ],
+  general: [
+    "वर्तमान में कौन से ग्रह मेरे निर्णयों और जीवन को सबसे ज्यादा प्रभावित कर रहे हैं?",
+    "मेरी चंद्र राशि के अनुसार मेरी सबसे बड़ी मानसिक और भावनात्मक शक्ति क्या है?",
+    "मेरी जन्म कुंडली के अनुकूल कौन से वैदिक मंत्र और देवी-देवता हैं?",
+    "कुंडली के ग्रहों का संतुलन बनाकर आध्यात्मिक और भौतिक प्रगति कैसे करें?",
+  ],
+};
+
 const DEFAULT_REPORTS_BY_TOPIC: Record<AstrologyTopic, RecommendedReportConfig> = {
   kundli: {
     title: "Janam Kundli Pro (Complete Life Blueprint)",
@@ -185,16 +227,20 @@ export function AiAstrologerCta({
       combined.includes("remedies") ||
       combined.includes("sade sati") ||
       combined.includes("shani") ||
-      combined.includes("dosha") ||
-      combined.includes("mangal dosha")
+      combined.includes("dosha")
     ) {
       return "remedies";
     }
     return "kundli";
   }, [explicitTopic, articleTitle, category, tags]);
 
-  const questions =
-    customSuggestedQuestions || DEFAULT_QUESTIONS_BY_TOPIC[resolvedTopic] || DEFAULT_QUESTIONS_BY_TOPIC.kundli;
+  const isHindi = lang === "hi";
+
+  const defaultQuestions = isHindi
+    ? DEFAULT_HINDI_QUESTIONS_BY_TOPIC[resolvedTopic] || DEFAULT_HINDI_QUESTIONS_BY_TOPIC.kundli
+    : DEFAULT_QUESTIONS_BY_TOPIC[resolvedTopic] || DEFAULT_QUESTIONS_BY_TOPIC.kundli;
+
+  const questions = customSuggestedQuestions || defaultQuestions;
 
   const report = explicitReport || DEFAULT_REPORTS_BY_TOPIC[resolvedTopic] || DEFAULT_REPORTS_BY_TOPIC.kundli;
 
@@ -374,9 +420,14 @@ export function AiAstrologerCta({
 
       {/* Question Input Box */}
       <div className="mt-5 space-y-2">
-        <label htmlFor="ai-astrologer-q" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {isHindi ? "आपका प्रश्न या विषय:" : "Your customized question:"}
-        </label>
+        <div className="flex items-center justify-between">
+          <label htmlFor="ai-astrologer-q" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {isHindi ? "आपका प्रश्न या विषय:" : "Your customized question:"}
+          </label>
+          <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+            <span>🌐</span> {isHindi ? "जिस भाषा में पूछेंगे, उसी भाषा में उत्तर मिलेगा" : "Replies in the language you ask"}
+          </span>
+        </div>
         <div className="flex flex-col sm:flex-row gap-2.5">
           <Input
             id="ai-astrologer-q"

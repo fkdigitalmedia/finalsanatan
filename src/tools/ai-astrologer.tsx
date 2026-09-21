@@ -95,9 +95,72 @@ const QUESTION_CATEGORIES = [
   },
 ];
 
+const HINDI_QUESTION_CATEGORIES = [
+  {
+    id: "career",
+    label: "करियर और व्यवसाय",
+    icon: Briefcase,
+    questions: [
+      "मेरे 10वें भाव और अमात्यकारक के अनुसार कौन सा करियर या व्यवसाय सबसे अनुकूल है?",
+      "पदोन्नति या करियर में बदलाव के लिए अगला अनुकूल समय कब है?",
+      "क्या मुझे स्वतंत्र व्यवसाय/स्टार्टअप करना चाहिए या नौकरी?",
+      "क्या मेरी कुंडली में विदेश यात्रा या विदेश में बसने के योग हैं?",
+    ],
+  },
+  {
+    id: "marriage",
+    label: "विवाह और प्रेम",
+    icon: Heart,
+    questions: [
+      "मेरे 7वें भाव और नवांश (D9) के अनुसार जीवनसाथी का स्वभाव कैसा रहेगा?",
+      "क्या मेरी कुंडली में मांगलिक दोष है और क्या इसका कोई शास्त्रीय परिहार है?",
+      "विवाह के लिए कौन सी आगामी दशा या गोचर सबसे अनुकूल है?",
+      "दांपत्य जीवन में सुख, शांति और दीर्घायु के लिए कौन से ग्रह योग हैं?",
+    ],
+  },
+  {
+    id: "wealth",
+    label: "धन और समृद्धि",
+    icon: Coins,
+    questions: [
+      "क्या मेरी कुंडली के 2रे, 5वें और 11वें भाव में शक्तिशाली धन योग या लक्ष्मी योग हैं?",
+      "जीवन में अधिकतम धन संचय के लिए कौन सी महादशा सबसे शुभ है?",
+      "क्या मेरी कुंडली में कर्ज या धन हानि के योग हैं और उनका समाधान क्या है?",
+      "संपत्ति या जमीन में निवेश के लिए कौन सा समय सबसे उत्तम रहेगा?",
+    ],
+  },
+  {
+    id: "dasha",
+    label: "दशा और भविष्य चक्र",
+    icon: Activity,
+    questions: [
+      "वर्तमान में कौन सी विंशोत्तरी महादशा चल रही है और इसका क्या प्रभाव होगा?",
+      "क्या मुझ पर शनि की साढ़ेसाती या ढैय्या का प्रभाव है?",
+      "षड्बल के अनुसार मेरी कुंडली में सबसे बलवान और कमजोर ग्रह कौन से हैं?",
+      "आगामी दशा परिवर्तन मेरे व्यक्तिगत और पेशेवर जीवन को कैसे प्रभावित करेगा?",
+    ],
+  },
+  {
+    id: "remedies",
+    label: "वैदिक उपाय और साधना",
+    icon: Flame,
+    questions: [
+      "मेरी सक्रिय दशा के अनुसार कौन से प्रामाणिक वैदिक उपाय (मंत्र, दान, रत्न) उपयुक्त हैं?",
+      "शनि या राहु की दशा के दौरान बिना भय के शांति कैसे प्राप्त करें?",
+      "मेरे 5वें और 9वें भाव के अनुसार मेरे इष्ट देव और दैनिक साधना क्या होनी चाहिए?",
+      "मेरे लग्नेश के अनुकूल कौन से रत्न, रंग और मंत्र हैं?",
+    ],
+  },
+];
+
 export function AIAstrologer() {
   const { user } = useAuth();
   const { t, lang } = useTranslation();
+  const isHindi = lang === "hi";
+  const questionCategories = useMemo(
+    () => (isHindi ? HINDI_QUESTION_CATEGORIES : QUESTION_CATEGORIES),
+    [isHindi],
+  );
   const { data: kundliData } = useKundlis();
   const savedCharts = useMemo(() => kundliData?.rows || [], [kundliData]);
 
@@ -135,7 +198,7 @@ export function AIAstrologer() {
   });
 
   const [question, setQuestion] = useState(
-    initialParams.q || QUESTION_CATEGORIES[0].questions[0],
+    initialParams.q || questionCategories[0].questions[0],
   );
   const [activeCategory, setActiveCategory] = useState("career");
 
@@ -222,6 +285,7 @@ export function AIAstrologer() {
           mode: "ai-astrologer",
           input: {
             question: question.trim(),
+            language: lang,
             chartSummary,
             dashaSummary,
             yogasSummary,
@@ -414,7 +478,7 @@ export function AIAstrologer() {
 
           {/* Topic Selector Tabs */}
           <div className="flex flex-wrap gap-2">
-            {QUESTION_CATEGORIES.map((cat) => {
+            {questionCategories.map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
               return (
@@ -438,10 +502,10 @@ export function AIAstrologer() {
           {/* Question Chips */}
           <div className="space-y-2">
             <Label className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
-              Suggested Questions (click to select):
+              {isHindi ? "सुझाए गए प्रश्न (क्लिक करके चुनें):" : "Suggested Questions (click to select):"}
             </Label>
             <div className="grid sm:grid-cols-2 gap-2">
-              {QUESTION_CATEGORIES.find((c) => c.id === activeCategory)?.questions.map((q, i) => {
+              {questionCategories.find((c) => c.id === activeCategory)?.questions.map((q, i) => {
                 const isSelected = question === q;
                 return (
                   <button
@@ -466,14 +530,30 @@ export function AIAstrologer() {
 
           {/* Custom Question Textarea */}
           <div className="space-y-1.5 pt-2">
-            <Label htmlFor="custom-astro-q">Your Question for AI Astrologer</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="custom-astro-q">
+                {isHindi ? "AI ज्योतिषी के लिए आपका प्रश्न" : "Your Question for AI Astrologer"}
+              </Label>
+              <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+                <span>🌐</span> {isHindi ? "किसी भी भाषा में पूछें — उसी भाषा में उत्तर मिलेगा" : "Ask in any language — reply will be in the same language"}
+              </span>
+            </div>
             <Input
               id="custom-astro-q"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="e.g. When is the best time for me to change jobs or start a venture?"
+              placeholder={
+                isHindi
+                  ? "उदा. मेरी नौकरी में पदोन्नति कब होगी? या शादी कब होगी?"
+                  : "e.g. When is the best time for me to change jobs or start a venture?"
+              }
               className="h-11 text-sm bg-background"
             />
+            <p className="text-[11px] text-muted-foreground">
+              {isHindi
+                ? "💡 आप हिंदी, हिंग्लिश (Hinglish), गुजराती, मराठी, बंगाली, तमिल, तेलुगु या अंग्रेजी किसी भी भाषा में पूछ सकते हैं।"
+                : "💡 You can ask in Hindi (हिंदी), Hinglish ('shadi kab hogi'), Gujarati, Marathi, Tamil, Telugu, Bengali, or English."}
+            </p>
           </div>
 
           <Button
