@@ -77,13 +77,59 @@ Relevant Actionable Tool / Premium Report (Career Pro, Kundli Matching, Janam Ku
   - Displays the active AI inquiry banner at the top of the form.
   - Passes `question` to `<KundliAiPanel />` to display the active inquiry above chart narratives.
 
-### 3. `AIDharmaAssistant` Query Handshake (`src/tools/ai.tsx`)
-- Reads `?q=...` from the URL to allow seamless one-click transition for general philosophical and scriptural inquiries not requiring birth data.
+### 4. `AIAstrologer` Tool (`src/tools/ai-astrologer.tsx` & `/tools/ai-astrologer`)
+- **Direct Interactive AI Astrologer**:
+  - Lets users compute any Vedic birth chart and ask targeted questions across Career, Marriage, Wealth, Dasha cycles, and Remedies.
+  - Answers in the exact same language or dialect the user asks in (Hindi, Hinglish, Gujarati, Marathi, Tamil, Telugu, Bengali, English).
+- **Free vs Pro/Premium Quota Model**:
+  - **Free Users & Guests**: Allowed up to **3 questions** maximum (`FREE_QUESTIONS_LIMIT = 3`).
+    - Visual quota status card displays questions used (e.g. `2/3 used`, `1 question left`) with 3 step indicator dots.
+    - Persistent tracking via `localStorage` (`sanatan_ai_astrologer_questions_used`) and server-side verification in `/api/ai`.
+    - Once 3 questions are used, an Upgrade Banner is displayed with links to `/pricing` and `/login`.
+    - Submit button transforms into an Upgrade CTA: *"3 Free Questions Used • Upgrade to Pro for Unlimited"*.
+  - **Pro, Premium & Lifetime Users**:
+    - Entitlements recognized: `pro`, `premium`, `premium_access`, `pro-monthly`, `pro-yearly`, `lifetime`, `lifetime_vip`, `admin`, `all_tools`.
+    - Enjoy **unlimited questions** without any barrier or question limit.
+    - Quota status badge shows: `👑 Pro / Premium Account Active • Unlimited Questions (असीमित सवाल)`.
+
+---
+
+## Quota & Entitlements Architecture
+
+```
+User Question Request
+         │
+         ▼
+Check User Session & Entitlements
+         │
+    ┌────┴───────────────────────────────┐
+    ▼                                    ▼
+Pro / Premium User                   Free User / Guest
+(Active Subscription)                (No Active Paid Plan)
+    │                                    │
+    ▼                                    ▼
+Unlimited Questions Permitted        Questions Used < 3 ?
+    │                                ┌───┴────────────────┐
+    ▼                                ▼                    ▼
+Proceed to AI Analysis             YES (e.g. 1st/2nd)   NO (>= 3 used)
+                                     │                    │
+                                     ▼                    ▼
+                               Execute & Record      Block Execution &
+                               Usage in DB/State     Display Upgrade Card
+```
+
+### Server-Side Protection (`/api/ai`):
+1. Reads `Authorization: Bearer <token>` to identify user and resolve active entitlements (`user_entitlements`, `subscription_plans`, `orders`, `is_staff`).
+2. For free accounts, verifies usage in `ai_usage_logs` (`feature_key = 'tool:ai-astrologer'`) and client header `x-questions-used`.
+3. If questions used >= 3, responds with HTTP `402` and error code `LIMIT_EXCEEDED` with upgrade instructions.
+4. For Pro users, executes `callAi` with no usage limit.
 
 ---
 
 ## Verification & Maintenance
 
 - To test the CTA component and blog integration, visit any astrology article (e.g., `/blog/understanding-your-janam-kundli` or `/blog/kundli-matching-36-guna-milan-guide`).
-- Verify that clicking any suggested question populates the inquiry box.
-- Verify that clicking the CTA navigates to `/kundli` with all query parameters intact, computes the chart, and highlights the AI question.
+- Verify that clicking any suggested question populates the inquiry box and navigates to `/tools/ai-astrologer`.
+- Verify that a free user sees the 3 questions quota counter and can submit up to 3 questions.
+- Verify that asking a 4th question on a free account is blocked with the Pro upgrade card.
+- Verify that a Pro or Premium user sees the Unlimited badge and can ask questions continuously without restriction.

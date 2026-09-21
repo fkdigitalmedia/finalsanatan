@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import {
   Sparkles,
   Loader2,
@@ -21,6 +23,8 @@ import {
   Copy,
   Check,
   RotateCcw,
+  Crown,
+  Lock,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -36,6 +40,7 @@ import type { KundliResult } from "@/lib/kundli/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useKundlis } from "@/lib/workspace/hooks";
 import { useTranslation } from "@/i18n/I18nProvider";
+import { getAiAstrologerUsage } from "@/lib/ai-astrologer.functions";
 
 const QUESTION_CATEGORIES = [
   {
@@ -154,7 +159,7 @@ const HINDI_QUESTION_CATEGORIES = [
 ];
 
 export function AIAstrologer() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const { t, lang } = useTranslation();
   const isHindi = lang === "hi";
   const questionCategories = useMemo(
@@ -163,6 +168,50 @@ export function AIAstrologer() {
   );
   const { data: kundliData } = useKundlis();
   const savedCharts = useMemo(() => kundliData?.rows || [], [kundliData]);
+
+  // Quota and entitlement tracking for Free (3 questions max) vs Pro/Premium (unlimited)
+  const LOCAL_STORAGE_KEY = "sanatan_ai_astrologer_questions_used";
+  const FREE_QUESTIONS_LIMIT = 3;
+
+  const [questionsUsed, setQuestionsUsed] = useState<number>(() => {
+    if (typeof window === "undefined") return 0;
+    try {
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return stored ? Math.max(0, parseInt(stored, 10) || 0) : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  const fetchUsage = useServerFn(getAiAstrologerUsage);
+  const { data: usageData } = useQuery({
+    queryKey: ["ai-astrologer-usage", user?.id ?? "anon"],
+    queryFn: () => fetchUsage(),
+    enabled: !!user,
+    staleTime: 30_000,
+  });
+
+  const isProOrPremium = Boolean(usageData?.isPro);
+
+  // Sync questions count if server has logged higher usage
+  useEffect(() => {
+    if (usageData && typeof usageData.usedCount === "number") {
+      setQuestionsUsed((prev) => {
+        const next = Math.max(prev, usageData.usedCount);
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem(LOCAL_STORAGE_KEY, String(next));
+          } catch {}
+        }
+        return next;
+      });
+    }
+  }, [usageData]);
+
+  const hasReachedLimit = !isProOrPremium && questionsUsed >= FREE_QUESTIONS_LIMIT;
+  const remainingQuestions = isProOrPremium
+    ? 999999
+    : Math.max(0, FREE_QUESTIONS_LIMIT - questionsUsed);
 
   // Read URL search params for pre-filling
   const initialParams = useMemo(() => {
@@ -229,11 +278,26 @@ export function AIAstrologer() {
 
   const executeAnalysis = async () => {
     if (!date || !time) {
-      toast.error("Please provide birth date and birth time.");
+      toast.error(
+        isHindi ? "कृपया जन्म तिथि और जन्म समय भरें।" : "Please provide birth date and birth time.",
+      );
       return;
     }
     if (!question.trim()) {
-      toast.error("Please enter a question for the AI Astrologer.");
+      toast.error(
+        isHindi
+          ? "कृपया AI ज्योतिषी के लिए प्रश्न दर्ज करें।"
+          : "Please enter a question for the AI Astrologer.",
+      );
+      return;
+    }
+
+    if (hasReachedLimit) {
+      toast.error(
+        isHindi
+          ? "आपकी 3 मुफ़्त सवालों की सीमा पूरी हो चुकी है। असीमित सवाल पूछने के लिए Pro प्लान में अपग्रेड करें।"
+          : "Free limit reached (3 questions). Please upgrade to Pro for unlimited questions.",
+      );
       return;
     }
 
@@ -277,10 +341,18 @@ export function AIAstrologer() {
             .join("\n")
         : "Standard planetary configurations.";
 
-      // Step 3: Call AI Astrologer API with verified calculation facts
+      // Step 3: Call AI Astrologer API with verified calculation facts and quota metadata
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+        "x-questions-used": String(questionsUsed),
+      };
+      if (session?.access_token) {
+        headers["Authorization"] = `Bearer ${session.access_token}`;
+      }
+
       const res = await fetch("/api/ai", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           mode: "ai-astrologer",
           input: {
@@ -296,13 +368,47 @@ export function AIAstrologer() {
       const data = (await res.json().catch(() => ({}))) as {
         text?: string;
         error?: string;
+        isPro?: boolean;
+        limitReached?: boolean;
       };
 
       if (!res.ok) {
+        if (res.status === 402 || data.limitReached) {
+          setQuestionsUsed(FREE_QUESTIONS_LIMIT);
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem(LOCAL_STORAGE_KEY, String(FREE_QUESTIONS_LIMIT));
+            } catch {}
+          }
+        }
         throw new Error(data.error || "AI Astrologer analysis failed.");
       }
 
       setAiResponse(data.text || "Interpretation complete.");
+
+      // If free user, increment count
+      if (!isProOrPremium && !data.isPro) {
+        const nextUsed = questionsUsed + 1;
+        setQuestionsUsed(nextUsed);
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem(LOCAL_STORAGE_KEY, String(nextUsed));
+          } catch {}
+        }
+        if (nextUsed >= FREE_QUESTIONS_LIMIT) {
+          toast.info(
+            isHindi
+              ? "यह आपका तीसरा और अंतिम मुफ़्त सवाल था। आगे और सवाल पूछने के लिए Pro में अपग्रेड करें।"
+              : "This was your 3rd and final free question. Upgrade to Pro for unlimited questions.",
+          );
+        } else {
+          toast.success(
+            isHindi
+              ? `उत्तर तैयार है! (${FREE_QUESTIONS_LIMIT - nextUsed} मुफ़्त सवाल शेष)`
+              : `Answer ready! (${FREE_QUESTIONS_LIMIT - nextUsed} free question${FREE_QUESTIONS_LIMIT - nextUsed === 1 ? "" : "s"} left)`,
+          );
+        }
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Calculation failed.";
       setError(msg);
@@ -366,6 +472,98 @@ export function AIAstrologer() {
           </div>
         </div>
       </div>
+
+      {/* Free vs Pro Quota Status Card */}
+      {isProOrPremium ? (
+        <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 via-primary/10 to-amber-500/5 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center justify-center size-10 rounded-xl bg-amber-500/20 text-amber-500 border border-amber-500/30">
+              <Crown className="size-5" />
+            </div>
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-sm text-foreground">
+                  {isHindi ? "Pro / Premium अकाउंट सक्रिय" : "Pro / Premium Account Active"}
+                </span>
+                <Badge className="bg-amber-600 text-white text-[10px] px-2 py-0 border-0">
+                  {isHindi ? "असीमित सवाल अनलॉक ✨" : "Unlimited Questions ✨"}
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {isHindi
+                  ? "आप AI ज्योतिषी से अपनी कुंडली के बारे में जितने चाहें उतने सवाल पूछ सकते हैं — कोई सीमा नहीं।"
+                  : "You have unlimited consultations with the AI Astrologer. Ask as many questions as you need."}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-border bg-card/80 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-sm text-foreground">
+                {isHindi ? "निःशुल्क योजना (Free Plan)" : "Free Plan Account"}
+              </span>
+              <Badge
+                variant="outline"
+                className={`text-[11px] font-medium ${
+                  hasReachedLimit
+                    ? "border-destructive/40 text-destructive bg-destructive/10"
+                    : "border-primary/40 text-primary bg-primary/5"
+                }`}
+              >
+                {hasReachedLimit
+                  ? isHindi
+                    ? "सीमा समाप्त (3/3 प्रयुक्त)"
+                    : "Limit Reached (3/3 used)"
+                  : isHindi
+                    ? `${remainingQuestions} मुफ़्त सवाल शेष`
+                    : `${remainingQuestions} of 3 free questions left`}
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {isHindi
+                ? "निःशुल्क यूज़र अधिकतम 3 सवाल पूछ सकते हैं। Pro और Premium यूज़र असीमित सवाल पूछ सकते हैं।"
+                : "Free users can ask up to 3 questions. Pro & Premium accounts enjoy unlimited questions."}
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            {/* 3 Visual Progress Dots */}
+            <div
+              className="flex items-center gap-1.5"
+              title={`${questionsUsed}/${FREE_QUESTIONS_LIMIT} questions used`}
+            >
+              {[1, 2, 3].map((step) => {
+                const used = questionsUsed >= step;
+                return (
+                  <span
+                    key={step}
+                    className={`size-2.5 rounded-full transition-all ${
+                      used
+                        ? "bg-muted-foreground/30 scale-90"
+                        : "bg-primary ring-2 ring-primary/20 animate-pulse"
+                    }`}
+                  />
+                );
+              })}
+              <span className="text-xs font-mono font-medium ml-1">
+                {Math.min(FREE_QUESTIONS_LIMIT, questionsUsed)}/{FREE_QUESTIONS_LIMIT}
+              </span>
+            </div>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="text-xs h-8 border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 font-semibold"
+            >
+              <Link to="/pricing">
+                <Crown className="size-3.5 mr-1 text-amber-500" />
+                {isHindi ? "Pro अपग्रेड" : "Upgrade Pro"}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Saved Kundli Quick Picker */}
       {user && savedCharts.length > 0 && (
@@ -556,26 +754,89 @@ export function AIAstrologer() {
             </p>
           </div>
 
-          <Button
-            type="button"
-            size="lg"
-            onClick={executeAnalysis}
-            disabled={computing}
-            className="w-full h-12 text-base font-semibold shadow-md"
-          >
-            {computing ? (
-              <>
-                <Loader2 className="mr-2 size-4 animate-spin" />
-                Calculating Chart & Consulting AI Astrologer...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 size-4" />
-                Ask AI Astrologer
+          {/* Limit Reached Banner for Free Users */}
+          {hasReachedLimit && (
+            <div className="rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-background to-amber-500/10 p-4 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-semibold text-sm">
+                  <Crown className="size-4" />
+                  <span>
+                    {isHindi
+                      ? "3 मुफ़्त सवालों का कोटा समाप्त हो गया है"
+                      : "Free 3 Questions Limit Reached"}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {isHindi
+                    ? "AI ज्योतिषी से अपनी कुंडली, महादशा, करियर, विवाह और धन पर असीमित सवाल पूछने के लिए Pro या Premium में अपग्रेड करें।"
+                    : "Upgrade to Pro or Premium to unlock unlimited questions about your horoscope, Mahadasha, and future cycles."}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 shrink-0 w-full sm:w-auto">
+                {!user && (
+                  <Button asChild variant="outline" size="sm" className="text-xs w-full sm:w-auto">
+                    <Link to="/login" search={{ redirect: "/tools/ai-astrologer" }}>
+                      {isHindi ? "लॉगिन करें" : "Sign In"}
+                    </Link>
+                  </Button>
+                )}
+                <Button
+                  asChild
+                  size="sm"
+                  className="bg-amber-600 hover:bg-amber-700 text-white shadow-sm text-xs font-semibold w-full sm:w-auto"
+                >
+                  <Link to="/pricing">
+                    <Crown className="size-3.5 mr-1.5" />
+                    {isHindi ? "Pro अपग्रेड करें" : "Upgrade to Pro"}
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {hasReachedLimit ? (
+            <Button
+              asChild
+              size="lg"
+              className="w-full h-12 text-base font-semibold shadow-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white"
+            >
+              <Link to="/pricing">
+                <Crown className="mr-2 size-4" />
+                {isHindi
+                  ? "3 मुफ़्त सवाल पूरे • असीमित सवालों के लिए Pro लें"
+                  : "3 Free Questions Used • Upgrade to Pro for Unlimited"}
                 <ArrowRight className="ml-2 size-4" />
-              </>
-            )}
-          </Button>
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              size="lg"
+              onClick={executeAnalysis}
+              disabled={computing}
+              className="w-full h-12 text-base font-semibold shadow-md"
+            >
+              {computing ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" />
+                  {isHindi
+                    ? "कुंडली गणना और AI ज्योतिषी से परामर्श जारी है..."
+                    : "Calculating Chart & Consulting AI Astrologer..."}
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 size-4" />
+                  {isHindi ? "AI ज्योतिषी से पूछें" : "Ask AI Astrologer"}
+                  {!isProOrPremium && (
+                    <span className="ml-2 text-xs opacity-85 font-normal">
+                      ({remainingQuestions} {isHindi ? "मुफ़्त शेष" : "free left"})
+                    </span>
+                  )}
+                  <ArrowRight className="ml-2 size-4" />
+                </>
+              )}
+            </Button>
+          )}
         </CardContent>
       </Card>
 
@@ -673,6 +934,40 @@ export function AIAstrologer() {
               <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-serif">
                 <FormattedMarkdown content={aiResponse} />
               </div>
+
+              {/* Question Quota Reminder for Free Users */}
+              {!isProOrPremium && (
+                <div className="mt-6 rounded-xl border border-border bg-background/80 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-foreground">
+                      {isHindi
+                        ? `मुफ़्त सवाल प्रयुक्त: ${Math.min(FREE_QUESTIONS_LIMIT, questionsUsed)} / ${FREE_QUESTIONS_LIMIT}`
+                        : `Free Questions Used: ${Math.min(FREE_QUESTIONS_LIMIT, questionsUsed)} / ${FREE_QUESTIONS_LIMIT}`}
+                    </span>
+                    <span className="text-muted-foreground">•</span>
+                    <span className="text-muted-foreground">
+                      {questionsUsed >= FREE_QUESTIONS_LIMIT
+                        ? isHindi
+                          ? "सभी 3 मुफ़्त सवाल पूरे हो चुके हैं"
+                          : "All 3 free questions used"
+                        : isHindi
+                          ? `${remainingQuestions} मुफ़्त सवाल शेष`
+                          : `${remainingQuestions} question${remainingQuestions === 1 ? "" : "s"} remaining`}
+                    </span>
+                  </div>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs text-amber-600 dark:text-amber-400 font-semibold hover:bg-amber-500/10"
+                  >
+                    <Link to="/pricing">
+                      <Crown className="size-3.5 mr-1 text-amber-500" />
+                      {isHindi ? "Pro में असीमित सवाल पाएं" : "Get Unlimited with Pro"}
+                    </Link>
+                  </Button>
+                </div>
+              )}
 
               {/* Action Banner for Full Reports */}
               <div className="mt-8 rounded-xl border border-border bg-muted/40 p-4 sm:p-5">

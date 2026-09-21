@@ -319,9 +319,14 @@ export function AiAstrologerCta({
     >
       {/* Header section with Badges */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          <Sparkles className="size-3.5 animate-pulse" />
-          <span>SanatanTools AI Astrologer</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            <Sparkles className="size-3.5 animate-pulse" />
+            <span>SanatanTools AI Astrologer</span>
+          </div>
+          <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full">
+            {isHindi ? "3 मुफ़्त सवाल • Pro में असीमित" : "3 Free Questions • Pro Unlimited"}
+          </span>
         </div>
         <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <ShieldCheck className="size-3.5 text-emerald-500" />

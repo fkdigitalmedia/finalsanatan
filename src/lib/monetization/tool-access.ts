@@ -192,6 +192,28 @@ export const DEFAULT_TOOL_MONETIZATION_CONFIG: ToolMonetizationConfig = {
     popularBadge: false,
     description: "Visa, higher studies abroad, foreign travel, and overseas relocation timing.",
   },
+  "ai-astrologer": {
+    slug: "ai-astrologer",
+    name: "AI Astrologer",
+    category: "ai",
+    accessType: "free_preview",
+    oneTimePriceCents: 29900,
+    includedPlans: [
+      "premium_access",
+      "lifetime_vip",
+      "pro",
+      "premium",
+      "pro-monthly",
+      "pro-yearly",
+      "all_tools",
+    ],
+    trialAvailable: true,
+    enabled: true,
+    displayOrder: 12,
+    featuredBadge: true,
+    popularBadge: true,
+    description: "Interactive AI consultation interpreting your verified Vedic birth chart with 3 free questions for free users and unlimited questions for Pro accounts.",
+  },
 };
 
 export interface ToolAccessCheckResult {
