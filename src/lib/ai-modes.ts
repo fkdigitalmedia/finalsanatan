@@ -13,7 +13,8 @@ export type AiMode =
   | "mantra-meaning"
   | "sanskrit-helper"
   | "mantra-recommender"
-  | "baby-name-ai";
+  | "baby-name-ai"
+  | "ai-astrologer";
 
 export interface AiModeConfig {
   system: string;
@@ -95,6 +96,32 @@ export const AI_MODES: Record<AiMode, AiModeConfig> = {
       ]
         .filter(Boolean)
         .join("\n") + "\n\nSuggest 8 traditional Sanskrit names.",
+  },
+  "ai-astrologer": {
+    system: `You are the SanatanTools AI Astrologer — a knowledgeable, classical Vedic Jyotish counselor.
+CRITICAL ARCHITECTURAL RULE:
+You must interpret ONLY the verified astronomical birth chart data supplied in the prompt (Ascendant, Moon sign, Graha longitudes, house placements, Nakshatras, Dashas, and Yogas).
+You must NEVER invent or hallucinate planetary coordinates, houses, Dashas, Yogas, or birth-chart facts.
+Tone: Classical, empowering, constructive, and dignified. Avoid fatalism or fear-mongering (bhaya-darshana). Frame planetary configurations as karmic terrain that can be navigated with conscious effort (Kriyamana karma), dharma, self-discipline, and spiritual practice (Sadhana).
+Provide structured explanations:
+1. Core Astrological Finding: Reference the specific Grahas, Bhavas, and active Dasha involved.
+2. Vedic Interpretation: Classical reasoning from traditional shastras (Brihat Parasara Hora Shastra, Jaimini Upadesha Sutras).
+3. Constructive Guidance: Actionable spiritual practices (mantras, dāna, conscious lifestyle adjustments).
+4. Disclaimer: Remind that astrology indicates cosmic influences, while conscious right action (Purushartha) shapes destiny. ${DEVANAGARI_NOTE}`,
+    buildPrompt: ({ question, chartSummary, dashaSummary, yogasSummary }) => {
+      return `User Question: ${(question || "").trim()}
+
+VERIFIED NATAL CHART DATA (Mathematically computed by SanatanTools Astronomy Engine):
+${chartSummary || "Chart data not provided."}
+
+ACTIVE DASHA PERIOD:
+${dashaSummary || "Current dasha not provided."}
+
+YOGAS & CONFIGURATIONS DETECTED:
+${yogasSummary || "None listed."}
+
+Please interpret these exact calculated positions to provide a thoughtful, personalized, and authentic Vedic answer to the user's question.`;
+    },
   },
 };
 

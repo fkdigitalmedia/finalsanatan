@@ -25,6 +25,7 @@ const loadPanchangExtras = (() => import("@/tools/panchang-extras")) as ToolModu
 const loadCollections = (() => import("@/tools/collections")) as ToolModule;
 const loadAi = (() => import("@/tools/ai")) as ToolModule;
 const loadLibrary = (() => import("@/tools/library")) as ToolModule;
+const loadAiAstrologer = (() => import("@/tools/ai-astrologer")) as ToolModule;
 
 /** Wrap one named export of a lazily-imported module as a lazy component. */
 function lazyNamed(loader: ToolModule, name: string): ComponentType {
@@ -317,6 +318,10 @@ export const TOOL_CONTENT: Record<string, ToolContent> = {
   "puja-checklist-generator": mk(PujaChecklistGenerator),
 
   // AI (existing + new)
+  "ai-astrologer": mk(lazyNamed(loadAiAstrologer, "AIAstrologer"), {
+    intro:
+      "Ask our AI Astrologer anything about your Kundli — verified planetary calculation first, followed by personalized Vedic interpretations.",
+  }),
   "ai-dharma-assistant": mk(AIDharmaAssistant, {
     intro:
       "Ask anything about Sanatan Dharma — scripture, ritual, philosophy — and get a thoughtful, cited answer.",

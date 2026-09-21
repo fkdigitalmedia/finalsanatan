@@ -457,6 +457,13 @@ export const TOOLS: Tool[] = [
 
   // ─── AI ───
   t(
+    "ai-astrologer",
+    "AI Astrologer",
+    "ai",
+    "Ask the AI Astrologer anything about your Kundli — verified planetary calculation first, followed by personalized Vedic interpretations.",
+    { pop: 98, added: "2026-09-21", featured: true, tags: ["ai", "astrology", "kundli", "horoscope"], status: L },
+  ),
+  t(
     "ai-dharma-assistant",
     "AI Dharma Assistant",
     "ai",

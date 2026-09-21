@@ -55,6 +55,15 @@ const TOOLS: JT[] = [
   // Core charts
   {
     group: "core",
+    href: "/tools/ai-astrologer",
+    icon: Sparkles,
+    title: "AI Astrologer",
+    desc: "Ask personalized questions about your Kundli — verified calculations first, zero hallucination.",
+    badge: "AI Powered",
+    hue: "from-purple-500/20 via-primary/20 to-amber-500/10",
+  },
+  {
+    group: "core",
     href: "/kundli",
     icon: FileText,
     title: "Free Janam Kundli",

@@ -41,6 +41,7 @@ import { Route as CalculatorsRouteImport } from './routes/calculators'
 import { Route as BabyNamesRouteImport } from './routes/baby-names'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AstrologyRouteImport } from './routes/astrology'
+import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -321,6 +322,11 @@ const AuthRoute = AuthRouteImport.update({
 const AstrologyRoute = AstrologyRouteImport.update({
   id: '/astrology',
   path: '/astrology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiAstrologerRoute = AiAstrologerRouteImport.update({
+  id: '/ai-astrologer',
+  path: '/ai-astrologer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiRoute = AiRouteImport.update({
@@ -974,6 +980,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai': typeof AiRoute
+  '/ai-astrologer': typeof AiAstrologerRoute
   '/astrology': typeof AstrologyRoute
   '/auth': typeof AuthRoute
   '/baby-names': typeof BabyNamesRoute
@@ -1127,6 +1134,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/ai': typeof AiRoute
+  '/ai-astrologer': typeof AiAstrologerRoute
   '/astrology': typeof AstrologyRoute
   '/auth': typeof AuthRoute
   '/baby-names': typeof BabyNamesRoute
@@ -1281,6 +1289,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/ai': typeof AiRoute
+  '/ai-astrologer': typeof AiAstrologerRoute
   '/astrology': typeof AstrologyRoute
   '/auth': typeof AuthRoute
   '/baby-names': typeof BabyNamesRoute
@@ -1437,6 +1446,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai'
+    | '/ai-astrologer'
     | '/astrology'
     | '/auth'
     | '/baby-names'
@@ -1590,6 +1600,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/ai'
+    | '/ai-astrologer'
     | '/astrology'
     | '/auth'
     | '/baby-names'
@@ -1743,6 +1754,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/ai'
+    | '/ai-astrologer'
     | '/astrology'
     | '/auth'
     | '/baby-names'
@@ -1899,6 +1911,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AiRoute: typeof AiRoute
+  AiAstrologerRoute: typeof AiAstrologerRoute
   AstrologyRoute: typeof AstrologyRoute
   AuthRoute: typeof AuthRoute
   BabyNamesRoute: typeof BabyNamesRoute
@@ -2213,6 +2226,13 @@ declare module '@tanstack/react-router' {
       path: '/astrology'
       fullPath: '/astrology'
       preLoaderRoute: typeof AstrologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-astrologer': {
+      id: '/ai-astrologer'
+      path: '/ai-astrologer'
+      fullPath: '/ai-astrologer'
+      preLoaderRoute: typeof AiAstrologerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai': {
@@ -3237,6 +3257,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AiRoute: AiRoute,
+  AiAstrologerRoute: AiAstrologerRoute,
   AstrologyRoute: AstrologyRoute,
   AuthRoute: AuthRoute,
   BabyNamesRoute: BabyNamesRoute,

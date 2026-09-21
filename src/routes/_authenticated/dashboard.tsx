@@ -80,6 +80,17 @@ const PREMIUM_TOOLS: PremiumToolItem[] = [
     gradient: "from-amber-500/10 via-primary/5 to-amber-500/5",
   },
   {
+    id: "ai-astrologer",
+    title: "AI Astrologer",
+    description: "Ask personalized questions about your Kundli — verified planetary calculations first, followed by authentic Vedic interpretations.",
+    category: "AI & Astrology",
+    href: "/tools/ai-astrologer",
+    icon: Sparkles,
+    badge: "AI Powered",
+    features: ["Ask Any Chart Question", "Zero Hallucinations", "Uses Saved Kundlis"],
+    gradient: "from-purple-500/15 via-primary/10 to-amber-500/10",
+  },
+  {
     id: "career-report",
     title: "Career & Business Analysis",
     description: "10th House Karma Bhava deep dive, D10 Dasamsa chart analysis, job vs business suitability, and income timing PDF.",

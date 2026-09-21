@@ -218,7 +218,8 @@ export function AiAstrologerCta({
     // If user has an active saved chart:
     if (user && activeKundli) {
       navigate({
-        to: "/kundli",
+        to: "/tools/$slug",
+        params: { slug: "ai-astrologer" },
         search: {
           name: activeKundli.name,
           dob: activeKundli.birth_date,
@@ -234,9 +235,10 @@ export function AiAstrologerCta({
       return;
     }
 
-    // Otherwise navigate to /kundli with the question prefilled
+    // Otherwise navigate to /tools/ai-astrologer with question prefilled
     navigate({
-      to: "/kundli",
+      to: "/tools/$slug",
+      params: { slug: "ai-astrologer" },
       search: {
         q: questionText,
       },

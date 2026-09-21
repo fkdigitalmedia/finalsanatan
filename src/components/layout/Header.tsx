@@ -37,6 +37,7 @@ export function Header() {
   const catLabel = useCategoryLabel();
 
   const primaryNav = [
+    { label: "AI Astrologer", href: "/tools/ai-astrologer" },
     { label: t("nav.all_tools"), href: "/tools" },
     { label: t("nav.panchang"), href: "/panchang" },
     { label: t("nav.festivals"), href: "/festivals" },
