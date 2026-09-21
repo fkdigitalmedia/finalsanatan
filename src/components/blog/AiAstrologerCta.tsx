@@ -291,8 +291,6 @@ export function AiAstrologerCta({
     });
   };
 
-  const isHindi = lang === "hi";
-
   // Dynamic heading based on login and saved chart state
   const heading = useMemo(() => {
     if (customHeading) return customHeading;
