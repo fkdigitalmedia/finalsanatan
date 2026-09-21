@@ -10,7 +10,7 @@
 // ============================================================
 
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Download,
   Loader2,
@@ -185,6 +185,27 @@ function schemaJsonLd(): unknown {
 }
 
 export const Route = createFileRoute("/kundli")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    name: typeof search.name === "string" ? search.name : undefined,
+    dob: typeof search.dob === "string" ? search.dob : undefined,
+    tob: typeof search.tob === "string" ? search.tob : undefined,
+    place: typeof search.place === "string" ? search.place : undefined,
+    lat:
+      typeof search.lat === "number"
+        ? search.lat
+        : typeof search.lat === "string" && !isNaN(Number(search.lat))
+          ? Number(search.lat)
+          : undefined,
+    lon:
+      typeof search.lon === "number"
+        ? search.lon
+        : typeof search.lon === "string" && !isNaN(Number(search.lon))
+          ? Number(search.lon)
+          : undefined,
+    tz: typeof search.tz === "string" ? search.tz : undefined,
+    q: typeof search.q === "string" ? search.q : undefined,
+    auto: search.auto === "true" || search.auto === true,
+  }),
   head: () => ({
     meta: [
       { title: SEO_TITLE },
@@ -266,16 +287,29 @@ function Hero({
   onScrollToChart: () => void;
   chartRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const search = Route.useSearch();
   const { user } = useAuth();
   const { t, lang } = useTranslation();
-  const [name, setName] = useState("");
+  const [name, setName] = useState(() => search.name || "");
   const [gender, setGender] = useState<"male" | "female" | "other" | "">("");
-  const [date, setDate] = useState("1995-08-15");
-  const [time, setTime] = useState("06:30");
-  const [loc, setLoc] = useState<LatLon>(DEFAULT_LOCATION);
+  const [date, setDate] = useState(() => search.dob || "1995-08-15");
+  const [time, setTime] = useState(() => search.tob || "06:30");
+  const [loc, setLoc] = useState<LatLon>(() => {
+    if (search.lat && search.lon) {
+      return {
+        lat: search.lat,
+        lon: search.lon,
+        label: search.place || "Custom Location",
+        tz: search.tz || DEFAULT_LOCATION.tz,
+      };
+    }
+    return DEFAULT_LOCATION;
+  });
   // Two-step place-of-birth picker: State → City (all-India). Defaults align with DEFAULT_LOCATION (New Delhi).
   const [stateName, setStateName] = useState<string>("Delhi");
-  const [cityName, setCityName] = useState<string>("New Delhi");
+  const [cityName, setCityName] = useState<string>(() =>
+    search.place ? search.place.split(",")[0].trim() : "New Delhi",
+  );
   const [pdfLang, setPdfLang] = useState<PdfLang>(() => (lang as PdfLang) || "en");
   const [result, setResult] = useState<KundliResult | null>(null);
   const [building, setBuilding] = useState(false);
@@ -283,6 +317,8 @@ function Hero({
   const [narratives, setNarratives] = useState<
     Array<{ section: KundliSection; title: string; text: string }>
   >([]);
+
+  const hasAutoRun = useRef(false);
 
   // Dynamic Monetization & Entitlement Gating
   const toolAccess = useToolAccess("kundli-pro");
@@ -329,6 +365,13 @@ function Hero({
       }
     }, 50);
   };
+
+  useEffect(() => {
+    if (search.auto && !hasAutoRun.current && date && time) {
+      hasAutoRun.current = true;
+      compute();
+    }
+  }, [search.auto, date, time]);
 
   const [paywallOpen, setPaywallOpen] = useState(false);
 
@@ -508,6 +551,27 @@ function Hero({
                 {t("kundli.hero.form_time_hint")}
               </span>
             </div>
+
+            {search.q && (
+              <div className="mt-4 rounded-xl border border-primary/35 bg-primary/10 p-3.5 text-xs">
+                <div className="flex items-start gap-2.5">
+                  <Sparkles className="size-4 text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold text-primary uppercase tracking-wider text-[11px] block">
+                      AI Astrologer Inquiry
+                    </span>
+                    <span className="text-foreground font-medium text-sm block mt-0.5">
+                      "{search.q}"
+                    </span>
+                    <span className="text-muted-foreground text-[11px] block mt-1">
+                      {result
+                        ? "Calculation complete! Scroll down to review your verified birth chart and AI interpretation."
+                        : "Verify your birth details below to calculate your astronomical chart and unlock the AI interpretation."}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="mt-5 space-y-4">
               <div>
@@ -1201,6 +1265,7 @@ function Hero({
               result={result}
               language={pdfLang}
               isPremium={isPremium}
+              question={search.q}
               onNarrativesChange={setNarratives}
             />
           </div>

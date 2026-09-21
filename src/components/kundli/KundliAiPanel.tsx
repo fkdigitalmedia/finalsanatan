@@ -40,6 +40,7 @@ interface Props {
   result: KundliResult;
   language: PdfLang;
   isPremium: boolean;
+  question?: string;
   /** Called with all fetched narratives so the parent can bundle
    *  them into the premium PDF export. */
   onNarrativesChange?: (
@@ -54,6 +55,7 @@ export function KundliAiPanel({
   result: _result,
   language,
   isPremium,
+  question,
   onNarrativesChange,
 }: Props) {
   const { t } = useTranslation();
@@ -131,6 +133,25 @@ export function KundliAiPanel({
           </Button>
         )}
       </div>
+
+      {question && (
+        <div className="mt-5 rounded-xl border border-primary/30 bg-primary/10 p-4">
+          <div className="flex items-start gap-3">
+            <Sparkles className="size-5 text-primary shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-primary">
+                Your AI Astrologer Inquiry
+              </div>
+              <div className="text-sm font-semibold text-foreground mt-0.5">
+                "{question}"
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                The narratives below interpret your mathematically verified natal planets, houses, and dashas.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="mt-6 divide-y divide-border">
         {KUNDLI_SECTIONS.map((section) => {

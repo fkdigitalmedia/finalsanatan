@@ -6,6 +6,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Breadcrumbs } from "@/components/ui-kit/Breadcrumbs";
 import { ShareButtons } from "@/components/share/ShareButtons";
 import { Button } from "@/components/ui/button";
+import { AiAstrologerCta } from "@/components/blog/AiAstrologerCta";
 import { getBlogPost } from "@/lib/blog-public.functions";
 import { articleSchema, breadcrumbSchema, graph, ldJson, SITE_URL } from "@/lib/seo/schema";
 
@@ -118,6 +119,37 @@ function BlogPostPage() {
         <div className="prose prose-neutral dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-20 prose-table:overflow-x-auto">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content_md}</ReactMarkdown>
         </div>
+
+        {/* AI Astrologer CTA for astrology-related articles */}
+        {(post.category?.toUpperCase() === "ASTROLOGY" ||
+          post.tags?.some((t) =>
+            [
+              "kundli",
+              "astrology",
+              "horoscope",
+              "jyotish",
+              "guna",
+              "milan",
+              "matching",
+              "rashi",
+              "nakshatra",
+              "dasha",
+              "gochar",
+              "bhavas",
+              "grahas",
+              "yogas",
+              "dosha",
+            ].some((k) => t.toLowerCase().includes(k)),
+          ) ||
+          ["understanding-your-janam-kundli", "kundli-matching-36-guna-milan-guide"].includes(
+            post.slug,
+          )) && (
+          <AiAstrologerCta
+            articleTitle={post.title}
+            category={post.category ?? undefined}
+            tags={post.tags}
+          />
+        )}
 
         <div className="mt-10 border-t border-border pt-6">
           <ShareButtons title={post.title} />

@@ -25,7 +25,13 @@ function Field({
 
 /* ─── AI Dharma Assistant ─── */
 export function AIDharmaAssistant() {
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("q") || "";
+    }
+    return "";
+  });
   return (
     <AIRunner
       mode="dharma-assistant"
