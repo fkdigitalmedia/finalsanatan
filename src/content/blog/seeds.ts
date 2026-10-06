@@ -339,7 +339,7 @@ Deepen your astronomical and astrological understanding with our dedicated suite
       "Learn what Kundli Matching (Kundli Milan) is, how the 36 Guna Ashta Koota system works, scoring rules, Mangal Dosha cancellations, and real marriage compatibility.",
     category: "ASTROLOGY",
     tags: ["Kundli Matching", "Gun Milan", "36 Gunas", "Marriage Compatibility", "Mangal Dosha", "Vedic Astrology"],
-    featured_image: "/blog/kundli-guide.jpg",
+    featured_image: "/blog/guna-milan-guide.jpg",
     published_at: "2026-02-01T00:00:00.000Z",
     updated_at: "2026-09-15T00:00:00.000Z",
     lang: "en",
