@@ -58,9 +58,14 @@ export const Route = createFileRoute("/tools/$slug")({
       publishedAt: tool.addedAt,
     });
   },
-  notFoundComponent: ToolNotFound,
-  pendingComponent: ToolPending,
-  errorComponent: ToolError,
+  // NOTE: keep these as inline arrows (not named references) — the TanStack
+  // router code-splitter (>=1.168.42) mis-compiles named function references
+  // for split components (emits `export { SplitX as y }` with no definition).
+  notFoundComponent: () => <ToolNotFound />,
+  pendingComponent: () => <ToolPending />,
+  errorComponent: ({ error, reset }: { error: Error; reset: () => void }) => (
+    <ToolError error={error} reset={reset} />
+  ),
   component: ToolDetail,
 });
 

@@ -64,8 +64,13 @@ export const Route = createFileRoute("/legal/$slug")({
     if (!res.page) throw notFound();
     return res;
   },
-  notFoundComponent: NotFoundView,
-  errorComponent: ErrorView,
+  // NOTE: keep these as inline arrows (not named references) — the TanStack
+  // router code-splitter (>=1.168.42) mis-compiles named function references
+  // for split components (emits `export { SplitX as y }` with no definition).
+  notFoundComponent: () => <NotFoundView />,
+  errorComponent: ({ error, reset }: { error: Error; reset: () => void }) => (
+    <ErrorView error={error} reset={reset} />
+  ),
   head: ({ loaderData, params }) => {
     if (!loaderData?.page) {
       return { meta: [{ title: "Legal — SanatanTools" }, { name: "robots", content: "noindex" }] };

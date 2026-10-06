@@ -9,329 +9,168 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ToolsRouteImport } from './routes/tools'
-import { Route as TemplesRouteImport } from './routes/temples'
-import { Route as SupportRouteImport } from './routes/support'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SitemapVideoDotxmlRouteImport } from './routes/sitemap-video[.]xml'
-import { Route as SitemapToolsDotxmlRouteImport } from './routes/sitemap-tools[.]xml'
-import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
-import { Route as SitemapNewsDotxmlRouteImport } from './routes/sitemap-news[.]xml'
-import { Route as SitemapImagesDotxmlRouteImport } from './routes/sitemap-images[.]xml'
-import { Route as SitemapHoroscopeDotxmlRouteImport } from './routes/sitemap-horoscope[.]xml'
-import { Route as SitemapFestivalsDotxmlRouteImport } from './routes/sitemap-festivals[.]xml'
-import { Route as SitemapBlogDotxmlRouteImport } from './routes/sitemap-blog[.]xml'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as SanskritRouteImport } from './routes/sanskrit'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as PujaRouteImport } from './routes/puja'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as PanchangRouteImport } from './routes/panchang'
-import { Route as MantrasRouteImport } from './routes/mantras'
-import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
-import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
-import { Route as LearningRouteImport } from './routes/learning'
-import { Route as KundliMatchingRouteImport } from './routes/kundli-matching'
-import { Route as KundliRouteImport } from './routes/kundli'
-import { Route as FestivalsRouteImport } from './routes/festivals'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CalculatorsRouteImport } from './routes/calculators'
-import { Route as BabyNamesRouteImport } from './routes/baby-names'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AstrologyRouteImport } from './routes/astrology'
-import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
-import { Route as AiRouteImport } from './routes/ai'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as YogaIndexRouteImport } from './routes/yoga.index'
-import { Route as YearlyHoroscopeIndexRouteImport } from './routes/yearly-horoscope.index'
-import { Route as WeeklyHoroscopeIndexRouteImport } from './routes/weekly-horoscope.index'
-import { Route as VastuIndexRouteImport } from './routes/vastu.index'
-import { Route as ToolsIndexRouteImport } from './routes/tools.index'
-import { Route as RashiIndexRouteImport } from './routes/rashi.index'
-import { Route as NumerologyIndexRouteImport } from './routes/numerology.index'
-import { Route as NakshatraIndexRouteImport } from './routes/nakshatra.index'
-import { Route as MuhuratIndexRouteImport } from './routes/muhurat.index'
-import { Route as MonthlyHoroscopeIndexRouteImport } from './routes/monthly-horoscope.index'
-import { Route as LegalIndexRouteImport } from './routes/legal.index'
-import { Route as DoshaIndexRouteImport } from './routes/dosha.index'
-import { Route as DailyHoroscopeIndexRouteImport } from './routes/daily-horoscope.index'
-import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AiRouteImport } from './routes/ai'
+import { Route as AiAstrologerRouteImport } from './routes/ai-astrologer'
+import { Route as AstrologyRouteImport } from './routes/astrology'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BabyNamesRouteImport } from './routes/baby-names'
+import { Route as CalculatorsRouteImport } from './routes/calculators'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FestivalsRouteImport } from './routes/festivals'
+import { Route as KundliRouteImport } from './routes/kundli'
+import { Route as KundliMatchingRouteImport } from './routes/kundli-matching'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as MantrasRouteImport } from './routes/mantras'
+import { Route as PanchangRouteImport } from './routes/panchang'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PujaRouteImport } from './routes/puja'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SanskritRouteImport } from './routes/sanskrit'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SitemapBlogDotxmlRouteImport } from './routes/sitemap-blog[.]xml'
+import { Route as SitemapFestivalsDotxmlRouteImport } from './routes/sitemap-festivals[.]xml'
+import { Route as SitemapHoroscopeDotxmlRouteImport } from './routes/sitemap-horoscope[.]xml'
+import { Route as SitemapImagesDotxmlRouteImport } from './routes/sitemap-images[.]xml'
+import { Route as SitemapNewsDotxmlRouteImport } from './routes/sitemap-news[.]xml'
+import { Route as SitemapPagesDotxmlRouteImport } from './routes/sitemap-pages[.]xml'
+import { Route as SitemapToolsDotxmlRouteImport } from './routes/sitemap-tools[.]xml'
+import { Route as SitemapVideoDotxmlRouteImport } from './routes/sitemap-video[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as TemplesRouteImport } from './routes/temples'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as LangIndexRouteImport } from './routes/$lang.index'
-import { Route as YogaSlugRouteImport } from './routes/yoga.$slug'
-import { Route as YearlyHoroscopeSignRouteImport } from './routes/yearly-horoscope.$sign'
-import { Route as WeeklyHoroscopeSignRouteImport } from './routes/weekly-horoscope.$sign'
-import { Route as VastuSlugRouteImport } from './routes/vastu.$slug'
-import { Route as ToolsVastuReportRouteImport } from './routes/tools.vastu-report'
-import { Route as ToolsVarshphalRouteImport } from './routes/tools.varshphal'
-import { Route as ToolsNumerologyReportRouteImport } from './routes/tools.numerology-report'
-import { Route as ToolsMuhuratFinderRouteImport } from './routes/tools.muhurat-finder'
-import { Route as ToolsMasterLifeBlueprintRouteImport } from './routes/tools.master-life-blueprint'
-import { Route as ToolsMarriageAnalysisRouteImport } from './routes/tools.marriage-analysis'
-import { Route as ToolsLoveCompatibilityRouteImport } from './routes/tools.love-compatibility'
-import { Route as ToolsKundliMatchingRouteImport } from './routes/tools.kundli-matching'
-import { Route as ToolsHealthAnalysisRouteImport } from './routes/tools.health-analysis'
-import { Route as ToolsForeignSettlementAnalysisRouteImport } from './routes/tools.foreign-settlement-analysis'
-import { Route as ToolsCareerReportRouteImport } from './routes/tools.career-report'
-import { Route as ToolsCareerAnalysisRouteImport } from './routes/tools.career-analysis'
-import { Route as ToolsBabyNameGeneratorRouteImport } from './routes/tools.baby-name-generator'
-import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
-import { Route as RashiSlugRouteImport } from './routes/rashi.$slug'
-import { Route as NumerologySlugRouteImport } from './routes/numerology.$slug'
-import { Route as NakshatraSlugRouteImport } from './routes/nakshatra.$slug'
-import { Route as MuhuratSlugRouteImport } from './routes/muhurat.$slug'
-import { Route as MonthlyHoroscopeSignRouteImport } from './routes/monthly-horoscope.$sign'
-import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
-import { Route as FestivalsSlugRouteImport } from './routes/festivals.$slug'
-import { Route as DoshaSlugRouteImport } from './routes/dosha.$slug'
-import { Route as DailyHoroscopeSignRouteImport } from './routes/daily-horoscope.$sign'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
-import { Route as ApiRashiRouteImport } from './routes/api/rashi'
-import { Route as ApiPlanetsRouteImport } from './routes/api/planets'
-import { Route as ApiNakshatraRouteImport } from './routes/api/nakshatra'
-import { Route as ApiLagnaRouteImport } from './routes/api/lagna'
-import { Route as ApiAiRouteImport } from './routes/api/ai'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedSavedMantrasRouteImport } from './routes/_authenticated/saved-mantras'
-import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
-import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
-import { Route as AuthenticatedMyKundlisRouteImport } from './routes/_authenticated/my-kundlis'
-import { Route as AuthenticatedHoroscopeHistoryRouteImport } from './routes/_authenticated/horoscope-history'
-import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
-import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
-import { Route as AuthenticatedFamilyRouteImport } from './routes/_authenticated/family'
-import { Route as AuthenticatedDownloadsRouteImport } from './routes/_authenticated/downloads'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedBookmarksRouteImport } from './routes/_authenticated/bookmarks'
-import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
 import { Route as LangSplatRouteImport } from './routes/$lang.$'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
+import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
+import { Route as AuthenticatedBookmarksRouteImport } from './routes/_authenticated/bookmarks'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDownloadsRouteImport } from './routes/_authenticated/downloads'
+import { Route as AuthenticatedFamilyRouteImport } from './routes/_authenticated/family'
+import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
+import { Route as AuthenticatedHoroscopeHistoryRouteImport } from './routes/_authenticated/horoscope-history'
+import { Route as AuthenticatedMyKundlisRouteImport } from './routes/_authenticated/my-kundlis'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
+import { Route as AuthenticatedSavedMantrasRouteImport } from './routes/_authenticated/saved-mantras'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as ApiAiRouteImport } from './routes/api/ai'
+import { Route as ApiLagnaRouteImport } from './routes/api/lagna'
+import { Route as ApiNakshatraRouteImport } from './routes/api/nakshatra'
+import { Route as ApiPlanetsRouteImport } from './routes/api/planets'
+import { Route as ApiRashiRouteImport } from './routes/api/rashi'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as DailyHoroscopeIndexRouteImport } from './routes/daily-horoscope.index'
+import { Route as DailyHoroscopeSignRouteImport } from './routes/daily-horoscope.$sign'
+import { Route as DoshaIndexRouteImport } from './routes/dosha.index'
+import { Route as DoshaSlugRouteImport } from './routes/dosha.$slug'
+import { Route as FestivalsSlugRouteImport } from './routes/festivals.$slug'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
+import { Route as LegalSlugRouteImport } from './routes/legal.$slug'
+import { Route as MonthlyHoroscopeIndexRouteImport } from './routes/monthly-horoscope.index'
+import { Route as MonthlyHoroscopeSignRouteImport } from './routes/monthly-horoscope.$sign'
+import { Route as MuhuratIndexRouteImport } from './routes/muhurat.index'
+import { Route as MuhuratSlugRouteImport } from './routes/muhurat.$slug'
+import { Route as NakshatraIndexRouteImport } from './routes/nakshatra.index'
+import { Route as NakshatraSlugRouteImport } from './routes/nakshatra.$slug'
+import { Route as NumerologyIndexRouteImport } from './routes/numerology.index'
+import { Route as NumerologySlugRouteImport } from './routes/numerology.$slug'
+import { Route as RashiIndexRouteImport } from './routes/rashi.index'
+import { Route as RashiSlugRouteImport } from './routes/rashi.$slug'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
+import { Route as ToolsBabyNameGeneratorRouteImport } from './routes/tools.baby-name-generator'
+import { Route as ToolsCareerAnalysisRouteImport } from './routes/tools.career-analysis'
+import { Route as ToolsCareerReportRouteImport } from './routes/tools.career-report'
+import { Route as ToolsForeignSettlementAnalysisRouteImport } from './routes/tools.foreign-settlement-analysis'
+import { Route as ToolsHealthAnalysisRouteImport } from './routes/tools.health-analysis'
+import { Route as ToolsKundliMatchingRouteImport } from './routes/tools.kundli-matching'
+import { Route as ToolsLoveCompatibilityRouteImport } from './routes/tools.love-compatibility'
+import { Route as ToolsMarriageAnalysisRouteImport } from './routes/tools.marriage-analysis'
+import { Route as ToolsMasterLifeBlueprintRouteImport } from './routes/tools.master-life-blueprint'
+import { Route as ToolsMuhuratFinderRouteImport } from './routes/tools.muhurat-finder'
+import { Route as ToolsNumerologyReportRouteImport } from './routes/tools.numerology-report'
+import { Route as ToolsVarshphalRouteImport } from './routes/tools.varshphal'
+import { Route as ToolsVastuReportRouteImport } from './routes/tools.vastu-report'
+import { Route as VastuIndexRouteImport } from './routes/vastu.index'
+import { Route as VastuSlugRouteImport } from './routes/vastu.$slug'
+import { Route as WeeklyHoroscopeIndexRouteImport } from './routes/weekly-horoscope.index'
+import { Route as WeeklyHoroscopeSignRouteImport } from './routes/weekly-horoscope.$sign'
+import { Route as YearlyHoroscopeIndexRouteImport } from './routes/yearly-horoscope.index'
+import { Route as YearlyHoroscopeSignRouteImport } from './routes/yearly-horoscope.$sign'
+import { Route as YogaIndexRouteImport } from './routes/yoga.index'
+import { Route as YogaSlugRouteImport } from './routes/yoga.$slug'
 import { Route as ApiKundliIndexRouteImport } from './routes/api/kundli/index'
-import { Route as ReportsSharedTokenRouteImport } from './routes/reports.shared.$token'
-import { Route as FestivalsYearYearRouteImport } from './routes/festivals.year.$year'
-import { Route as FestivalsDeitySlugRouteImport } from './routes/festivals.deity.$slug'
-import { Route as FestivalsCategorySlugRouteImport } from './routes/festivals.category.$slug'
-import { Route as ApiV1SplatRouteImport } from './routes/api/v1/$'
-import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
-import { Route as ApiPublicStatusRouteImport } from './routes/api/public/status'
-import { Route as ApiPublicReadyRouteImport } from './routes/api/public/ready'
-import { Route as ApiPublicPhonepeWebhookRouteImport } from './routes/api/public/phonepe-webhook'
-import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api/public/lemonsqueezy-webhook'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
+import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api/public/lemonsqueezy-webhook'
+import { Route as ApiPublicPhonepeWebhookRouteImport } from './routes/api/public/phonepe-webhook'
+import { Route as ApiPublicReadyRouteImport } from './routes/api/public/ready'
+import { Route as ApiPublicStatusRouteImport } from './routes/api/public/status'
+import { Route as ApiPublicTrackRouteImport } from './routes/api/public/track'
+import { Route as ApiV1SplatRouteImport } from './routes/api/v1/$'
+import { Route as FestivalsCategorySlugRouteImport } from './routes/festivals.category.$slug'
+import { Route as FestivalsDeitySlugRouteImport } from './routes/festivals.deity.$slug'
+import { Route as FestivalsYearYearRouteImport } from './routes/festivals.year.$year'
+import { Route as ReportsSharedTokenRouteImport } from './routes/reports.shared.$token'
 import { Route as AuthenticatedAdminAdminIndexRouteImport } from './routes/_authenticated/_admin.admin.index'
-import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
-import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
-import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
-import { Route as ApiPublicPanchangMonthDoticsRouteImport } from './routes/api/public/panchang/month[.]ics'
-import { Route as ApiPublicHooksNotificationsTickRouteImport } from './routes/api/public/hooks/notifications-tick'
-import { Route as ApiPublicHooksFestivalsTickRouteImport } from './routes/api/public/hooks/festivals-tick'
-import { Route as ApiPublicHooksDailyPanchangNotifyRouteImport } from './routes/api/public/hooks/daily-panchang-notify'
-import { Route as ApiPublicHooksAnalyticsTickRouteImport } from './routes/api/public/hooks/analytics-tick'
-import { Route as ApiPublicFestivalsCalendarDoticsRouteImport } from './routes/api/public/festivals/calendar[.]ics'
-import { Route as ApiPublicFestivalsSlugDoticsRouteImport } from './routes/api/public/festivals/$slug[.]ics'
-import { Route as ApiPaymentsPhonepeCallbackRouteImport } from './routes/api/payments/phonepe/callback'
-import { Route as AuthenticatedAdminAdminUsersRouteImport } from './routes/_authenticated/_admin.admin.users'
-import { Route as AuthenticatedAdminAdminTranslationsRouteImport } from './routes/_authenticated/_admin.admin.translations'
-import { Route as AuthenticatedAdminAdminToolsRouteImport } from './routes/_authenticated/_admin.admin.tools'
-import { Route as AuthenticatedAdminAdminTemplesRouteImport } from './routes/_authenticated/_admin.admin.temples'
-import { Route as AuthenticatedAdminAdminSettingsRouteImport } from './routes/_authenticated/_admin.admin.settings'
-import { Route as AuthenticatedAdminAdminSeoRouteImport } from './routes/_authenticated/_admin.admin.seo'
-import { Route as AuthenticatedAdminAdminSecurityRouteImport } from './routes/_authenticated/_admin.admin.security'
-import { Route as AuthenticatedAdminAdminPwaRouteImport } from './routes/_authenticated/_admin.admin.pwa'
-import { Route as AuthenticatedAdminAdminPerformanceRouteImport } from './routes/_authenticated/_admin.admin.performance'
-import { Route as AuthenticatedAdminAdminPaymentGatewaysRouteImport } from './routes/_authenticated/_admin.admin.payment-gateways'
-import { Route as AuthenticatedAdminAdminPanchangRouteImport } from './routes/_authenticated/_admin.admin.panchang'
-import { Route as AuthenticatedAdminAdminNotificationsRouteImport } from './routes/_authenticated/_admin.admin.notifications'
-import { Route as AuthenticatedAdminAdminNewsletterRouteImport } from './routes/_authenticated/_admin.admin.newsletter'
-import { Route as AuthenticatedAdminAdminMonetizationRouteImport } from './routes/_authenticated/_admin.admin.monetization'
-import { Route as AuthenticatedAdminAdminLegalInboxRouteImport } from './routes/_authenticated/_admin.admin.legal-inbox'
-import { Route as AuthenticatedAdminAdminLegalRouteImport } from './routes/_authenticated/_admin.admin.legal'
-import { Route as AuthenticatedAdminAdminFestivalsRouteImport } from './routes/_authenticated/_admin.admin.festivals'
-import { Route as AuthenticatedAdminAdminEmailsRouteImport } from './routes/_authenticated/_admin.admin.emails'
-import { Route as AuthenticatedAdminAdminBackupRouteImport } from './routes/_authenticated/_admin.admin.backup'
-import { Route as AuthenticatedAdminAdminArticlesRouteImport } from './routes/_authenticated/_admin.admin.articles'
-import { Route as AuthenticatedAdminAdminAnalyticsRouteImport } from './routes/_authenticated/_admin.admin.analytics'
-import { Route as AuthenticatedAdminAdminAiStudioRouteImport } from './routes/_authenticated/_admin.admin.ai-studio'
-import { Route as AuthenticatedAdminAdminAiProvidersRouteImport } from './routes/_authenticated/_admin.admin.ai-providers'
-import { Route as AuthenticatedAdminAdminAiRouteImport } from './routes/_authenticated/_admin.admin.ai'
-import { Route as AuthenticatedAdminAdminAffiliatesRouteImport } from './routes/_authenticated/_admin.admin.affiliates'
 import { Route as AuthenticatedAdminAdminAdsRouteImport } from './routes/_authenticated/_admin.admin.ads'
+import { Route as AuthenticatedAdminAdminAffiliatesRouteImport } from './routes/_authenticated/_admin.admin.affiliates'
+import { Route as AuthenticatedAdminAdminAiRouteImport } from './routes/_authenticated/_admin.admin.ai'
+import { Route as AuthenticatedAdminAdminAiProvidersRouteImport } from './routes/_authenticated/_admin.admin.ai-providers'
+import { Route as AuthenticatedAdminAdminAiStudioRouteImport } from './routes/_authenticated/_admin.admin.ai-studio'
+import { Route as AuthenticatedAdminAdminAnalyticsRouteImport } from './routes/_authenticated/_admin.admin.analytics'
+import { Route as AuthenticatedAdminAdminArticlesRouteImport } from './routes/_authenticated/_admin.admin.articles'
+import { Route as AuthenticatedAdminAdminBackupRouteImport } from './routes/_authenticated/_admin.admin.backup'
+import { Route as AuthenticatedAdminAdminEmailsRouteImport } from './routes/_authenticated/_admin.admin.emails'
+import { Route as AuthenticatedAdminAdminFestivalsRouteImport } from './routes/_authenticated/_admin.admin.festivals'
+import { Route as AuthenticatedAdminAdminLegalRouteImport } from './routes/_authenticated/_admin.admin.legal'
+import { Route as AuthenticatedAdminAdminLegalInboxRouteImport } from './routes/_authenticated/_admin.admin.legal-inbox'
+import { Route as AuthenticatedAdminAdminMonetizationRouteImport } from './routes/_authenticated/_admin.admin.monetization'
+import { Route as AuthenticatedAdminAdminNewsletterRouteImport } from './routes/_authenticated/_admin.admin.newsletter'
+import { Route as AuthenticatedAdminAdminNotificationsRouteImport } from './routes/_authenticated/_admin.admin.notifications'
+import { Route as AuthenticatedAdminAdminPanchangRouteImport } from './routes/_authenticated/_admin.admin.panchang'
+import { Route as AuthenticatedAdminAdminPaymentGatewaysRouteImport } from './routes/_authenticated/_admin.admin.payment-gateways'
+import { Route as AuthenticatedAdminAdminPerformanceRouteImport } from './routes/_authenticated/_admin.admin.performance'
+import { Route as AuthenticatedAdminAdminPwaRouteImport } from './routes/_authenticated/_admin.admin.pwa'
+import { Route as AuthenticatedAdminAdminSecurityRouteImport } from './routes/_authenticated/_admin.admin.security'
+import { Route as AuthenticatedAdminAdminSeoRouteImport } from './routes/_authenticated/_admin.admin.seo'
+import { Route as AuthenticatedAdminAdminSettingsRouteImport } from './routes/_authenticated/_admin.admin.settings'
+import { Route as AuthenticatedAdminAdminTemplesRouteImport } from './routes/_authenticated/_admin.admin.temples'
+import { Route as AuthenticatedAdminAdminToolsRouteImport } from './routes/_authenticated/_admin.admin.tools'
+import { Route as AuthenticatedAdminAdminTranslationsRouteImport } from './routes/_authenticated/_admin.admin.translations'
+import { Route as AuthenticatedAdminAdminUsersRouteImport } from './routes/_authenticated/_admin.admin.users'
+import { Route as ApiPaymentsPhonepeCallbackRouteImport } from './routes/api/payments/phonepe/callback'
+import { Route as ApiPublicFestivalsSlugDoticsRouteImport } from './routes/api/public/festivals/$slug[.]ics'
+import { Route as ApiPublicFestivalsCalendarDoticsRouteImport } from './routes/api/public/festivals/calendar[.]ics'
+import { Route as ApiPublicHooksAnalyticsTickRouteImport } from './routes/api/public/hooks/analytics-tick'
+import { Route as ApiPublicHooksDailyPanchangNotifyRouteImport } from './routes/api/public/hooks/daily-panchang-notify'
+import { Route as ApiPublicHooksFestivalsTickRouteImport } from './routes/api/public/hooks/festivals-tick'
+import { Route as ApiPublicHooksNotificationsTickRouteImport } from './routes/api/public/hooks/notifications-tick'
+import { Route as ApiPublicPanchangMonthDoticsRouteImport } from './routes/api/public/panchang/month[.]ics'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as ApiPublicFestivalsSlugOgDotsvgRouteImport } from './routes/api/public/festivals/$slug/og[.]svg'
 
-const ToolsRoute = ToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TemplesRoute = TemplesRouteImport.update({
-  id: '/temples',
-  path: '/temples',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SupportRoute = SupportRouteImport.update({
-  id: '/support',
-  path: '/support',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapVideoDotxmlRoute = SitemapVideoDotxmlRouteImport.update({
-  id: '/sitemap-video.xml',
-  path: '/sitemap-video.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapToolsDotxmlRoute = SitemapToolsDotxmlRouteImport.update({
-  id: '/sitemap-tools.xml',
-  path: '/sitemap-tools.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
-  id: '/sitemap-pages.xml',
-  path: '/sitemap-pages.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapNewsDotxmlRoute = SitemapNewsDotxmlRouteImport.update({
-  id: '/sitemap-news.xml',
-  path: '/sitemap-news.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapImagesDotxmlRoute = SitemapImagesDotxmlRouteImport.update({
-  id: '/sitemap-images.xml',
-  path: '/sitemap-images.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapHoroscopeDotxmlRoute = SitemapHoroscopeDotxmlRouteImport.update({
-  id: '/sitemap-horoscope.xml',
-  path: '/sitemap-horoscope.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapFestivalsDotxmlRoute = SitemapFestivalsDotxmlRouteImport.update({
-  id: '/sitemap-festivals.xml',
-  path: '/sitemap-festivals.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapBlogDotxmlRoute = SitemapBlogDotxmlRouteImport.update({
-  id: '/sitemap-blog.xml',
-  path: '/sitemap-blog.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SanskritRoute = SanskritRouteImport.update({
-  id: '/sanskrit',
-  path: '/sanskrit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
-  id: '/robots.txt',
-  path: '/robots.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PujaRoute = PujaRouteImport.update({
-  id: '/puja',
-  path: '/puja',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PanchangRoute = PanchangRouteImport.update({
-  id: '/panchang',
-  path: '/panchang',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MantrasRoute = MantrasRouteImport.update({
-  id: '/mantras',
-  path: '/mantras',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
-  id: '/llms.txt',
-  path: '/llms.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
-  id: '/llms-full.txt',
-  path: '/llms-full.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LearningRoute = LearningRouteImport.update({
-  id: '/learning',
-  path: '/learning',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KundliMatchingRoute = KundliMatchingRouteImport.update({
-  id: '/kundli-matching',
-  path: '/kundli-matching',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const KundliRoute = KundliRouteImport.update({
-  id: '/kundli',
-  path: '/kundli',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FestivalsRoute = FestivalsRouteImport.update({
-  id: '/festivals',
-  path: '/festivals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalculatorsRoute = CalculatorsRouteImport.update({
-  id: '/calculators',
-  path: '/calculators',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BabyNamesRoute = BabyNamesRouteImport.update({
-  id: '/baby-names',
-  path: '/baby-names',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AstrologyRoute = AstrologyRouteImport.update({
-  id: '/astrology',
-  path: '/astrology',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiAstrologerRoute = AiAstrologerRouteImport.update({
-  id: '/ai-astrologer',
-  path: '/ai-astrologer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AiRoute = AiRouteImport.update({
-  id: '/ai',
-  path: '/ai',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -339,88 +178,174 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const AiRoute = AiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AiAstrologerRoute = AiAstrologerRouteImport.update({
+  id: '/ai-astrologer',
+  path: '/ai-astrologer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const YogaIndexRoute = YogaIndexRouteImport.update({
-  id: '/yoga/',
-  path: '/yoga/',
+const AstrologyRoute = AstrologyRouteImport.update({
+  id: '/astrology',
+  path: '/astrology',
   getParentRoute: () => rootRouteImport,
 } as any)
-const YearlyHoroscopeIndexRoute = YearlyHoroscopeIndexRouteImport.update({
-  id: '/yearly-horoscope/',
-  path: '/yearly-horoscope/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WeeklyHoroscopeIndexRoute = WeeklyHoroscopeIndexRouteImport.update({
-  id: '/weekly-horoscope/',
-  path: '/weekly-horoscope/',
+const BabyNamesRoute = BabyNamesRouteImport.update({
+  id: '/baby-names',
+  path: '/baby-names',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VastuIndexRoute = VastuIndexRouteImport.update({
-  id: '/vastu/',
-  path: '/vastu/',
+const CalculatorsRoute = CalculatorsRouteImport.update({
+  id: '/calculators',
+  path: '/calculators',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolsIndexRoute = ToolsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const RashiIndexRoute = RashiIndexRouteImport.update({
-  id: '/rashi/',
-  path: '/rashi/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NumerologyIndexRoute = NumerologyIndexRouteImport.update({
-  id: '/numerology/',
-  path: '/numerology/',
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NakshatraIndexRoute = NakshatraIndexRouteImport.update({
-  id: '/nakshatra/',
-  path: '/nakshatra/',
+const FestivalsRoute = FestivalsRouteImport.update({
+  id: '/festivals',
+  path: '/festivals',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MuhuratIndexRoute = MuhuratIndexRouteImport.update({
-  id: '/muhurat/',
-  path: '/muhurat/',
+const KundliRoute = KundliRouteImport.update({
+  id: '/kundli',
+  path: '/kundli',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MonthlyHoroscopeIndexRoute = MonthlyHoroscopeIndexRouteImport.update({
-  id: '/monthly-horoscope/',
-  path: '/monthly-horoscope/',
+const KundliMatchingRoute = KundliMatchingRouteImport.update({
+  id: '/kundli-matching',
+  path: '/kundli-matching',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LegalIndexRoute = LegalIndexRouteImport.update({
-  id: '/legal/',
-  path: '/legal/',
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DoshaIndexRoute = DoshaIndexRouteImport.update({
-  id: '/dosha/',
-  path: '/dosha/',
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DailyHoroscopeIndexRoute = DailyHoroscopeIndexRouteImport.update({
-  id: '/daily-horoscope/',
-  path: '/daily-horoscope/',
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
+const MantrasRoute = MantrasRouteImport.update({
+  id: '/mantras',
+  path: '/mantras',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
-  id: '/articles/',
-  path: '/articles/',
+const PanchangRoute = PanchangRouteImport.update({
+  id: '/panchang',
+  path: '/panchang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PujaRoute = PujaRouteImport.update({
+  id: '/puja',
+  path: '/puja',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SanskritRoute = SanskritRouteImport.update({
+  id: '/sanskrit',
+  path: '/sanskrit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapBlogDotxmlRoute = SitemapBlogDotxmlRouteImport.update({
+  id: '/sitemap-blog.xml',
+  path: '/sitemap-blog.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapFestivalsDotxmlRoute = SitemapFestivalsDotxmlRouteImport.update({
+  id: '/sitemap-festivals.xml',
+  path: '/sitemap-festivals.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapHoroscopeDotxmlRoute = SitemapHoroscopeDotxmlRouteImport.update({
+  id: '/sitemap-horoscope.xml',
+  path: '/sitemap-horoscope.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapImagesDotxmlRoute = SitemapImagesDotxmlRouteImport.update({
+  id: '/sitemap-images.xml',
+  path: '/sitemap-images.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapNewsDotxmlRoute = SitemapNewsDotxmlRouteImport.update({
+  id: '/sitemap-news.xml',
+  path: '/sitemap-news.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapPagesDotxmlRoute = SitemapPagesDotxmlRouteImport.update({
+  id: '/sitemap-pages.xml',
+  path: '/sitemap-pages.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapToolsDotxmlRoute = SitemapToolsDotxmlRouteImport.update({
+  id: '/sitemap-tools.xml',
+  path: '/sitemap-tools.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapVideoDotxmlRoute = SitemapVideoDotxmlRouteImport.update({
+  id: '/sitemap-video.xml',
+  path: '/sitemap-video.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TemplesRoute = TemplesRouteImport.update({
+  id: '/temples',
+  path: '/temples',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LangIndexRoute = LangIndexRouteImport.update({
@@ -428,208 +353,48 @@ const LangIndexRoute = LangIndexRouteImport.update({
   path: '/$lang/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const YogaSlugRoute = YogaSlugRouteImport.update({
-  id: '/yoga/$slug',
-  path: '/yoga/$slug',
+const LangSplatRoute = LangSplatRouteImport.update({
+  id: '/$lang/$',
+  path: '/$lang/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const YearlyHoroscopeSignRoute = YearlyHoroscopeSignRouteImport.update({
-  id: '/yearly-horoscope/$sign',
-  path: '/yearly-horoscope/$sign',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WeeklyHoroscopeSignRoute = WeeklyHoroscopeSignRouteImport.update({
-  id: '/weekly-horoscope/$sign',
-  path: '/weekly-horoscope/$sign',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VastuSlugRoute = VastuSlugRouteImport.update({
-  id: '/vastu/$slug',
-  path: '/vastu/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ToolsVastuReportRoute = ToolsVastuReportRouteImport.update({
-  id: '/vastu-report',
-  path: '/vastu-report',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsVarshphalRoute = ToolsVarshphalRouteImport.update({
-  id: '/varshphal',
-  path: '/varshphal',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsNumerologyReportRoute = ToolsNumerologyReportRouteImport.update({
-  id: '/numerology-report',
-  path: '/numerology-report',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsMuhuratFinderRoute = ToolsMuhuratFinderRouteImport.update({
-  id: '/muhurat-finder',
-  path: '/muhurat-finder',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsMasterLifeBlueprintRoute =
-  ToolsMasterLifeBlueprintRouteImport.update({
-    id: '/master-life-blueprint',
-    path: '/master-life-blueprint',
-    getParentRoute: () => ToolsRoute,
-  } as any)
-const ToolsMarriageAnalysisRoute = ToolsMarriageAnalysisRouteImport.update({
-  id: '/marriage-analysis',
-  path: '/marriage-analysis',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsLoveCompatibilityRoute = ToolsLoveCompatibilityRouteImport.update({
-  id: '/love-compatibility',
-  path: '/love-compatibility',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsKundliMatchingRoute = ToolsKundliMatchingRouteImport.update({
-  id: '/kundli-matching',
-  path: '/kundli-matching',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsHealthAnalysisRoute = ToolsHealthAnalysisRouteImport.update({
-  id: '/health-analysis',
-  path: '/health-analysis',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsForeignSettlementAnalysisRoute =
-  ToolsForeignSettlementAnalysisRouteImport.update({
-    id: '/foreign-settlement-analysis',
-    path: '/foreign-settlement-analysis',
-    getParentRoute: () => ToolsRoute,
-  } as any)
-const ToolsCareerReportRoute = ToolsCareerReportRouteImport.update({
-  id: '/career-report',
-  path: '/career-report',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsCareerAnalysisRoute = ToolsCareerAnalysisRouteImport.update({
-  id: '/career-analysis',
-  path: '/career-analysis',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsBabyNameGeneratorRoute = ToolsBabyNameGeneratorRouteImport.update({
-  id: '/baby-name-generator',
-  path: '/baby-name-generator',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const ToolsSlugRoute = ToolsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ToolsRoute,
-} as any)
-const RashiSlugRoute = RashiSlugRouteImport.update({
-  id: '/rashi/$slug',
-  path: '/rashi/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NumerologySlugRoute = NumerologySlugRouteImport.update({
-  id: '/numerology/$slug',
-  path: '/numerology/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NakshatraSlugRoute = NakshatraSlugRouteImport.update({
-  id: '/nakshatra/$slug',
-  path: '/nakshatra/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MuhuratSlugRoute = MuhuratSlugRouteImport.update({
-  id: '/muhurat/$slug',
-  path: '/muhurat/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MonthlyHoroscopeSignRoute = MonthlyHoroscopeSignRouteImport.update({
-  id: '/monthly-horoscope/$sign',
-  path: '/monthly-horoscope/$sign',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalSlugRoute = LegalSlugRouteImport.update({
-  id: '/legal/$slug',
-  path: '/legal/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FestivalsSlugRoute = FestivalsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => FestivalsRoute,
-} as any)
-const DoshaSlugRoute = DoshaSlugRouteImport.update({
-  id: '/dosha/$slug',
-  path: '/dosha/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DailyHoroscopeSignRoute = DailyHoroscopeSignRouteImport.update({
-  id: '/daily-horoscope/$sign',
-  path: '/daily-horoscope/$sign',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
-  id: '/articles/$slug',
-  path: '/articles/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiRashiRoute = ApiRashiRouteImport.update({
-  id: '/api/rashi',
-  path: '/api/rashi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPlanetsRoute = ApiPlanetsRouteImport.update({
-  id: '/api/planets',
-  path: '/api/planets',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiNakshatraRoute = ApiNakshatraRouteImport.update({
-  id: '/api/nakshatra',
-  path: '/api/nakshatra',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiLagnaRoute = ApiLagnaRouteImport.update({
-  id: '/api/lagna',
-  path: '/api/lagna',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAiRoute = ApiAiRouteImport.update({
-  id: '/api/ai',
-  path: '/api/ai',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSavedMantrasRoute =
-  AuthenticatedSavedMantrasRouteImport.update({
-    id: '/saved-mantras',
-    path: '/saved-mantras',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
+const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const AuthenticatedBookmarksRoute = AuthenticatedBookmarksRouteImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedNotificationsRoute =
-  AuthenticatedNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMyKundlisRoute = AuthenticatedMyKundlisRouteImport.update({
-  id: '/my-kundlis',
-  path: '/my-kundlis',
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDownloadsRoute = AuthenticatedDownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFamilyRoute = AuthenticatedFamilyRouteImport.update({
+  id: '/family',
+  path: '/family',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedHoroscopeHistoryRoute =
@@ -638,48 +403,283 @@ const AuthenticatedHoroscopeHistoryRoute =
     path: '/horoscope-history',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
+const AuthenticatedMyKundlisRoute = AuthenticatedMyKundlisRouteImport.update({
+  id: '/my-kundlis',
+  path: '/my-kundlis',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedFamilyRoute = AuthenticatedFamilyRouteImport.update({
-  id: '/family',
-  path: '/family',
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedDownloadsRoute = AuthenticatedDownloadsRouteImport.update({
-  id: '/downloads',
-  path: '/downloads',
+const AuthenticatedSavedMantrasRoute =
+  AuthenticatedSavedMantrasRouteImport.update({
+    id: '/saved-mantras',
+    path: '/saved-mantras',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiAiRoute = ApiAiRouteImport.update({
+  id: '/api/ai',
+  path: '/api/ai',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedBookmarksRoute = AuthenticatedBookmarksRouteImport.update({
-  id: '/bookmarks',
-  path: '/bookmarks',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiLagnaRoute = ApiLagnaRouteImport.update({
+  id: '/api/lagna',
+  path: '/api/lagna',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
-  id: '/billing',
-  path: '/billing',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiNakshatraRoute = ApiNakshatraRouteImport.update({
+  id: '/api/nakshatra',
+  path: '/api/nakshatra',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/_admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ApiPlanetsRoute = ApiPlanetsRouteImport.update({
+  id: '/api/planets',
+  path: '/api/planets',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const LangSplatRoute = LangSplatRouteImport.update({
-  id: '/$lang/$',
-  path: '/$lang/$',
+const ApiRashiRoute = ApiRashiRouteImport.update({
+  id: '/api/rashi',
+  path: '/api/rashi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DailyHoroscopeIndexRoute = DailyHoroscopeIndexRouteImport.update({
+  id: '/daily-horoscope/',
+  path: '/daily-horoscope/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DailyHoroscopeSignRoute = DailyHoroscopeSignRouteImport.update({
+  id: '/daily-horoscope/$sign',
+  path: '/daily-horoscope/$sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoshaIndexRoute = DoshaIndexRouteImport.update({
+  id: '/dosha/',
+  path: '/dosha/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoshaSlugRoute = DoshaSlugRouteImport.update({
+  id: '/dosha/$slug',
+  path: '/dosha/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FestivalsSlugRoute = FestivalsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => FestivalsRoute,
+} as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/legal/',
+  path: '/legal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalSlugRoute = LegalSlugRouteImport.update({
+  id: '/legal/$slug',
+  path: '/legal/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonthlyHoroscopeIndexRoute = MonthlyHoroscopeIndexRouteImport.update({
+  id: '/monthly-horoscope/',
+  path: '/monthly-horoscope/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonthlyHoroscopeSignRoute = MonthlyHoroscopeSignRouteImport.update({
+  id: '/monthly-horoscope/$sign',
+  path: '/monthly-horoscope/$sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MuhuratIndexRoute = MuhuratIndexRouteImport.update({
+  id: '/muhurat/',
+  path: '/muhurat/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MuhuratSlugRoute = MuhuratSlugRouteImport.update({
+  id: '/muhurat/$slug',
+  path: '/muhurat/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NakshatraIndexRoute = NakshatraIndexRouteImport.update({
+  id: '/nakshatra/',
+  path: '/nakshatra/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NakshatraSlugRoute = NakshatraSlugRouteImport.update({
+  id: '/nakshatra/$slug',
+  path: '/nakshatra/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NumerologyIndexRoute = NumerologyIndexRouteImport.update({
+  id: '/numerology/',
+  path: '/numerology/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NumerologySlugRoute = NumerologySlugRouteImport.update({
+  id: '/numerology/$slug',
+  path: '/numerology/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RashiIndexRoute = RashiIndexRouteImport.update({
+  id: '/rashi/',
+  path: '/rashi/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RashiSlugRoute = RashiSlugRouteImport.update({
+  id: '/rashi/$slug',
+  path: '/rashi/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsSlugRoute = ToolsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsBabyNameGeneratorRoute = ToolsBabyNameGeneratorRouteImport.update({
+  id: '/baby-name-generator',
+  path: '/baby-name-generator',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsCareerAnalysisRoute = ToolsCareerAnalysisRouteImport.update({
+  id: '/career-analysis',
+  path: '/career-analysis',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsCareerReportRoute = ToolsCareerReportRouteImport.update({
+  id: '/career-report',
+  path: '/career-report',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsForeignSettlementAnalysisRoute =
+  ToolsForeignSettlementAnalysisRouteImport.update({
+    id: '/foreign-settlement-analysis',
+    path: '/foreign-settlement-analysis',
+    getParentRoute: () => ToolsRoute,
+  } as any)
+const ToolsHealthAnalysisRoute = ToolsHealthAnalysisRouteImport.update({
+  id: '/health-analysis',
+  path: '/health-analysis',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsKundliMatchingRoute = ToolsKundliMatchingRouteImport.update({
+  id: '/kundli-matching',
+  path: '/kundli-matching',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsLoveCompatibilityRoute = ToolsLoveCompatibilityRouteImport.update({
+  id: '/love-compatibility',
+  path: '/love-compatibility',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsMarriageAnalysisRoute = ToolsMarriageAnalysisRouteImport.update({
+  id: '/marriage-analysis',
+  path: '/marriage-analysis',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsMasterLifeBlueprintRoute =
+  ToolsMasterLifeBlueprintRouteImport.update({
+    id: '/master-life-blueprint',
+    path: '/master-life-blueprint',
+    getParentRoute: () => ToolsRoute,
+  } as any)
+const ToolsMuhuratFinderRoute = ToolsMuhuratFinderRouteImport.update({
+  id: '/muhurat-finder',
+  path: '/muhurat-finder',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsNumerologyReportRoute = ToolsNumerologyReportRouteImport.update({
+  id: '/numerology-report',
+  path: '/numerology-report',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsVarshphalRoute = ToolsVarshphalRouteImport.update({
+  id: '/varshphal',
+  path: '/varshphal',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsVastuReportRoute = ToolsVastuReportRouteImport.update({
+  id: '/vastu-report',
+  path: '/vastu-report',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const VastuIndexRoute = VastuIndexRouteImport.update({
+  id: '/vastu/',
+  path: '/vastu/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VastuSlugRoute = VastuSlugRouteImport.update({
+  id: '/vastu/$slug',
+  path: '/vastu/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeeklyHoroscopeIndexRoute = WeeklyHoroscopeIndexRouteImport.update({
+  id: '/weekly-horoscope/',
+  path: '/weekly-horoscope/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeeklyHoroscopeSignRoute = WeeklyHoroscopeSignRouteImport.update({
+  id: '/weekly-horoscope/$sign',
+  path: '/weekly-horoscope/$sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YearlyHoroscopeIndexRoute = YearlyHoroscopeIndexRouteImport.update({
+  id: '/yearly-horoscope/',
+  path: '/yearly-horoscope/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YearlyHoroscopeSignRoute = YearlyHoroscopeSignRouteImport.update({
+  id: '/yearly-horoscope/$sign',
+  path: '/yearly-horoscope/$sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YogaIndexRoute = YogaIndexRouteImport.update({
+  id: '/yoga/',
+  path: '/yoga/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YogaSlugRoute = YogaSlugRouteImport.update({
+  id: '/yoga/$slug',
+  path: '/yoga/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiKundliIndexRoute = ApiKundliIndexRouteImport.update({
@@ -687,49 +687,9 @@ const ApiKundliIndexRoute = ApiKundliIndexRouteImport.update({
   path: '/api/kundli/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportsSharedTokenRoute = ReportsSharedTokenRouteImport.update({
-  id: '/reports/shared/$token',
-  path: '/reports/shared/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FestivalsYearYearRoute = FestivalsYearYearRouteImport.update({
-  id: '/year/$year',
-  path: '/year/$year',
-  getParentRoute: () => FestivalsRoute,
-} as any)
-const FestivalsDeitySlugRoute = FestivalsDeitySlugRouteImport.update({
-  id: '/deity/$slug',
-  path: '/deity/$slug',
-  getParentRoute: () => FestivalsRoute,
-} as any)
-const FestivalsCategorySlugRoute = FestivalsCategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
-  getParentRoute: () => FestivalsRoute,
-} as any)
-const ApiV1SplatRoute = ApiV1SplatRouteImport.update({
-  id: '/api/v1/$',
-  path: '/api/v1/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
-  id: '/api/public/track',
-  path: '/api/public/track',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicStatusRoute = ApiPublicStatusRouteImport.update({
-  id: '/api/public/status',
-  path: '/api/public/status',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicReadyRoute = ApiPublicReadyRouteImport.update({
-  id: '/api/public/ready',
-  path: '/api/public/ready',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPhonepeWebhookRoute = ApiPublicPhonepeWebhookRouteImport.update({
-  id: '/api/public/phonepe-webhook',
-  path: '/api/public/phonepe-webhook',
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicLemonsqueezyWebhookRoute =
@@ -738,9 +698,49 @@ const ApiPublicLemonsqueezyWebhookRoute =
     path: '/api/public/lemonsqueezy-webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
-  id: '/api/public/health',
-  path: '/api/public/health',
+const ApiPublicPhonepeWebhookRoute = ApiPublicPhonepeWebhookRouteImport.update({
+  id: '/api/public/phonepe-webhook',
+  path: '/api/public/phonepe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicReadyRoute = ApiPublicReadyRouteImport.update({
+  id: '/api/public/ready',
+  path: '/api/public/ready',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicStatusRoute = ApiPublicStatusRouteImport.update({
+  id: '/api/public/status',
+  path: '/api/public/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicTrackRoute = ApiPublicTrackRouteImport.update({
+  id: '/api/public/track',
+  path: '/api/public/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1SplatRoute = ApiV1SplatRouteImport.update({
+  id: '/api/v1/$',
+  path: '/api/v1/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FestivalsCategorySlugRoute = FestivalsCategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => FestivalsRoute,
+} as any)
+const FestivalsDeitySlugRoute = FestivalsDeitySlugRouteImport.update({
+  id: '/deity/$slug',
+  path: '/deity/$slug',
+  getParentRoute: () => FestivalsRoute,
+} as any)
+const FestivalsYearYearRoute = FestivalsYearYearRouteImport.update({
+  id: '/year/$year',
+  path: '/year/$year',
+  getParentRoute: () => FestivalsRoute,
+} as any)
+const ReportsSharedTokenRoute = ReportsSharedTokenRouteImport.update({
+  id: '/reports/shared/$token',
+  path: '/reports/shared/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminAdminIndexRoute =
@@ -749,212 +749,10 @@ const AuthenticatedAdminAdminIndexRoute =
     path: '/admin/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const LovableEmailTransactionalPreviewRoute =
-  LovableEmailTransactionalPreviewRouteImport.update({
-    id: '/lovable/email/transactional/preview',
-    path: '/lovable/email/transactional/preview',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
-  id: '/lovable/email/auth/webhook',
-  path: '/lovable/email/auth/webhook',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
-  id: '/lovable/email/auth/preview',
-  path: '/lovable/email/auth/preview',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPanchangMonthDoticsRoute =
-  ApiPublicPanchangMonthDoticsRouteImport.update({
-    id: '/api/public/panchang/month.ics',
-    path: '/api/public/panchang/month.ics',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksNotificationsTickRoute =
-  ApiPublicHooksNotificationsTickRouteImport.update({
-    id: '/api/public/hooks/notifications-tick',
-    path: '/api/public/hooks/notifications-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksFestivalsTickRoute =
-  ApiPublicHooksFestivalsTickRouteImport.update({
-    id: '/api/public/hooks/festivals-tick',
-    path: '/api/public/hooks/festivals-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksDailyPanchangNotifyRoute =
-  ApiPublicHooksDailyPanchangNotifyRouteImport.update({
-    id: '/api/public/hooks/daily-panchang-notify',
-    path: '/api/public/hooks/daily-panchang-notify',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicHooksAnalyticsTickRoute =
-  ApiPublicHooksAnalyticsTickRouteImport.update({
-    id: '/api/public/hooks/analytics-tick',
-    path: '/api/public/hooks/analytics-tick',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicFestivalsCalendarDoticsRoute =
-  ApiPublicFestivalsCalendarDoticsRouteImport.update({
-    id: '/api/public/festivals/calendar.ics',
-    path: '/api/public/festivals/calendar.ics',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicFestivalsSlugDoticsRoute =
-  ApiPublicFestivalsSlugDoticsRouteImport.update({
-    id: '/api/public/festivals/$slug.ics',
-    path: '/api/public/festivals/$slug.ics',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPaymentsPhonepeCallbackRoute =
-  ApiPaymentsPhonepeCallbackRouteImport.update({
-    id: '/api/payments/phonepe/callback',
-    path: '/api/payments/phonepe/callback',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedAdminAdminUsersRoute =
-  AuthenticatedAdminAdminUsersRouteImport.update({
-    id: '/admin/users',
-    path: '/admin/users',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminTranslationsRoute =
-  AuthenticatedAdminAdminTranslationsRouteImport.update({
-    id: '/admin/translations',
-    path: '/admin/translations',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminToolsRoute =
-  AuthenticatedAdminAdminToolsRouteImport.update({
-    id: '/admin/tools',
-    path: '/admin/tools',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminTemplesRoute =
-  AuthenticatedAdminAdminTemplesRouteImport.update({
-    id: '/admin/temples',
-    path: '/admin/temples',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminSettingsRoute =
-  AuthenticatedAdminAdminSettingsRouteImport.update({
-    id: '/admin/settings',
-    path: '/admin/settings',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminSeoRoute =
-  AuthenticatedAdminAdminSeoRouteImport.update({
-    id: '/admin/seo',
-    path: '/admin/seo',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminSecurityRoute =
-  AuthenticatedAdminAdminSecurityRouteImport.update({
-    id: '/admin/security',
-    path: '/admin/security',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminPwaRoute =
-  AuthenticatedAdminAdminPwaRouteImport.update({
-    id: '/admin/pwa',
-    path: '/admin/pwa',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminPerformanceRoute =
-  AuthenticatedAdminAdminPerformanceRouteImport.update({
-    id: '/admin/performance',
-    path: '/admin/performance',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminPaymentGatewaysRoute =
-  AuthenticatedAdminAdminPaymentGatewaysRouteImport.update({
-    id: '/admin/payment-gateways',
-    path: '/admin/payment-gateways',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminPanchangRoute =
-  AuthenticatedAdminAdminPanchangRouteImport.update({
-    id: '/admin/panchang',
-    path: '/admin/panchang',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminNotificationsRoute =
-  AuthenticatedAdminAdminNotificationsRouteImport.update({
-    id: '/admin/notifications',
-    path: '/admin/notifications',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminNewsletterRoute =
-  AuthenticatedAdminAdminNewsletterRouteImport.update({
-    id: '/admin/newsletter',
-    path: '/admin/newsletter',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminMonetizationRoute =
-  AuthenticatedAdminAdminMonetizationRouteImport.update({
-    id: '/admin/monetization',
-    path: '/admin/monetization',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminLegalInboxRoute =
-  AuthenticatedAdminAdminLegalInboxRouteImport.update({
-    id: '/admin/legal-inbox',
-    path: '/admin/legal-inbox',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminLegalRoute =
-  AuthenticatedAdminAdminLegalRouteImport.update({
-    id: '/admin/legal',
-    path: '/admin/legal',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminFestivalsRoute =
-  AuthenticatedAdminAdminFestivalsRouteImport.update({
-    id: '/admin/festivals',
-    path: '/admin/festivals',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminEmailsRoute =
-  AuthenticatedAdminAdminEmailsRouteImport.update({
-    id: '/admin/emails',
-    path: '/admin/emails',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminBackupRoute =
-  AuthenticatedAdminAdminBackupRouteImport.update({
-    id: '/admin/backup',
-    path: '/admin/backup',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminArticlesRoute =
-  AuthenticatedAdminAdminArticlesRouteImport.update({
-    id: '/admin/articles',
-    path: '/admin/articles',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminAnalyticsRoute =
-  AuthenticatedAdminAdminAnalyticsRouteImport.update({
-    id: '/admin/analytics',
-    path: '/admin/analytics',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminAiStudioRoute =
-  AuthenticatedAdminAdminAiStudioRouteImport.update({
-    id: '/admin/ai-studio',
-    path: '/admin/ai-studio',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminAiProvidersRoute =
-  AuthenticatedAdminAdminAiProvidersRouteImport.update({
-    id: '/admin/ai-providers',
-    path: '/admin/ai-providers',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminAdminAiRoute =
-  AuthenticatedAdminAdminAiRouteImport.update({
-    id: '/admin/ai',
-    path: '/admin/ai',
+const AuthenticatedAdminAdminAdsRoute =
+  AuthenticatedAdminAdminAdsRouteImport.update({
+    id: '/admin/ads',
+    path: '/admin/ads',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminAdminAffiliatesRoute =
@@ -963,11 +761,213 @@ const AuthenticatedAdminAdminAffiliatesRoute =
     path: '/admin/affiliates',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminAdminAdsRoute =
-  AuthenticatedAdminAdminAdsRouteImport.update({
-    id: '/admin/ads',
-    path: '/admin/ads',
+const AuthenticatedAdminAdminAiRoute =
+  AuthenticatedAdminAdminAiRouteImport.update({
+    id: '/admin/ai',
+    path: '/admin/ai',
     getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminAiProvidersRoute =
+  AuthenticatedAdminAdminAiProvidersRouteImport.update({
+    id: '/admin/ai-providers',
+    path: '/admin/ai-providers',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminAiStudioRoute =
+  AuthenticatedAdminAdminAiStudioRouteImport.update({
+    id: '/admin/ai-studio',
+    path: '/admin/ai-studio',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminAnalyticsRoute =
+  AuthenticatedAdminAdminAnalyticsRouteImport.update({
+    id: '/admin/analytics',
+    path: '/admin/analytics',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminArticlesRoute =
+  AuthenticatedAdminAdminArticlesRouteImport.update({
+    id: '/admin/articles',
+    path: '/admin/articles',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminBackupRoute =
+  AuthenticatedAdminAdminBackupRouteImport.update({
+    id: '/admin/backup',
+    path: '/admin/backup',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminEmailsRoute =
+  AuthenticatedAdminAdminEmailsRouteImport.update({
+    id: '/admin/emails',
+    path: '/admin/emails',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminFestivalsRoute =
+  AuthenticatedAdminAdminFestivalsRouteImport.update({
+    id: '/admin/festivals',
+    path: '/admin/festivals',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminLegalRoute =
+  AuthenticatedAdminAdminLegalRouteImport.update({
+    id: '/admin/legal',
+    path: '/admin/legal',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminLegalInboxRoute =
+  AuthenticatedAdminAdminLegalInboxRouteImport.update({
+    id: '/admin/legal-inbox',
+    path: '/admin/legal-inbox',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminMonetizationRoute =
+  AuthenticatedAdminAdminMonetizationRouteImport.update({
+    id: '/admin/monetization',
+    path: '/admin/monetization',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminNewsletterRoute =
+  AuthenticatedAdminAdminNewsletterRouteImport.update({
+    id: '/admin/newsletter',
+    path: '/admin/newsletter',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminNotificationsRoute =
+  AuthenticatedAdminAdminNotificationsRouteImport.update({
+    id: '/admin/notifications',
+    path: '/admin/notifications',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminPanchangRoute =
+  AuthenticatedAdminAdminPanchangRouteImport.update({
+    id: '/admin/panchang',
+    path: '/admin/panchang',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminPaymentGatewaysRoute =
+  AuthenticatedAdminAdminPaymentGatewaysRouteImport.update({
+    id: '/admin/payment-gateways',
+    path: '/admin/payment-gateways',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminPerformanceRoute =
+  AuthenticatedAdminAdminPerformanceRouteImport.update({
+    id: '/admin/performance',
+    path: '/admin/performance',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminPwaRoute =
+  AuthenticatedAdminAdminPwaRouteImport.update({
+    id: '/admin/pwa',
+    path: '/admin/pwa',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminSecurityRoute =
+  AuthenticatedAdminAdminSecurityRouteImport.update({
+    id: '/admin/security',
+    path: '/admin/security',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminSeoRoute =
+  AuthenticatedAdminAdminSeoRouteImport.update({
+    id: '/admin/seo',
+    path: '/admin/seo',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminSettingsRoute =
+  AuthenticatedAdminAdminSettingsRouteImport.update({
+    id: '/admin/settings',
+    path: '/admin/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminTemplesRoute =
+  AuthenticatedAdminAdminTemplesRouteImport.update({
+    id: '/admin/temples',
+    path: '/admin/temples',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminToolsRoute =
+  AuthenticatedAdminAdminToolsRouteImport.update({
+    id: '/admin/tools',
+    path: '/admin/tools',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminTranslationsRoute =
+  AuthenticatedAdminAdminTranslationsRouteImport.update({
+    id: '/admin/translations',
+    path: '/admin/translations',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAdminUsersRoute =
+  AuthenticatedAdminAdminUsersRouteImport.update({
+    id: '/admin/users',
+    path: '/admin/users',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const ApiPaymentsPhonepeCallbackRoute =
+  ApiPaymentsPhonepeCallbackRouteImport.update({
+    id: '/api/payments/phonepe/callback',
+    path: '/api/payments/phonepe/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFestivalsSlugDoticsRoute =
+  ApiPublicFestivalsSlugDoticsRouteImport.update({
+    id: '/api/public/festivals/$slug.ics',
+    path: '/api/public/festivals/$slug.ics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFestivalsCalendarDoticsRoute =
+  ApiPublicFestivalsCalendarDoticsRouteImport.update({
+    id: '/api/public/festivals/calendar.ics',
+    path: '/api/public/festivals/calendar.ics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksAnalyticsTickRoute =
+  ApiPublicHooksAnalyticsTickRouteImport.update({
+    id: '/api/public/hooks/analytics-tick',
+    path: '/api/public/hooks/analytics-tick',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksDailyPanchangNotifyRoute =
+  ApiPublicHooksDailyPanchangNotifyRouteImport.update({
+    id: '/api/public/hooks/daily-panchang-notify',
+    path: '/api/public/hooks/daily-panchang-notify',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksFestivalsTickRoute =
+  ApiPublicHooksFestivalsTickRouteImport.update({
+    id: '/api/public/hooks/festivals-tick',
+    path: '/api/public/hooks/festivals-tick',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksNotificationsTickRoute =
+  ApiPublicHooksNotificationsTickRouteImport.update({
+    id: '/api/public/hooks/notifications-tick',
+    path: '/api/public/hooks/notifications-tick',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPanchangMonthDoticsRoute =
+  ApiPublicPanchangMonthDoticsRouteImport.update({
+    id: '/api/public/panchang/month.ics',
+    path: '/api/public/panchang/month.ics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicFestivalsSlugOgDotsvgRoute =
   ApiPublicFestivalsSlugOgDotsvgRouteImport.update({
@@ -2004,249 +2004,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tools': {
-      id: '/tools'
-      path: '/tools'
-      fullPath: '/tools'
-      preLoaderRoute: typeof ToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/temples': {
-      id: '/temples'
-      path: '/temples'
-      fullPath: '/temples'
-      preLoaderRoute: typeof TemplesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/support': {
-      id: '/support'
-      path: '/support'
-      fullPath: '/support'
-      preLoaderRoute: typeof SupportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-video.xml': {
-      id: '/sitemap-video.xml'
-      path: '/sitemap-video.xml'
-      fullPath: '/sitemap-video.xml'
-      preLoaderRoute: typeof SitemapVideoDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-tools.xml': {
-      id: '/sitemap-tools.xml'
-      path: '/sitemap-tools.xml'
-      fullPath: '/sitemap-tools.xml'
-      preLoaderRoute: typeof SitemapToolsDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-pages.xml': {
-      id: '/sitemap-pages.xml'
-      path: '/sitemap-pages.xml'
-      fullPath: '/sitemap-pages.xml'
-      preLoaderRoute: typeof SitemapPagesDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-news.xml': {
-      id: '/sitemap-news.xml'
-      path: '/sitemap-news.xml'
-      fullPath: '/sitemap-news.xml'
-      preLoaderRoute: typeof SitemapNewsDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-images.xml': {
-      id: '/sitemap-images.xml'
-      path: '/sitemap-images.xml'
-      fullPath: '/sitemap-images.xml'
-      preLoaderRoute: typeof SitemapImagesDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-horoscope.xml': {
-      id: '/sitemap-horoscope.xml'
-      path: '/sitemap-horoscope.xml'
-      fullPath: '/sitemap-horoscope.xml'
-      preLoaderRoute: typeof SitemapHoroscopeDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-festivals.xml': {
-      id: '/sitemap-festivals.xml'
-      path: '/sitemap-festivals.xml'
-      fullPath: '/sitemap-festivals.xml'
-      preLoaderRoute: typeof SitemapFestivalsDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-blog.xml': {
-      id: '/sitemap-blog.xml'
-      path: '/sitemap-blog.xml'
-      fullPath: '/sitemap-blog.xml'
-      preLoaderRoute: typeof SitemapBlogDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sanskrit': {
-      id: '/sanskrit'
-      path: '/sanskrit'
-      fullPath: '/sanskrit'
-      preLoaderRoute: typeof SanskritRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/robots.txt': {
-      id: '/robots.txt'
-      path: '/robots.txt'
-      fullPath: '/robots.txt'
-      preLoaderRoute: typeof RobotsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/puja': {
-      id: '/puja'
-      path: '/puja'
-      fullPath: '/puja'
-      preLoaderRoute: typeof PujaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/panchang': {
-      id: '/panchang'
-      path: '/panchang'
-      fullPath: '/panchang'
-      preLoaderRoute: typeof PanchangRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mantras': {
-      id: '/mantras'
-      path: '/mantras'
-      fullPath: '/mantras'
-      preLoaderRoute: typeof MantrasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/llms.txt': {
-      id: '/llms.txt'
-      path: '/llms.txt'
-      fullPath: '/llms.txt'
-      preLoaderRoute: typeof LlmsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/llms-full.txt': {
-      id: '/llms-full.txt'
-      path: '/llms-full.txt'
-      fullPath: '/llms-full.txt'
-      preLoaderRoute: typeof LlmsFullDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/learning': {
-      id: '/learning'
-      path: '/learning'
-      fullPath: '/learning'
-      preLoaderRoute: typeof LearningRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kundli-matching': {
-      id: '/kundli-matching'
-      path: '/kundli-matching'
-      fullPath: '/kundli-matching'
-      preLoaderRoute: typeof KundliMatchingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/kundli': {
-      id: '/kundli'
-      path: '/kundli'
-      fullPath: '/kundli'
-      preLoaderRoute: typeof KundliRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/festivals': {
-      id: '/festivals'
-      path: '/festivals'
-      fullPath: '/festivals'
-      preLoaderRoute: typeof FestivalsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calculators': {
-      id: '/calculators'
-      path: '/calculators'
-      fullPath: '/calculators'
-      preLoaderRoute: typeof CalculatorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/baby-names': {
-      id: '/baby-names'
-      path: '/baby-names'
-      fullPath: '/baby-names'
-      preLoaderRoute: typeof BabyNamesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/astrology': {
-      id: '/astrology'
-      path: '/astrology'
-      fullPath: '/astrology'
-      preLoaderRoute: typeof AstrologyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai-astrologer': {
-      id: '/ai-astrologer'
-      path: '/ai-astrologer'
-      fullPath: '/ai-astrologer'
-      preLoaderRoute: typeof AiAstrologerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ai': {
-      id: '/ai'
-      path: '/ai'
-      fullPath: '/ai'
-      preLoaderRoute: typeof AiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -2256,116 +2018,249 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/yoga/': {
-      id: '/yoga/'
-      path: '/yoga'
-      fullPath: '/yoga/'
-      preLoaderRoute: typeof YogaIndexRouteImport
+    '/ai': {
+      id: '/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AiRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/yearly-horoscope/': {
-      id: '/yearly-horoscope/'
-      path: '/yearly-horoscope'
-      fullPath: '/yearly-horoscope/'
-      preLoaderRoute: typeof YearlyHoroscopeIndexRouteImport
+    '/ai-astrologer': {
+      id: '/ai-astrologer'
+      path: '/ai-astrologer'
+      fullPath: '/ai-astrologer'
+      preLoaderRoute: typeof AiAstrologerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/weekly-horoscope/': {
-      id: '/weekly-horoscope/'
-      path: '/weekly-horoscope'
-      fullPath: '/weekly-horoscope/'
-      preLoaderRoute: typeof WeeklyHoroscopeIndexRouteImport
+    '/astrology': {
+      id: '/astrology'
+      path: '/astrology'
+      fullPath: '/astrology'
+      preLoaderRoute: typeof AstrologyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/vastu/': {
-      id: '/vastu/'
-      path: '/vastu'
-      fullPath: '/vastu/'
-      preLoaderRoute: typeof VastuIndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tools/': {
-      id: '/tools/'
-      path: '/'
-      fullPath: '/tools/'
-      preLoaderRoute: typeof ToolsIndexRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/rashi/': {
-      id: '/rashi/'
-      path: '/rashi'
-      fullPath: '/rashi/'
-      preLoaderRoute: typeof RashiIndexRouteImport
+    '/baby-names': {
+      id: '/baby-names'
+      path: '/baby-names'
+      fullPath: '/baby-names'
+      preLoaderRoute: typeof BabyNamesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/numerology/': {
-      id: '/numerology/'
-      path: '/numerology'
-      fullPath: '/numerology/'
-      preLoaderRoute: typeof NumerologyIndexRouteImport
+    '/calculators': {
+      id: '/calculators'
+      path: '/calculators'
+      fullPath: '/calculators'
+      preLoaderRoute: typeof CalculatorsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/nakshatra/': {
-      id: '/nakshatra/'
-      path: '/nakshatra'
-      fullPath: '/nakshatra/'
-      preLoaderRoute: typeof NakshatraIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/muhurat/': {
-      id: '/muhurat/'
-      path: '/muhurat'
-      fullPath: '/muhurat/'
-      preLoaderRoute: typeof MuhuratIndexRouteImport
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/monthly-horoscope/': {
-      id: '/monthly-horoscope/'
-      path: '/monthly-horoscope'
-      fullPath: '/monthly-horoscope/'
-      preLoaderRoute: typeof MonthlyHoroscopeIndexRouteImport
+    '/festivals': {
+      id: '/festivals'
+      path: '/festivals'
+      fullPath: '/festivals'
+      preLoaderRoute: typeof FestivalsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/legal/': {
-      id: '/legal/'
-      path: '/legal'
-      fullPath: '/legal/'
-      preLoaderRoute: typeof LegalIndexRouteImport
+    '/kundli': {
+      id: '/kundli'
+      path: '/kundli'
+      fullPath: '/kundli'
+      preLoaderRoute: typeof KundliRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dosha/': {
-      id: '/dosha/'
-      path: '/dosha'
-      fullPath: '/dosha/'
-      preLoaderRoute: typeof DoshaIndexRouteImport
+    '/kundli-matching': {
+      id: '/kundli-matching'
+      path: '/kundli-matching'
+      fullPath: '/kundli-matching'
+      preLoaderRoute: typeof KundliMatchingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/daily-horoscope/': {
-      id: '/daily-horoscope/'
-      path: '/daily-horoscope'
-      fullPath: '/daily-horoscope/'
-      preLoaderRoute: typeof DailyHoroscopeIndexRouteImport
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/articles/': {
-      id: '/articles/'
-      path: '/articles'
-      fullPath: '/articles/'
-      preLoaderRoute: typeof ArticlesIndexRouteImport
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mantras': {
+      id: '/mantras'
+      path: '/mantras'
+      fullPath: '/mantras'
+      preLoaderRoute: typeof MantrasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panchang': {
+      id: '/panchang'
+      path: '/panchang'
+      fullPath: '/panchang'
+      preLoaderRoute: typeof PanchangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/puja': {
+      id: '/puja'
+      path: '/puja'
+      fullPath: '/puja'
+      preLoaderRoute: typeof PujaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sanskrit': {
+      id: '/sanskrit'
+      path: '/sanskrit'
+      fullPath: '/sanskrit'
+      preLoaderRoute: typeof SanskritRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-blog.xml': {
+      id: '/sitemap-blog.xml'
+      path: '/sitemap-blog.xml'
+      fullPath: '/sitemap-blog.xml'
+      preLoaderRoute: typeof SitemapBlogDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-festivals.xml': {
+      id: '/sitemap-festivals.xml'
+      path: '/sitemap-festivals.xml'
+      fullPath: '/sitemap-festivals.xml'
+      preLoaderRoute: typeof SitemapFestivalsDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-horoscope.xml': {
+      id: '/sitemap-horoscope.xml'
+      path: '/sitemap-horoscope.xml'
+      fullPath: '/sitemap-horoscope.xml'
+      preLoaderRoute: typeof SitemapHoroscopeDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-images.xml': {
+      id: '/sitemap-images.xml'
+      path: '/sitemap-images.xml'
+      fullPath: '/sitemap-images.xml'
+      preLoaderRoute: typeof SitemapImagesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-news.xml': {
+      id: '/sitemap-news.xml'
+      path: '/sitemap-news.xml'
+      fullPath: '/sitemap-news.xml'
+      preLoaderRoute: typeof SitemapNewsDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-pages.xml': {
+      id: '/sitemap-pages.xml'
+      path: '/sitemap-pages.xml'
+      fullPath: '/sitemap-pages.xml'
+      preLoaderRoute: typeof SitemapPagesDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-tools.xml': {
+      id: '/sitemap-tools.xml'
+      path: '/sitemap-tools.xml'
+      fullPath: '/sitemap-tools.xml'
+      preLoaderRoute: typeof SitemapToolsDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap-video.xml': {
+      id: '/sitemap-video.xml'
+      path: '/sitemap-video.xml'
+      fullPath: '/sitemap-video.xml'
+      preLoaderRoute: typeof SitemapVideoDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/temples': {
+      id: '/temples'
+      path: '/temples'
+      fullPath: '/temples'
+      preLoaderRoute: typeof TemplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$lang/': {
@@ -2375,333 +2270,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LangIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/yoga/$slug': {
-      id: '/yoga/$slug'
-      path: '/yoga/$slug'
-      fullPath: '/yoga/$slug'
-      preLoaderRoute: typeof YogaSlugRouteImport
+    '/$lang/$': {
+      id: '/$lang/$'
+      path: '/$lang/$'
+      fullPath: '/$lang/$'
+      preLoaderRoute: typeof LangSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/yearly-horoscope/$sign': {
-      id: '/yearly-horoscope/$sign'
-      path: '/yearly-horoscope/$sign'
-      fullPath: '/yearly-horoscope/$sign'
-      preLoaderRoute: typeof YearlyHoroscopeSignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/weekly-horoscope/$sign': {
-      id: '/weekly-horoscope/$sign'
-      path: '/weekly-horoscope/$sign'
-      fullPath: '/weekly-horoscope/$sign'
-      preLoaderRoute: typeof WeeklyHoroscopeSignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vastu/$slug': {
-      id: '/vastu/$slug'
-      path: '/vastu/$slug'
-      fullPath: '/vastu/$slug'
-      preLoaderRoute: typeof VastuSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tools/vastu-report': {
-      id: '/tools/vastu-report'
-      path: '/vastu-report'
-      fullPath: '/tools/vastu-report'
-      preLoaderRoute: typeof ToolsVastuReportRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/varshphal': {
-      id: '/tools/varshphal'
-      path: '/varshphal'
-      fullPath: '/tools/varshphal'
-      preLoaderRoute: typeof ToolsVarshphalRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/numerology-report': {
-      id: '/tools/numerology-report'
-      path: '/numerology-report'
-      fullPath: '/tools/numerology-report'
-      preLoaderRoute: typeof ToolsNumerologyReportRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/muhurat-finder': {
-      id: '/tools/muhurat-finder'
-      path: '/muhurat-finder'
-      fullPath: '/tools/muhurat-finder'
-      preLoaderRoute: typeof ToolsMuhuratFinderRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/master-life-blueprint': {
-      id: '/tools/master-life-blueprint'
-      path: '/master-life-blueprint'
-      fullPath: '/tools/master-life-blueprint'
-      preLoaderRoute: typeof ToolsMasterLifeBlueprintRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/marriage-analysis': {
-      id: '/tools/marriage-analysis'
-      path: '/marriage-analysis'
-      fullPath: '/tools/marriage-analysis'
-      preLoaderRoute: typeof ToolsMarriageAnalysisRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/love-compatibility': {
-      id: '/tools/love-compatibility'
-      path: '/love-compatibility'
-      fullPath: '/tools/love-compatibility'
-      preLoaderRoute: typeof ToolsLoveCompatibilityRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/kundli-matching': {
-      id: '/tools/kundli-matching'
-      path: '/kundli-matching'
-      fullPath: '/tools/kundli-matching'
-      preLoaderRoute: typeof ToolsKundliMatchingRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/health-analysis': {
-      id: '/tools/health-analysis'
-      path: '/health-analysis'
-      fullPath: '/tools/health-analysis'
-      preLoaderRoute: typeof ToolsHealthAnalysisRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/foreign-settlement-analysis': {
-      id: '/tools/foreign-settlement-analysis'
-      path: '/foreign-settlement-analysis'
-      fullPath: '/tools/foreign-settlement-analysis'
-      preLoaderRoute: typeof ToolsForeignSettlementAnalysisRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/career-report': {
-      id: '/tools/career-report'
-      path: '/career-report'
-      fullPath: '/tools/career-report'
-      preLoaderRoute: typeof ToolsCareerReportRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/career-analysis': {
-      id: '/tools/career-analysis'
-      path: '/career-analysis'
-      fullPath: '/tools/career-analysis'
-      preLoaderRoute: typeof ToolsCareerAnalysisRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/baby-name-generator': {
-      id: '/tools/baby-name-generator'
-      path: '/baby-name-generator'
-      fullPath: '/tools/baby-name-generator'
-      preLoaderRoute: typeof ToolsBabyNameGeneratorRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/tools/$slug': {
-      id: '/tools/$slug'
-      path: '/$slug'
-      fullPath: '/tools/$slug'
-      preLoaderRoute: typeof ToolsSlugRouteImport
-      parentRoute: typeof ToolsRoute
-    }
-    '/rashi/$slug': {
-      id: '/rashi/$slug'
-      path: '/rashi/$slug'
-      fullPath: '/rashi/$slug'
-      preLoaderRoute: typeof RashiSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/numerology/$slug': {
-      id: '/numerology/$slug'
-      path: '/numerology/$slug'
-      fullPath: '/numerology/$slug'
-      preLoaderRoute: typeof NumerologySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/nakshatra/$slug': {
-      id: '/nakshatra/$slug'
-      path: '/nakshatra/$slug'
-      fullPath: '/nakshatra/$slug'
-      preLoaderRoute: typeof NakshatraSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/muhurat/$slug': {
-      id: '/muhurat/$slug'
-      path: '/muhurat/$slug'
-      fullPath: '/muhurat/$slug'
-      preLoaderRoute: typeof MuhuratSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/monthly-horoscope/$sign': {
-      id: '/monthly-horoscope/$sign'
-      path: '/monthly-horoscope/$sign'
-      fullPath: '/monthly-horoscope/$sign'
-      preLoaderRoute: typeof MonthlyHoroscopeSignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legal/$slug': {
-      id: '/legal/$slug'
-      path: '/legal/$slug'
-      fullPath: '/legal/$slug'
-      preLoaderRoute: typeof LegalSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/festivals/$slug': {
-      id: '/festivals/$slug'
-      path: '/$slug'
-      fullPath: '/festivals/$slug'
-      preLoaderRoute: typeof FestivalsSlugRouteImport
-      parentRoute: typeof FestivalsRoute
-    }
-    '/dosha/$slug': {
-      id: '/dosha/$slug'
-      path: '/dosha/$slug'
-      fullPath: '/dosha/$slug'
-      preLoaderRoute: typeof DoshaSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/daily-horoscope/$sign': {
-      id: '/daily-horoscope/$sign'
-      path: '/daily-horoscope/$sign'
-      fullPath: '/daily-horoscope/$sign'
-      preLoaderRoute: typeof DailyHoroscopeSignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/articles/$slug': {
-      id: '/articles/$slug'
-      path: '/articles/$slug'
-      fullPath: '/articles/$slug'
-      preLoaderRoute: typeof ArticlesSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/rashi': {
-      id: '/api/rashi'
-      path: '/api/rashi'
-      fullPath: '/api/rashi'
-      preLoaderRoute: typeof ApiRashiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/planets': {
-      id: '/api/planets'
-      path: '/api/planets'
-      fullPath: '/api/planets'
-      preLoaderRoute: typeof ApiPlanetsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/nakshatra': {
-      id: '/api/nakshatra'
-      path: '/api/nakshatra'
-      fullPath: '/api/nakshatra'
-      preLoaderRoute: typeof ApiNakshatraRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/lagna': {
-      id: '/api/lagna'
-      path: '/api/lagna'
-      fullPath: '/api/lagna'
-      preLoaderRoute: typeof ApiLagnaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/ai': {
-      id: '/api/ai'
-      path: '/api/ai'
-      fullPath: '/api/ai'
-      preLoaderRoute: typeof ApiAiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/saved-mantras': {
-      id: '/_authenticated/saved-mantras'
-      path: '/saved-mantras'
-      fullPath: '/saved-mantras'
-      preLoaderRoute: typeof AuthenticatedSavedMantrasRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/reports': {
-      id: '/_authenticated/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof AuthenticatedReportsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/notifications': {
-      id: '/_authenticated/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/my-kundlis': {
-      id: '/_authenticated/my-kundlis'
-      path: '/my-kundlis'
-      fullPath: '/my-kundlis'
-      preLoaderRoute: typeof AuthenticatedMyKundlisRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/horoscope-history': {
-      id: '/_authenticated/horoscope-history'
-      path: '/horoscope-history'
-      fullPath: '/horoscope-history'
-      preLoaderRoute: typeof AuthenticatedHoroscopeHistoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/history': {
-      id: '/_authenticated/history'
-      path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/favorites': {
-      id: '/_authenticated/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/family': {
-      id: '/_authenticated/family'
-      path: '/family'
-      fullPath: '/family'
-      preLoaderRoute: typeof AuthenticatedFamilyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/downloads': {
-      id: '/_authenticated/downloads'
-      path: '/downloads'
-      fullPath: '/downloads'
-      preLoaderRoute: typeof AuthenticatedDownloadsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/bookmarks': {
-      id: '/_authenticated/bookmarks'
-      path: '/bookmarks'
-      fullPath: '/bookmarks'
-      preLoaderRoute: typeof AuthenticatedBookmarksRouteImport
+    '/_authenticated/_admin': {
+      id: '/_authenticated/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/billing': {
@@ -2711,18 +2291,438 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBillingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/_admin': {
-      id: '/_authenticated/_admin'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+    '/_authenticated/bookmarks': {
+      id: '/_authenticated/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof AuthenticatedBookmarksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/$lang/$': {
-      id: '/$lang/$'
-      path: '/$lang/$'
-      fullPath: '/$lang/$'
-      preLoaderRoute: typeof LangSplatRouteImport
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/downloads': {
+      id: '/_authenticated/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof AuthenticatedDownloadsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/family': {
+      id: '/_authenticated/family'
+      path: '/family'
+      fullPath: '/family'
+      preLoaderRoute: typeof AuthenticatedFamilyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/horoscope-history': {
+      id: '/_authenticated/horoscope-history'
+      path: '/horoscope-history'
+      fullPath: '/horoscope-history'
+      preLoaderRoute: typeof AuthenticatedHoroscopeHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/my-kundlis': {
+      id: '/_authenticated/my-kundlis'
+      path: '/my-kundlis'
+      fullPath: '/my-kundlis'
+      preLoaderRoute: typeof AuthenticatedMyKundlisRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved-mantras': {
+      id: '/_authenticated/saved-mantras'
+      path: '/saved-mantras'
+      fullPath: '/saved-mantras'
+      preLoaderRoute: typeof AuthenticatedSavedMantrasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/ai': {
+      id: '/api/ai'
+      path: '/api/ai'
+      fullPath: '/api/ai'
+      preLoaderRoute: typeof ApiAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lagna': {
+      id: '/api/lagna'
+      path: '/api/lagna'
+      fullPath: '/api/lagna'
+      preLoaderRoute: typeof ApiLagnaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/nakshatra': {
+      id: '/api/nakshatra'
+      path: '/api/nakshatra'
+      fullPath: '/api/nakshatra'
+      preLoaderRoute: typeof ApiNakshatraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/planets': {
+      id: '/api/planets'
+      path: '/api/planets'
+      fullPath: '/api/planets'
+      preLoaderRoute: typeof ApiPlanetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rashi': {
+      id: '/api/rashi'
+      path: '/api/rashi'
+      fullPath: '/api/rashi'
+      preLoaderRoute: typeof ApiRashiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/daily-horoscope/': {
+      id: '/daily-horoscope/'
+      path: '/daily-horoscope'
+      fullPath: '/daily-horoscope/'
+      preLoaderRoute: typeof DailyHoroscopeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/daily-horoscope/$sign': {
+      id: '/daily-horoscope/$sign'
+      path: '/daily-horoscope/$sign'
+      fullPath: '/daily-horoscope/$sign'
+      preLoaderRoute: typeof DailyHoroscopeSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dosha/': {
+      id: '/dosha/'
+      path: '/dosha'
+      fullPath: '/dosha/'
+      preLoaderRoute: typeof DoshaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dosha/$slug': {
+      id: '/dosha/$slug'
+      path: '/dosha/$slug'
+      fullPath: '/dosha/$slug'
+      preLoaderRoute: typeof DoshaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/festivals/$slug': {
+      id: '/festivals/$slug'
+      path: '/$slug'
+      fullPath: '/festivals/$slug'
+      preLoaderRoute: typeof FestivalsSlugRouteImport
+      parentRoute: typeof FestivalsRoute
+    }
+    '/legal/': {
+      id: '/legal/'
+      path: '/legal'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/$slug': {
+      id: '/legal/$slug'
+      path: '/legal/$slug'
+      fullPath: '/legal/$slug'
+      preLoaderRoute: typeof LegalSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monthly-horoscope/': {
+      id: '/monthly-horoscope/'
+      path: '/monthly-horoscope'
+      fullPath: '/monthly-horoscope/'
+      preLoaderRoute: typeof MonthlyHoroscopeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monthly-horoscope/$sign': {
+      id: '/monthly-horoscope/$sign'
+      path: '/monthly-horoscope/$sign'
+      fullPath: '/monthly-horoscope/$sign'
+      preLoaderRoute: typeof MonthlyHoroscopeSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/muhurat/': {
+      id: '/muhurat/'
+      path: '/muhurat'
+      fullPath: '/muhurat/'
+      preLoaderRoute: typeof MuhuratIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/muhurat/$slug': {
+      id: '/muhurat/$slug'
+      path: '/muhurat/$slug'
+      fullPath: '/muhurat/$slug'
+      preLoaderRoute: typeof MuhuratSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nakshatra/': {
+      id: '/nakshatra/'
+      path: '/nakshatra'
+      fullPath: '/nakshatra/'
+      preLoaderRoute: typeof NakshatraIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nakshatra/$slug': {
+      id: '/nakshatra/$slug'
+      path: '/nakshatra/$slug'
+      fullPath: '/nakshatra/$slug'
+      preLoaderRoute: typeof NakshatraSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/numerology/': {
+      id: '/numerology/'
+      path: '/numerology'
+      fullPath: '/numerology/'
+      preLoaderRoute: typeof NumerologyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/numerology/$slug': {
+      id: '/numerology/$slug'
+      path: '/numerology/$slug'
+      fullPath: '/numerology/$slug'
+      preLoaderRoute: typeof NumerologySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rashi/': {
+      id: '/rashi/'
+      path: '/rashi'
+      fullPath: '/rashi/'
+      preLoaderRoute: typeof RashiIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rashi/$slug': {
+      id: '/rashi/$slug'
+      path: '/rashi/$slug'
+      fullPath: '/rashi/$slug'
+      preLoaderRoute: typeof RashiSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/$slug': {
+      id: '/tools/$slug'
+      path: '/$slug'
+      fullPath: '/tools/$slug'
+      preLoaderRoute: typeof ToolsSlugRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/baby-name-generator': {
+      id: '/tools/baby-name-generator'
+      path: '/baby-name-generator'
+      fullPath: '/tools/baby-name-generator'
+      preLoaderRoute: typeof ToolsBabyNameGeneratorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/career-analysis': {
+      id: '/tools/career-analysis'
+      path: '/career-analysis'
+      fullPath: '/tools/career-analysis'
+      preLoaderRoute: typeof ToolsCareerAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/career-report': {
+      id: '/tools/career-report'
+      path: '/career-report'
+      fullPath: '/tools/career-report'
+      preLoaderRoute: typeof ToolsCareerReportRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/foreign-settlement-analysis': {
+      id: '/tools/foreign-settlement-analysis'
+      path: '/foreign-settlement-analysis'
+      fullPath: '/tools/foreign-settlement-analysis'
+      preLoaderRoute: typeof ToolsForeignSettlementAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/health-analysis': {
+      id: '/tools/health-analysis'
+      path: '/health-analysis'
+      fullPath: '/tools/health-analysis'
+      preLoaderRoute: typeof ToolsHealthAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/kundli-matching': {
+      id: '/tools/kundli-matching'
+      path: '/kundli-matching'
+      fullPath: '/tools/kundli-matching'
+      preLoaderRoute: typeof ToolsKundliMatchingRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/love-compatibility': {
+      id: '/tools/love-compatibility'
+      path: '/love-compatibility'
+      fullPath: '/tools/love-compatibility'
+      preLoaderRoute: typeof ToolsLoveCompatibilityRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/marriage-analysis': {
+      id: '/tools/marriage-analysis'
+      path: '/marriage-analysis'
+      fullPath: '/tools/marriage-analysis'
+      preLoaderRoute: typeof ToolsMarriageAnalysisRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/master-life-blueprint': {
+      id: '/tools/master-life-blueprint'
+      path: '/master-life-blueprint'
+      fullPath: '/tools/master-life-blueprint'
+      preLoaderRoute: typeof ToolsMasterLifeBlueprintRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/muhurat-finder': {
+      id: '/tools/muhurat-finder'
+      path: '/muhurat-finder'
+      fullPath: '/tools/muhurat-finder'
+      preLoaderRoute: typeof ToolsMuhuratFinderRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/numerology-report': {
+      id: '/tools/numerology-report'
+      path: '/numerology-report'
+      fullPath: '/tools/numerology-report'
+      preLoaderRoute: typeof ToolsNumerologyReportRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/varshphal': {
+      id: '/tools/varshphal'
+      path: '/varshphal'
+      fullPath: '/tools/varshphal'
+      preLoaderRoute: typeof ToolsVarshphalRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/vastu-report': {
+      id: '/tools/vastu-report'
+      path: '/vastu-report'
+      fullPath: '/tools/vastu-report'
+      preLoaderRoute: typeof ToolsVastuReportRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/vastu/': {
+      id: '/vastu/'
+      path: '/vastu'
+      fullPath: '/vastu/'
+      preLoaderRoute: typeof VastuIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vastu/$slug': {
+      id: '/vastu/$slug'
+      path: '/vastu/$slug'
+      fullPath: '/vastu/$slug'
+      preLoaderRoute: typeof VastuSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weekly-horoscope/': {
+      id: '/weekly-horoscope/'
+      path: '/weekly-horoscope'
+      fullPath: '/weekly-horoscope/'
+      preLoaderRoute: typeof WeeklyHoroscopeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weekly-horoscope/$sign': {
+      id: '/weekly-horoscope/$sign'
+      path: '/weekly-horoscope/$sign'
+      fullPath: '/weekly-horoscope/$sign'
+      preLoaderRoute: typeof WeeklyHoroscopeSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yearly-horoscope/': {
+      id: '/yearly-horoscope/'
+      path: '/yearly-horoscope'
+      fullPath: '/yearly-horoscope/'
+      preLoaderRoute: typeof YearlyHoroscopeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yearly-horoscope/$sign': {
+      id: '/yearly-horoscope/$sign'
+      path: '/yearly-horoscope/$sign'
+      fullPath: '/yearly-horoscope/$sign'
+      preLoaderRoute: typeof YearlyHoroscopeSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yoga/': {
+      id: '/yoga/'
+      path: '/yoga'
+      fullPath: '/yoga/'
+      preLoaderRoute: typeof YogaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yoga/$slug': {
+      id: '/yoga/$slug'
+      path: '/yoga/$slug'
+      fullPath: '/yoga/$slug'
+      preLoaderRoute: typeof YogaSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/kundli/': {
@@ -2732,67 +2732,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiKundliIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reports/shared/$token': {
-      id: '/reports/shared/$token'
-      path: '/reports/shared/$token'
-      fullPath: '/reports/shared/$token'
-      preLoaderRoute: typeof ReportsSharedTokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/festivals/year/$year': {
-      id: '/festivals/year/$year'
-      path: '/year/$year'
-      fullPath: '/festivals/year/$year'
-      preLoaderRoute: typeof FestivalsYearYearRouteImport
-      parentRoute: typeof FestivalsRoute
-    }
-    '/festivals/deity/$slug': {
-      id: '/festivals/deity/$slug'
-      path: '/deity/$slug'
-      fullPath: '/festivals/deity/$slug'
-      preLoaderRoute: typeof FestivalsDeitySlugRouteImport
-      parentRoute: typeof FestivalsRoute
-    }
-    '/festivals/category/$slug': {
-      id: '/festivals/category/$slug'
-      path: '/category/$slug'
-      fullPath: '/festivals/category/$slug'
-      preLoaderRoute: typeof FestivalsCategorySlugRouteImport
-      parentRoute: typeof FestivalsRoute
-    }
-    '/api/v1/$': {
-      id: '/api/v1/$'
-      path: '/api/v1/$'
-      fullPath: '/api/v1/$'
-      preLoaderRoute: typeof ApiV1SplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/track': {
-      id: '/api/public/track'
-      path: '/api/public/track'
-      fullPath: '/api/public/track'
-      preLoaderRoute: typeof ApiPublicTrackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/status': {
-      id: '/api/public/status'
-      path: '/api/public/status'
-      fullPath: '/api/public/status'
-      preLoaderRoute: typeof ApiPublicStatusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/ready': {
-      id: '/api/public/ready'
-      path: '/api/public/ready'
-      fullPath: '/api/public/ready'
-      preLoaderRoute: typeof ApiPublicReadyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/phonepe-webhook': {
-      id: '/api/public/phonepe-webhook'
-      path: '/api/public/phonepe-webhook'
-      fullPath: '/api/public/phonepe-webhook'
-      preLoaderRoute: typeof ApiPublicPhonepeWebhookRouteImport
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/lemonsqueezy-webhook': {
@@ -2802,11 +2746,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLemonsqueezyWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/health': {
-      id: '/api/public/health'
-      path: '/api/public/health'
-      fullPath: '/api/public/health'
-      preLoaderRoute: typeof ApiPublicHealthRouteImport
+    '/api/public/phonepe-webhook': {
+      id: '/api/public/phonepe-webhook'
+      path: '/api/public/phonepe-webhook'
+      fullPath: '/api/public/phonepe-webhook'
+      preLoaderRoute: typeof ApiPublicPhonepeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ready': {
+      id: '/api/public/ready'
+      path: '/api/public/ready'
+      fullPath: '/api/public/ready'
+      preLoaderRoute: typeof ApiPublicReadyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/status': {
+      id: '/api/public/status'
+      path: '/api/public/status'
+      fullPath: '/api/public/status'
+      preLoaderRoute: typeof ApiPublicStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/track': {
+      id: '/api/public/track'
+      path: '/api/public/track'
+      fullPath: '/api/public/track'
+      preLoaderRoute: typeof ApiPublicTrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/$': {
+      id: '/api/v1/$'
+      path: '/api/v1/$'
+      fullPath: '/api/v1/$'
+      preLoaderRoute: typeof ApiV1SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/festivals/category/$slug': {
+      id: '/festivals/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/festivals/category/$slug'
+      preLoaderRoute: typeof FestivalsCategorySlugRouteImport
+      parentRoute: typeof FestivalsRoute
+    }
+    '/festivals/deity/$slug': {
+      id: '/festivals/deity/$slug'
+      path: '/deity/$slug'
+      fullPath: '/festivals/deity/$slug'
+      preLoaderRoute: typeof FestivalsDeitySlugRouteImport
+      parentRoute: typeof FestivalsRoute
+    }
+    '/festivals/year/$year': {
+      id: '/festivals/year/$year'
+      path: '/year/$year'
+      fullPath: '/festivals/year/$year'
+      preLoaderRoute: typeof FestivalsYearYearRouteImport
+      parentRoute: typeof FestivalsRoute
+    }
+    '/reports/shared/$token': {
+      id: '/reports/shared/$token'
+      path: '/reports/shared/$token'
+      fullPath: '/reports/shared/$token'
+      preLoaderRoute: typeof ReportsSharedTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/_admin/admin/': {
@@ -2816,249 +2816,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/lovable/email/transactional/preview': {
-      id: '/lovable/email/transactional/preview'
-      path: '/lovable/email/transactional/preview'
-      fullPath: '/lovable/email/transactional/preview'
-      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lovable/email/auth/webhook': {
-      id: '/lovable/email/auth/webhook'
-      path: '/lovable/email/auth/webhook'
-      fullPath: '/lovable/email/auth/webhook'
-      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lovable/email/auth/preview': {
-      id: '/lovable/email/auth/preview'
-      path: '/lovable/email/auth/preview'
-      fullPath: '/lovable/email/auth/preview'
-      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/panchang/month.ics': {
-      id: '/api/public/panchang/month.ics'
-      path: '/api/public/panchang/month.ics'
-      fullPath: '/api/public/panchang/month.ics'
-      preLoaderRoute: typeof ApiPublicPanchangMonthDoticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/notifications-tick': {
-      id: '/api/public/hooks/notifications-tick'
-      path: '/api/public/hooks/notifications-tick'
-      fullPath: '/api/public/hooks/notifications-tick'
-      preLoaderRoute: typeof ApiPublicHooksNotificationsTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/festivals-tick': {
-      id: '/api/public/hooks/festivals-tick'
-      path: '/api/public/hooks/festivals-tick'
-      fullPath: '/api/public/hooks/festivals-tick'
-      preLoaderRoute: typeof ApiPublicHooksFestivalsTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/daily-panchang-notify': {
-      id: '/api/public/hooks/daily-panchang-notify'
-      path: '/api/public/hooks/daily-panchang-notify'
-      fullPath: '/api/public/hooks/daily-panchang-notify'
-      preLoaderRoute: typeof ApiPublicHooksDailyPanchangNotifyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/hooks/analytics-tick': {
-      id: '/api/public/hooks/analytics-tick'
-      path: '/api/public/hooks/analytics-tick'
-      fullPath: '/api/public/hooks/analytics-tick'
-      preLoaderRoute: typeof ApiPublicHooksAnalyticsTickRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/festivals/calendar.ics': {
-      id: '/api/public/festivals/calendar.ics'
-      path: '/api/public/festivals/calendar.ics'
-      fullPath: '/api/public/festivals/calendar.ics'
-      preLoaderRoute: typeof ApiPublicFestivalsCalendarDoticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/festivals/$slug.ics': {
-      id: '/api/public/festivals/$slug.ics'
-      path: '/api/public/festivals/$slug.ics'
-      fullPath: '/api/public/festivals/$slug.ics'
-      preLoaderRoute: typeof ApiPublicFestivalsSlugDoticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/payments/phonepe/callback': {
-      id: '/api/payments/phonepe/callback'
-      path: '/api/payments/phonepe/callback'
-      fullPath: '/api/payments/phonepe/callback'
-      preLoaderRoute: typeof ApiPaymentsPhonepeCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_admin/admin/users': {
-      id: '/_authenticated/_admin/admin/users'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AuthenticatedAdminAdminUsersRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/translations': {
-      id: '/_authenticated/_admin/admin/translations'
-      path: '/admin/translations'
-      fullPath: '/admin/translations'
-      preLoaderRoute: typeof AuthenticatedAdminAdminTranslationsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/tools': {
-      id: '/_authenticated/_admin/admin/tools'
-      path: '/admin/tools'
-      fullPath: '/admin/tools'
-      preLoaderRoute: typeof AuthenticatedAdminAdminToolsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/temples': {
-      id: '/_authenticated/_admin/admin/temples'
-      path: '/admin/temples'
-      fullPath: '/admin/temples'
-      preLoaderRoute: typeof AuthenticatedAdminAdminTemplesRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/settings': {
-      id: '/_authenticated/_admin/admin/settings'
-      path: '/admin/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AuthenticatedAdminAdminSettingsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/seo': {
-      id: '/_authenticated/_admin/admin/seo'
-      path: '/admin/seo'
-      fullPath: '/admin/seo'
-      preLoaderRoute: typeof AuthenticatedAdminAdminSeoRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/security': {
-      id: '/_authenticated/_admin/admin/security'
-      path: '/admin/security'
-      fullPath: '/admin/security'
-      preLoaderRoute: typeof AuthenticatedAdminAdminSecurityRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/pwa': {
-      id: '/_authenticated/_admin/admin/pwa'
-      path: '/admin/pwa'
-      fullPath: '/admin/pwa'
-      preLoaderRoute: typeof AuthenticatedAdminAdminPwaRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/performance': {
-      id: '/_authenticated/_admin/admin/performance'
-      path: '/admin/performance'
-      fullPath: '/admin/performance'
-      preLoaderRoute: typeof AuthenticatedAdminAdminPerformanceRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/payment-gateways': {
-      id: '/_authenticated/_admin/admin/payment-gateways'
-      path: '/admin/payment-gateways'
-      fullPath: '/admin/payment-gateways'
-      preLoaderRoute: typeof AuthenticatedAdminAdminPaymentGatewaysRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/panchang': {
-      id: '/_authenticated/_admin/admin/panchang'
-      path: '/admin/panchang'
-      fullPath: '/admin/panchang'
-      preLoaderRoute: typeof AuthenticatedAdminAdminPanchangRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/notifications': {
-      id: '/_authenticated/_admin/admin/notifications'
-      path: '/admin/notifications'
-      fullPath: '/admin/notifications'
-      preLoaderRoute: typeof AuthenticatedAdminAdminNotificationsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/newsletter': {
-      id: '/_authenticated/_admin/admin/newsletter'
-      path: '/admin/newsletter'
-      fullPath: '/admin/newsletter'
-      preLoaderRoute: typeof AuthenticatedAdminAdminNewsletterRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/monetization': {
-      id: '/_authenticated/_admin/admin/monetization'
-      path: '/admin/monetization'
-      fullPath: '/admin/monetization'
-      preLoaderRoute: typeof AuthenticatedAdminAdminMonetizationRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/legal-inbox': {
-      id: '/_authenticated/_admin/admin/legal-inbox'
-      path: '/admin/legal-inbox'
-      fullPath: '/admin/legal-inbox'
-      preLoaderRoute: typeof AuthenticatedAdminAdminLegalInboxRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/legal': {
-      id: '/_authenticated/_admin/admin/legal'
-      path: '/admin/legal'
-      fullPath: '/admin/legal'
-      preLoaderRoute: typeof AuthenticatedAdminAdminLegalRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/festivals': {
-      id: '/_authenticated/_admin/admin/festivals'
-      path: '/admin/festivals'
-      fullPath: '/admin/festivals'
-      preLoaderRoute: typeof AuthenticatedAdminAdminFestivalsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/emails': {
-      id: '/_authenticated/_admin/admin/emails'
-      path: '/admin/emails'
-      fullPath: '/admin/emails'
-      preLoaderRoute: typeof AuthenticatedAdminAdminEmailsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/backup': {
-      id: '/_authenticated/_admin/admin/backup'
-      path: '/admin/backup'
-      fullPath: '/admin/backup'
-      preLoaderRoute: typeof AuthenticatedAdminAdminBackupRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/articles': {
-      id: '/_authenticated/_admin/admin/articles'
-      path: '/admin/articles'
-      fullPath: '/admin/articles'
-      preLoaderRoute: typeof AuthenticatedAdminAdminArticlesRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/analytics': {
-      id: '/_authenticated/_admin/admin/analytics'
-      path: '/admin/analytics'
-      fullPath: '/admin/analytics'
-      preLoaderRoute: typeof AuthenticatedAdminAdminAnalyticsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/ai-studio': {
-      id: '/_authenticated/_admin/admin/ai-studio'
-      path: '/admin/ai-studio'
-      fullPath: '/admin/ai-studio'
-      preLoaderRoute: typeof AuthenticatedAdminAdminAiStudioRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/ai-providers': {
-      id: '/_authenticated/_admin/admin/ai-providers'
-      path: '/admin/ai-providers'
-      fullPath: '/admin/ai-providers'
-      preLoaderRoute: typeof AuthenticatedAdminAdminAiProvidersRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/_admin/admin/ai': {
-      id: '/_authenticated/_admin/admin/ai'
-      path: '/admin/ai'
-      fullPath: '/admin/ai'
-      preLoaderRoute: typeof AuthenticatedAdminAdminAiRouteImport
+    '/_authenticated/_admin/admin/ads': {
+      id: '/_authenticated/_admin/admin/ads'
+      path: '/admin/ads'
+      fullPath: '/admin/ads'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAdsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/_admin/admin/affiliates': {
@@ -3068,12 +2830,250 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAdminAffiliatesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/_admin/admin/ads': {
-      id: '/_authenticated/_admin/admin/ads'
-      path: '/admin/ads'
-      fullPath: '/admin/ads'
-      preLoaderRoute: typeof AuthenticatedAdminAdminAdsRouteImport
+    '/_authenticated/_admin/admin/ai': {
+      id: '/_authenticated/_admin/admin/ai'
+      path: '/admin/ai'
+      fullPath: '/admin/ai'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAiRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/ai-providers': {
+      id: '/_authenticated/_admin/admin/ai-providers'
+      path: '/admin/ai-providers'
+      fullPath: '/admin/ai-providers'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAiProvidersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/ai-studio': {
+      id: '/_authenticated/_admin/admin/ai-studio'
+      path: '/admin/ai-studio'
+      fullPath: '/admin/ai-studio'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAiStudioRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/analytics': {
+      id: '/_authenticated/_admin/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/articles': {
+      id: '/_authenticated/_admin/admin/articles'
+      path: '/admin/articles'
+      fullPath: '/admin/articles'
+      preLoaderRoute: typeof AuthenticatedAdminAdminArticlesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/backup': {
+      id: '/_authenticated/_admin/admin/backup'
+      path: '/admin/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AuthenticatedAdminAdminBackupRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/emails': {
+      id: '/_authenticated/_admin/admin/emails'
+      path: '/admin/emails'
+      fullPath: '/admin/emails'
+      preLoaderRoute: typeof AuthenticatedAdminAdminEmailsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/festivals': {
+      id: '/_authenticated/_admin/admin/festivals'
+      path: '/admin/festivals'
+      fullPath: '/admin/festivals'
+      preLoaderRoute: typeof AuthenticatedAdminAdminFestivalsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/legal': {
+      id: '/_authenticated/_admin/admin/legal'
+      path: '/admin/legal'
+      fullPath: '/admin/legal'
+      preLoaderRoute: typeof AuthenticatedAdminAdminLegalRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/legal-inbox': {
+      id: '/_authenticated/_admin/admin/legal-inbox'
+      path: '/admin/legal-inbox'
+      fullPath: '/admin/legal-inbox'
+      preLoaderRoute: typeof AuthenticatedAdminAdminLegalInboxRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/monetization': {
+      id: '/_authenticated/_admin/admin/monetization'
+      path: '/admin/monetization'
+      fullPath: '/admin/monetization'
+      preLoaderRoute: typeof AuthenticatedAdminAdminMonetizationRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/newsletter': {
+      id: '/_authenticated/_admin/admin/newsletter'
+      path: '/admin/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AuthenticatedAdminAdminNewsletterRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/notifications': {
+      id: '/_authenticated/_admin/admin/notifications'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AuthenticatedAdminAdminNotificationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/panchang': {
+      id: '/_authenticated/_admin/admin/panchang'
+      path: '/admin/panchang'
+      fullPath: '/admin/panchang'
+      preLoaderRoute: typeof AuthenticatedAdminAdminPanchangRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/payment-gateways': {
+      id: '/_authenticated/_admin/admin/payment-gateways'
+      path: '/admin/payment-gateways'
+      fullPath: '/admin/payment-gateways'
+      preLoaderRoute: typeof AuthenticatedAdminAdminPaymentGatewaysRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/performance': {
+      id: '/_authenticated/_admin/admin/performance'
+      path: '/admin/performance'
+      fullPath: '/admin/performance'
+      preLoaderRoute: typeof AuthenticatedAdminAdminPerformanceRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/pwa': {
+      id: '/_authenticated/_admin/admin/pwa'
+      path: '/admin/pwa'
+      fullPath: '/admin/pwa'
+      preLoaderRoute: typeof AuthenticatedAdminAdminPwaRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/security': {
+      id: '/_authenticated/_admin/admin/security'
+      path: '/admin/security'
+      fullPath: '/admin/security'
+      preLoaderRoute: typeof AuthenticatedAdminAdminSecurityRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/seo': {
+      id: '/_authenticated/_admin/admin/seo'
+      path: '/admin/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AuthenticatedAdminAdminSeoRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/settings': {
+      id: '/_authenticated/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/temples': {
+      id: '/_authenticated/_admin/admin/temples'
+      path: '/admin/temples'
+      fullPath: '/admin/temples'
+      preLoaderRoute: typeof AuthenticatedAdminAdminTemplesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/tools': {
+      id: '/_authenticated/_admin/admin/tools'
+      path: '/admin/tools'
+      fullPath: '/admin/tools'
+      preLoaderRoute: typeof AuthenticatedAdminAdminToolsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/translations': {
+      id: '/_authenticated/_admin/admin/translations'
+      path: '/admin/translations'
+      fullPath: '/admin/translations'
+      preLoaderRoute: typeof AuthenticatedAdminAdminTranslationsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/_admin/admin/users': {
+      id: '/_authenticated/_admin/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/payments/phonepe/callback': {
+      id: '/api/payments/phonepe/callback'
+      path: '/api/payments/phonepe/callback'
+      fullPath: '/api/payments/phonepe/callback'
+      preLoaderRoute: typeof ApiPaymentsPhonepeCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/festivals/$slug.ics': {
+      id: '/api/public/festivals/$slug.ics'
+      path: '/api/public/festivals/$slug.ics'
+      fullPath: '/api/public/festivals/$slug.ics'
+      preLoaderRoute: typeof ApiPublicFestivalsSlugDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/festivals/calendar.ics': {
+      id: '/api/public/festivals/calendar.ics'
+      path: '/api/public/festivals/calendar.ics'
+      fullPath: '/api/public/festivals/calendar.ics'
+      preLoaderRoute: typeof ApiPublicFestivalsCalendarDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/analytics-tick': {
+      id: '/api/public/hooks/analytics-tick'
+      path: '/api/public/hooks/analytics-tick'
+      fullPath: '/api/public/hooks/analytics-tick'
+      preLoaderRoute: typeof ApiPublicHooksAnalyticsTickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/daily-panchang-notify': {
+      id: '/api/public/hooks/daily-panchang-notify'
+      path: '/api/public/hooks/daily-panchang-notify'
+      fullPath: '/api/public/hooks/daily-panchang-notify'
+      preLoaderRoute: typeof ApiPublicHooksDailyPanchangNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/festivals-tick': {
+      id: '/api/public/hooks/festivals-tick'
+      path: '/api/public/hooks/festivals-tick'
+      fullPath: '/api/public/hooks/festivals-tick'
+      preLoaderRoute: typeof ApiPublicHooksFestivalsTickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/notifications-tick': {
+      id: '/api/public/hooks/notifications-tick'
+      path: '/api/public/hooks/notifications-tick'
+      fullPath: '/api/public/hooks/notifications-tick'
+      preLoaderRoute: typeof ApiPublicHooksNotificationsTickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/panchang/month.ics': {
+      id: '/api/public/panchang/month.ics'
+      path: '/api/public/panchang/month.ics'
+      fullPath: '/api/public/panchang/month.ics'
+      preLoaderRoute: typeof ApiPublicPanchangMonthDoticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/festivals/$slug/og.svg': {
       id: '/api/public/festivals/$slug/og.svg'
