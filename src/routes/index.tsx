@@ -400,10 +400,6 @@ export function HomePage() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="size-3.5 text-primary" /> {t("home.kundli_section.trusted")}
-            </span>
-            <span>•</span>
             <span>{t("home.kundli_section.lahiri")}</span>
             <span>•</span>
             <span>{t("home.kundli_section.free_core")}</span>

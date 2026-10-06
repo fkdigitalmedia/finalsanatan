@@ -515,7 +515,6 @@ function Hero({
                 <Star key={i} className="size-4 fill-accent text-accent" />
               ))}
               <span className="ml-1 font-medium text-foreground">4.9</span>
-              <span>· {t("kundli.hero.reviews_count")}</span>
             </div>
             <div className="hidden sm:block h-4 w-px bg-border" />
             <div className="flex items-center gap-2">

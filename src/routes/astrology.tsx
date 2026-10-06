@@ -15,7 +15,6 @@ import {
   Hash,
   Compass,
   Sparkles,
-  Users,
   Clock,
   Flame,
 } from "lucide-react";
@@ -257,10 +256,6 @@ function AstrologyHub() {
             {t("home.kundli_section.description")}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="size-3.5 text-primary" /> {t("home.kundli_section.trusted")}
-            </span>
-            <span>•</span>
             <span>{t("home.kundli_section.lahiri")}</span>
             <span>•</span>
             <span>
