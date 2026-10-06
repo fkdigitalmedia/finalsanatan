@@ -310,7 +310,21 @@
   "loading": {
     "default": "लोड हो रहा है…",
     "tools": "टूल लोड हो रहे हैं…",
-    "panchang": "पंचांग की गणना हो रही है…"
+    "panchang": "पंचांग की गणना हो रही है…",
+    "sanatan_title": "Data load ho raha hai",
+    "sanatan_subtitle": "Krupya kuch pal pratiksha karein…",
+    "sanatan_tips": [
+      "Ayurveda ke anusaar din ki shuruat Brahma Muhurat (04:00–06:00 AM) me karna sabse shubh mana jata hai.",
+      "Har Tithi ka apna devta hota hai — jaise Chaturthi Ganesh ji ki, aur Ekadashi Vishnu ji ki.",
+      "Rahu Kaal me koi bhi naya shubh kaarya shuru nahi karna chahiye.",
+      "Abhijit Muhurat din ka sabse shubh 48-minute ka samay hota hai — dopahar ke aas paas.",
+      "Sanatan Dharma me 27 Nakshatra aur 12 Rashi hote hain, jo aapke jeevan par prabhav dalte hain.",
+      "“Om” mantra sabhi Vedic mantron ka moola hai — Rig, Yajur, Sam, aur Atharva Veda me warnit.",
+      "Panchang ke paanch ang hain: Tithi, Vara, Nakshatra, Yoga, aur Karana.",
+      "Puja se pehle Sankalp lena zaroori hai — apna naam, gotra, sthaan aur uddeshya bolkar.",
+      "Ganga jal ka use har puja me hota hai — yeh shudhikaran ka pratik hai.",
+      "Suryodaya aur Sooryast aapke shahar ke exact longitude par depend karte hain."
+    ]
   },
   "search": {
     "title": "खोजें",

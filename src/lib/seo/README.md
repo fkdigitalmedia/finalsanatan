@@ -41,6 +41,23 @@ export const Route = createFileRoute("/tools/$slug")({
 `buildSeo()` returns the same payload plus `breadcrumbs`, `faqs` and `links`
 so the page body can render what the head advertises.
 
+## Multilingual SEO notes
+
+- hreflang annotations must be **bidirectional**: `/` advertises the
+  `/<lang>/…` variants via `hreflangLinks()`, and the `$lang` routes
+  (`src/routes/$lang.index.tsx`, `src/routes/$lang.$.tsx`) define their own
+  SSR `head()` emitting the same alternate set plus a self-referencing
+  canonical — otherwise crawlers see one-way annotations and ignore them.
+- Only languages with `enabled: true` in `src/i18n/config.ts` are advertised.
+  A language must not be enabled until its `src/i18n/translations/<code>.json`
+  exists; otherwise hreflang claims a translation that serves English content.
+- `<html lang>` is derived from the URL prefix in `RootShell`
+  (`src/routes/__root.tsx`), not hardcoded.
+- `og:locale:alternate` is intentionally **not** emitted: TanStack Start's head
+  pipeline dedupes `<meta>` tags by `property` (last-wins), so one tag per
+  language collapsed into a single tag. `og:locale` plus hreflang `<link>` tags
+  carry the locale signal instead.
+
 ## Endpoints
 
 - `/sitemap.xml` — index of every shard

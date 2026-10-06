@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Sun, Moon, Sparkles, Flower2, Star, BookOpen } from "lucide-react";
+import { useTranslation } from "@/i18n/I18nProvider";
 
 const DEFAULT_TIPS = [
   "Ayurveda ke anusaar din ki shuruat Brahma Muhurat (04:00–06:00 AM) me karna sabse shubh mana jata hai.",
@@ -25,18 +26,24 @@ export type SanatanLoaderProps = {
 };
 
 export function SanatanLoader({
-  title = "Data load ho raha hai",
-  subtitle = "Krupya kuch pal pratiksha karein…",
-  tips = DEFAULT_TIPS,
+  title,
+  subtitle,
+  tips,
   compact = false,
   className = "",
 }: SanatanLoaderProps) {
+  const { t, raw } = useTranslation();
+  // Localized via `loading.sanatan_*` keys; falls back to English when the
+  // active language has no translation yet. Explicit props always win.
+  const resolvedTitle = title ?? t("loading.sanatan_title");
+  const resolvedSubtitle = subtitle ?? t("loading.sanatan_subtitle");
+  const resolvedTips = tips ?? raw<string[]>("loading.sanatan_tips") ?? DEFAULT_TIPS;
   const [tipIdx, setTipIdx] = useState(0);
   useEffect(() => {
-    if (!tips.length) return;
-    const id = setInterval(() => setTipIdx((i) => (i + 1) % tips.length), 2800);
+    if (!resolvedTips.length) return;
+    const id = setInterval(() => setTipIdx((i) => (i + 1) % resolvedTips.length), 2800);
     return () => clearInterval(id);
-  }, [tips.length]);
+  }, [resolvedTips.length]);
 
   return (
     <div
@@ -59,20 +66,22 @@ export function SanatanLoader({
             className={`absolute -left-1 -top-1 ${compact ? "size-3.5" : "size-5"} text-accent animate-pulse`}
           />
         </div>
-        <div className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">{title}</div>
-        {subtitle && (
+        <div className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+          {resolvedTitle}
+        </div>
+        {resolvedSubtitle && (
           <div
             className={`mt-2 font-display ${compact ? "text-lg" : "text-xl md:text-2xl"} font-semibold`}
           >
-            {subtitle}
+            {resolvedSubtitle}
           </div>
         )}
-        {tips.length > 0 && (
+        {resolvedTips.length > 0 && (
           <div
             key={tipIdx}
             className="mt-4 min-h-[3rem] max-w-lg text-sm text-muted-foreground animate-fade-in"
           >
-            {tips[tipIdx]}
+            {resolvedTips[tipIdx]}
           </div>
         )}
         <div className="mt-6 flex items-center gap-1.5">
@@ -95,7 +104,9 @@ export function SanatanLoader({
 }
 
 /** Small inline variant for lists / dashboards. */
-export function SanatanLoaderInline({ label = "Load ho raha hai…" }: { label?: string }) {
+export function SanatanLoaderInline({ label }: { label?: string }) {
+  const { t } = useTranslation();
+  const resolvedLabel = label ?? t("loading.default");
   const [i, setI] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setI((x) => (x + 1) % ICONS.length), 900);
@@ -105,7 +116,7 @@ export function SanatanLoaderInline({ label = "Load ho raha hai…" }: { label?:
   return (
     <div className="flex items-center justify-center gap-3 rounded-2xl border border-dashed border-border bg-secondary/40 py-10 px-6 text-sm text-muted-foreground animate-fade-in">
       <Icon className="size-5 text-accent animate-pulse" />
-      <span>{label}</span>
+      <span>{resolvedLabel}</span>
       <span className="flex items-center gap-1 ml-1">
         <span
           className="size-1.5 rounded-full bg-primary animate-bounce"

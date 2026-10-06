@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   ScriptOnce,
@@ -16,6 +17,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/hooks/useAuth";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { tStandalone } from "@/i18n/standalone";
+import { getLanguage } from "@/i18n/config";
+import { langFromPathname } from "@/i18n/detect";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { IntegrationScripts } from "@/components/analytics/IntegrationScripts";
 
@@ -149,8 +152,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 const themeInitScript = `(function(){try{var t=localStorage.getItem('sanatan-theme');if(t!=='light'){document.documentElement.classList.add('dark');}}catch(e){}})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Keep <html lang> in sync with the URL language prefix (`/hi`, `/ta`, …)
+  // on both server and client. Router context is available here — HeadContent
+  // already consumes it inside this same shell.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const htmlLang = getLanguage(langFromPathname(pathname) ?? "en").htmlLang;
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang={htmlLang} className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

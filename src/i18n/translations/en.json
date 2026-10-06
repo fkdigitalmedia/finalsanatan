@@ -309,7 +309,21 @@
   "loading": {
     "default": "Loading…",
     "tools": "Loading tools…",
-    "panchang": "Calculating Panchang…"
+    "panchang": "Calculating Panchang…",
+    "sanatan_title": "Loading data",
+    "sanatan_subtitle": "Please wait a moment…",
+    "sanatan_tips": [
+      "According to Ayurveda, starting your day during Brahma Muhurat (04:00–06:00 AM) is considered most auspicious.",
+      "Every Tithi has its own deity — Chaturthi belongs to Lord Ganesha, Ekadashi to Lord Vishnu.",
+      "Avoid starting anything new or auspicious during Rahu Kaal.",
+      "Abhijit Muhurat is the most auspicious 48-minute window of the day — around midday.",
+      "Sanatan Dharma maps 27 Nakshatras and 12 Rashis that influence your life.",
+      "“Om” is the root of all Vedic mantras — described across the Rig, Yajur, Sama and Atharva Vedas.",
+      "The Panchang has five limbs: Tithi, Vara, Nakshatra, Yoga and Karana.",
+      "Take a Sankalp before puja — speak your name, gotra, place and purpose.",
+      "Ganga jal is used in every puja — a symbol of purification.",
+      "Sunrise and sunset depend on your city's exact longitude."
+    ]
   },
   "search": {
     "title": "Search",

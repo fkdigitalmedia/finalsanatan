@@ -4,7 +4,6 @@
 
 import { SITE_NAME, DEFAULT_OG_IMAGE, SITE_URL } from "./constants";
 import { ogLocaleOf } from "./hreflang";
-import { ENABLED_LANGUAGES } from "./constants";
 
 export interface OgInput {
   title: string;
@@ -45,10 +44,11 @@ export function openGraphTags(input: OgInput, origin = SITE_URL): MetaTag[] {
     { property: "og:locale", content: ogLocaleOf(input.lang ?? "en") },
   ];
 
-  for (const l of ENABLED_LANGUAGES) {
-    if (l.code === (input.lang ?? "en")) continue;
-    tags.push({ property: "og:locale:alternate", content: ogLocaleOf(l.code) });
-  }
+  // NOTE: og:locale:alternate intentionally NOT emitted per language.
+  // TanStack Start's head pipeline dedupes <meta> tags by their `property`
+  // attribute (last-wins), so emitting one tag per language collapsed into a
+  // single misleading tag. og:locale above is sufficient; crawlers that need
+  // alternates should use the hreflang <link> tags instead.
 
   if (image) {
     tags.push(

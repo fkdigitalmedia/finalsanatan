@@ -10,7 +10,8 @@
 
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LANGUAGE_COOKIE_NAME, isSupportedLanguage } from "@/i18n/config";
-import { stripLangPrefix } from "@/i18n/detect";
+import { hreflangLinks } from "@/lib/seo/hreflang";
+import { SITE_URL } from "@/lib/seo/constants";
 import { HomePage } from "./index";
 import { KundliLandingPage } from "./kundli";
 import { MatchingPage } from "./kundli-matching";
@@ -30,6 +31,20 @@ export const Route = createFileRoute("/$lang/$")({
     if (typeof document !== "undefined") {
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     }
+  },
+  // SSR hreflang return-tags + self-referencing canonical for every
+  // `/<lang>/...` URL. hreflangLinks strips the prefix internally and
+  // advertises all enabled languages + x-default, mirroring the
+  // un-prefixed routes so annotations are bidirectional.
+  head: ({ params }) => {
+    const splat = (params._splat ?? "").replace(/^\/+|\/+$/g, "");
+    const fullPath = `/${params.lang}${splat ? `/${splat}` : ""}`;
+    return {
+      links: [
+        { rel: "canonical", href: `${SITE_URL}${fullPath}` },
+        ...hreflangLinks(fullPath, SITE_URL),
+      ],
+    };
   },
   component: LanguageRouteComponent,
 });

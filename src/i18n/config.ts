@@ -130,7 +130,9 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: "اردو",
     htmlLang: "ur",
     dir: "rtl",
-    enabled: true,
+    // Disabled until src/i18n/translations/ur.json exists — advertising it in
+    // hreflang / the switcher would serve English content under an Urdu URL.
+    enabled: false,
   },
   {
     code: "sa",
@@ -139,7 +141,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: "संस्कृतम्",
     htmlLang: "sa",
     dir: "ltr",
-    enabled: true,
+    // Disabled until src/i18n/translations/sa.json exists — see above.
+    enabled: false,
   },
   {
     code: "as",

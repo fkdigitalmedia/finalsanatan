@@ -5,6 +5,8 @@
 
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LANGUAGE_COOKIE_NAME, isSupportedLanguage } from "@/i18n/config";
+import { hreflangLinks } from "@/lib/seo/hreflang";
+import { SITE_URL } from "@/lib/seo/constants";
 import { HomePage } from "./index";
 
 export const Route = createFileRoute("/$lang/")({
@@ -17,5 +19,14 @@ export const Route = createFileRoute("/$lang/")({
       document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     }
   },
+  // SSR hreflang return-tags: `/` advertises these language variants, so they
+  // must advertise back (Google requires bidirectional hreflang). Client-side
+  // LocalizedHead takes over titles/descriptions after hydration.
+  head: ({ params }) => ({
+    links: [
+      { rel: "canonical", href: `${SITE_URL}/${params.lang}` },
+      ...hreflangLinks("/", SITE_URL),
+    ],
+  }),
   component: HomePage,
 });
