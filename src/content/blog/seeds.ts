@@ -627,4 +627,119 @@ If one partner has Mangal Dosha and the other does not, classical astrologers lo
 * 📅 **[Daily Vedic Panchang](https://www.sanatantools.com/panchang)**: Check daily Tithi, Nakshatra, and auspicious Muhurtas.
 `,
   },
+  {
+    slug: "diwali-2026-date-lakshmi-puja-muhurat-guide",
+    title: "Diwali 2026: Date, Lakshmi Puja Muhurat, 5-Day Festival Guide & Puja Vidhi",
+    excerpt: "Diwali 2026 falls on Sunday, November 8. Get the exact Lakshmi Puja muhurat for your city, the full 5-day festival calendar, puja vidhi, samagri checklist, and the significance behind the festival of lights.",
+    category: "FESTIVALS",
+    tags: ["Diwali", "Lakshmi Puja", "Muhurat", "Dhanteras", "Bhai Dooj", "Puja Vidhi", "Festivals 2026"],
+    featured_image: "/blog/diwali-2026.jpg",
+    published_at: "2026-10-06T00:00:00.000Z",
+    updated_at: "2026-10-06T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Diwali 2026 Date, Lakshmi Puja Muhurat & 5-Day Guide | SanatanTools",
+      meta_description: "Diwali 2026 is on Sunday, November 8. Find city-wise Lakshmi Puja muhurat timings, the 5-day Diwali calendar, puja vidhi, samagri list and FAQs.",
+      canonical: "https://www.sanatantools.com/blog/diwali-2026-date-lakshmi-puja-muhurat-guide",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Diwali 2026** — the main **Lakshmi Puja** — falls on **Sunday, November 8, 2026**, on the night of *Kartik Amavasya*. The most auspicious window for the puja is the **Pradosh Kaal** in the evening, roughly **6:00 PM to 8:30 PM** (exact timings shift 30–60 minutes by city — see the city-wise table below). The five-day festival runs from **Dhanteras (Nov 6)** to **Bhai Dooj (Nov 11)**.
+
+## Diwali 2026: The Five-Day Festival Calendar
+
+Diwali is not a single day — it is a five-day celebration, each day with its own deity, legend and ritual. Here are the dates for 2026 (as per *Drik Panchang*):
+
+| Day | Festival | Date (2026) | Dedicated To |
+|-----|----------|-------------|--------------|
+| 1 | **Dhanteras** (Dhanatrayodashi) | Friday, Nov 6 | Dhanvantari, Lakshmi–Kubera; buying gold & utensils |
+| 2 | **Naraka Chaturdashi** (Choti Diwali) | Saturday, Nov 7 | Krishna's victory over Narakasura |
+| 3 | **Diwali — Lakshmi Puja** | Sunday, Nov 8 | Goddess Lakshmi & Lord Ganesha (Amavasya night) |
+| 4 | **Govardhan Puja** | Tuesday, Nov 10 | Krishna lifting Govardhan Hill |
+| 5 | **Bhai Dooj** | Wednesday, Nov 11 | The bond between brothers and sisters |
+
+> **Regional note:** In South India, Naraka Chaturdashi (Nov 7) is treated as the *main* celebration day, while North India centres on Lakshmi Puja (Nov 8). In North India, Choti Diwali is often observed on the morning of Diwali itself. A small number of regional *panchangs* may shift Govardhan Puja / Bhai Dooj by a day — when in doubt, follow your local *panchang*.
+
+## Lakshmi Puja Muhurat 2026 (City-Wise)
+
+The scriptures prescribe performing Lakshmi Puja during **Pradosh Kaal** (the ~2.5 hours after sunset) on Amavasya night — ideally when the stable **Vrishabha (Taurus) Lagna** is rising, since a fixed (*sthira*) lagna is believed to keep Goddess Lakshmi steady in the home.
+
+*Amavasya Tithi: begins ~11:27 AM on Nov 8, ends ~12:31 PM on Nov 9 (IST).*
+
+| City | Lakshmi Puja Muhurat (Nov 8) |
+|------|------------------------------|
+| New Delhi | 5:54 PM – 7:50 PM |
+| Mumbai | 6:27 PM – 8:27 PM |
+| Kolkata | 5:20 PM – 7:18 PM |
+| Chennai | 6:07 PM – 8:09 PM |
+| Bengaluru | 6:17 PM – 8:20 PM |
+| Hyderabad | 6:07 PM – 8:08 PM |
+| Ahmedabad | 6:22 PM – 8:20 PM |
+| Pune | 6:24 PM – 8:24 PM |
+| Jaipur | 6:03 PM – 7:59 PM |
+
+*Timings: Drik Panchang (Pradosh Kaal + Vrishabha Lagna overlap). Your exact window moves with latitude — use SanatanTools' [Muhurat Finder](/tools/muhurat-finder) for your city's precise timing.*
+
+### Why Pradosh Kaal?
+
+*Muhurat* is not superstition — it is applied astronomy. Pradosh Kaal begins at sunset, when the day's solar energy settles and the lunar (*Amavasya*) energy peaks. Performing the puja in this window, especially under the fixed Vrishabha Lagna, is the classical prescription found across *panchang* traditions. The *Mahanishita Kaal* (late-night) muhurat is a secondary option for those who miss the evening.
+
+## Significance: Why We Celebrate Diwali
+
+Diwali's light carries many stories, layered over millennia:
+
+- **Rama's return to Ayodhya** — after 14 years of exile and the victory over Ravana, the people of Ayodhya lit rows (*avali*) of lamps (*dipa*) to welcome him. *Deepavali* literally means "a row of lights."
+- **Samudra Manthan** — Goddess Lakshmi emerged from the churning of the cosmic ocean on this Amavasya, which is why she is the festival's presiding deity.
+- **Krishna and Narakasura** — Naraka Chaturdashi commemorates Krishna (with Satyabhama) slaying the demon Narakasura, freeing 16,000 captives — the triumph of light over darkness in its most literal telling.
+- **Mahavira's Nirvana** — Jains mark Diwali as the night Lord Mahavira attained *moksha*.
+- **Bandi Chhor Divas** — Sikhs celebrate Guru Hargobind Ji's release from Gwalior Fort on this day.
+
+## Lakshmi-Ganesha Puja Vidhi (Step by Step)
+
+A complete traditional puja follows the *Shodashopachara* (sixteen offerings). Here is a practical home version:
+
+1. **Clean and decorate** — clean the home, draw a *rangoli* at the entrance (lotus for Lakshmi, small footprints leading inward to invite her in).
+2. **Set the altar** — place idols or images of Lakshmi, Ganesha and Saraswati on a raised platform draped in red cloth, facing east or north.
+3. **Kalash sthapana** — fill a *kalash* with water, mango leaves and a coconut; it represents divine presence.
+4. **Sankalp** — take a vow stating your name, *gotra* and purpose of the puja.
+5. **Ganesha first** — every puja begins with Lord Ganesha, remover of obstacles: offer *durva*, red flowers and *modak*.
+6. **Lakshmi pujan** — offer lotus or red flowers, *kumkum*, rice (*akshat*), sandalwood, incense and a ghee lamp. Place coins, jewellery or your account books before her and worship them as symbols of wealth.
+7. **Naivedya & aarti** — offer sweets and fruits, then perform *aarti* with the whole family, ringing the bell.
+8. **Light the diyas** — place lit diyas at the entrance, windows, *tulsi* plant and courtyard — an invitation for light and prosperity to enter.
+9. **Prasad distribution** — share the offerings; elders bless the younger members.
+
+## Puja Samagri Checklist
+
+Idols/images of Lakshmi–Ganesha–Saraswati · red cloth · *kalash*, mango leaves, coconut · *Gangajal* · *panchamrit* (milk, curd, ghee, honey, sugar) · kumkum, turmeric, sandalwood paste · rice (*akshat*) · red lotus/flowers, garlands · *durva* grass · incense sticks, *dhoop*, camphor · ghee diyas and oil lamps · coins, jewellery, account books/ledger · sweets, fruits, *paan*, betel nuts · new broom (bought on Dhanteras) · bell and *aarti thali*.
+
+## Dhanteras: The First Day
+
+Dhanteras (Nov 6) honours **Dhanvantari**, the divine physician who emerged from the ocean with the pot of *amrita*. Tradition prescribes buying gold, silver or new utensils — and the humble broom — as an invitation to Lakshmi. Light a *Yama diya* (a lamp for Yama, lord of death) at the entrance in the evening for protection of the household.
+
+## Govardhan Puja & Bhai Dooj
+
+- **Govardhan Puja (Nov 10):** commemorates Krishna lifting Govardhan Hill to shelter Vrindavan from Indra's storm. Devotees build a small hill of cow dung or mud, decorate it, and offer *Annakut* — a mountain of food.
+- **Bhai Dooj (Nov 11):** sisters apply *tilak* on their brothers' foreheads and pray for their long life; brothers give gifts and pledge protection. It mirrors the Yama–Yami legend of sibling devotion.
+
+## Frequently Asked Questions
+
+**What is the exact date of Diwali 2026?**
+Sunday, November 8, 2026 — the night of Kartik Amavasya — is the main Lakshmi Puja date across most of India.
+
+**What is the shubh muhurat for Lakshmi Puja 2026?**
+The Pradosh Kaal window on Nov 8 evening, roughly 6:00–8:30 PM IST, overlapping Vrishabha Lagna. Exact timings vary by city (see table above).
+
+**Why do some calendars show Diwali on November 7?**
+South Indian tradition treats Naraka Chaturdashi (Nov 7) as the principal celebration rather than an error — both dates are correct within their traditions.
+
+**Can I do Lakshmi Puja in the morning?**
+The *shastra*-prescribed time is Pradosh Kaal after sunset. Morning *Choghadiya* muhurats (Shubha, Labha, Amrita) exist as a fallback, but the evening Amavasya window is ideal.
+
+**What should I buy on Dhanteras?**
+Gold, silver, new utensils — and traditionally a new broom, symbolising sweeping out poverty and inviting Lakshmi in.
+
+---
+
+*Planning the festival precisely? Check the [Daily Panchang](/panchang) for tithi and muhurat, or find your city's exact window with the [Muhurat Finder](/tools/muhurat-finder) on SanatanTools.*`,
+  },
 ];
