@@ -23,7 +23,6 @@ import {
   Lock,
   Star,
   Wand2,
-  Users,
   ChevronRight,
   MapPin,
   Calendar as CalendarIcon,
@@ -515,14 +514,6 @@ function Hero({
                 <Star key={i} className="size-4 fill-accent text-accent" />
               ))}
               <span className="ml-1 font-medium text-foreground">4.9</span>
-            </div>
-            <div className="hidden sm:block h-4 w-px bg-border" />
-            <div className="flex items-center gap-2">
-              <Users className="size-4 text-primary" />
-              <span>
-                <strong className="text-foreground">2.1M</strong>{" "}
-                {t("kundli.hero.kundlis_generated")}
-              </span>
             </div>
             <div className="hidden sm:block h-4 w-px bg-border" />
             <div className="flex items-center gap-2">
