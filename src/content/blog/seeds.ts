@@ -800,4 +800,128 @@ Gold, silver, new utensils — and traditionally a new broom, symbolising sweepi
     },
     content_md: `> **Quick Answer (Summary)**\n> **Devuthani Ekadashi 2026** — also called **Prabodhini** or **Dev Uthani Ekadashi** — falls on **Friday, November 20, 2026** (Kartik Shukla Ekadashi). It is the day Lord Vishnu awakens from his four-month **Yoga Nidra**, ending **Chaturmas** and reopening the calendar for weddings and all auspicious works. Devotees observe a fast, perform the evening ritual of "waking" Vishnu, and the next day — **Saturday, November 21** — celebrate **Tulsi Vivah**, the symbolic marriage of the Tulsi plant and Lord Vishnu as Shaligram.\n\n## Devuthani Ekadashi 2026: Date & Timings\n\n| Event | Date & Time (IST) |\n|-------|-------------------|\n| **Devuthani Ekadashi date** | **Friday, November 20, 2026** |\n| Ekadashi tithi begins | ~7:16 AM, Nov 20 |\n| Ekadashi tithi ends | ~6:32 AM, Nov 21 |\n| Fast (upavasa) | Sunrise Nov 20 to Dwadashi morning |\n| **Parana (breaking the fast)** | **November 21, after sunrise** — Dwadashi |\n| Tulsi Vivah | Saturday, November 21, 2026 (Dwadashi) |\n\n*Timings are Drik Panchang-based and shift slightly by city. Confirm your exact tithi on SanatanTools' [Daily Panchang](/panchang).*\n\n**A note on the one-day difference you may see:** a few listings mark the observance on **Saturday, November 21** instead of Friday, November 20. This happens because the Ekadashi tithi runs into the morning of the 21st, and traditions differ on whether the fast follows the day the tithi *begins* or the *udaya tithi* (tithi present at sunrise). The overwhelming majority of panchang-based sources — and most North Indian family traditions — observe it on **Friday, November 20, 2026**. If your family or local temple follows a specific panchang, follow that.\n\n## What Devuthani Ekadashi Is\n\nThe name unpacks itself: **Dev** (god — here, Vishnu) + **Uthani** (awakening) + **Ekadashi** (the eleventh lunar day). On the eleventh day of the bright half (*Shukla Paksha*) of the month of Kartik, Lord Vishnu — the preserver of the universe — wakes from **Yoga Nidra**, the cosmic sleep he entered four months earlier on **Devshayani Ekadashi** (Ashadh Shukla Ekadashi, July 25, 2026).\n\nThose four months are **Chaturmas** — the holy season when the gods are said to rest and all major auspicious works pause: weddings, *griha pravesh* (housewarmings), new ventures, sacred-thread ceremonies. Devuthani Ekadashi is the alarm clock of the Hindu calendar. From this day, the **wedding season officially opens**, and the calendar fills again with *shubh muhurats*. It is no exaggeration to say that half the weddings of North India are scheduled in the weeks that begin with this Ekadashi.\n\nThe theology is unusually human for a cosmic event. One popular telling says **Goddess Lakshmi** grew tired of Vishnu's erratic sleep — sometimes a day, sometimes months — and asked him to fix a schedule. Vishnu agreed: four months of rest each year, then a grand awakening. The awakening is therefore not just his — it is an invitation for the devotee to wake up too, spiritually and morally, from the "sleep" of routine and ignorance. Many *katha* tellings frame the day as a new beginning: *sone hue devta jag gaye, ab tum bhi jag jao* — the gods have woken, now you wake too.\n\n## Why Chaturmas Ends Here — and What It Means\n\nChaturmas coincides roughly with the monsoon and post-monsoon months — a season traditionally suited to inward spiritual practice (fasting, *katha*, restraint) rather than outward celebration. When Vishnu wakes, the restraint lifts: **weddings resume** (the first *lagna* dates of the season cluster from late November — check exact dates on the [Muhurat Finder](/tools/muhurat-finder)), and *griha pravesh*, *mundan*, *yajnopavita* and other *samskaras* can be scheduled again. **Tulsi Vivah** on Dwadashi is itself the ceremonial "first wedding" of the season.\n\n## Vrat Vidhi: How Devuthani Ekadashi Is Observed\n\nThe observance follows the classic three-day Ekadashi rhythm — **Dashami (preparation), Ekadashi (the fast), Dwadashi (parana)** — with rituals unique to this particular Ekadashi.\n\n### Day 0 — Dashami (Thursday, Nov 19): Preparation\n\n- Take a **sankalp** (vow) to observe the fast with sincerity.\n- Eat only **one sattvic meal** before sunset; avoid grains at night in many traditions, and avoid onion, garlic, meat and alcohol entirely.\n- Clean the house and the puja space — the next evening, Vishnu's "footprints" will be drawn from the entrance inward.\n\n### Day 1 — Ekadashi (Friday, Nov 20): The Fast\n\n**Morning:**\n1. Wake in *Brahma Muhurta*, bathe (adding a little *Gangajal* to the water if available), wear clean — traditionally yellow or white — clothes.\n2. Take the day's sankalp before your Vishnu image or Shaligram.\n3. Offer **Tulsi leaves** (never offered to Vishnu on some days, but essential today), flowers, *panchamrit*, fruits and *naivedya*.\n\n**The fast itself:** The strict form is **nirjala** (no food, no water); the common form is **phalahar** — fruits, milk, water chestnut (*singhara*) flour preparations, *sabudana*. Grains, rice, wheat, lentils and beans are avoided. Water may be taken in the phalahar form. Those with medical conditions, pregnant women and the elderly should observe a modified fast — the spirit of the vrat matters more than its severity.\n\n**Evening — the "Vishnu jagao" ritual (the heart of this Ekadashi):**\n4. At dusk, families perform the symbolic awakening. **Tiny footprints** (*charan*) of Lord Vishnu are drawn with a paste of rice flour, turmeric and vermilion, leading from the main entrance to the puja place — as if the awakened Lord is walking into the home.\n5. A **sugarcane mandap** is often erected — four sugarcane stalks tied together over the puja spot, decorated with marigolds. Sugarcane, *singhara* (water chestnut), *amla* and seasonal fruits are the characteristic offerings of this Ekadashi.\n6. **Deep daan:** lamps are lit in large numbers — at the *tulsi* plant, the doorway, the puja place, and traditionally at temples and riverbanks. The evening aarti and the **Devuthani Ekadashi katha** are read or heard.\n7. Many devotees keep a **night vigil** (*jagran*) with bhajans and Vishnu *sahasranama* recitation.\n\n**Chant:** *Om Namo Bhagavate Vasudevaya* is the day's principal mantra; the **Vishnu Sahasranama** is the classic extended recitation.\n\n### Day 2 — Dwadashi (Saturday, Nov 21): Parana\n\nThe fast is broken on Dwadashi morning **after sunrise**, within the parana window — feed a Brahmin or the needy first in traditional practice, then eat. Parana must not be done during the *Hari Vasara* (the first quarter of Dwadashi) — practically, breaking the fast mid-morning on Nov 21 after sunrise satisfies the rule. Because Dwadashi tithi runs into the early hours of Nov 22, the window is comfortable; still, confirm the exact window in your local panchang.\n\n## Puja Samagri Checklist\n\n- Image or idol of **Lord Vishnu** (or Shaligram stone), Goddess Lakshmi alongside\n- **Tulsi plant** with manjari (seed pods) for offerings\n- Fresh **Tulsi leaves**, marigold and seasonal flowers, garlands\n- *Panchamrit* (milk, curd, ghee, honey, sugar), *Gangajal*\n- **Sugarcane stalks** (for the mandap), **singhara** (water chestnut), *amla*, seasonal fruits\n- Rice flour + turmeric + vermilion (for the *charan* footprints)\n- Kumkum, *akshat* (rice), sandalwood paste, incense, camphor\n- Ghee diyas and oil lamps (many, for deep daan)\n- Sweets and fruits for *naivedya* and prasad\n- New cloth/yellow cloth for the deity; bell and aarti thali\n\n## Tulsi Vivah: The Wedding That Opens the Wedding Season\n\nOn **Dwadashi — Saturday, November 21, 2026** — comes **Tulsi Vivah**, the ceremonial marriage of the holy **Tulsi plant** (representing Goddess Vrinda, a form of Lakshmi) to **Lord Vishnu** in the form of the **Shaligram stone** (or a Krishna idol). It is treated as the season's first wedding, and attending or performing it is traditionally equated in merit with *kanyadaan* — giving away one's daughter in marriage.\n\n**Dwadashi tithi:** begins ~6:31 AM on Nov 21, ends ~4:56 AM on Nov 22. The Vivah is typically performed in the **evening (Pradosh Kaal)**.\n\n### The Legend of Vrinda and Jalandhar\n\nVrinda was the devoted wife of the demon king **Jalandhar**, whose invincibility came entirely from her *pativrata* virtue. When the gods begged Vishnu to intervene, he took Jalandhar's form to break her vow — Jalandhar fell, and the widowed Vrinda, realising the deception, **cursed Vishnu to turn to stone**. Vishnu accepted — hence the black **Shaligram stone** — and blessed her in return: she would be reborn as the **Tulsi plant**, worshipped by all and dearer to him than any flower, and he would marry her every year. Tulsi Vivah re-enacts that wedding.\n\n### How Tulsi Vivah Is Performed\n\n1. The Tulsi plant is decorated like a bride — red chunari or sari draped around the pot, bangles, bindi, garlands, jewellery.\n2. The Shaligram (or Vishnu/Krishna idol), dressed as the groom with a turban (*sehra*), is placed beside her under a small mandap, often of sugarcane.\n3. The full Hindu wedding sequence is followed in miniature: *haldi*, *baraat* (in community celebrations), *kanyadaan*, *saptapadi* (seven steps), *sindoor*, and *mangalsutra*.\n4. Women sing traditional *vivah geet* (wedding songs); prasad — especially sweets and *panjiri* — is distributed.\n5. Married women pray for their husbands' wellbeing and family harmony; unmarried women pray for a suitable life partner.\n\n*Regional note: in Nepal, where the day is called **Haribodhini Ekadashi**, many families perform Tulsi Vivah on Ekadashi itself (Nov 20), while most Indian traditions hold it on Dwadashi (Nov 21). Both are established practice — follow your family tradition.*\n\n## The Kartik Arc: Ekadashi → Vivah → Purnima\n\nDevuthani Ekadashi is best understood as the middle of a sacred sequence that fills late Kartik:\n\n| Date 2026 | Observance | Significance |\n|-----------|-----------|--------------|\n| **Fri, Nov 20** | **Devuthani / Prabodhini Ekadashi** | Vishnu awakens; Chaturmas ends; fast + evening jagaran |\n| **Sat, Nov 21** | **Tulsi Vivah** (Dwadashi) | Divine wedding; wedding season opens |\n| Late Nov | **Kartik Purnima / Dev Deepawali** | The "Diwali of the gods" — sacred bathing, deep daan, Varanasi's great lamp festival |\n\nIn Ayodhya, Devuthani Ekadashi also draws thousands for the **Panchkosi Parikrama** — a 15-km circumambulation of the sacred city, walked through the night with *Ram naam* chanting. In Varanasi, Mathura and Ayodhya, temples hold special *uthapana* (awakening) ceremonies with conch-blowing and elaborate aarti.\n\n## Significance: Why This Ekadashi Matters Most of the 24\n\nOf the 24 Ekadashis in the year, Devuthani is consistently ranked the most significant — and the reasons are structural, not sentimental:\n\n1. **It ends Chaturmas.** Four months of suspended auspiciousness resolve in a single dawn — every wedding invitation printed from late November onward traces back to this tithi.\n2. **It is Vishnu's personal festival.** Ekadashi is already Vishnu's favourite tithi; this one celebrates *him* — his waking and return to preserving the universe.\n3. **It carries a built-in ethic.** The "awakening" is read inwardly too: rise from spiritual sleep, resume discipline, begin again. The fast, the vigil, the lamps — all structured as a deliberate restart.\n4. **It is socially load-bearing.** Tulsi Vivah gives families without daughters the merit of *kanyadaan*; the sugarcane mandap and deep daan turn whole neighbourhoods into participants.\n\n## Frequently Asked Questions\n\n**When is Devuthani Ekadashi in 2026?**\nFriday, November 20, 2026 (Kartik Shukla Ekadashi). A minority of listings observe it on Saturday, November 21 — check your local panchang if your family tradition differs.\n\n**What is the parana (fast-breaking) time?**\nOn Dwadashi, Saturday, November 21, after sunrise. Published windows differ slightly (one widely-used listing gives early afternoon Nov 21); the safe rule is: after sunrise, before Dwadashi ends (~4:56 AM Nov 22), and never during Hari Vasara.\n\n**Is Tulsi Vivah on the same day as Devuthani Ekadashi?**\nIn most Indian traditions, no — Tulsi Vivah is on **Dwadashi (Nov 21, 2026)**. In Nepal (Haribodhini Ekadashi), many observe it on Ekadashi itself. Both are valid; follow your parampara.\n\n**What is special about the evening ritual?**\nThe *charan* footprints drawn from the doorway to the puja place symbolise the awakened Vishnu entering the home, and the sugarcane mandap with deep daan turns the house into a celebration space. It is the most distinctive ritual of this Ekadashi.\n\n**Can I keep the fast if I cannot do nirjala?**\nYes. The *phalahar* form (fruits, milk, singhara/sabudana preparations, water) is the common observance. Those with health conditions should modify the fast — consult your doctor and your family tradition.\n\n**Why do weddings start after this Ekadashi?**\nBecause Chaturmas — the four months when auspicious works are suspended while Vishnu sleeps — ends on this day. Tulsi Vivah on Dwadashi is symbolically the season's first wedding.\n\n**What mantra should I chant?**\n*Om Namo Bhagavate Vasudevaya* through the day, and the **Vishnu Sahasranama** for extended recitation, especially during the evening jagaran.\n\n**What is offered to Vishnu on this day?**\nTulsi leaves (essential), panchamrit, sugarcane, singhara, amla, seasonal fruits and sweets — plus the deep daan of many lamps in the evening.\n\n---\n\n*Finding your wedding date this season? Use SanatanTools' [Muhurat Finder](/tools/muhurat-finder) for city-exact shubh muhurats, check the [Daily Panchang](/panchang) for tithi and Ekadashi dates through the year, or explore your own chart with the free [Kundli](/kundli) tool.*`,
   },
+  {
+    slug: "ai-astrologer-guide-how-to-read-kundli-with-ai",
+    title: "AI Astrologer Guide: How to Read Your Kundli with AI in 2026",
+    excerpt:
+      "An AI astrologer reads your personal Janam Kundli — not a generic horoscope. Learn how AI astrology works in 3 steps, what to ask, 6 tips for accurate readings, and its honest limitations.",
+    category: "ASTROLOGY",
+    tags: ["AI Astrologer", "Kundli", "Janam Kundli", "Vedic Astrology", "Jyotish", "Birth Chart", "Horoscope"],
+    featured_image: "/blog/ai-astrologer-guide-how-to-read-kundli-with-ai.jpg",
+    published_at: "2026-10-10T00:00:00.000Z",
+    updated_at: "2026-10-10T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "AI Astrologer Guide: Read Your Kundli with AI (2026) | SanatanTools",
+      meta_description:
+        "How does an AI astrologer read your kundli? Learn the 3-step process (birth details → verified chart → Vedic interpretation), what questions to ask, 6 tips for accurate readings, and honest limitations — plus the free SanatanTools AI Astrologer to try.",
+      canonical: "https://www.sanatantools.com/blog/ai-astrologer-guide-how-to-read-kundli-with-ai",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> An **AI astrologer** reads your personal **Janam Kundli** — your exact birth chart — instead of giving the same generic horoscope to everyone. It works in three steps: (1) you enter your birth date, time and place; (2) the system calculates your real planetary positions with verified astronomy (Lahiri ayanamsa, ephemeris maths); (3) the AI interprets that chart using classical Vedic rules and answers your specific question. The whole reading takes under two minutes, and you can ask in English, Hindi, Hinglish or your regional language.
+
+## What Is an AI Astrologer?
+
+A traditional *jyotishi* looks at your birth chart and explains what the planets say about your life. An AI astrologer does the same thing, but instantly and at any hour: you type a question — *"shaadi kab hogi?"*, *"career mein growth kab aayega?"* — and it answers from **your** chart, not from a newspaper horoscope column.
+
+The key difference is personalisation. Here is how the three options compare:
+
+| | Newspaper / App Horoscope | AI Astrologer | Human Jyotishi |
+|---|---|---|---|
+| Based on | Your Moon sign or Sun sign only | Your full birth chart (Lagna, planets, houses, dashas) | Your full birth chart |
+| Personalised? | No — same text for millions | Yes — every answer is chart-specific | Yes |
+| Speed | Instant | Under 2 minutes | Appointment needed |
+| Cost | Free | Usually free for basic questions | Paid per session |
+| Best for | Daily general trends | Specific questions, anytime guidance | Complex life decisions, remedies |
+
+An AI astrologer sits in the middle: far more personal than a generic horoscope, far more accessible than booking a pandit.
+
+## How AI Astrology Actually Works (3 Steps)
+
+There is no magic here — just astronomy plus language. A good AI astrologer follows the same discipline a careful human astrologer would:
+
+### Step 1: Your birth details
+
+You provide three things — **date of birth, exact time of birth, and place of birth**. These three fix your chart completely. The birth time matters most: even a 10–15 minute error can shift your *Lagna* (ascendant), which changes the entire reading. If you don't know your exact time, most tools let you proceed with an approximate one and refine it later.
+
+### Step 2: Verified astronomical calculation
+
+Before any interpretation happens, the system computes your real chart: ascendant, Moon sign (*Rashi*), planetary longitudes, house placements, *Nakshatras*, *Vimshottari dashas* and *yogas* — using the **Lahiri ayanamsa** and precise ephemeris mathematics, the same standard serious Vedic software uses.
+
+This step is what separates a trustworthy AI astrologer from a gimmick. The interpretation must come **only** from this verified chart data — a well-built system will never invent or guess planetary positions. If the AI is "reading" planets that were never calculated, the reading is fiction no matter how confident it sounds.
+
+### Step 3: Vedic interpretation of your question
+
+Only now does the AI step in. It takes your question and the verified chart together, applies classical *Parashari* principles — which house rules the matter you asked about, which planets aspect it, which *dasha* (planetary period) is currently running — and explains the finding in plain language, with the reasoning shown, not hidden.
+
+## What Can You Ask an AI Astrologer?
+
+Almost anything you would ask a human jyotishi. The most useful questions are **specific** — they let the AI anchor its answer to the right houses and dashas:
+
+| Life area | Example questions to ask |
+|---|---|
+| **Career** | "Career mein growth kab aayega?" · "Job change karna chahiye ya business?" · "Sarkari naukri ke yog hain?" |
+| **Marriage** | "Shaadi kab hogi?" · "Love marriage ya arranged?" · "Partner ke saath compatibility kaisi rahegi?" |
+| **Finance** | "Dhan yog kab ban raha hai?" · "Investment ke liye ye saal kaisa hai?" |
+| **Health** | "Sehat ko lekar kin dashaon mein savdhaan rahun?" |
+| **Education** | "Higher studies ke liye videsh jaane ke yog hain?" |
+| **Family** | "Ghar-parivar mein chal raha tanaav kab kam hoga?" |
+| **Timing** | "Koi shubh kaam shuru karne ka sahi samay kab hai?" |
+| **Remedies** | "Meri kundli ke hisaab se kaun se upaay faydemand honge?" |
+
+Pair timing questions with SanatanTools' [Muhurat Finder](/tools/muhurat-finder) for the exact auspicious window, and relationship questions with the [Kundli Matching](/tools/kundli-matching) tool — our [36 Guna Milan guide](/blog/kundli-matching-36-guna-milan-guide) explains how compatibility scoring works.
+
+## How to Get an Accurate Reading: 6 Tips
+
+1. **Give your exact birth time.** This is the single biggest factor. "Around 6 AM" is usable; "6:07 AM" is far better. Wrong time = wrong Lagna = wrong reading.
+2. **Ask one clear question at a time.** "Career kaisa rahega?" gives a sharper answer than "mera bhavishya batao."
+3. **Add context.** "I'm choosing between two job offers" lets the AI weigh the right factors instead of guessing what you mean.
+4. **Ask in the language you think in.** A good AI astrologer answers in the exact language you use — English, Hindi (Devanagari), Hinglish, or regional languages — so nuances don't get lost in translation.
+5. **Ask "why", not just "what".** A trustworthy reading shows its reasoning: which *graha*, which *bhava*, which *dasha*. If an answer can't point to chart factors, treat it as entertainment.
+6. **Check the dasha timeline.** Most good news and bad news in Vedic astrology is time-bound. Ask which *Mahadasha–Antardasha* is running and when it changes — that turns a vague prediction into a dated one.
+
+New to birth charts? Read our [Janam Kundli guide](/blog/understanding-your-janam-kundli) first — it explains Lagna, Rashi, Nakshatra and dashas in plain language, so AI readings make much more sense.
+
+## Honest Limitations: What AI Astrology Can't Do
+
+A responsible guide should say this plainly:
+
+- **It is guidance, not guarantee.** Planetary patterns describe tendencies and timings; they don't remove your agency. Vedic tradition itself calls this *Kriyamana karma* — the future you shape by present action.
+- **It can't replace professionals.** Never use an astrology reading — AI or human — as a substitute for medical, legal or financial advice.
+- **Bad input = bad output.** An approximate birth time gives an approximate chart. The AI can only interpret what was calculated.
+- **It doesn't "feel" your situation.** A human jyotishi picks up context from conversation; an AI only knows what you type. The more context you give, the better the reading.
+- **Beware of fear-mongering.** Classical Jyotish is meant to be empowering, not frightening. Any reading — AI or human — that tries to scare you into buying expensive remedies is a red flag. Genuine *upaay* are simple: mantra, daan, discipline, *sadhana*.
+
+## Try It: The SanatanTools AI Astrologer
+
+SanatanTools has its own [AI Astrologer](/tools/ai-astrologer), built on exactly the architecture described above:
+
+1. **Enter your birth details** — date, time and place. The tool calculates your verified chart first (ascendant, planetary longitudes, houses, Nakshatras, dashas, yogas).
+2. **Ask anything about your Kundli** — career, marriage, health, timing, remedies. The AI interprets *only* your verified chart data; it never invents planetary positions.
+3. **Get a structured answer** — the core finding, the chart factors behind it (grahas, bhavas, active dasha), and constructive guidance — in your own language, whether that's English, Hindi, Hinglish or another Indian language.
+
+It is free to try, and it pairs naturally with the rest of the toolkit: generate your chart, match kundlis, find muhurats — all from the same birth data.
+
+## FAQs
+
+**Is an AI astrologer accurate?**
+Its accuracy has two halves: the astronomy (which is pure mathematics — exact if your birth time is exact) and the interpretation (which follows classical Vedic rules). What it won't do is what no honest astrologer should: guarantee outcomes.
+
+**Is AI astrology the same as a horoscope app?**
+No. Horoscope apps give one generic paragraph per zodiac sign to millions of people. An AI astrologer computes *your* individual birth chart and answers *your* specific question from it.
+
+**Do I need my exact birth time?**
+For the most accurate reading, yes — the Lagna can change within minutes. If you don't know it, you can still get a useful Moon-chart-based reading, but treat Lagna-dependent details as approximate.
+
+**Can AI replace a human jyotishi?**
+For quick, specific questions, it is remarkably capable. For major life decisions, many people still prefer a human counsellor — ideally, use the AI for exploration and a trusted jyotishi for confirmation.
+
+**Is my birth data private?**
+On SanatanTools, your birth details are used only to compute your chart and generate your reading — they are never sold.
+
+**Which language can I ask in?**
+The SanatanTools AI Astrologer replies in the exact language and script you use — Hindi, Hinglish, English, Marathi, Bengali, Tamil, Telugu and more.
+`,
+  },
 ];
