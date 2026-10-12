@@ -944,4 +944,171 @@ The SanatanTools AI Astrologer replies in the exact language and script you use 
     },
     content_md: `> **Quick Answer (Summary)**\n> **Kartik Purnima 2026** falls on **Tuesday, November 24, 2026** — the full-moon day of the holy month of Kartik. It is observed as **Tripuri Purnima** (Lord Shiva's victory over the demon Tripurasura), as **Dev Deepawali**, the "Diwali of the gods," and — for Sikhs — as **Guru Nanak Jayanti**. Purnima tithi runs from **11:42 PM on November 23 to 8:23 PM on November 24 (IST)**. In Varanasi, all 84 ghats light up with lakhs of diyas after sunset. Devotees take the sacred **Kartik Snan** (holy bath) at dawn, observe a day-long fast, and perform **deep daan** (lamp offerings) in the evening.\n\n## Kartik Purnima 2026: Date & Timings\n\n| Event | Date & Time (IST) |\n|-------|-------------------|\n| **Kartik Purnima date** | **Tuesday, November 24, 2026** |\n| Purnima tithi begins | Monday, Nov 23, 11:42 PM |\n| Purnima tithi ends | Tuesday, Nov 24, 8:23 PM |\n| Moonrise (Nov 24) | ~4:56 PM (varies by city) |\n| Kartik Snan (holy bath) | Before sunrise, Nov 24 — Brahma Muhurta is ideal |\n| Deep daan / Dev Deepawali lamps | After sunset, Nov 24 |\n\n*Timings are Drik Panchang-based and shift slightly by city. Confirm the exact tithi on SanatanTools' [Daily Panchang](/panchang) before scheduling rituals.*\n\n**A note on dates:** an overwhelming majority of panchang sources place Kartik Purnima on **November 24, 2026**. A small number of listings give November 26 — this comes from differing tithi-calculation conventions. Since the tithi clearly spans the night of Nov 23–24 and moonrise falls on the evening of Nov 24, the **November 24** observance is the safe choice, followed by most North Indian families and by Varanasi's Dev Deepawali celebrations.\n\n## What Is Kartik Purnima?\n\nKartik Purnima is the full-moon day (*Shukla Paksha Purnima*) of the month of **Kartik**, widely considered the holiest month of the Hindu year. It goes by several names, each carrying a layer of meaning:\n\n- **Tripuri / Tripurari Purnima** — the day Lord Shiva, as *Tripurari* ("destroyer of Tripura"), defeated the demon Tripurasura.\n- **Dev Deepawali / Dev Diwali** — the "Diwali of the gods," celebrated most famously in Varanasi.\n- **Karthika Pournami** — the South Indian name, marked by rows of lamps in homes and temples.\n\nRoughly a fortnight after the main Diwali (November 8, 2026), Kartik Purnima is the grand finale of the festival season — the month of lamps closes with its brightest night.\n\n## The Legend: Shiva's Victory Over Tripurasura\n\nThe story behind the name *Tripuri Purnima* comes from the Shiva Purana. Three demon brothers — **Vidyunmali, Tarakaksha and Viryavana** — performed such severe penance that Lord Brahma granted them an extraordinary boon: three impregnable flying cities (*Tripura*) made of gold, silver and iron, which could only be destroyed when they aligned in a single straight line — an event occurring once in a thousand years.\n\nFortified in their invincible cities, the demons terrorised the three worlds. The gods, powerless, turned to Shiva. On the full moon of Kartik, the moment of alignment arrived. Shiva took the form of the cosmic warrior: the **earth became his chariot, the sun and moon its wheels, Mount Meru his bow, the serpent Vasuki the bowstring — and Lord Vishnu himself became the arrow.** With a single shot, the three cities burned to ash.\n\nThe gods lit lamps across the heavens in celebration. That is why, on this night, the entire world lights lamps — it is the *Dev Deepawali*, the gods' own festival of lights, commemorating the triumph of light over darkness. The day also honours **Vishnu's Matsya (fish) avatar**, believed to have appeared on this same tithi, and Vaishnavas regard it as the night of **Radha–Krishna's Raslila**.\n\n## Dev Deepawali in Varanasi: The Diwali of the Gods\n\nWhile all of India celebrates Diwali, **Varanasi — Kashi — reserves its grandest illumination for Dev Deepawali.** Fifteen days after Diwali, on Kartik Purnima, the belief is that the gods themselves descend to earth to bathe in the Ganga and celebrate along its banks.\n\nThe spectacle is genuinely unmatched: the steps of **all 84 ghats**, from Ravidas Ghat at the southern end to Rajghat, are lit with **more than a million earthen diyas** in honour of Mother Ganga. Houses are decorated with oil lamps, processions of adorned deities move through the old city's lanes, and small leaf-and-flower boats carrying lit lamps are floated onto the river. The grand **Ganga Aarti** at Dashashwamedh Ghat is performed with special scale and ceremony.\n\nThe tradition of lighting the ghats on this day was started in **1991 at Dashashwamedh Ghat by Pandit Kishori Raman Dubey (Babu Maharaj)** — barely three decades old, yet it now defines the city's identity.\n\n**Dev Deepawali 2026 in Varanasi:** preparations are bigger than ever this year — reports put the plan at roughly **11 lakh diyas**, including about **1 lakh eco-friendly diyas made from cow dung**, cleaner ghats, a **laser show**, and green fireworks. The **Ganga Mahotsav** (November 20–23, 2026) serves as the cultural prelude, with four evenings of classical music and dance on the northern ghats. If you plan to visit, book accommodation months ahead — and know that the pre-dawn **Kartik Snan** (4:30–5:30 AM, by diya-light on near-empty ghats) is as extraordinary as the evening spectacle, without the evening's crowds.\n\n## Kartik Purnima Across Traditions\n\nWhat makes this purnima rare is that it belongs to **four** communities at once:\n\n- **Shaiva:** Tripuri Purnima — Shiva's victory; temples perform *Ekadasa Rudrabhishekam* and stay lit through the night.\n- **Vaishnava:** the culmination of the month-long **Kartik vrata**; Matsya Jayanti; the final day for **Tulsi Vivah** rituals; many observe the **Satyanarayan vratam** on this evening.\n- **Sikh:** **Guru Nanak Jayanti** (Gurpurab) — the birth anniversary of Guru Nanak Dev Ji (born 1469; the 557th in 2026). Gurudwaras hold *akhand path*, langars and *nagar kirtan* processions.\n- **Jain:** the pilgrimage season to **Palitana and Shri Shatrunjaya** opens on this day; devotees begin the barefoot climb of the sacred hill.\n- **South India:** as *Karthika Pournami* / **Karthigai Deepam**, homes and temples are lined with rows of oil lamps; the tradition celebrates Lord Kartikeya's association with the lamp of knowledge.\n\n## Kartik Purnima Vrat & Vidhi: How to Observe\n\n### 1. Kartik Snan — the holy bath (dawn)\n\nWake in *Brahma Muhurta* and take the ritual bath. The ideal is a sacred river — **Ganga, Yamuna, Saryu or Pushkar Lake** — but at home, adding a few drops of *Gangajal* to the bath water carries the same intent. The bath on Kartik Purnima is said to carry the merit of many yagyas; a dip in the Ganga is believed to wash away sins and open the path to liberation.\n\n### 2. The fast (sunrise to moonrise)\n\nDevotees observe a **day-long fast** in honour of Shiva and Vishnu. The common form is *phalahar* — fruits, milk, water — breaking it after moonrise (~4:56 PM on Nov 24). Those observing the Satyanarayan vrat fast until the evening katha is complete.\n\n### 3. Puja & mantra\n\n- Offer **white flowers, milk sweets, sandalwood and tulsi** to Vishnu/Lakshmi; in Shiva temples, *bilva* leaves and water abhishek are traditional.\n- Chant: **"Om Namah Shivaya"** and **"Om Namo Bhagavate Vasudevaya"** — both are the day's principal mantras.\n- Evening: read or hear the **Tripurasura-vadh katha**; Shiva temples conduct *Ekadasa Rudrabhishekam*.\n\n### 4. Deep daan — the lamp offering (evening, the heart of the day)\n\nLight lamps **in large numbers**: at the tulsi plant, the doorway, the puja place, temples and — ideally — a riverbank. One beautiful tradition is lighting **365 wicks**, one for each day of the coming year. Floating leaf-boats with lit diyas on water (*jal-deep-daan*) is the day's signature act of devotion.\n\n### 5. Daan (charity)\n\nGiving food, warm clothes, sesame-oil lamps and *dakshina* to the needy and to Brahmins on Kartik Purnima is considered to multiply merit many times over.\n\n## Puja Samagri Checklist\n\n- Image or idol of **Lord Shiva** and/or **Lord Vishnu–Lakshmi**\n- *Bilva* leaves, white flowers, marigolds, garlands\n- **Tulsi leaves** (for Vishnu), sandalwood paste, kumkum, *akshat*\n- *Panchamrit*, *Gangajal*, fruits and sweets for *naivedya*\n- **Many ghee or oil diyas** (plan for 365 if following that tradition), camphor, incense\n- Sesame oil lamps and food/clothes for *daan*\n- New or clean clothes (white/yellow traditionally), aarti thali and bell\n\n## Where the Festival Comes Alive: Regional Highlights\n\n| Place | What happens on Kartik Purnima 2026 |\n|-------|-------------------------------------|\n| **Varanasi (Kashi)** | **Dev Deepawali** — lakhs of diyas on all 84 ghats; Ganga Aarti; laser show; green fireworks |\n| **Pushkar (Rajasthan)** | **Pushkar Fair** (Nov 17–24, 2026) closes; holy dip in Pushkar Lake; prayers at the rare Brahma Temple |\n| **Haridwar & Prayagraj** | Massive Kartik Snan congregations on the Ganga banks |\n| **Ayodhya** | Diya rows along the Saryu ghats |\n| **Gurudwaras everywhere** | Guru Nanak Jayanti — akhand path, langar, nagar kirtan |\n| **Tamil Nadu & Kerala** | Karthigai Deepam — rows of lamps in homes and temples |\n| **Palitana (Gujarat)** | Jain pilgrimage season opens on Shri Shatrunjaya hill |\n\nThe **Pushkar Fair** deserves a special mention: beginning around November 17, the eight-day camel fair — one of the world's largest livestock fairs — builds from trading and folk competitions to its spiritual climax on Kartik Purnima itself, when pilgrims take the holy dip in Pushkar Lake and the fair disperses.\n\n## Frequently Asked Questions\n\n**When is Kartik Purnima in 2026?**\nTuesday, November 24, 2026. Purnima tithi begins 11:42 PM on Nov 23 and ends 8:23 PM on Nov 24 (IST). A few listings say Nov 26 — the vast majority of panchangs observe it on Nov 24.\n\n**What is the difference between Diwali and Dev Deepawali?**\nDiwali (Nov 8, 2026) celebrates Rama's return to Ayodhya and Lakshmi puja. Dev Deepawali, fifteen days later on Kartik Purnima, celebrates Shiva's victory over Tripurasura — it is the "Diwali of the gods," centred on Varanasi's ghats.\n\n**What is Kartik Snan?**\nThe sacred ritual bath taken before sunrise on Kartik Purnima, ideally in a holy river. It is considered the most meritorious bath of the year — a single dip is said to equal many yagyas in spiritual merit.\n\n**What should I light on Kartik Purnima?**\nAs many diyas as you can — at home, at a temple, and near water. The tradition of 365 wicks (one per day of the year) and floating diyas on water are the day's signature deep daan.\n\n**Is Kartik Purnima also Guru Nanak Jayanti?**\nYes. In 2026, Guru Nanak Dev Ji's 557th birth anniversary (Gurpurab) falls on the same day — Tuesday, November 24.\n\n**Can I do the fast if I have health issues?**\nYes — the phalahar (fruit/milk) form is the common observance, and those with medical conditions should observe a modified fast. The spirit of the vrat matters more than its severity; consult your doctor and family tradition.\n\n**What mantra should I chant?**\n*Om Namah Shivaya* for Shiva and *Om Namo Bhagavate Vasudevaya* for Vishnu — both deities are honoured on this day.\n\n---\n\n*Planning the festival season? Check the [Daily Panchang](/panchang) for exact tithi timings in your city, find shubh muhurats for the wedding season with the [Muhurat Finder](/tools/muhurat-finder), or explore how the full moon touches your own chart with the free [Kundli](/kundli) tool — and try asking the [AI Astrologer](/tools/ai-astrologer) about the month ahead.*\n`,
   },
+  {
+    slug: "gayatri-mantra-meaning-benefits-chanting-rules-guide",
+    title: "Gayatri Mantra: Meaning, Benefits, Chanting Rules & 108 Japa Guide",
+    excerpt:
+      "The Gayatri Mantra from Rigveda 3.62.10 is a prayer to Savita, the divine light, for an illumined intellect. Learn its word-by-word meaning, benefits, the three Sandhya timings, chanting rules and how to do 108 japa step by step.",
+    category: "MANTRAS",
+    tags: ["Gayatri Mantra", "Mantra", "Japa", "Sandhyavandana", "Rigveda", "Vishvamitra", "Meditation"],
+    featured_image: "/blog/gayatri-mantra-meaning-benefits-chanting-rules-guide.jpg",
+    published_at: "2026-10-12T00:00:00.000Z",
+    updated_at: "2026-10-12T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Gayatri Mantra: Meaning, Benefits, Chanting Rules & 108 Japa Guide | SanatanTools",
+      meta_description:
+        "Gayatri Mantra meaning word by word, Rigveda origin, benefits, three Sandhya timings, chanting rules, counts from 3 to 108 and a step-by-step japa guide with FAQs.",
+      canonical: "https://www.sanatantools.com/blog/gayatri-mantra-meaning-benefits-chanting-rules-guide",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> The **Gayatri Mantra** is the most revered mantra of the Vedas — a prayer to **Savita**, the divine light behind the Sun, asking that light to illuminate our intellect. It comes from the **Rigveda (Mandala 3, Sukta 62, Verse 10)**, revealed to **Rishi Vishvamitra**, and is chanted in the **Gayatri metre of 24 syllables**. Traditionally it is recited at the three **Sandhyas** — sunrise, midday and sunset — in counts of **3, 11, 27, 54 or a full mala of 108**. Anyone can begin with a few sincere repetitions at sunrise; consistency matters far more than quantity.
+
+## The Mantra: Text, Transliteration and Translation
+
+**Devanagari**
+
+ॐ भूर्भुवः स्वः
+तत्सवितुर्वरेण्यं
+भर्गो देवस्य धीमहि
+धियो यो नः प्रचोदयात्
+
+**Transliteration**
+
+Om Bhur Bhuvah Svah
+Tat Savitur Varenyam
+Bhargo Devasya Dhimahi
+Dhiyo Yo Nah Prachodayat
+
+**Plain translation**
+
+We meditate on the adorable radiance of Savita, the divine Creator. May that light inspire and guide our intellect.
+
+Notice what this mantra does *not* ask for. It does not ask for wealth, victory or a specific result. It asks for one thing only — a clear, illumined intellect (*dhiyo*). That is why generations of teachers have called it the safest and most universal prayer in the Vedic tradition: if the intellect is lit, every other decision in life gets easier.
+
+The mantra is preceded by **Om** and the three *Vyahritis* — *Bhur, Bhuvah, Svah*. Together they are called the Mahavyahriti, the great utterance that frames the prayer.
+
+## Where the Gayatri Comes From
+
+The verse appears in the **Rigveda, Mandala 3.62.10**, and is also found in the Yajurveda and Samaveda traditions. It is attributed to **Brahmarishi Vishvamitra**, the sage of the third Mandala of the Rigveda, who is honoured as the mantra's *drishta* — the seer who realised it in deep meditation, rather than an author who invented it.
+
+It is called *Gayatri* because it is set in the Gayatri metre: three lines (*padas*) of eight syllables each, 24 syllables in total. It is also called the **Savitri Mantra**, because it is addressed to **Savita** — the solar aspect of the divine that gives life, light and movement to the world. In later tradition Gayatri is personified as **Vedamata**, the Mother of the Vedas, and in the Bhagavad Gita, Krishna identifies himself with Gayatri among sacred metres.
+
+Historically, the mantra was the heart of the **Upanayana** ceremony: the guru whispered it into the student's ear at initiation with the sacred thread (*yajnopavita*), and the student then recited it daily in Sandhyavandana for life. Modern reform movements opened the practice widely, and today it is chanted by men and women of all backgrounds, in temples, homes, classrooms and meditation halls.
+
+## Word-by-Word Meaning
+
+Understanding each word transforms mechanical repetition into prayer. Here is the breakdown most traditional commentaries agree on:
+
+| Word | Meaning |
+|------|---------|
+| Om | The primordial sound, the source vibration |
+| Bhur | The physical world, earth, existence |
+| Bhuvah | The intermediate world, vital energy, space |
+| Svah | The celestial world, light, bliss |
+| Tat | That (the Supreme Reality) |
+| Savitur | Of Savita, the divine Sun / Creator, source of all |
+| Varenyam | Most adorable, worthy of worship and choice |
+| Bhargo | Radiance, effulgence that burns away ignorance |
+| Devasya | Of the divine, of God |
+| Dhimahi | We meditate upon |
+| Dhiyo | Intellect, understanding (plural — for all beings) |
+| Yo | Who |
+| Nah | Our |
+| Prachodayat | May inspire, impel and guide |
+
+Two details are worth pausing on. First, *dhiyo* and *nah* are plural — we pray for **our** intellects, not mine alone. The Gayatri is a collective prayer, for the illumination of everyone. Second, *bhargo* does not mean ordinary light; it is the radiance that *destroys darkness and impurity*, like sunlight dispelling fog.
+
+## Benefits Traditionally Associated with Gayatri Japa
+
+Scriptures and teachers describe the fruits of regular japa in layered terms. Treat these as the tradition's claims and the lived experience reported by practitioners, not as medical guarantees:
+
+- **Clarity and concentration** — the mantra is a prayer for *buddhi*, so students traditionally chant it before study to steady attention and aid memory.
+- **Calmness** — slow, rhythmic repetition with breath naturally settles restlessness; many practitioners report reduced mental chatter after even 11 repetitions.
+- **Discipline** — a fixed daily practice at a fixed hour builds a sattvic routine around which the rest of the day organises itself.
+- **Protection and positivity** — in traditional language, Gayatri is a *kavacha*, an armour of light around the practitioner; in practical language, beginning the day with a noble intention changes how the day is met.
+- **Spiritual growth** — because the mantra points beyond worldly requests toward illumination itself, long-term japa is considered a complete sadhana in its own right.
+
+A sober note: mantra practice complements study, work, rest and medical care — it does not replace them. The tradition itself is clear that japa works best alongside right effort.
+
+## When to Chant: The Three Sandhyas
+
+The Gayatri belongs to **Sandhyavandana**, the worship performed at the junctions (*sandhya*) of the day:
+
+| Sandhya | Time | Direction faced | Character |
+|---------|------|-----------------|-----------|
+| Pratah Sandhya (morning) | Brahma Muhurta to sunrise, ideally completing just before/around sunrise | East | Sattvic, fresh — regarded as the most powerful sitting |
+| Madhyahna Sandhya (midday) | Around local noon, sun overhead | East or north | Shortest sitting, for steadiness in action |
+| Sayam Sandhya (evening) | Just before and around sunset | West | Reflective, for releasing the day's fatigue |
+
+If three sittings are impossible, teachers across lineages make the same practical concession: **do the morning sitting without fail**, add the evening sitting when you can, and never let an imperfect schedule become a reason to abandon the practice entirely.
+
+You can check sunrise, sunset and Brahma Muhurta for your city every day on the [Daily Panchang](/panchang).
+
+## How Many Times? Counts and What They Mean
+
+| Count | Common name / use |
+|-------|-------------------|
+| 3 | Minimum at each Sandhya when time is very short |
+| 11 | A gentle daily beginner's practice |
+| 27 | Quarter-mala, a focused short sitting |
+| 54 | Half-mala |
+| 108 | One full mala, the classic daily japa |
+| 1008 | Special sadhana / purascharana observances, under guidance |
+
+Beginners are advised by almost every tradition to start small — 11 repetitions done daily with attention will do more than 108 done once with distraction. Increase the count only when the smaller count has become stable and unhurried. A full mala of 108 typically takes 10 to 20 minutes at a calm pace.
+
+Why 108? The number is woven through Vedic practice: 108 beads in a mala, 108 names in an ashtottara, and in Vedic astronomy a striking relationship between the Sun, Moon, Earth and their distances measured in their own diameters. Whatever explanation you prefer, the mala's job is simple — it counts so your mind does not have to.
+
+## Step-by-Step: How to Do Gayatri Japa
+
+1. **Bathe or freshen up.** At minimum, wash face, hands and feet. Sit in a clean, quiet place, ideally before a lamp or image, or simply facing the rising sun.
+2. **Sit steady.** Use an asana (mat or cloth) rather than the bare floor. Keep the spine straight, shoulders relaxed. Use a tulsi or rudraksha mala if you have one.
+3. **Set the intention (sankalpa).** Hold a little water in the right palm if you follow Sandhyavandana, or simply take three slow breaths and state your purpose silently: clarity, steadiness, gratitude.
+4. **Begin with Om.** Chant a few slow Oms, then the Vyahritis, then the mantra itself.
+5. **Chant at an even pace.** The three traditional modes are *vachika* (aloud, best for beginners), *upanshu* (whispered, lips moving) and *manasika* (mental, considered the most inward). Do not rush; each of the 24 syllables should be clear.
+6. **Visualise light.** Traditional upasana pictures the Sun's golden radiance entering the heart or the point between the eyebrows, and spreading outward — to you, your family, and all beings, matching the mantra's plural prayer.
+7. **Finish in silence.** After the last repetition, sit quietly for a minute or two. Many close with *Om Shantih, Shantih, Shantih*.
+
+## Rules and Common Mistakes
+
+- **Pronunciation matters, perfection does not.** Learn the sounds from a reliable teacher or recording, especially *bhargo* and *prachodayat*. Sincere effort counts; anxiety about accent does not help anyone.
+- **Do not bargain with counts.** Skipping days and then doubling up creates strain, not merit. Return gently the next morning instead.
+- **Keep the mala respectfully.** Do not cross the meru (guru) bead — reverse direction at the end of a mala. Keep the mala covered in the hand or in a cloth bag as your tradition teaches.
+- **Avoid chanting while distracted.** Not while driving in traffic, scrolling a phone, or mid-conversation. Even three attentive repetitions outrank a distracted hundred.
+- **Food and routine.** Heavy, drowsy mornings make for drowsy japa. A light sattvic routine supports the practice, but do not postpone starting until your lifestyle is perfect.
+
+## Gayatri and Your Chart
+
+In Vedic astrology, the Sun (*Surya*) signifies the soul, vitality and clarity of purpose, and Jupiter (*Guru*) signifies wisdom and the teacher. A weak or afflicted Sun in a [Janam Kundli](/kundli) is traditionally one of the indications for which Surya upasana and Gayatri japa are recommended — which is fitting, since Savita is the very source the chart's Sun represents. You can examine your own Sun and Jupiter placements with the free [Kundli tool](/kundli), explore related combinations in the yoga guides, or ask the [AI Astrologer](/tools/ai-astrologer) what the Sun means in your chart. Treat japa as a practice of light, not as a transaction for results.
+
+## Frequently Asked Questions
+
+**Who can chant the Gayatri Mantra?**
+Today, everyone. While its Vedic transmission was historically tied to Upanayana initiation, modern teachers and reform movements have opened it to all seekers regardless of gender or background. What the mantra asks for — an illumined intellect — excludes no one.
+
+**Can I chant Gayatri silently?**
+Yes. Mental japa (*manasika*) is traditionally considered the most subtle and powerful form. Beginners often start aloud to fix pronunciation and rhythm, then soften to a whisper and finally to mental repetition.
+
+**What is the best time to chant?**
+Sunrise is the first choice, then sunset, then midday. If none of those suit your work schedule, a fixed quiet time every morning is far better than an ideal time followed irregularly.
+
+**Do I need a mala?**
+No. A mala helps counting and focus, but you can count on your fingers or simply chant for a set number of minutes. The mala is a support, not a requirement.
+
+**How long before I see benefits?**
+Practitioners usually report a calmer, clearer start to the day within a few weeks of daily practice. Deeper effects are described in terms of months and years of steady sadhana. The honest measure is simple: is your morning steadier than it was last month?
+
+**Can women chant Gayatri during all days of the month?**
+Practices differ by family and lineage; many contemporary teachers place no restriction at all. Follow your own tradition and comfort — the mantra itself is a prayer for light, open to sincere recitation.
+
+**Is Gayatri only for students?**
+Students are its most famous devotees because it sharpens study, but its prayer is universal — for parents, professionals, elders, anyone whose work depends on a clear mind, which is to say, everyone.
+
+---
+
+*Start tomorrow at sunrise: check your city's exact sunrise and Brahma Muhurta on the [Daily Panchang](/panchang), generate your free [Kundli](/kundli) to see your Sun's placement, and explore more mantra and muhurat guides in the SanatanTools blog.*
+`,
+  },
 ];
