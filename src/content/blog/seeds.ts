@@ -1111,4 +1111,136 @@ Students are its most famous devotees because it sharpens study, but its prayer 
 *Start tomorrow at sunrise: check your city's exact sunrise and Brahma Muhurta on the [Daily Panchang](/panchang), generate your free [Kundli](/kundli) to see your Sun's placement, and explore more mantra and muhurat guides in the SanatanTools blog.*
 `,
   },
+  {
+    slug: "ahoi-ashtami-2026-date-vrat-vidhi-katha",
+    title: "Ahoi Ashtami 2026: Date, Vrat Vidhi, Katha, Timings & Significance",
+    excerpt:
+      "Ahoi Ashtami 2026 falls on Sunday, November 1. Get the verified tithi timings, puja muhurat (5:36-6:54 PM), star-sighting time, step-by-step vrat vidhi, the Ahoi Mata katha, fasting rules, Radha Kunda Snan details and FAQs.",
+    category: "VRAT & FASTING",
+    tags: ["Ahoi Ashtami", "Vrat", "Ahoi Mata", "Kartik", "Fasting", "Festivals"],
+    featured_image: "/blog/ahoi-ashtami-2026-date-vrat-vidhi-katha.jpg",
+    published_at: "2026-10-13T00:00:00.000Z",
+    updated_at: "2026-10-13T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Ahoi Ashtami 2026: Date, Vrat Vidhi, Katha, Timings & Significance",
+      meta_description:
+        "Ahoi Ashtami 2026 falls on Sunday, November 1. Get the verified tithi timings, puja muhurat (5:36-6:54 PM), star-sighting time, step-by-step vrat vidhi, the Ahoi Mata katha, fasting rules, Radha Kunda Snan details and FAQs.",
+      canonical: "https://www.sanatantools.com/blog/ahoi-ashtami-2026-date-vrat-vidhi-katha",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Ahoi Ashtami 2026 falls on Sunday, November 1.** On this day, mothers across North India observe a strict nirjala vrat (no food, no water) dedicated to Goddess Ahoi Mata, praying for the long life, health and prosperity of their children. The fast begins at sunrise and is broken only after sighting the stars in the evening twilight. The Ashtami tithi runs from **2:51 PM on Nov 1 to 1:10 PM on Nov 2**, the evening **puja muhurat is 5:36–6:54 PM**, and stars appear around **6:00 PM** (New Delhi timings).
+
+---
+
+## When is Ahoi Ashtami 2026? Date & Timings
+
+Ahoi Ashtami is observed on the **Ashtami tithi (eighth day) of the Krishna Paksha in the month of Kartik**. In 2026 it falls on **Sunday, November 1** — roughly eight days before Diwali (November 8) and four days after Karwa Chauth.
+
+Here are the verified timings for 2026 (New Delhi; confirmed across multiple panchang sources):
+
+| Event | Timing |
+|---|---|
+| Ahoi Ashtami date | Sunday, November 1, 2026 |
+| Ashtami tithi begins | 2:51 PM on Nov 1 |
+| Ashtami tithi ends | 1:10 PM on Nov 2 |
+| Ahoi Ashtami puja muhurat | 5:36 PM – 6:54 PM |
+| Star sighting (sanjh) time | ~6:00 PM onwards |
+| Moonrise (Krishna Dashami) | ~11:35–11:40 PM |
+| Radha Kunda Snan (midnight) | 11:37 PM – 12:29 AM (Nov 1 → Nov 2) |
+
+**A note on small discrepancies:** different panchang calculators vary by a minute or two — for example, one source places the tithi window at 2:53 PM to 1:12 PM instead of 2:51 PM to 1:10 PM. These are normal calculation differences, not errors. Confirm with your local panchang if your family's tradition is strict about muhurat boundaries.
+
+Because the tithi begins mid-afternoon on November 1, some women also prepare their puja area during the day. The evening puja and star-sighting are the heart of the observance. To find the exact timings for your city, check the [daily Panchang](/panchang) — star visibility and muhurat shift slightly with latitude.
+
+## What is Ahoi Ashtami? The Mothers' Fast
+
+Ahoi Ashtami is one of the most tender festivals of the Hindu calendar. Unlike Karwa Chauth, where wives fast for their husbands, on Ahoi Ashtami **mothers fast for their children** — for sons in earlier generations, and today for all children equally. It is the quintessential expression of a mother's protective love: a full day without food or water, undertaken so that her children live long, healthy lives.
+
+The fast is dedicated to **Ahoi Mata**, an incarnation of Goddess Parvati, regarded as the divine protector of offspring. It is also called **Ahoi Aathe** ("Aathe" being the local pronunciation of Ashtami) in parts of UP, Punjab, Haryana and Rajasthan, where the observance is most popular.
+
+A few things make this vrat distinctive:
+
+- The fast is broken **by sighting the stars**, not the moon — unlike Karwa Chauth. Waiting for the moon would mean waiting until ~11:40 PM, so tradition wisely lets mothers break the fast at twilight.
+- Childless couples also worship Ahoi Mata on this day, praying to be blessed with children. The famous **Radha Kunda Snan at Govardhan, Mathura** on Ahoi Ashtami night draws thousands of couples seeking this blessing.
+- Mothers avoid sharp objects (knives, needles) all day — a symbolic reminder of the legend at the heart of this vrat.
+
+## The Ahoi Mata Vrat Katha: Story Behind the Fast
+
+Every Ahoi Ashtami puja includes the recitation of the vrat katha, usually narrated by the eldest woman of the family. Here is the essence of the story, as it is told across North India.
+
+Long ago, a moneylender's wife with seven sons went to the forest to dig up soil for house repairs just before Diwali. Her spade accidentally struck and killed a young hedgehog (a *seh*, or in some versions a lion cub) hidden in the ground. She was filled with remorse — but within a year, her seven sons died one after another.
+
+Grief-stricken, she confided in the wise elder women of her village. They told her that the death of the cub had brought this calamity upon her, and advised her to pray to **Ahoi Bhagwati**, the protector of children, by drawing the cub's face and observing a fast on Kartik Krishna Ashtami.
+
+She did exactly that. On Ashtami, she drew the cub's image, kept the vrat with sincere repentance, and prayed to the goddess. Pleased by her devotion and genuine atonement, Ahoi Mata appeared and blessed her with the long lives of her sons. Soon, all seven sons returned home alive.
+
+Since then, mothers observe this fast every year — drawing the cub (or hedgehog) alongside Ahoi Mata, listening to the katha, and asking the goddess to shield their own children from every harm. The katha carries a double lesson: **compassion for all living beings, and the belief that sincere repentance can undo even the heaviest karma.**
+
+## Ahoi Ashtami Puja Vidhi: Step-by-Step
+
+The puja is performed in the evening, before sunset preparations. Here is the traditional vidhi:
+
+1. **Sankalp at sunrise.** Wake before dawn, bathe, and take a vow (*sankalp*) before the goddess to keep the fast with a sincere heart for your children's wellbeing.
+2. **Draw Ahoi Mata's image.** On a clean wall (or paper, in modern homes), draw Ahoi Mata with **geru (red ochre) and kajal**. The image traditionally has **eight corners (Ashta Koshthak)**, symbolising the Ashtami tithi. Draw the hedgehog (or cub) and her young ones beside her, plus seven small dots or seven sons. Many families now use a printed Ahoi Ashtami picture — that is perfectly acceptable.
+3. **Set up the kalash.** Place a wooden platform before the image. Keep a **kalash filled with water** on it, mark it with a swastik, and tie a sacred thread (*moli*) around it. Tie a thread with seven knots around the kalash in some traditions.
+4. **Offerings.** Offer roli, rice, milk, sweets, and a *vayna* (cooked food: poori, halwa, pua). Grains such as jowar or raw food (*seeda*) are also offered. In many communities, a small **silver Ahoi (Syau)** — often shaped like a hedgehog or cub, strung with two silver beads — is worshipped as a pendant; beads are added over the years for each son and married son.
+5. **Listen to the vrat katha.** Each woman holds **seven grains of wheat** in her hand while the eldest family member narrates the Ahoi Mata katha. The grains are later given away or kept with the children as a blessing.
+6. **Aarti.** Perform the Ahoi Mata aarti to conclude the puja.
+7. **Star sighting and arghya.** As the stars appear (around 6:00 PM), look at them, offer **arghya (water) from the kalash** toward the stars, and break the fast. Some families also sight the moon in a reflection of water later, but the fast itself ends with the stars.
+
+## Fasting Rules: What to Follow (and Avoid)
+
+- **Nirjala fast:** no food and no water from sunrise until star sighting. This is a strict fast, comparable to Karwa Chauth in rigour.
+- **No sharp objects:** do not use knives, scissors or needles during the day — a symbolic echo of the katha.
+- **Sattvik conduct:** keep the day prayerful and calm; avoid arguments and harsh speech.
+- **Pregnant women, the elderly and the unwell** should observe a modified fast (fruits, milk) rather than a full nirjala one — health comes first; the sankalp matters more than the severity.
+- **Breaking the fast:** only after offering arghya to the stars. The traditional meal afterward is shared with family and often distributed to married women and children.
+
+## Radha Kunda Snan: The Midnight Holy Dip
+
+Ahoi Ashtami night is one of the most significant times of the year at **Radha Kund near Govardhan, Mathura**. Childless couples believe that a midnight dip in Radha Kund on this night blesses them with offspring. In 2026, the snan window runs from **11:37 PM on November 1 to 12:29 AM on November 2**.
+
+Devotees also perform parikrama of Govardhan on this day. If you plan to visit, expect large crowds — arrive early and follow local administration guidance. For those who cannot travel, many observe the snan symbolically at home.
+
+## Ahoi Ashtami vs Karwa Chauth: Key Differences
+
+The two vrats fall just four days apart and look similar on the surface, but they differ in purpose and ritual:
+
+| Aspect | Ahoi Ashtami | Karwa Chauth |
+|---|---|---|
+| Date (2026) | Sunday, Nov 1 | Thursday, Oct 29 |
+| Tithi | Kartik Krishna Ashtami | Kartik Krishna Chaturthi |
+| Who fasts for whom | Mothers for their children | Wives for their husbands |
+| Deity | Ahoi Mata (Parvati) | Moon, Shiva-Parvati, Karwa Mata |
+| Fast broken after | **Sighting the stars** | Sighting the moon |
+| Moonrise timing | ~11:40 PM (too late to wait) | ~8:17 PM (Delhi) |
+
+Read our complete [Karwa Chauth 2026 guide](/blog/karwa-chauth-2026-date-moonrise-time-puja-vidhi) for the sister festival's moonrise timings and vidhi.
+
+## FAQs
+
+**Can unmarried women or men observe the Ahoi Ashtami vrat?**
+Yes. While the vrat is traditionally kept by mothers, anyone may observe it — childless couples pray for offspring, and many families have the whole household participate in the evening puja.
+
+**Is the fast really without water?**
+Traditionally, yes — nirjala. But it is a personal sankalp. Those who cannot manage a full nirjala fast for health reasons may observe it with fruits and milk; the devotion and the katha are the essence.
+
+**Why do we break the fast at the stars and not the moon?**
+On Ashtami of the Krishna Paksha, the moon rises very late (~11:40 PM in 2026). The tradition sensibly permits breaking the fast at twilight upon seeing the stars. Some families wait for the moon, but star-sighting is the widely followed practice.
+
+**What if the sky is cloudy and stars aren't visible?**
+In that case, offer arghya at the usual sanjh time (~6:00 PM) and break the fast. The vrat does not require a visible star — sincere intent suffices. You can confirm the local twilight timing on the [Muhurat Finder](/tools/muhurat-finder).
+
+**Do we need to draw the image on the wall, or is a printed picture fine?**
+A printed Ahoi Mata picture is completely fine and is what most urban families use today. The drawing tradition comes from village homes; the goddess accepts both with equal grace.
+
+**Can I observe Ahoi Ashtami if my children are grown up?**
+Absolutely. Mothers keep this vrat for children of all ages — the prayer is for their long life, health and prosperity, whatever stage of life they are in.
+
+---
+
+*Ahoi Ashtami is a mother's quiet promise: one day of hunger, a lifetime of blessings. If you're planning the rest of the festive season, see our [Devuthani Ekadashi 2026 guide](/blog/devuthani-ekadashi-2026-date-vrat-vidhi-tulsi-vivah) for the festival that ends Chaturmas, and use the [AI Astrologer](/tools/ai-astrologer) to understand what the planets hold for your children's year ahead.*`,
+  },
 ];
