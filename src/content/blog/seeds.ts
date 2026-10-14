@@ -1243,4 +1243,131 @@ Absolutely. Mothers keep this vrat for children of all ages — the prayer is fo
 
 *Ahoi Ashtami is a mother's quiet promise: one day of hunger, a lifetime of blessings. If you're planning the rest of the festive season, see our [Devuthani Ekadashi 2026 guide](/blog/devuthani-ekadashi-2026-date-vrat-vidhi-tulsi-vivah) for the festival that ends Chaturmas, and use the [AI Astrologer](/tools/ai-astrologer) to understand what the planets hold for your children's year ahead.*`,
   },
+  {
+    slug: "govardhan-puja-2026-annakut-vidhi",
+    title: "Govardhan Puja 2026: Date, Annakut Muhurat, Puja Vidhi & Significance",
+    excerpt:
+      "Govardhan Puja 2026 falls on Tuesday, November 10. Get the verified tithi timings (Pratipada ~12:31 PM Nov 9 to ~2:00 PM Nov 10), morning puja muhurat (6:40-8:50 AM), the Krishna-Giridhari katha, step-by-step vidhi, chhappan bhog guide, Bali Pratipada and Bestu Varas notes, plus FAQs.",
+    category: "FESTIVALS",
+    tags: ["Govardhan Puja", "Annakut", "Krishna", "Kartik", "Chhappan Bhog", "Festivals"],
+    featured_image: "/blog/govardhan-puja-2026-annakut-vidhi.jpg",
+    published_at: "2026-10-14T00:00:00.000Z",
+    updated_at: "2026-10-14T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Govardhan Puja 2026: Date, Annakut Muhurat, Puja Vidhi & Significance",
+      meta_description:
+        "Govardhan Puja 2026 falls on Tuesday, November 10. Get the verified tithi timings (Pratipada ~12:31 PM Nov 9 to ~2:00 PM Nov 10), morning puja muhurat (6:40-8:50 AM), the Krishna-Giridhari katha, step-by-step vidhi, chhappan bhog guide, Bali Pratipada and Bestu Varas notes, plus FAQs.",
+      canonical: "https://www.sanatantools.com/blog/govardhan-puja-2026-annakut-vidhi",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Govardhan Puja and Annakut 2026 fall on Tuesday, November 10.** The day honours Shri Krishna's act of lifting Govardhan Hill to shelter the people and cattle of Braj from Indra's storm. The Kartik Shukla Pratipada tithi runs from **~12:31 PM on Nov 9 to ~2:00 PM on Nov 10** (Delhi, varies slightly by panchang), the morning puja muhurat is **6:40-8:50 AM**, and there is **no evening muhurat in 2026** because Pratipada ends in the early afternoon. This year there is an unusual gap day: Diwali is Nov 8, so Monday Nov 9 belongs to neither festival. In Maharashtra the same day is Bali Pratipada (Diwali Padwa), and in Gujarat it opens the New Year, Bestu Varas.
+
+---
+
+## When is Govardhan Puja 2026? Date & Timings
+
+Govardhan Puja is observed on **Kartik Shukla Pratipada** — the first day of the bright fortnight of Kartik — the Pratipada that holds sunrise. In 2026 that day is **Tuesday, November 10**.
+
+Verified timings for 2026 (New Delhi; confirmed across multiple panchang sources):
+
+| Event | Timing |
+|---|---|
+| Govardhan Puja / Annakut date | Tuesday, November 10, 2026 |
+| Pratipada tithi begins | ~12:31 PM on Nov 9 |
+| Pratipada tithi ends | ~2:00 PM on Nov 10 |
+| Pratahkala (morning) puja muhurat | 6:40 AM - 8:50 AM |
+| Sayankala (evening) muhurat | None in 2026 - Pratipada ends ~2:00 PM |
+| Bhai Dooj (next day) | Wednesday, November 11 |
+
+**A note on small discrepancies:** panchang calculators differ by a few minutes (some show the tithi at 12:32 PM to 2:01 PM). That is normal. Also, some international calendars list **November 9** because their local tithi sunrise falls differently — **in India the festival is on November 10**. When in doubt, confirm with the [daily Panchang](/panchang) for your city.
+
+## Why November 10, and what happens on November 9?
+
+This is the question everyone asks this year, because Govardhan Puja usually falls the day after Diwali — and **Diwali 2026 is on Sunday, November 8** (see our [Diwali 2026 guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide)). So where did the extra day go?
+
+The Kartik Amavasya of Diwali runs until about 12:31 PM on Monday, November 9. That means Monday's sunrise falls in Amavasya, and Pratipada only begins at midday. Because Govardhan Puja is kept on the Pratipada that *holds sunrise*, the festival moves to Tuesday, November 10 — the morning Pratipada starts there. **Monday, November 9 is a rare gap day that belongs to neither festival.** It happens only when the tithi sequence shifts like this; most years there is no gap.
+
+## What is Govardhan Puja? Significance of Annakut
+
+The festival celebrates one of the most beloved episodes of Shri Krishna's life. In Braj, the cowherd families held a grand annual sacrifice to Indra, the god of rain, believing his rains gave them their crops. Young Krishna — a cowherd boy himself — asked a simple question: if the hill of Govardhan, its forests and pastures, is what actually feeds our cattle and sustains us, why do we not worship the hill itself?
+
+Convinced, the people of Braj made their offering to Govardhan Hill. Indra, insulted at being denied his share, sent a devastating storm — seven days of thundering rain — to drown them. Krishna then lifted Govardhan Hill on the little finger of his left hand like an umbrella and held it there for seven days, sheltering every person, cow and calf beneath it, until Indra relented. Krishna has been called **Giridhari** ("holder of the hill") ever since.
+
+The lesson the day carries is why it still resonates:
+
+- **Nature over ritualism:** the hill, the pastures, the cattle — the real sources of life — deserve worship, not distant gods bought off with ceremony.
+- **Humility over pride:** a boy with a hill defeats the king of the devas with his rain.
+- **Gratitude for abundance:** *Annakut* literally means "mountain of food." Devotees heap up cooked food like a mountain before Krishna and then share it as prasad — abundance exists to be given, not hoarded.
+
+## Govardhan Puja Vidhi: Step-by-Step
+
+The traditional home puja is done in the morning muhurat (6:40-8:50 AM in Delhi; adjust for your city). Here is the standard vidhi as practised in Mathura-Vrindavan and across North India:
+
+1. **Purify and prepare.** Wake early, bathe, wear clean clothes. Clean the courtyard or puja area where the hill will be made.
+2. **Shape Govardhan Hill.** Form a small hill from cow dung (in cities, mud or even a mound of decorated grains is used). This mound *is* the deity today — it represents Govardhan Parvat itself.
+3. **Adorn it.** Place flowers, grass blades, twigs and small cow figures on the mound. In Braj, families craft miniature cows from clay to stand on the hill.
+4. **Sthapana and shodashopachara.** Invoke Shri Krishna into the hill with water, roli, rice (akshata), flowers and dhoop. Offer two sticks of sugarcane — the traditional main offering of this puja.
+5. **Annakut bhog.** Arrange the prepared food in a heap before the hill — traditionally fifty-six dishes (*chhappan bhog*), or whatever the family can manage — like a miniature mountain of food.
+6. **Parikrama.** Walk around the hill (usually seven circumambulations) singing bhajans and kirtans — "Govardhan Giridhari" and Krishna kirtans are customary.
+7. **Cow worship (Gau puja).** Bathe the cows, mark their foreheads with kumkum tilak, garland them and feed them the first prasad. In many villages the whole herd is worshipped together.
+8. **Aarti and prasad.** Perform the aarti of Shri Krishna/Govardhan, take blessings, and distribute the Annakut as prasad among family, neighbours and guests. In Mathura and Vrindavan, the grand temple Annakut bhog is distributed to thousands.
+
+Many families also read the Giriraj Chalisa and recite *Om Namo Bhagavate Vasudevaya* through the day. The Damodarashtakam and Govinda Damodara Stotram are traditional recitations for Kartik, the month the day falls in.
+
+## Annakut: the Mountain of Food
+
+Annakut is both the second name of the festival and its most joyful ritual. In the days before the festival, households and temples prepare dozens of dishes — traditionally **fifty-six (chhappan bhog)**: puris, kachoris, rice, dals, kadhi, vegetable preparations, kheer, halwa, pedas and more. They are piled into a literal mountain before Krishna's murti, offered, and then eaten as prasad.
+
+The symbolism is deliberate: seven days of storm taught Braj that food comes from nature's bounty and divine grace, not from human effort alone. The heap of food is the community's way of saying "this is all Yours." In major temples — notably the Krishna temples of Mathura, Vrindavan and Nathdwara — the Annakut display is a spectacular sight, with hundreds of kilos of sweets arranged as a mountain.
+
+Practical tip: most home cooks prepare a mixed-vegetable sabzi, kadhi-chawal and a few sweets rather than all 56 dishes. What matters is the spirit of offering and sharing, not the count.
+
+## How the Day is Celebrated Across India
+
+The same Pratipada wears different names across the country:
+
+- **Braj (Mathura-Vrindavan):** The heart of the festival. Pilgrims perform the **21-kilometre Govardhan parikrama** around the actual hill, visiting its shrines along the way; some do it by *dandavat* (full prostrations), which can take days.
+- **Maharashtra — Diwali Padwa / Bali Pratipada:** the day commemorates Vamana, Vishnu's dwarf avatar, who subdued the demon king Bali and pushed him to Patala. Bali was granted a boon to visit the earth on this day, so the day honours him. It is also an auspicious day for new beginnings.
+- **Gujarat — Bestu Varas:** the Kartik Shukla Pratipada opens the **Gujarati New Year**. Business families open fresh account books (*chopda pujan*), and the year begins with prayers for prosperity.
+- **North India:** besides the home hill-worship and cow puja, many families tie the day into Diwali-week visits — it is the day people greet each other with Diwali wishes and exchange sweets.
+
+## Samagri Checklist for Govardhan Puja
+
+Gather these before the morning muhurat:
+
+- Cow dung (or mud/clay) for the hill; clay cow figures
+- Roli (kumkum), akshata (rice), haldi, flowers, grass blades
+- Two sugarcane sticks (traditional main offering)
+- Fresh milk, curd, batasha, pedas
+- Diyas, ghee, incense sticks, camphor for aarti
+- Ingredients for Annakut bhog (at least puris, rice, dal, vegetables, sweets)
+- Tilak and garlands for the cows
+
+## FAQs
+
+**Why is Govardhan Puja on November 10 this year instead of November 9?**
+Because the festival is kept on the Kartik Shukla Pratipada that holds sunrise. In 2026, Pratipada begins around 12:31 PM on Nov 9 and holds sunrise on Nov 10. Monday Nov 9's sunrise falls in Amavasya, so it is a gap day belonging to neither Diwali nor Govardhan Puja.
+
+**Is there an evening muhurat for Govardhan Puja 2026?**
+No — Pratipada ends around 2:00 PM on Nov 10, so no sayankala (evening) muhurat exists this year. Do the puja in the morning muhurat (6:40-8:50 AM, Delhi; verify your city on the [Panchang](/panchang)).
+
+**What is Annakut?**
+Annakut ("mountain of food") is the ritual heap of cooked dishes — traditionally 56 (chhappan bhog) — offered to Shri Krishna on this day and then distributed as prasad.
+
+**Can I do the puja at home without cow dung?**
+Yes. Where cow dung is unavailable, devotees shape the hill from mud, clay or a decorated mound of grain. The devotion and the offering matter more than the material.
+
+**What is the connection with Bali Pratipada?**
+In Maharashtra, the same Kartik Shukla Pratipada is celebrated as Bali Pratipada, honouring the demon king Bali whom Vamana (Vishnu's avatar) sent to Patala — Bali received a boon to visit earth on this day.
+
+**Is Govardhan Puja related to Bhai Dooj?**
+They are consecutive: Govardhan Puja is Pratipada (Nov 10) and Bhai Dooj is Dwitiya (Nov 11), both part of the five-day Diwali festival week.
+
+---
+
+*Plan your Diwali week timings — exact sunrise, tithi and muhurat for your city — on the [Daily Panchang](/panchang), and check how the month's festivals interact with your chart with a free [Kundli](/kundli).*
+`,
+  },
 ];
