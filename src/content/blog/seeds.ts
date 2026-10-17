@@ -1370,4 +1370,122 @@ They are consecutive: Govardhan Puja is Pratipada (Nov 10) and Bhai Dooj is Dwit
 *Plan your Diwali week timings — exact sunrise, tithi and muhurat for your city — on the [Daily Panchang](/panchang), and check how the month's festivals interact with your chart with a free [Kundli](/kundli).*
 `,
   },
+  {
+    slug: "dhanteras-2026-date-puja-muhurat-vidhi",
+    title: "Dhanteras 2026: Date, Puja Muhurat, Kya Kharidein, Vidhi & Significance",
+    excerpt:
+      "Dhanteras 2026 falls on Friday, November 6. Get the puja muhurat, tithi timings, dhanteras par kya kharidein (and kya nahi), puja vidhi, Yama Deepam and the Dhanvantari katha.",
+    category: "FESTIVALS",
+    tags: ["Dhanteras", "Diwali 2026", "Puja Muhurat", "Dhanteras Vidhi", "Yama Deepam", "Dhanvantari"],
+    featured_image: "/blog/dhanteras-2026-date-puja-muhurat-vidhi.jpg",
+    published_at: "2026-10-17T00:00:00.000Z",
+    updated_at: "2026-10-17T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Dhanteras 2026: Date, Puja Muhurat & Shopping Guide",
+      meta_description:
+        "Dhanteras 2026 falls on Nov 6. Get the puja muhurat, tithi timings, dhanteras par kya kharidein (and kya nahi), puja vidhi, Yama Deepam and the Dhanvantari katha.",
+      canonical: "https://www.sanatantools.com/blog/dhanteras-2026-date-puja-muhurat-vidhi",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Dhanteras 2026** falls on **Friday, November 6, 2026** (Trayodashi of Kartik Krishna Paksha). The main Lakshmi–Kubera puja muhurat in New Delhi is **6:02 PM – 7:57 PM** (Pradosh Kaal 5:33 PM – 8:09 PM). On this first day of the five-day Diwali festival, families buy gold, silver or new utensils, worship Goddess Lakshmi, Lord Ganesha, Lord Kubera and Lord Dhanvantari, and light a south-facing **Yama Deepam** in the evening.
+
+---
+
+Dhanteras — also called **Dhantrayodashi** — opens the five-day Diwali festival. The name joins *dhan* (wealth) with *teras* (the thirteenth lunar day), and the day's customs go far beyond shopping: at its root, Dhanteras celebrates the idea that true wealth begins with health. This is why Ayurveda institutions observe the day as **Dhanvantari Jayanti** (National Ayurveda Day), and why the evening puja honours Lakshmi, Ganesha and Kubera together.
+
+## Dhanteras 2026: Quick Facts
+
+| Detail | Value (2026) |
+|---|---|
+| **Dhanteras date** | Friday, November 6, 2026 |
+| **Tithi** | Trayodashi, Kartik Krishna Paksha |
+| **Tithi begins** | 10:30 AM, Nov 6 |
+| **Tithi ends** | 10:47 AM, Nov 7 |
+| **Puja muhurat (Delhi)** | 6:02 PM – 7:57 PM |
+| **Pradosh Kaal (Delhi)** | 5:33 PM – 8:09 PM |
+| **Yama Deepam** | Evening of Nov 6, after the main puja |
+| **Deities worshipped** | Lakshmi, Ganesha, Kubera, Dhanvantari |
+
+Tithi and muhurat timings above follow the Drik Panchang calculation; timings shift by city because sunset and lagna timings differ (see the city table below).
+
+## Dhanteras Puja Muhurat 2026
+
+Lakshmi puja is done in **Pradosh Kaal** — the roughly two-and-a-half hours after sunset when the Trayodashi tithi is present in the evening. The sharpest window is the overlap of Pradosh Kaal with **Vrishabha Kaal** (Taurus lagna, a *sthir* or fixed lagna, considered ideal for Lakshmi worship).
+
+| City | Puja Muhurat (Nov 6) | Pradosh Kaal |
+|---|---|---|
+| **New Delhi** | 6:02 PM – 7:57 PM | 5:33 PM – 8:09 PM |
+| **Mumbai** | 6:35 PM – 8:35 PM | 6:00 PM – 8:35 PM |
+| **Hyderabad** | 6:15 PM – 8:13 PM | — |
+| **Jaipur** | 6:11 PM – 8:07 PM | 5:41 PM – 8:17 PM |
+
+A word of honesty: different panchang sources disagree slightly on the exact minute-by-minute window — some list 5:33–7:24 PM, others 5:42–7:38 PM — because muhurat calculation depends on local sunrise/sunset and the lagna method used. The broad agreement across sources is that the auspicious window lies within the first ~2 hours of Pradosh Kaal in the evening. Do the main puja in that evening window, and confirm city-precise timings on the [Daily Panchang](/panchang) or the [Choghadiya tool](/tools/choghadiya) before the day.
+
+## Dhanteras Par Kya Kharidein? (What to Buy on Dhanteras)
+
+India's largest single gold-and-shopping day of the year is not really about gold at all — it is about *bringing something new and metal home*, a gesture of inviting prosperity. Whatever fits your budget keeps the custom alive.
+
+**Auspicious to buy:**
+- **Gold or silver** — jewellery, or small coins embossed with Lakshmi, Ganesha or Kubera. Choose BIS-hallmarked pieces and keep the bill.
+- **New utensils** — steel, brass or copper vessels; a brass diya set is the classic modest buy.
+- **A new broom** — an old tradition; the broom symbolises sweeping out negativity before Lakshmi enters.
+- **Vehicles and electronics** — a hugely popular modern tradition; the vehicle is blessed before a Lakshmi–Ganesha idol before its first drive.
+- **New clothes and home essentials** — anything new for the home carries the spirit of the day.
+
+**What not to buy (traditional avoidances):**
+- Iron or steel **scrap** items, knives and scissors (sharp objects are inauspicious purchases).
+- Black-coloured goods, glass, and oil.
+- Many families also avoid **borrowing money or repaying debts** on this day.
+
+Beliefs on the "don't buy" list vary by region and family — follow your own household tradition. The shopping muhurat ideally falls within Pradosh Kaal (roughly 5:33–8:09 PM in Delhi); avoid making purchases during Rahu Kaal (~10:42 AM–12:04 PM in Delhi) if your family observes it.
+
+## Dhanteras Puja Vidhi (Step by Step)
+
+1. **Clean and decorate** — finish deep-cleaning by afternoon; decorate the entrance with rangoli and light diyas around the house.
+2. **Set the puja space** — spread a fresh red or yellow cloth on a low chowki; place idols or photos of Lakshmi, Ganesha and Kubera. Keep the newly bought gold/silver/utensils and a kalash on the chowki.
+3. **Sankalp** — sit facing east or north, take water in your palm and take the sankalp (resolve) for the puja.
+4. **Dhanvantari puja** — offer flowers, chandan and akshat to Lord Dhanvantari first (the day is his Jayanti), praying for the family's health.
+5. **Lakshmi–Ganesha–Kubera puja** — perform shodashopachara (the 16-step offering: padya, arghya, achaman, snan, vastra, gandha, pushpa, dhup, deep, naivedya, aarti and so on) within the muhurat. Offer the new purchases at the feet of the deities.
+6. **Aarti** — do Lakshmi aarti and Ganesh aarti; offer naivedya and distribute prasad.
+7. **Yama Deepam** — after the main puja, light a diya filled with mustard oil facing **south**, outside the main door, in Yama's name (details below).
+
+**Samagri checklist:** diyas and mustard oil, cotton wicks, kalash with mango leaves and coconut, red/yellow cloth, flowers and garlands, chandan, akshat (unbroken rice), kumkum, dhoop and agarbatti, camphor, naivedya (sweets, fruits, panchamrit), betel leaves and supari, gangajal, the new gold/silver/utensils, and coins for the Kubera offering.
+
+## Dhanteras Katha: Dhanvantari and the Samudra Manthan
+
+During the churning of the cosmic ocean (Samudra Manthan), the devas and asuras churned the Kshir Sagar to obtain amrit. Among the treasures that emerged, **Lord Dhanvantari** — the divine physician and father of Ayurveda — appeared holding a pot (*kalash*) of amrit. His emergence on this day is why Dhanteras is also celebrated as **Dhanvantari Jayanti**, and why health (*arogya*) is considered the first wealth.
+
+The popular legend behind buying gold and lighting lamps is the story of a young prince, the son of **King Hima**. His horoscope predicted death by snakebite on the fourth night of his marriage. His clever bride laid out all her gold and silver ornaments and coins at the entrance and lit a circle of lamps. When Yama arrived in the form of a serpent, the blaze of light and gold dazzled him; he sat outside listening to the songs and stories through the night and departed without entering. The prince lived. This is why families bring gold and silver home on Dhanteras — and why the evening lamps matter so much.
+
+## Yama Deepam: Kab Aur Kaise Jalate Hain
+
+**Yama Deepam** (also called Yama Deepdaan) is the most unique ritual of Dhanteras — performed on this day alone. After the evening Lakshmi puja is complete, light a diya filled with mustard oil and place it **outside the main door, facing south** — the direction of Yama, the god of death. It is offered in Yama's name with a prayer to protect the family from untimely death and negative influences, honouring the prince's story above. The lamp is kept small and quiet, and is traditionally not brought back inside.
+
+## FAQs
+
+**Dhanteras par kya kharidna chahiye?**
+Gold, silver, new utensils (steel, brass or copper), a new broom, coins, vehicles, electronics or new clothes — anything new for the home. A modest budget is fine: a brass diya set or a small silver coin keeps the custom alive. The custom is about bringing something new and metal home, not the size of the bill.
+
+**Dhanteras par kya nahi kharidna chahiye?**
+Traditionally avoided: iron or steel scrap items, knives, scissors and other sharp objects, black-coloured goods, glass, and oil. Many families also avoid borrowing money or repaying debts on this day. Customs vary by region — follow your family's tradition.
+
+**Dhanteras par kitne diye jalate hain?**
+There is no fixed canonical number. Light diyas at the entrance, around the house and in the puja room to welcome Lakshmi into a bright home. The one lamp with a strict rule is the **Yama Deepam**: a single diya, filled with mustard oil, placed outside the main door facing south after the evening puja.
+
+**Yama Deepam kab jalate hain?**
+On the evening of Dhanteras (November 6, 2026), **after the main Lakshmi puja is complete** — so any time after ~8 PM. Place it outside the main door facing south in Yama's name.
+
+**Is Dhanteras the first day of Diwali?**
+Yes. Dhanteras (Trayodashi) opens the five-day Diwali festival, followed by Choti Diwali/Narak Chaturdashi, [Diwali Lakshmi Puja](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide) on November 8, [Govardhan Puja](/blog/govardhan-puja-2026-annakut-vidhi) on November 10, and Bhai Dooj on November 11.
+
+**Do I need to fast on Dhanteras?**
+No strict vrat is prescribed. Some families observe a light fast until the evening puja, but Dhanteras is primarily a day of worship, shopping and charity — feeding the poor or donating on this day is considered highly meritorious.
+
+---
+
+*Plan the rest of your Diwali week — city-precise sunrise, tithi and muhurat — on the [Daily Panchang](/panchang), pick the shubh window for your Dhanteras shopping with the [Choghadiya tool](/tools/choghadiya), and see how the festival month lands in your chart with a free [Kundli](/kundli).*
+`,
+  },
 ];
