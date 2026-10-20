@@ -110,7 +110,11 @@ export const listBlogPosts = createServerFn({ method: "GET" })
         lang: s.lang,
       }));
 
-      const combined = [...enhancedDbPosts, ...matchingSeeds];
+      // Newest first across DB posts and seeds, so freshly published seeds
+      // always surface on page 1 instead of being cut off by pageSize.
+      const combined = [...enhancedDbPosts, ...matchingSeeds].sort((a, b) =>
+        (b.published_at ?? "").localeCompare(a.published_at ?? ""),
+      );
       return {
         posts: combined.slice(0, pageSize),
         total: (count ?? 0) + matchingSeeds.length,
