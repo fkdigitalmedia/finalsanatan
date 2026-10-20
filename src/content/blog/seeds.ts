@@ -1488,4 +1488,144 @@ No strict vrat is prescribed. Some families observe a light fast until the eveni
 *Plan the rest of your Diwali week — city-precise sunrise, tithi and muhurat — on the [Daily Panchang](/panchang), pick the shubh window for your Dhanteras shopping with the [Choghadiya tool](/tools/choghadiya), and see how the festival month lands in your chart with a free [Kundli](/kundli).*
 `,
   },
+  {
+    slug: "bhai-dooj-2026-date-tilak-muhurat-vidhi",
+    title: "Bhai Dooj 2026: Date, Tilak Muhurat, Puja Vidhi & Significance",
+    excerpt:
+      "Bhai Dooj 2026 falls on Wednesday, November 11. Get the tilak muhurat for your city, tithi timings, step-by-step puja vidhi, samagri checklist, regional names and FAQs.",
+    category: "FESTIVALS",
+    tags: ["Bhai Dooj", "Diwali 2026", "Tilak Muhurat", "Bhai Dooj Vidhi", "Yama Dwitiya"],
+    featured_image: "/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi.jpg",
+    published_at: "2026-10-20T00:00:00.000Z",
+    updated_at: "2026-10-20T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Bhai Dooj 2026: Date, Tilak Muhurat & Vidhi",
+      meta_description:
+        "Bhai Dooj 2026 falls on Nov 11. Get the tilak muhurat for your city, tithi timings, step-by-step puja vidhi, samagri list, regional names and FAQs.",
+      canonical: "https://www.sanatantools.com/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Bhai Dooj 2026** falls on **Wednesday, November 11, 2026** — the fifth and final day of the Diwali festival week, observed on Dwitiya Tithi of Kartik Shukla Paksha. The best time for the tilak ceremony is the **Aparahna (afternoon) muhurat**: in New Delhi it runs **1:10 PM – 3:20 PM** IST (timings shift slightly by city). On Bhai Dooj, a sister applies a tilak on her brother's forehead, performs his aarti, feeds him sweets and prays for his long life; in return, the brother vows to protect her and gives her a gift.
+
+Bhai Dooj closes the five-day Diwali festival the way a warm embrace closes a long visit. After Dhanteras, Narak Chaturdashi, Diwali and Govardhan Puja, this last day belongs entirely to the brother–sister bond — no fasting rules, no elaborate yajna, just the tilak, the aarti, the gift and the promise. Families in North India call it Bhaiya Dooj, Maharashtra celebrates it as Bhau Beej, Bengal as Bhai Phonta and Nepal as Bhai Tika, but the heart of the day is the same everywhere: the sister prays for her brother's long life, and the brother pledges to stand by her.
+
+## Bhai Dooj 2026: Quick Facts
+
+| Detail | Value (2026) |
+|---|---|
+| **Bhai Dooj date** | Wednesday, November 11, 2026 |
+| **Tithi** | Dwitiya, Kartik Shukla Paksha |
+| **Dwitiya Tithi begins** | 2:00 PM, Tuesday, November 10 |
+| **Dwitiya Tithi ends** | 3:53 PM, Wednesday, November 11 |
+| **Tilak muhurat (Delhi)** | 1:10 PM – 3:20 PM (Aparahna) |
+| **Also known as** | Bhaiya Dooj, Bhau Beej, Bhai Phonta, Bhai Tika, Yama Dwitiya |
+| **Position in Diwali week** | Day 5 of 5 — after Govardhan Puja (Nov 10) |
+
+## Bhai Dooj 2026 Kab Hai? Date, Tithi & the Nov 10 vs Nov 11 Question
+
+So, **bhai dooj kab hai 2026**? The main observance across India is **Wednesday, November 11, 2026**. The Dwitiya Tithi begins at 2:00 PM on November 10 and ends at 3:53 PM on November 11 — and the festival rule here is simple: Bhai Dooj is observed on the day the Dwitiya Tithi is active during the **Aparahna period** (the afternoon window after midday), because the tilak ceremony is traditionally performed in the afternoon. That window falls on November 11.
+
+You may see a few calendar pages listing November 10. Those pages go by the tithi *start* alone; since Dwitiya begins on the afternoon of the 10th, they mark that date. But the panchang authorities — Drik Panchang, Shubh Panchang, Astroyogi — agree on November 11 for India, because that is the day on which the required afternoon period and the tithi coincide. When planning, go with **November 11** and perform the tilak in the afternoon muhurat below.
+
+## Bhai Dooj Tilak Muhurat 2026: City-wise Timings
+
+The **bhai dooj tilak muhurat 2026** falls in the Aparahna (afternoon) window on November 11. Aparahna depends on local sunrise and longitude, so the exact window shifts by a few minutes from city to city:
+
+| City | Tilak (Aparahna) Muhurat, Nov 11, 2026 |
+|---|---|
+| New Delhi | 1:10 PM – 3:20 PM |
+| Mumbai | 1:30 PM – 3:46 PM |
+| Kolkata | 12:27 PM – 2:41 PM |
+| Bengaluru | 1:13 PM – 3:32 PM |
+| Hyderabad | 1:08 PM – 3:25 PM |
+| Chennai | ~1:00 PM – 3:20 PM |
+| Ahmedabad | ~1:25 PM – 3:40 PM |
+| Lucknow | ~1:05 PM – 3:15 PM |
+
+*(City windows per panchang calculations; a generic all-India Aparahna reference is 1:31 PM – 3:45 PM. Since Dwitiya ends at 3:53 PM, finish the tilak comfortably before then.)*
+
+Two practical notes. First, if your city is not listed, do not blindly copy Delhi's window — check your local panchang, since a few minutes of difference are normal and expected. Second, sisters who cannot manage the full window should still perform the tilak **before 3:53 PM**, while the Dwitiya Tithi is active. For day-precise sunrise, tithi and choghadiya of your own city, the [Daily Panchang](/panchang) and the [Choghadiya tool](/tools/choghadiya) on SanatanTools give you exact local numbers.
+
+## Bhai Dooj Kyu Manaya Jata Hai: The Two Kathas
+
+The question **bhai dooj kyu manaya jata hai** has two beloved answers, and most families know at least one of them.
+
+**1. Yamraj and Yamuna — the Yama Dwitiya legend.** Yamuna, the river goddess, had not seen her brother Yamraj, the god of death, for a very long time. She invited him home, welcomed him with a tilak on his forehead, performed his aarti, and served him a loving meal. Moved by her devotion, Yamraj granted her a boon: any brother who receives a tilak from his sister on this day, and any sister who performs this ritual, would be blessed with long life and prosperity. This is why the festival is also called **Yama Dwitiya**.
+
+**2. Krishna and Subhadra — the Narakasura legend.** After Lord Krishna defeated the demon Narakasura, he visited his sister Subhadra. She welcomed the victorious Krishna with flowers, sweets, a tilak and aarti — the same gestures of love and pride a sister shows a brother who returns home safe. Many families recount this katha on Bhai Dooj morning, which also explains why the festival sits exactly where it does in the calendar: in the joyful afterglow of Diwali's victory of light over darkness.
+
+## Bhai Dooj Ke Naam: How India Celebrates It
+
+| Region | Name | Distinctive custom |
+|---|---|---|
+| North India (UP, Bihar, Delhi) | Bhaiya Dooj / Bhai Dooj | Classic tilak–aarti–gift ceremony, family feast |
+| Maharashtra & Goa | Bhau Beej | Sister applies tilak, brother gives *owani* (gift of money) |
+| West Bengal | Bhai Phonta | Sister applies sandalwood-paste *phonta* on the brother's forehead |
+| Nepal | Bhai Tika | Five-colour *saptarangi tika*, garlands of marigold and makhmali |
+| Some regions | Yama Dwitiya / Bhatru Dwitiya | Emphasis on the Yamraj–Yamuna katha |
+
+In Bengal, Bhai Phonta carries its own poetry: the sister chants a traditional blessing wishing her brother a life as long as the *durba* grass endures. In Nepal, Bhai Tika is a major national festival where the seven-colour tika is believed to protect the brother through the year. Wherever you are, the skeleton of the ritual is identical — tilak, aarti, sweets, gift, meal.
+
+## Bhai Dooj Puja Vidhi: Step-by-Step
+
+Here is the complete **bhai dooj puja vidhi** as most families practise it:
+
+1. **Morning snan and fresh clothes.** Both siblings bathe and wear clean, preferably new or traditional clothes. The house is kept bright and welcoming — diyas from the Diwali week often still line the entrance.
+2. **Prepare the puja thali.** Arrange roli (kumkum), akshat (unbroken rice), a ghee diya, flowers, sweets, coconut, kalava and a small gift (see the checklist below).
+3. **Seat the brother.** The brother sits facing east or north, ideally on a clean aasan. Some families have him sit with his palms joined while the sister stands or sits before him.
+4. **Apply the tilak.** The sister applies a tilak of roli (and akshat pressed onto it) on the brother's forehead, praying for his long life, health and success. In some traditions she also applies tilak to his palms or ties a kalava on his wrist.
+5. **Perform the aarti.** With the lit diya, she performs aarti — circling the lamp before him — while praying for the removal of obstacles from his path.
+6. **Feed sweets and coconut.** She feeds him sweets with her own hand and offers coconut; the family shares the prasad together.
+7. **The brother's vow and gift.** The brother touches his sister's feet or seeks the elders' blessings, promises to protect her, and presents a gift — money, clothes, jewellery or something she has wished for.
+8. **Bhai Bhoj — the family meal.** The day traditionally ends with a special family meal, ideally cooked or arranged by the sister. In many homes this is the real centrepiece of Bhai Dooj: everyone sits together and eats.
+
+## Puja Thali Samagri Checklist
+
+- Roli (kumkum) and akshat (unbroken rice grains)
+- Ghee diya with matchbox, plus incense sticks
+- Fresh flowers and a small garland
+- Sweets (mithai) and dry fruits
+- Coconut (nariyal / gola)
+- Kalava (sacred red-yellow thread)
+- A small kalash of water (optional, traditional in some regions)
+- The brother's gift, kept ready on or beside the thali
+- Betel leaves and supari (paan-supari, customary in some families)
+
+## What the Brother Does on Bhai Dooj
+
+Bhai Dooj is often described as the sister's festival, but the brother's role is not passive. His three duties are: **receive the tilak with respect** (many brothers touch their sister's feet first), **make the vow of protection** — a spoken promise to stand by his sister in every difficulty — and **give a gift worthy of the bond**. There is no fixed amount; the gift can be money, clothes, or simply something thoughtful. Traditionally, brothers also visit their married sisters on this day rather than expecting them to travel, and the whole family eats together.
+
+## Bhai Dooj vs Raksha Bandhan
+
+Newcomers sometimes confuse the two sibling festivals. **Raksha Bandhan** (Shravan month, monsoon) centres on the *rakhi* — a thread the sister ties on her brother's wrist — and the brother's vow of protection. **Bhai Dooj** (Kartik month, post-Diwali) centres on the *tilak* — applied to the brother's forehead — plus aarti and the shared meal. Raksha Bandhan is the louder, more public festival; Bhai Dooj is quieter, more intimate, and woven into the Diwali week's closing.
+
+## FAQs
+
+**Bhai dooj kab hai 2026?**
+Bhai Dooj 2026 is on **Wednesday, November 11, 2026** (Kartik Shukla Dwitiya). It is the fifth and final day of the Diwali festival week, coming right after Govardhan Puja on November 10.
+
+**Bhai dooj ka shubh muhurat kya hai?**
+The tilak is performed in the **Aparahna (afternoon) muhurat** on November 11. In New Delhi that is 1:10 PM – 3:20 PM; Mumbai 1:30 – 3:46 PM; Kolkata 12:27 – 2:41 PM; Bengaluru 1:13 – 3:32 PM; Hyderabad 1:08 – 3:25 PM. Finish the tilak before the Dwitiya Tithi ends at 3:53 PM.
+
+**Kya do bhai Bhai Dooj mana sakte hain?**
+Traditionally, Bhai Dooj is a **brother–sister** ritual — the tilak flows from sister to brother, unlike Raksha Bandhan's thread. That said, many families include all siblings in the day's meal and celebrations; the spirit of the festival is sibling love.
+
+**Bhai Dooj aur Raksha Bandhan me antar kya hai?**
+Raksha Bandhan (Shravan) uses a rakhi thread tied on the wrist; Bhai Dooj (Kartik, after Diwali) uses a tilak on the forehead with aarti and a family meal. Both celebrate the brother–sister bond, but their rituals, seasons and moods differ.
+
+**Tilak ka muhurat nikal jaye to kya karein?**
+Perform the tilak as soon as possible while Dwitiya is still active (before 3:53 PM on Nov 11). If the whole tithi passes, most families still perform the ritual the same evening with devotion — sincerity matters more than the clock — and note the timing for next year.
+
+**Kya Bhai Dooj par chhutti hoti hai?**
+Bhai Dooj is not a national holiday in India, though some states observe it as a regional or restricted holiday, and banks/offices in parts of North India may remain closed. Check your state's holiday list.
+
+**Bhai Dooj 2026 me kya kharidna shubh hai?**
+Unlike Dhanteras, Bhai Dooj is not a shopping festival — the day's "purchase" is the gift the brother gives his sister. Many families do buy new clothes for the occasion, since everyone dresses in fresh traditional wear.
+
+---
+
+*Bhai Dooj completes your Diwali week — revisit the [Diwali 2026 Lakshmi Puja guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide), the [Dhanteras 2026 guide](/blog/dhanteras-2026-date-puja-muhurat-vidhi) and the [Govardhan Puja 2026 guide](/blog/govardhan-puja-2026-annakut-vidhi) for the full five-day picture. Plan the exact tilak window for your city on the [Daily Panchang](/panchang), pick a shubh hour with the [Choghadiya tool](/tools/choghadiya), or see how this festival month sits in your chart with a free [Kundli](/kundli).*`,
+  },
 ];
