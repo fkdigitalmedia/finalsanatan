@@ -635,7 +635,7 @@ If one partner has Mangal Dosha and the other does not, classical astrologers lo
     tags: ["Diwali", "Lakshmi Puja", "Muhurat", "Dhanteras", "Bhai Dooj", "Puja Vidhi", "Festivals 2026"],
     featured_image: "/blog/diwali-2026.jpg",
     published_at: "2026-10-06T00:00:00.000Z",
-    updated_at: "2026-10-06T00:00:00.000Z",
+    updated_at: "2026-10-23T00:00:00.000Z",
     lang: "en",
     seo: {
       meta_title: "Diwali 2026 Date, Lakshmi Puja Muhurat & 5-Day Guide | SanatanTools",
@@ -653,12 +653,12 @@ Diwali is not a single day — it is a five-day celebration, each day with its o
 | Day | Festival | Date (2026) | Dedicated To |
 |-----|----------|-------------|--------------|
 | 1 | **Dhanteras** (Dhanatrayodashi) | Friday, Nov 6 | Dhanvantari, Lakshmi–Kubera; buying gold & utensils |
-| 2 | **Naraka Chaturdashi** (Choti Diwali) | Saturday, Nov 7 | Krishna's victory over Narakasura |
+| 2 | **Naraka Chaturdashi** (Choti Diwali) | Sunday, Nov 8 | Krishna's victory over Narakasura — abhyang snan at dawn |
 | 3 | **Diwali — Lakshmi Puja** | Sunday, Nov 8 | Goddess Lakshmi & Lord Ganesha (Amavasya night) |
 | 4 | **Govardhan Puja** | Tuesday, Nov 10 | Krishna lifting Govardhan Hill |
 | 5 | **Bhai Dooj** | Wednesday, Nov 11 | The bond between brothers and sisters |
 
-> **Regional note:** In South India, Naraka Chaturdashi (Nov 7) is treated as the *main* celebration day, while North India centres on Lakshmi Puja (Nov 8). In North India, Choti Diwali is often observed on the morning of Diwali itself. A small number of regional *panchangs* may shift Govardhan Puja / Bhai Dooj by a day — when in doubt, follow your local *panchang*.
+> **2026 note:** This year Naraka Chaturdashi and Diwali fall on the **same Sunday (Nov 8)** in India — Chaturdashi tithi runs 10:47 AM Nov 7 → 11:27 AM Nov 8, so the abhyang snan is at dawn on Nov 8, and Amavasya (current at sunset) makes Nov 8 evening the Lakshmi Puja night too. Gujarat and western India still observe **Kali Chaudas** on the night of Nov 7; in the USA/UK/Canada the festival falls on Nov 7 (local sunrise). A small number of regional *panchangs* may shift Govardhan Puja / Bhai Dooj by a day — when in doubt, follow your local *panchang*.
 
 ## Lakshmi Puja Muhurat 2026 (City-Wise)
 
@@ -716,10 +716,22 @@ Idols/images of Lakshmi–Ganesha–Saraswati · red cloth · *kalash*, mango le
 
 Dhanteras (Nov 6) honours **Dhanvantari**, the divine physician who emerged from the ocean with the pot of *amrita*. Tradition prescribes buying gold, silver or new utensils — and the humble broom — as an invitation to Lakshmi. Light a *Yama diya* (a lamp for Yama, lord of death) at the entrance in the evening for protection of the household.
 
+→ Full guide: [Dhanteras 2026: Date, Puja Muhurat, Kya Kharidein, Vidhi & Significance](/blog/dhanteras-2026-date-puja-muhurat-vidhi)
+
+## Choti Diwali (Naraka Chaturdashi): The Second Day
+
+In 2026 Naraka Chaturdashi falls on the same Sunday (Nov 8) as Diwali itself — the day begins with the *abhyang snan* (ritual oil bath) at dawn, commemorating Krishna's victory over Narakasura, and closes with Lakshmi Puja at night. Gujarat and western India keep the related Kali Chaudas rites on the night of Nov 7.
+
+→ Full guide: [Narak Chaturdashi 2026: Date, Abhyang Snan Muhurat, Kali Chaudas & Puja Vidhi](/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi)
+
 ## Govardhan Puja & Bhai Dooj
 
 - **Govardhan Puja (Nov 10):** commemorates Krishna lifting Govardhan Hill to shelter Vrindavan from Indra's storm. Devotees build a small hill of cow dung or mud, decorate it, and offer *Annakut* — a mountain of food.
+
+→ Full guide: [Govardhan Puja 2026: Annakut Vidhi](/blog/govardhan-puja-2026-annakut-vidhi)
 - **Bhai Dooj (Nov 11):** sisters apply *tilak* on their brothers' foreheads and pray for their long life; brothers give gifts and pledge protection. It mirrors the Yama–Yami legend of sibling devotion.
+
+→ Full guide: [Bhai Dooj 2026: Date, Tilak Muhurat, Puja Vidhi & Significance](/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi)
 
 ## Frequently Asked Questions
 
@@ -730,7 +742,7 @@ Sunday, November 8, 2026 — the night of Kartik Amavasya — is the main Lakshm
 The Pradosh Kaal window on Nov 8 evening, roughly 6:00–8:30 PM IST, overlapping Vrishabha Lagna. Exact timings vary by city (see table above).
 
 **Why do some calendars show Diwali on November 7?**
-South Indian tradition treats Naraka Chaturdashi (Nov 7) as the principal celebration rather than an error — both dates are correct within their traditions.
+International calendars show Nov 7 because the tithi table shifts with local sunrise — in the USA/UK/Canada, Narak Chaturdashi genuinely falls on Nov 7. In India, Lakshmi Puja is Nov 8 (Amavasya at sunset). In South India the pre-dawn abhyang snan itself is the main celebration — a tradition difference, not an error.
 
 **Can I do Lakshmi Puja in the morning?**
 The *shastra*-prescribed time is Pradosh Kaal after sunset. Morning *Choghadiya* muhurats (Shubha, Labha, Amrita) exist as a fallback, but the evening Amavasya window is ideal.
@@ -1262,7 +1274,7 @@ Absolutely. Mothers keep this vrat for children of all ages — the prayer is fo
       og_type: "article",
     },
     content_md: `> **Quick Answer (Summary)**
-> **Govardhan Puja and Annakut 2026 fall on Tuesday, November 10.** The day honours Shri Krishna's act of lifting Govardhan Hill to shelter the people and cattle of Braj from Indra's storm. The Kartik Shukla Pratipada tithi runs from **~12:31 PM on Nov 9 to ~2:00 PM on Nov 10** (Delhi, varies slightly by panchang), the morning puja muhurat is **6:40-8:50 AM**, and there is **no evening muhurat in 2026** because Pratipada ends in the early afternoon. This year there is an unusual gap day: Diwali is Nov 8, so Monday Nov 9 belongs to neither festival. In Maharashtra the same day is Bali Pratipada (Diwali Padwa), and in Gujarat it opens the New Year, Bestu Varas.
+> **Govardhan Puja and Annakut 2026 fall on Tuesday, November 10.** The day honours Shri Krishna's act of lifting Govardhan Hill to shelter the people and cattle of Braj from Indra's storm. The Kartik Shukla Pratipada tithi runs from **~12:31 PM on Nov 9 to ~2:00 PM on Nov 10** (Delhi, varies slightly by panchang), the morning puja muhurat is **6:40-8:50 AM**, and there is **no evening muhurat in 2026** because Pratipada ends in the early afternoon. This year there is an unusual gap day: Diwali is Nov 8, so Monday Nov 9 belongs to neither festival. In Maharashtra the same day is Bali Pratipada (Diwali Padwa), and in Gujarat it opens the New Year, Bestu Varas. The festival week opened with [Dhanteras](/blog/dhanteras-2026-date-puja-muhurat-vidhi) on Nov 6 and the [abhyang snan of Narak Chaturdashi](/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi) at dawn on Nov 8.
 
 ---
 
@@ -1363,7 +1375,7 @@ Yes. Where cow dung is unavailable, devotees shape the hill from mud, clay or a 
 In Maharashtra, the same Kartik Shukla Pratipada is celebrated as Bali Pratipada, honouring the demon king Bali whom Vamana (Vishnu's avatar) sent to Patala — Bali received a boon to visit earth on this day.
 
 **Is Govardhan Puja related to Bhai Dooj?**
-They are consecutive: Govardhan Puja is Pratipada (Nov 10) and Bhai Dooj is Dwitiya (Nov 11), both part of the five-day Diwali festival week.
+They are consecutive: Govardhan Puja is Pratipada (Nov 10) and Bhai Dooj is Dwitiya (Nov 11), both part of the five-day Diwali festival week. See our [Bhai Dooj 2026 guide](/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi) for the tilak muhurat, vidhi and significance.
 
 ---
 
@@ -1478,7 +1490,7 @@ There is no fixed canonical number. Light diyas at the entrance, around the hous
 On the evening of Dhanteras (November 6, 2026), **after the main Lakshmi puja is complete** — so any time after ~8 PM. Place it outside the main door facing south in Yama's name.
 
 **Is Dhanteras the first day of Diwali?**
-Yes. Dhanteras (Trayodashi) opens the five-day Diwali festival, followed by Choti Diwali/Narak Chaturdashi, [Diwali Lakshmi Puja](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide) on November 8, [Govardhan Puja](/blog/govardhan-puja-2026-annakut-vidhi) on November 10, and Bhai Dooj on November 11.
+Yes. Dhanteras (Trayodashi) opens the five-day Diwali festival, followed by [Choti Diwali/Narak Chaturdashi](/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi), [Diwali Lakshmi Puja](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide) on November 8, [Govardhan Puja](/blog/govardhan-puja-2026-annakut-vidhi) on November 10, and [Bhai Dooj](/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi) on November 11.
 
 **Do I need to fast on Dhanteras?**
 No strict vrat is prescribed. Some families observe a light fast until the evening puja, but Dhanteras is primarily a day of worship, shopping and charity — feeding the poor or donating on this day is considered highly meritorious.
@@ -1626,7 +1638,7 @@ Unlike Dhanteras, Bhai Dooj is not a shopping festival — the day's "purchase" 
 
 ---
 
-*Bhai Dooj completes your Diwali week — revisit the [Diwali 2026 Lakshmi Puja guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide), the [Dhanteras 2026 guide](/blog/dhanteras-2026-date-puja-muhurat-vidhi) and the [Govardhan Puja 2026 guide](/blog/govardhan-puja-2026-annakut-vidhi) for the full five-day picture. Plan the exact tilak window for your city on the [Daily Panchang](/panchang), pick a shubh hour with the [Choghadiya tool](/tools/choghadiya), or see how this festival month sits in your chart with a free [Kundli](/kundli).*`,
+*Bhai Dooj completes your Diwali week — revisit the [Diwali 2026 Lakshmi Puja guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide), the [Dhanteras 2026 guide](/blog/dhanteras-2026-date-puja-muhurat-vidhi), the [Narak Chaturdashi 2026 guide](/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi) and the [Govardhan Puja 2026 guide](/blog/govardhan-puja-2026-annakut-vidhi) for the full five-day picture. Plan the exact tilak window for your city on the [Daily Panchang](/panchang), pick a shubh hour with the [Choghadiya tool](/tools/choghadiya), or see how this festival month sits in your chart with a free [Kundli](/kundli).*`,
   },
   {
     slug: "narak-chaturdashi-2026-date-abhyang-snan-vidhi",
