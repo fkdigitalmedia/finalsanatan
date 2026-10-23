@@ -1628,4 +1628,143 @@ Unlike Dhanteras, Bhai Dooj is not a shopping festival — the day's "purchase" 
 
 *Bhai Dooj completes your Diwali week — revisit the [Diwali 2026 Lakshmi Puja guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide), the [Dhanteras 2026 guide](/blog/dhanteras-2026-date-puja-muhurat-vidhi) and the [Govardhan Puja 2026 guide](/blog/govardhan-puja-2026-annakut-vidhi) for the full five-day picture. Plan the exact tilak window for your city on the [Daily Panchang](/panchang), pick a shubh hour with the [Choghadiya tool](/tools/choghadiya), or see how this festival month sits in your chart with a free [Kundli](/kundli).*`,
   },
+  {
+    slug: "narak-chaturdashi-2026-date-abhyang-snan-vidhi",
+    title: "Narak Chaturdashi 2026: Date, Abhyang Snan Muhurat, Kali Chaudas & Puja Vidhi",
+    excerpt:
+      "Narak Chaturdashi 2026 falls on Sunday, November 8 — the same day as Diwali. Get the verified abhyang snan muhurat for your city, tithi timings, Kali Chaudas night details, step-by-step snan vidhi and FAQs.",
+    category: "FESTIVALS",
+    tags: ["Narak Chaturdashi", "Chhoti Diwali 2026", "Abhyang Snan Muhurat", "Kali Chaudas", "Diwali 2026"],
+    featured_image: "/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi.jpg",
+    published_at: "2026-10-23T00:00:00.000Z",
+    updated_at: "2026-10-23T00:00:00.000Z",
+    lang: "en",
+    seo: {
+      meta_title: "Narak Chaturdashi 2026: Date, Abhyang Snan Muhurat & Vidhi",
+      meta_description:
+        "Narak Chaturdashi 2026 falls on Nov 8, same day as Diwali. City-wise abhyang snan muhurat, Chhoti Diwali date, tithi, Kali Chaudas night, vidhi & FAQs.",
+      canonical: "https://www.sanatantools.com/blog/narak-chaturdashi-2026-date-abhyang-snan-vidhi",
+      og_type: "article",
+    },
+    content_md: `> **Quick Answer (Summary)**
+> **Narak Chaturdashi 2026** falls on **Sunday, November 8, 2026** in India — the same day as Diwali Lakshmi Puja. The ritual pre-dawn oil bath (**abhyang snan**) is taken before sunrise on Sunday morning: in New Delhi the shubh window is **5:41 AM – 6:38 AM** IST (see the city-wise table below). The Chaturdashi tithi runs from **10:47 AM on Saturday, November 7** to **11:27 AM on Sunday, November 8**. Saturday night is observed as **Kali Chaudas** in Gujarat and western India, with Mahakali and Hanuman worship around midnight. In the USA, UK and Canada, Narak Chaturdashi falls on **Saturday, November 7**.
+
+Narak Chaturdashi 2026 is the morning that carries Diwali on its shoulders. Also called **Chhoti Diwali**, **Roop Chaudas** and **Kali Chaudas**, this is the second day of the five-day Diwali festival — the day of the sacred oil bath at dawn, lamps at dusk, and the legend of Krishna's victory over the demon Narakasura. In 2026 the festival does something unusual: in India, Chhoti Diwali and the main Diwali fall on the **same calendar date**. This guide covers the verified date and tithi, why the calendar behaves this way this year, the city-wise abhyang snan muhurat, the step-by-step snan vidhi, the Kali Chaudas night observance, the Narakasura story, regional customs, and answers to the questions people actually ask.
+
+## Narak Chaturdashi 2026: Quick Facts
+
+| Detail | Value (2026) |
+|---|---|
+| **Narak Chaturdashi date (India)** | Sunday, November 8, 2026 |
+| **Chaturdashi tithi** | 10:47 AM, Sat Nov 7 → 11:27 AM, Sun Nov 8 |
+| **Abhyang snan** | Before sunrise on Sunday, Nov 8 |
+| **Kali Chaudas (Gujarat / western India)** | Night of Saturday, Nov 7 |
+| **Diwali Lakshmi Puja** | Evening of Sunday, Nov 8 (same day) |
+| **USA / UK / Canada** | Saturday, November 7, 2026 |
+| **Also known as** | Chhoti Diwali, Roop Chaudas, Kali Chaudas, Naraka Nivaran Chaturdashi, Bhoot Chaturdashi |
+| **Position in Diwali week** | Day 2 of 5 — after Dhanteras (Nov 6) |
+
+## Chhoti Diwali 2026 Kab Hai? The 7 vs 8 November Question
+
+So, **chhoti diwali 2026 kab hai** — and why do some calendars show November 7 while others show November 8? Here is the honest answer: **both dates appear because they refer to two different rituals tied to two different points within the same tithi**. This is not a contradiction between sources; it is how the festival works in 2026.
+
+The Chaturdashi tithi begins at **10:47 AM on Saturday, November 7** — that is *after* sunrise on Saturday. On **Sunday, November 8**, the tithi is still current at dawn (it ends at 11:27 AM). The abhyang snan is done when Chaturdashi is current before sunrise, around moonrise — so **Sunday, November 8 is Narak Chaturdashi** for Indian cities, per Drik Panchang and every major panchang authority.
+
+Meanwhile, Amavasya begins at 11:27 AM on Sunday and is current at sunset — which makes Sunday evening the Lakshmi Puja night too. In most years the two festivals are a day apart; in 2026 they meet on the same Gregorian date.
+
+Where does November 7 fit in? In Gujarat and parts of western India, the *night* of Chaturdashi — Saturday night — is observed as **Kali Chaudas**, with worship of Mahakali and Hanuman around midnight. So a Gujarat-focused calendar is not wrong to highlight November 7; it is marking the night ritual, while the morning oil-bath festival belongs to November 8. Check your family's regional tradition for which applies to you — and note that abroad (USA, UK, Canada), the tithi is current at local sunrise on **Saturday, November 7**, so that is Narak Chaturdashi there.
+
+## Abhyang Snan Muhurat 2026: City-wise Timings
+
+The **abhyang snan muhurat 2026** is the heart of the festival. "Abhyang" means the application of oil to the body; "snan" is the bath. Tradition says that on this morning, the bath is taken **before sunrise, during moonrise, while Chaturdashi is prevailing** — and that this bath protects the bather from Naraka (hell). Drik Panchang gives these windows for **Sunday, November 8, 2026**:
+
+| City | Abhyang Snan Muhurat, Sun Nov 8, 2026 |
+|---|---|
+| New Delhi | 5:41 AM – 6:38 AM |
+| Mumbai | 5:45 AM – 6:42 AM |
+| Bengaluru | 5:17 AM – 6:15 AM |
+| Chennai | 5:06 AM – 6:05 AM |
+| Kolkata | 4:45 AM – 5:45 AM |
+| Hyderabad | 5:19 AM – 6:18 AM |
+
+Exact clock times can differ slightly between panchang systems, so confirm for your own city — and if the printed window passes, most families simply complete the bath as early as possible on Sunday morning, since the tithi remains current until 11:27 AM. (A general note: a few pages list slightly different windows, e.g. 5:40–6:41 AM; these are the same Drik Panchang computation rounded differently, not a real disagreement.)
+
+## Abhyang Snan Vidhi: Step-by-Step
+
+The oil bath is not just a bath — it is a small ritual in itself. Here is how families traditionally perform it:
+
+1. **Rise before dawn.** Wake while it is still dark on Sunday morning, well before the muhurat window.
+2. **Apply the oil (abhyang).** Warm **sesame (til) oil** — the traditional choice — and massage it over the whole body, including the head. (Regional practice varies: coconut oil is popular along the west coast, and old Mysore families prefer castor oil, called *haralenne* in Kannada. In many Sampradaya households the ground sesame paste, *thila-pishta*, is used.)
+3. **Apply the ubtan.** Rub on a paste of **gram flour (besan), turmeric and herbs** — this cleanses the oil off and leaves the skin glowing. Some families also place a few tulsi or apli leaves on the head during the bath, a Maharashtra custom.
+4. **Bathe before sunrise.** Take the actual bath within the muhurat window above, while Chaturdashi is current and the moon is still up.
+5. **New clothes and lamps.** Dress in fresh clothes — it is also called **Roop Chaudas**, the day of beautification — light diyas around the house, and begin the day with prayers to Krishna. Sweets, especially in the evening, mark the start of the festive feasting.
+
+## Kali Chaudas 2026: The Night of November 7
+
+**Kali Chaudas 2026** — the Gujarati name for the same Chaturdashi — falls on **Saturday, November 7, 2026**, the night the tithi begins. Where Narak Chaturdashi's morning belongs to the oil bath and Krishna, the night belongs to the Goddess in her fierce form.
+
+- In **Gujarat and parts of western India**, devotees worship **Mahakali** in the darkest part of the night; the Kali Chaudas muhurat is roughly **11:57 PM to 12:49 AM** (sources vary by a minute or two — Drik Panchang lists around 11:58 PM–12:49 AM). Kali is prayed to for protection from evil spirits, chronic illness and debt.
+- In **Maharashtra**, the same night carries **Hanuman Puja** — Drik Panchang gives a muhurat of about **11:39 PM on Nov 7 to 12:31 AM on Nov 8**, and many devotees chant the Hanuman Chalisa eleven times.
+- Several sources also note that a lamp is lit in the **south direction in the name of Yama** (Yamraj) on this day, praying for the family's well-being.
+
+So if your family is Gujarati or follows the western-Indian tradition, your festival night is Saturday; the morning oil bath — which everyone shares — is Sunday. Neither calendar is wrong.
+
+## The Story of Narak Chaturdashi: Krishna, Satyabhama and Narakasura
+
+Why is this day celebrated? The festival commemorates **Lord Krishna's victory over the demon king Narakasura** — the triumph of light over darkness, and of righteousness over entrenched evil.
+
+Narakasura had plundered both Earth and the heavens, and even Indra could not stop him. The gods appealed to Vishnu, who promised the slaying would come through his avatar Krishna. But there was a complication: Brahma had granted Narakasura the boon that **no male could kill him** — only a woman would be the cause of his death. So Krishna took his wife **Satyabhama** — herself an incarnation of Bhudevi — into battle beside him.
+
+In the fierce fight, Narakasura wounded Krishna. An enraged Satyabhama loosed the final arrow that killed the demon. Krishna then freed the **thousands of captives** Narakasura had imprisoned. The pre-dawn bath the next morning marks the end of that darkness — and the belief that this bath protects one from Naraka itself.
+
+## Regional Names and Customs
+
+The same tithi wears different clothes across India — worth knowing if your family spans regions:
+
+- **South India (Tamil Nadu, Andhra Pradesh, Telangana, Karnataka):** this is the **principal Deepavali day**, not a prelude. Telugu families call it *Naraka Chaturdasi* (Ashwayuja Bahula Chaturdashi in the Amanta calendar); the pre-dawn *Abhyanga Snanam* is the centerpiece, and in Tamil households the day begins with *Ganga snanam* — the bath itself is believed to carry the sanctity of the Ganges.
+- **Goa:** famous for burning **giant effigies of Narakasura** in the early morning, a public, festive reenactment of the demon's defeat.
+- **West Bengal:** observed as **Bhoot Chaturdashi**, with fourteen lamps (*choddo prodip*) lit to keep evil spirits away.
+- **North India:** **Chhoti Diwali** or **Roop Chaudas** — the day of the oil bath, new clothes, beautification, and lighting the first full round of diyas before the main Diwali night.
+- **Gujarat/Maharashtra:** **Kali Chaudas**, as described above — Mahakali and Hanuman worship through the night.
+
+## Your Diwali Week Calendar 2026
+
+Narak Chaturdashi is day 2 of the five-day festival. Here is how the week lines up in India this year:
+
+| Day | Date (2026) | Observance |
+|---|---|---|
+| Day 1 | Fri, Nov 6 | Dhanteras and Yama Deepam |
+| Day 2 (morning) | Sun, Nov 8 | Narak Chaturdashi — abhyang snan |
+| Day 2 (night) | Sat, Nov 7 (eve) | Kali Chaudas — Mahakali/Hanuman worship |
+| Day 3 | Sun, Nov 8 (evening) | Diwali — Lakshmi Puja |
+| Day 4 | Tue, Nov 10 | Govardhan Puja, Annakut |
+| Day 5 | Wed, Nov 11 | Bhai Dooj |
+
+(Yes — in 2026, days 2 and 3 share Sunday, November 8. Morning: oil bath. Evening: Lakshmi Puja. Plan the day accordingly.)
+
+## FAQs
+
+**Chhoti Diwali 7 ya 8 November 2026 ko hai?**
+In India, **Sunday, November 8** — that is the morning of the abhyang snan. The *night* ritual of the same tithi, Kali Chaudas, is observed on **Saturday night, November 7** in Gujarat and western India. Abroad (USA, UK, Canada), it is **Saturday, November 7**.
+
+**Abhyang snan ka shubh muhurat kya hai?**
+For Sunday, November 8, 2026 (Drik Panchang): Delhi 5:41–6:38 AM, Mumbai 5:45–6:42 AM, Bengaluru 5:17–6:15 AM, Chennai 5:06–6:05 AM, Kolkata 4:45–5:45 AM, Hyderabad 5:19–6:18 AM.
+
+**Abhyang snan me kaunsa tel use hota hai?**
+**Sesame (til) oil** is the traditional choice. Regional alternatives exist — coconut oil on the west coast, castor oil (*haralenne*) in old Mysore families — and the oil is washed off with an **ubtan of gram flour, turmeric and herbs**.
+
+**Kali Chaudas kya hai?**
+The Gujarati/western-Indian name for the same Chaturdashi, observed on the **night of Saturday, November 7** — midnight worship of Goddess Mahakali (and Hanuman in Maharashtra) for protection from evil, illness and debt. Same tithi as Narak Chaturdashi, different ritual point.
+
+**Kya 2026 me Narak Chaturdashi aur Diwali ek hi din hai?**
+Yes — in India, both fall on **Sunday, November 8, 2026**. The abhyang snan is in the morning (Chaturdashi current at dawn) and Lakshmi Puja in the evening (Amavasya current at sunset). Some older web pages still list them a day apart; the drikpanchang-based sources agree on the same-day schedule.
+
+**Narak Chaturdashi par kya karna chahiye?**
+Rise before dawn, do the abhyang snan, wear new clothes, light diyas around the house, pray to Krishna (or Kali/Hanuman per your tradition), and — if it is your custom — light a lamp facing south in Yama's name for the family's well-being.
+
+---
+
+*Narak Chaturdashi completes the Diwali-week picture — revisit the [Dhanteras 2026 guide](/blog/dhanteras-2026-date-puja-muhurat-vidhi), the [Diwali 2026 Lakshmi Puja guide](/blog/diwali-2026-date-lakshmi-puja-muhurat-guide), the [Govardhan Puja 2026 guide](/blog/govardhan-puja-2026-annakut-vidhi) and the [Bhai Dooj 2026 guide](/blog/bhai-dooj-2026-date-tilak-muhurat-vidhi) for the full five-day festival. Check the exact snan window for your city on the [Daily Panchang](/panchang), pick a shubh hour with the [Choghadiya tool](/tools/choghadiya), or see how this festival month sits in your chart with a free [Kundli](/kundli).*
+`,
+  },
 ];
